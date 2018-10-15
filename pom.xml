@@ -10,8 +10,14 @@
 
     <properties>
         <src.dir>SourceCode/java</src.dir>
+        <res.dir>SourceCode/resources</res.dir>
     </properties>
     <build>
         <sourceDirectory>${src.dir}</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>${res.dir}</directory>
+            </resource>
+        </resources>
     </build>
 </project>
