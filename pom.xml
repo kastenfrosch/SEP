@@ -20,4 +20,16 @@
             </resource>
         </resources>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.25.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.j256.ormlite</groupId>
+            <artifactId>ormlite-jdbc</artifactId>
+            <version>5.1</version>
+        </dependency>
+    </dependencies>
 </project>
