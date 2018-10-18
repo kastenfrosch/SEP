@@ -4,9 +4,9 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
-@DatabaseTable(tableName = GroupageModel.TABLE_NAME_GROUPAGE)
-public class GroupageModel implements Serializable {
-    static final String TABLE_NAME_GROUPAGE = "groupage";
+@DatabaseTable(tableName = groupageModel.TABLE_NAME_GROUPAGE) //, daoClass = groupageDao.class) 
+public class groupageModel implements Serializable {
+    public static final String TABLE_NAME_GROUPAGE = "groupage";
     private static final String FIELD_GROUPAGE_GROUPAGE_ID = "groupage_id";
     private static final String FIELD_GROUPAGE_DESCRIPTION = "description";
     private static final String FIELD_GROUPAGE_SEMESTER_ID = "semester_id";
@@ -18,9 +18,9 @@ public class GroupageModel implements Serializable {
     @DatabaseField(columnName = FIELD_GROUPAGE_SEMESTER_ID)
     private int semester_id;
 
-    public GroupageModel() { }
+    public groupageModel() { }
 
-    public GroupageModel(int groupage_id, String description, int semester_id) {
+    public groupageModel(int groupage_id,String description,int semester_id) {     
         this.groupage_id = groupage_id;
         this.description = description;
         this.semester_id = semester_id;
