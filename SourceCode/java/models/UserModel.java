@@ -4,8 +4,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
-@DatabaseTable(tableName = userModel.TABLE_NAME_USER) //, daoClass = userDao.class) 
-public class userModel implements Serializable {
+@DatabaseTable(tableName = UserModel.TABLE_NAME_USER) //, daoClass = userDao.class)
+public class UserModel implements Serializable {
     public static final String TABLE_NAME_USER = "user";
     private static final String FIELD_USER_USER_NAME = "user_name";
     private static final String FIELD_USER_PERSON_ID = "person_id";
@@ -18,9 +18,9 @@ public class userModel implements Serializable {
     @DatabaseField(columnName = FIELD_USER_PASSWORD)
     private String password;
 
-    public userModel() { }
+    public UserModel() { }
 
-    public userModel(String user_name,int person_id,String password) {     
+    public UserModel(String user_name, int person_id, String password) {
         this.user_name = user_name;
         this.person_id = person_id;
         this.password = password;

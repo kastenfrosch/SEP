@@ -4,8 +4,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
-@DatabaseTable(tableName = semesterModel.TABLE_NAME_SEMESTER) //, daoClass = semesterDao.class) 
-public class semesterModel implements Serializable {
+@DatabaseTable(tableName = SemesterModel.TABLE_NAME_SEMESTER) //, daoClass = semesterDao.class)
+public class SemesterModel implements Serializable {
     public static final String TABLE_NAME_SEMESTER = "semester";
     private static final String FIELD_SEMESTER_SEMESTER_ID = "semester_id";
     private static final String FIELD_SEMESTER_DESCRIPTION = "description";
@@ -15,9 +15,9 @@ public class semesterModel implements Serializable {
     @DatabaseField(columnName = FIELD_SEMESTER_DESCRIPTION)
     private String description;
 
-    public semesterModel() { }
+    public SemesterModel() { }
 
-    public semesterModel(int semester_id,String description) {     
+    public SemesterModel(int semester_id, String description) {
         this.semester_id = semester_id;
         this.description = description;
     }
