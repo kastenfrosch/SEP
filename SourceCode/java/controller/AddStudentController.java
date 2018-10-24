@@ -7,8 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import models.PersonModel;
-import models.StudentModel;
+import models.Student;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -44,10 +43,11 @@ public class AddStudentController {
     @FXML
     public void AddStudentSave(ActionEvent event) {
 
-        StudentModel Student = new StudentModel();
+        Student Student = new Student();
         try {
-            Student.setStudent_id(Integer.parseInt(idInput.getText()));
-            Student.setMatr_no(matNoInput.getText());
+            //TODO: Id is auto-generated!
+            //Student.setId(Integer.parseInt(idInput.getText()));
+            Student.setMatrNo(matNoInput.getText());
 
             if (matNoInput.getText().isEmpty()||lastnameInput.getText().isEmpty()|| firstnameInput.getText().isEmpty()||emailInput.getText().isEmpty()) {
                 statusText.setText("Please fill in all fields ");
