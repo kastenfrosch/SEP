@@ -4,6 +4,11 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
+/**
+ * @deprecated
+ * use {@link Person} instead
+ */
+@Deprecated
 @DatabaseTable(tableName = PersonModel.TABLE_NAME_PERSON) //, daoClass = personDao.class)
 public class PersonModel implements Serializable {
     public static final String TABLE_NAME_PERSON = "person";
