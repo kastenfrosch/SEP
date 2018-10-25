@@ -4,10 +4,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.mail.Address;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 public class SEP extends Application {
 
     public static void main(String[] args) {
@@ -20,12 +16,11 @@ public class SEP extends Application {
     public void start(Stage stage) throws Exception {
 
         // set path of fxml/ to your specific view (.fxml)
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/AddStudentForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/AdditGroup.fxml"));
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
         stage.show();
 
     }
-
 }
