@@ -9,11 +9,7 @@ import com.j256.ormlite.table.TableUtils;
 import models.*;
 import com.j256.ormlite.dao.Dao;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBManager {
@@ -51,8 +47,6 @@ public class DBManager {
         this.studentDao = DaoManager.createDao(conn, Student.class);
         this.personDao = DaoManager.createDao(conn, Person.class);
         this.userDao = DaoManager.createDao(conn, User.class);
-
-
 
     }
 
