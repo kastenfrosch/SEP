@@ -3,20 +3,26 @@ package connection;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTable;
+import com.j256.ormlite.table.TableUtils;
+
 import models.GroupModel;
 import models.GroupageModel;
 import models.SemesterModel;
 import com.j256.ormlite.dao.Dao;
 import models.StudentModel;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBManager {
 
 
-
+	private static Connection connection;
     private static DBManager instance;
 
     private Dao<SemesterModel, String> semesterDao;
@@ -24,16 +30,36 @@ public class DBManager {
     private Dao<GroupModel, Integer> groupDao;
     private Dao<StudentModel, String> studentDao;
 
-    public static DBManager getInstance(Path path) throws SQLException {
+
+    
+    
+    public static DBManager getInstance() throws SQLException {
         if(instance == null) {
-            instance = new DBManager(path);
+            instance = new DBManager();
         }
         return instance;
     }
 
-    private DBManager(Path path) throws SQLException {
+    private DBManager() throws SQLException {
         //TODO: Add connection source
-        ConnectionSource conn = null;
+        JdbcConnectionSource conn = null;
+        
+    	
+    	// **this uses h2 but you can change it to match your database**
+    	
+      	String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep";
+   
+    	// **create a connection source to our database**
+    	conn =
+    	     new JdbcConnectionSource(databaseUrl);
+    	
+    	conn	.setUsername("sep");
+    	conn.setPassword("ayy1mao");
+
+    	System.out.println("");
+        
+        
+        
         this.semesterDao = DaoManager.createDao(conn, SemesterModel.class);
         this.groupageDao = DaoManager.createDao(conn, GroupageModel.class);
         this.groupDao = DaoManager.createDao(conn, GroupModel.class);
