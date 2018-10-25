@@ -19,7 +19,6 @@ public class DBUtils {
         TableUtils.createTable(conn, Student.class);
     }
 
-    //TODO: Initialize Daos when DBManager is updated
     public static void insertDummyData(ConnectionSource conn) throws SQLException {
 
         DBManager manager = DBManager.getInstance();
@@ -29,7 +28,7 @@ public class DBUtils {
         Semester WS1920 = new Semester("WS1920", "Wintersemester 2019/2020");
         Semester SS20 = new Semester("SS20", "Sommersemester 2020");
 
-        Dao<Semester, String> semesterDao = null; //manager.getSemesterDao();
+        Dao<Semester, String> semesterDao = manager.getSemesterDao();
         semesterDao.create(WS1819);
         semesterDao.create(SS19);
         semesterDao.create(WS1920);
@@ -40,7 +39,7 @@ public class DBUtils {
         Groupage three = new Groupage("Drei", WS1920);
         Groupage four = new Groupage("Vier", SS20);
 
-        Dao<Groupage, Integer> groupageDao = null; //manager.getGroupageDao();
+        Dao<Groupage, Integer> groupageDao = manager.getGroupageDao();
         groupageDao.create(one);
         groupageDao.create(two);
         groupageDao.create(three);
@@ -55,7 +54,7 @@ public class DBUtils {
         Group g7 = new Group("Elektroroller", four, SS20);
         Group g8 = new Group("Dickes Gerät", four, SS20);
 
-        Dao<Group, Integer> groupDao = null; //manager.getGroupDao();
+        Dao<Group, Integer> groupDao = manager.getGroupDao();
         groupDao.create(g1);
         groupDao.create(g2);
         groupDao.create(g3);
@@ -79,7 +78,7 @@ public class DBUtils {
         Person p12 = new Person("Choo", "Choo", "iliketrains@example.com");
         Person p13 = new Person("Half Treasure", "Cost", "event@example.com");
 
-        Dao<Person, Integer> personDao = null; //manager.getPersonDao();
+        Dao<Person, Integer> personDao = manager.getPersonDao();
         personDao.create(p1);
         personDao.create(p2);
         personDao.create(p3);
@@ -96,7 +95,7 @@ public class DBUtils {
 
         User u1 = new User("besttutor","changeme", p12);
 
-        Dao<User, String> userDao = null; //manager.getUserDao();
+        Dao<User, String> userDao = manager.getUserDao();
         userDao.create(u1);
 
         Student s1 = new Student("0000001", p1, g1, WS1819);
@@ -112,7 +111,7 @@ public class DBUtils {
         Student s11 = new Student("0000011", p11, g7, SS20);
         Student s12 = new Student("0000012", p13, g8, SS20);
 
-        Dao<Student, String> studentDao = null; //manager.getStudentDao();
+        Dao<Student, Integer> studentDao = manager.getStudentDao();
         studentDao.create(s1);
         studentDao.create(s2);
         studentDao.create(s3);
