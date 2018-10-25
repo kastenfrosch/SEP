@@ -16,7 +16,7 @@ public class User {
     @DatabaseField(columnName=FIELD_PASSWORD)
     private String password;
 
-    @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID)
+    @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true)
     private Person person;
 
     public User() {}

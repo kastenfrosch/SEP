@@ -18,13 +18,13 @@ public class Student {
     @DatabaseField(columnName = FIELD_MATR_NO)
     private String matrNo;
 
-    @DatabaseField(foreign = true, columnName = FIELD_PERSON_ID)
+    @DatabaseField(foreign = true, columnName = FIELD_PERSON_ID, foreignAutoRefresh = true)
     private Person person;
 
-    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID)
+    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true)
     private Semester semester;
 
-    @DatabaseField(foreign = true, columnName = FIELD_GROUP_ID)
+    @DatabaseField(foreign = true, columnName = FIELD_GROUP_ID, foreignAutoRefresh = true)
     private Group group;
 
     public Student() {}

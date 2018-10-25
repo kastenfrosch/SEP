@@ -16,7 +16,7 @@ public class Groupage {
     @DatabaseField(columnName = FIELD_GROUPAGE_DESCRIPTION)
     private String description;
 
-    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID)
+    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true)
     private Semester semester;
 
 

@@ -18,10 +18,10 @@ public class Group {
     @DatabaseField(columnName = FIELD_GROUP_NAME)
     private String name;
 
-    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID)
+    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true)
     private Semester semester;
 
-    @DatabaseField(foreign = true, columnName = FIELD_GROUPAGE_ID)
+    @DatabaseField(foreign = true, columnName = FIELD_GROUPAGE_ID, foreignAutoRefresh = true)
     private Groupage groupage;
 
     public Group() {}
