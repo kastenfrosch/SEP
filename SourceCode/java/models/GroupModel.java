@@ -1,9 +1,16 @@
 package models;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
+/**
+ * @deprecated
+ * use {@link Group} instead
+ */
+@Deprecated
 @DatabaseTable(tableName = GroupModel.TABLE_NAME_GROUP) //, daoClass = groupDao.class)
 public class GroupModel implements Serializable {
     public static final String TABLE_NAME_GROUP = "group";
@@ -16,18 +23,21 @@ public class GroupModel implements Serializable {
     private int group_id;
     @DatabaseField(columnName = FIELD_GROUP_NAME)
     private String name;
-    @DatabaseField(columnName = FIELD_GROUP_GROUPAGE_ID)
-    private int groupage_id;
-    @DatabaseField(columnName = FIELD_GROUP_SEMESTER_ID)
-    private int semester_id;
+    @DatabaseField(columnName = FIELD_GROUP_GROUPAGE_ID, foreign = true, foreignAutoRefresh = true, foreignColumnName="groupage_id")
+    private GroupageModel groupage;
+    @DatabaseField(columnName = FIELD_GROUP_SEMESTER_ID, foreign = true, foreignAutoRefresh = true, foreignColumnName="semester_id")
+    private SemesterModel semester;
+
+    @ForeignCollectionField(foreignFieldName="group")
+    private ForeignCollection<GroupModel> groups;
 
     public GroupModel() { }
 
-    public GroupModel(int group_id, String name, int groupage_id, int semester_id) {
+    public GroupModel(int group_id, String name, GroupageModel groupage, SemesterModel semester) {
         this.group_id = group_id;
         this.name = name;
-        this.groupage_id = groupage_id;
-        this.semester_id = semester_id;
+        this.groupage = groupage;
+        this.semester = semester;
     }
 
     public int getGroup_id() { return group_id; }
@@ -38,12 +48,13 @@ public class GroupModel implements Serializable {
 
     public void setName(String name) { this.name = name; }
 
-    public int getGroupage_id() { return groupage_id; }
+    public GroupageModel getGroupage() { return groupage; }
 
-    public void setGroupage_id(int groupage_id) { this.groupage_id = groupage_id; }
+    public void setGroupage_id(GroupageModel groupage) { this.groupage = groupage; }
 
-    public int getSemester_id() { return semester_id; }
+    public SemesterModel getSemester() { return semester; }
 
-    public void setSemester_id(int semester_id) { this.semester_id = semester_id; }
+    public void setSemester(SemesterModel semester) { this.semester = semester; }
 
+    public ForeignCollection<GroupModel> getGroups() {return groups; }
 }
