@@ -6,11 +6,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.table.TableUtils;
 
-import models.GroupModel;
-import models.GroupageModel;
-import models.SemesterModel;
+import models.*;
 import com.j256.ormlite.dao.Dao;
-import models.StudentModel;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,11 +22,12 @@ public class DBManager {
 	private static Connection connection;
     private static DBManager instance;
 
-    private Dao<SemesterModel, String> semesterDao;
-    private Dao<GroupageModel, Integer> groupageDao;
-    private Dao<GroupModel, Integer> groupDao;
-    private Dao<StudentModel, String> studentDao;
-
+    private Dao<Semester, String> semesterDao;
+    private Dao<Groupage, Integer> groupageDao;
+    private Dao<Group, Integer> groupDao;
+    private Dao<Student, Integer> studentDao;
+    private Dao<Person, Integer> personDao;
+    private Dao<User, String> userDao;
 
     
     
@@ -41,44 +39,44 @@ public class DBManager {
     }
 
     private DBManager() throws SQLException {
-        //TODO: Add connection source
-        JdbcConnectionSource conn = null;
-        
-    	
-    	// **this uses h2 but you can change it to match your database**
-    	
       	String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep";
-   
-    	// **create a connection source to our database**
-    	conn =
-    	     new JdbcConnectionSource(databaseUrl);
-    	
-    	conn	.setUsername("sep");
+        JdbcConnectionSource conn = new JdbcConnectionSource(databaseUrl);
+    	conn.setUsername("sep");
     	conn.setPassword("ayy1mao");
 
-    	System.out.println("");
         
-        
-        
-        this.semesterDao = DaoManager.createDao(conn, SemesterModel.class);
-        this.groupageDao = DaoManager.createDao(conn, GroupageModel.class);
-        this.groupDao = DaoManager.createDao(conn, GroupModel.class);
-        this.studentDao = DaoManager.createDao(conn, StudentModel.class);
+        this.semesterDao = DaoManager.createDao(conn, Semester.class);
+        this.groupageDao = DaoManager.createDao(conn, Groupage.class);
+        this.groupDao = DaoManager.createDao(conn, Group.class);
+        this.studentDao = DaoManager.createDao(conn, Student.class);
+        this.personDao = DaoManager.createDao(conn, Person.class);
+        this.userDao = DaoManager.createDao(conn, User.class);
+
+
+
     }
 
-    public Dao<SemesterModel, String> getSemesterDao() {
+    public Dao<Semester, String> getSemesterDao() {
         return semesterDao;
     }
 
-    public Dao<GroupageModel, Integer> getGroupageDao() {
+    public Dao<Groupage, Integer> getGroupageDao() {
         return groupageDao;
     }
 
-    public Dao<GroupModel, Integer> getGroupDao() {
+    public Dao<Group, Integer> getGroupDao() {
         return groupDao;
     }
 
-    public Dao<StudentModel, String> getStudentDao() {
+    public Dao<Student, Integer> getStudentDao() {
         return studentDao;
+    }
+
+    public Dao<Person, Integer> getPersonDao() {
+        return personDao;
+    }
+
+    public Dao<User, String> getUserDao() {
+        return userDao;
     }
 }
