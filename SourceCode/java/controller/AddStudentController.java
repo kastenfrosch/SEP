@@ -2,23 +2,35 @@
 package controller;
 
 
+import com.j256.ormlite.dao.Dao;
+import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import modal.InfoModal;
+import models.Person;
 import models.Student;
+import models.StudentModel;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.sql.SQLException;
 
 public class AddStudentController {
+    private DBManager  dbManager;
+
+    {
+        try {
+            dbManager = DBManager.getInstance();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private TextField firstnameInput;
-
-    @FXML
-    private TextField idInput;
 
     @FXML
     private Text statusText;
@@ -30,46 +42,64 @@ public class AddStudentController {
     private TextField matNoInput;
 
     @FXML
-    private Button IS_Cancel;
+    private Button StudentCreate;
 
     @FXML
-    private Button ID_Create;
+    private Button StudentCancle;
 
 
 
     @FXML
     private TextField emailInput;
 
+
+
     @FXML
     public void AddStudentSave(ActionEvent event) {
 
-        Student Student = new Student();
-        try {
-            //TODO: Id is auto-generated!
-            //Student.setId(Integer.parseInt(idInput.getText()));
-            Student.setMatrNo(matNoInput.getText());
+        Person person = new Person();
 
-            if (matNoInput.getText().isEmpty()||lastnameInput.getText().isEmpty()|| firstnameInput.getText().isEmpty()||emailInput.getText().isEmpty()) {
-                statusText.setText("Please fill in all fields ");
-                statusText.setVisible(true);
-            }
-            if(validateMailAddress(emailInput.getText())){
-            //Person.setMailAddress(emailInput)
-            }else{
-                statusText.setText("Check email address");
-                statusText.setVisible(true);
-            }
+        Student student = new Student();
 
-
-        } catch (NumberFormatException inValidID) {
-            statusText.setText("Invalid StudentID");
-            statusText.setVisible(true);
-
+        if (matNoInput.getText().isEmpty()|| matNoInput==null) {
+            InfoModal.show("FEHLER!", null, "Keine Matrikelnummer eingegeben!");
+            return;
         }
+        if (firstnameInput.getText().isEmpty()|| firstnameInput==null) {
+            InfoModal.show("FEHLER!", null, "Kein Vornamen eingegeben!");
+            return;
+
+        }if (lastnameInput.getText().isEmpty()|| lastnameInput==null) {
+            InfoModal.show("FEHLER!", null, "Kein Nachnamen eingegeben!");
+            return;
+        }
+        if (validateMailAddress(emailInput.toString())==false|| emailInput==null) {
+        InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
+            return;
+        }
+        person.setFirstname(firstnameInput.getText());
+        person.setLastname(lastnameInput.getText());
+        person.setEmail(emailInput.getText());
+        student.setMatrNo(matNoInput.getText());
+        student.setPerson(person);
+
+try{
+            Dao<Person, Integer>pDao=dbManager.getPersonDao();
+            Dao<Student, Integer> sDao = dbManager.getStudentDao();
+            pDao.create(person);
+            sDao.create(student);
 
 
 
+    }   catch (java.sql.SQLException e) {
+    e.printStackTrace();
+}
     }
+
+
+
+
+
     private boolean validateMailAddress(String adr) {
         try {
             InternetAddress a = new InternetAddress(adr);
