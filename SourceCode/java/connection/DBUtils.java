@@ -22,7 +22,7 @@ public class DBUtils {
     //TODO: Initialize Daos when DBManager is updated
     public static void insertDummyData(ConnectionSource conn) throws SQLException {
 
-        DBManager manager = DBManager.getInstance(null);
+        DBManager manager = DBManager.getInstance();
 
         Semester WS1819 = new Semester("WS1819", "Wintersemester 2018/2019");
         Semester SS19 = new Semester("SS19", "Sommersemester 2019");
