@@ -8,10 +8,14 @@ public class User {
     public static final String TABLE_USER = "user";
     public static final String FIELD_USERNAME = "username";
     public static final String FIELD_PERSON_ID = "person_id";
+    public static final String FIELD_PASSWORD_HASH = "password_hash";
     public static final String FIELD_PASSWORD = "password";
 
     @DatabaseField(id = true, columnName = FIELD_USERNAME)
     private String username;
+
+    @DatabaseField(columnName = FIELD_PASSWORD_HASH)
+    private String passwordHash;
 
     @DatabaseField(columnName=FIELD_PASSWORD)
     private String password;
@@ -21,8 +25,20 @@ public class User {
 
     public User() {}
 
+    /**
+     * @deprecated
+     * use {@link User#User(String, String, String, Person)} instead
+     */
+    @Deprecated
     public User(String username, String password, Person person) {
         this.username = username;
+        this.password = password;
+        this.person = person;
+    }
+
+    public User(String username, String passwordHash, String password, Person person) {
+        this.username = username;
+        this.passwordHash = passwordHash;
         this.password = password;
         this.person = person;
     }
@@ -49,5 +65,13 @@ public class User {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 }
