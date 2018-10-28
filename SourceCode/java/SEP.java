@@ -16,11 +16,12 @@ public class SEP extends Application {
     public void start(Stage stage) throws Exception {
 
         // set path of fxml/ to your specific view (.fxml)
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/AddStudentForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/AddSemesterForm.fxml"));
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
         stage.show();
 
     }
+
 }
