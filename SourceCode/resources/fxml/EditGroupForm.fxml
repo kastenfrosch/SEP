@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditGroupController">
+   <children>
+      <Text id="headerId" fx:id="titleText" layoutX="298.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gruppe bearbeiten" textAlignment="CENTER" wrappingWidth="311.205078125">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
+      <Button id="btnCancel" fx:id="cancelBtn" layoutX="31.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupCancel" text="Abbrechen" />
+      <Button id="btnOk" fx:id="editBtn" layoutX="798.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupEdit" text="Ändern" />
+      <Label id="lblGroupname" fx:id="groupNameLbl" layoutX="174.0" layoutY="171.0" text="Gruppenname:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label id="lvlSemester" fx:id="semesterLbl" layoutX="228.0" layoutY="229.0" text="Semester:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label id="lblGroupage" fx:id="groupageLbl" layoutX="263.0" layoutY="290.0" text="Klasse:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField id="groupnameField" fx:id="lblInputName" layoutX="349.0" layoutY="169.0" onAction="#groupNameInput" promptText="Name eingeben" />
+      <ComboBox id="chooseSemesterCombobox" fx:id="semesterComboBox" layoutX="349.0" layoutY="227.0" onAction="#chooseSemesterComboBox" prefHeight="39.0" prefWidth="224.0" promptText="Semester auswählen" />
+      <ComboBox id="chooseGroupageCombobox" fx:id="groupageComboBox" layoutX="349.0" layoutY="288.0" onAction="#chooseGroupageComboBox" prefHeight="39.0" prefWidth="224.0" promptText="Klasse auswählen" />
+      <Button id="btnDeleteGroup" fx:id="deleteBtn" layoutX="379.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupDelete" text="Gruppe löschen" textAlignment="CENTER" />
+   </children>
+</AnchorPane>

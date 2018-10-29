@@ -18,7 +18,7 @@ import models.Semester;
 
 import java.sql.SQLException;
 
-public class AdditGroupController {
+public class CreateGroupController {
 
     private DBManager db;
 
@@ -93,7 +93,7 @@ public class AdditGroupController {
     public void chooseSemesterComboBox(ActionEvent actionEvent) {
     }
 
-    public void additGroupCreate(ActionEvent actionEvent) {
+    public void createGroupCreate(ActionEvent actionEvent) {
 
         // use all selections and text inputs to create a group.
 
@@ -102,6 +102,7 @@ public class AdditGroupController {
         String name;
         if (groupnameInput.getText() == null || groupnameInput.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Kein Gruppenname eingegeben!");
+            return;
         }
         name = groupnameInput.getText();
 
@@ -110,6 +111,7 @@ public class AdditGroupController {
         String groupageString;
         if (groupageComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Keine Groupage ausgewählt!");
+            return;
         }
         groupageString = (String) groupageComboBox.getSelectionModel().getSelectedItem();
 
@@ -118,6 +120,7 @@ public class AdditGroupController {
         String semesterString;
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt");
+            return;
         }
         semesterString = (String) semesterComboBox.getSelectionModel().getSelectedItem();
 
@@ -143,16 +146,23 @@ public class AdditGroupController {
             Dao<Group, Integer> groupDao = db.getGroupDao();
             groupDao.create(newGroup);
 
+            if (newGroup.getId() != 0) {
+                InfoModal.show("Group \"" + name + "\" created!");
+                //TODO: close window
+                // how to close a window?
+            } else {
+                //TODO:
+                InfoModal.show("FEHLER!", null, "Gruppe wurde nicht erstellt!");
+            }
+
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
 
-        // confirmation message
-        InfoModal.show("Group \"" + name + "\" created!");
 
     }
 
-    public void additGroupCancel(ActionEvent actionEvent) {
+    public void createGroupCancel(ActionEvent actionEvent) {
 
         // close window and abort
         InfoModal.show("Testmsg!");
