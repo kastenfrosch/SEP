@@ -2,20 +2,14 @@ package connection;
 
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.DatabaseTable;
-import com.j256.ormlite.table.TableUtils;
-
 import models.*;
 import com.j256.ormlite.dao.Dao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DBManager {
 
 
-	private static Connection connection;
     private static DBManager instance;
 
     private Dao<Semester, String> semesterDao;
