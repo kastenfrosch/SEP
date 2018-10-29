@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
@@ -59,9 +60,9 @@ public class CreateGroupController {
     public void initialize() {
 
         // initializing combobox data
-
         try {
 
+            // initializing an ObservableList which is filled with all the existing semester descriptions
             ObservableList<String> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semester = db.getSemesterDao();
 
@@ -69,9 +70,10 @@ public class CreateGroupController {
                 semesterList.add(s.getDescription());
             }
 
+            // filling the combobox with the ObservableList
             semesterComboBox.setItems(semesterList);
 
-
+            // initializing an ObservableList which is filled with all the existing groupage descriptions
             ObservableList<String> groupageList = FXCollections.observableArrayList();
             Dao<Groupage, Integer> groupage = db.getGroupageDao();
 
@@ -79,9 +81,11 @@ public class CreateGroupController {
                 groupageList.add(g.getDescription());
             }
 
+            // filling the combobox with the ObservableList
             groupageComboBox.setItems(groupageList);
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
 
@@ -107,7 +111,7 @@ public class CreateGroupController {
         // if not, set groupname to the input.
         String name;
         if (groupnameInput.getText() == null || groupnameInput.getText().isBlank()) {
-            InfoModal.show("FEHLER!", null, "Kein Gruppenname eingegeben!");
+            InfoModal.show("ACHTUNG!", null, "Kein Gruppenname eingegeben!");
             return;
         }
         name = groupnameInput.getText();
@@ -116,7 +120,7 @@ public class CreateGroupController {
         // if not, set groupage to the selection.
         String groupageString;
         if (groupageComboBox.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("FEHLER!", null, "Keine Groupage ausgewählt!");
+            InfoModal.show("ACHTUNG!", null, "Keine Groupage ausgewählt!");
             return;
         }
         groupageString = (String) groupageComboBox.getSelectionModel().getSelectedItem();
@@ -125,7 +129,7 @@ public class CreateGroupController {
         // if not, set groupage to the selection.
         String semesterString;
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt");
+            InfoModal.show("ACHTUNG!", null, "Kein Semester ausgewählt");
             return;
         }
         semesterString = (String) semesterComboBox.getSelectionModel().getSelectedItem();
@@ -152,39 +156,41 @@ public class CreateGroupController {
             Dao<Group, Integer> groupDao = db.getGroupDao();
             groupDao.create(newGroup);
 
+            // check if group has been created
+            // an existing group has an id other than 0
             if (newGroup.getId() != 0) {
-                InfoModal.show("Group \"" + name + "\" created!");
+                InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
 
-                //TODO: close window
-                // how to close a window?
+                // close window
                 try {
                     Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
                     anchorPane.getScene().setRoot(p);
                 } catch (IOException e) {
-                    //TODO: is kaputt
+                    ErrorModal.show(e.getMessage());
+                    e.printStackTrace();
                 }
 
             } else {
-                //TODO:
-                InfoModal.show("FEHLER!", null, "Gruppe wurde nicht erstellt!");
+                ErrorModal.show("Gruppe konnte nicht erstellt werden!");
+                return;
             }
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-
 
     }
 
     public void createGroupCancel(ActionEvent actionEvent) {
 
-        //TODO: close window
-        // how to close a window?
+        // close group creation window
         try {
             Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
             anchorPane.getScene().setRoot(p);
         } catch (IOException e) {
-            //TODO: is kaputt
+            ErrorModal.show(e.getMessage());
+            e.printStackTrace();
         }
 
     }

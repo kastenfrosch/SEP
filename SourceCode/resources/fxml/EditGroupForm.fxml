@@ -16,7 +16,7 @@
          </font>
       </Text>
       <Button id="btnCancel" fx:id="cancelBtn" layoutX="31.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupCancel" text="Abbrechen" />
-      <Button id="btnOk" fx:id="editBtn" layoutX="798.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupEdit" text="Ändern" />
+      <Button id="btnOk" fx:id="editBtn" layoutX="798.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupEdit" text="Speichern" />
       <Label id="lblGroupname" fx:id="groupNameLbl" layoutX="174.0" layoutY="171.0" text="Gruppenname:">
          <font>
             <Font size="24.0" />
@@ -35,6 +35,6 @@
       <TextField id="groupnameField" fx:id="groupnameInput" layoutX="349.0" layoutY="169.0" onAction="#groupNameInput" prefWidth="150.0" promptText="Name eingeben" />
       <ComboBox id="chooseSemesterCombobox" fx:id="semesterComboBox" layoutX="349.0" layoutY="227.0" onAction="#chooseSemesterComboBox" prefWidth="150.0" promptText="Semester auswählen" />
       <ComboBox id="chooseGroupageCombobox" fx:id="groupageComboBox" layoutX="349.0" layoutY="288.0" onAction="#chooseGroupageComboBox" prefWidth="150.0" promptText="Klasse auswählen" />
-      <Button id="btnDeleteGroup" fx:id="deleteBtn" layoutX="379.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupDelete" text="Gruppe löschen" textAlignment="CENTER" />
+      <Button id="btnDeleteGroup" fx:id="deleteBtn" layoutX="379.0" layoutY="544.0" mnemonicParsing="false" onAction="#editGroupDelete" text="Löschen" textAlignment="CENTER" />
    </children>
 </AnchorPane>
