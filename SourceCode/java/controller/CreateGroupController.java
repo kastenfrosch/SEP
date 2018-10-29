@@ -6,16 +6,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
 import models.Semester;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class CreateGroupController {
@@ -30,6 +34,8 @@ public class CreateGroupController {
         }
     }
 
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     public Text titleText;
     @FXML
@@ -148,8 +154,16 @@ public class CreateGroupController {
 
             if (newGroup.getId() != 0) {
                 InfoModal.show("Group \"" + name + "\" created!");
+
                 //TODO: close window
                 // how to close a window?
+                try {
+                    Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+                    anchorPane.getScene().setRoot(p);
+                } catch (IOException e) {
+                    //TODO: is kaputt
+                }
+
             } else {
                 //TODO:
                 InfoModal.show("FEHLER!", null, "Gruppe wurde nicht erstellt!");
@@ -164,8 +178,14 @@ public class CreateGroupController {
 
     public void createGroupCancel(ActionEvent actionEvent) {
 
-        // close window and abort
-        InfoModal.show("Testmsg!");
+        //TODO: close window
+        // how to close a window?
+        try {
+            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+            anchorPane.getScene().setRoot(p);
+        } catch (IOException e) {
+            //TODO: is kaputt
+        }
 
     }
 
