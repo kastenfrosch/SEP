@@ -71,7 +71,7 @@ public class HomeScreenController {
     @FXML
     void onEditButtonClicked(ActionEvent event) {
     	if(treeView.getSelectionModel().isEmpty()) {
-            InfoModal.show("Bitte w‰hlen Sie ein Element aus.");
+            InfoModal.show("Bitte w√§hlen Sie ein Element aus.");
         } else {
 
         }
@@ -80,14 +80,14 @@ public class HomeScreenController {
     @FXML
     void onDeleteButtonClicked(ActionEvent event) {
         if(treeView.getSelectionModel().isEmpty()) {
-            InfoModal.show("Bitte w‰hlen Sie ein Element aus.");
+            InfoModal.show("Bitte w√§hlen Sie ein Element aus.");
         } else {
             Node selectedItem = (Node)treeView.getSelectionModel().getSelectedItem();
             if (selectedItem.getValue() instanceof String) {
                 selectedItem = (Node)selectedItem.getParent();
                 treeView.getSelectionModel().select(selectedItem);
             }
-            if(ConfirmationModal.show("Warnung", null, "Soll das ausgew‰hlte Element und ggf. seine untergeordneten Elemente wirklich gelˆscht werden?")) {
+            if(ConfirmationModal.show("Warnung", null, "Soll das ausgew√§hlte Element und ggf. seine untergeordneten Elemente wirklich gel√∂scht werden?")) {
             	selectedItem.deleteNodeAndAllChildren();
             	treeView.getSelectionModel().clearSelection();
             }
