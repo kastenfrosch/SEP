@@ -6,10 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import modal.ConfirmationModal;
 import modal.InfoModal;
@@ -17,6 +20,7 @@ import models.Group;
 import models.Groupage;
 import models.Semester;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class EditGroupController {
@@ -33,6 +37,8 @@ public class EditGroupController {
         }
     }
 
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     public Text titleText;
     @FXML
@@ -99,8 +105,6 @@ public class EditGroupController {
 
     public void editGroupEdit(ActionEvent actionEvent) {
 
-        //TODO: on button click: save changes
-
         // use all selections and text inputs to edit the group.
 
         // making sure that groupname is not empty.
@@ -143,8 +147,16 @@ public class EditGroupController {
 
             if (this.groupToEdit.getId() != 0) {
                 InfoModal.show("Group \"" + name + "\" created!");
+
                 //TODO: close window
                 // how to close a window?
+                try {
+                    Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+                    anchorPane.getScene().setRoot(p);
+                } catch (IOException e) {
+                    //TODO: is kaputt
+                }
+
             } else {
                 //TODO:
                 InfoModal.show("FEHLER!", null, "Gruppe konnte nicht geändert werden!");
@@ -154,7 +166,6 @@ public class EditGroupController {
             e.printStackTrace();
         }
 
-
     }
 
     public void editGroupDelete(ActionEvent actionEvent) {
@@ -162,7 +173,7 @@ public class EditGroupController {
         // check if sure
         boolean confirmDelete = ConfirmationModal.show("Soll die Gruppe wirklich gelöscht werden?");
 
-        if (confirmDelete == true) {
+        if (confirmDelete) {
 
             // delete group from database
             try {
@@ -172,7 +183,14 @@ public class EditGroupController {
                 e.printStackTrace();
             }
 
-            //TODO: ... and close the window.
+            //TODO: close window
+            // how to close a window?
+            try {
+                Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+                anchorPane.getScene().setRoot(p);
+            } catch (IOException e) {
+                //TODO: is kaputt
+            }
 
         }
 
@@ -180,7 +198,14 @@ public class EditGroupController {
 
     public void editGroupCancel(ActionEvent actionEvent) {
 
-        //TODO: close window and abort
+        //TODO: close window
+        // how to close a window?
+        try {
+            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+            anchorPane.getScene().setRoot(p);
+        } catch (IOException e) {
+            //TODO: is kaputt
+        }
 
     }
 

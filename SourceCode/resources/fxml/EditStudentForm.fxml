@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditStudentController">
+    <children>
+        <Button fx:id="StudentCreate" layoutX="495.0" layoutY="347.0" mnemonicParsing="false" onAction="#editStudentSave" text="Speichern" />
+        <Button fx:id="StudentCancel" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#cancleEditStudent" text="Zurück" />
+        <Label layoutX="211.0" layoutY="27.0" text="Student erstellen" AnchorPane.leftAnchor="211.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="27.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <TextField fx:id="matNoInput" layoutX="189.0" layoutY="84.0" AnchorPane.leftAnchor="189.0" />
+        <TextField fx:id="firstnameInput" layoutX="189.0" layoutY="132.0" AnchorPane.leftAnchor="189.0" />
+        <TextField fx:id="lastnameInput" layoutX="188.0" layoutY="180.0" AnchorPane.leftAnchor="188.0" AnchorPane.topAnchor="180.0" />
+        <TextField fx:id="emailInput" layoutX="189.0" layoutY="226.0" AnchorPane.leftAnchor="189.0" />
+        <Label layoutX="53.0" layoutY="90.0" text="Mat Nr:" AnchorPane.leftAnchor="53.0" />
+        <Label layoutX="53.0" layoutY="138.0" text="Vorname: " AnchorPane.leftAnchor="53.0" />
+        <Label layoutX="53.0" layoutY="186.0" text="Nachname: " AnchorPane.leftAnchor="53.0" />
+        <Label layoutX="53.0" layoutY="232.0" text="Email: " AnchorPane.leftAnchor="53.0" />
+        <Text fx:id="statusText" layoutX="189.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="224.0" />
+      <Button fx:id="DeleteStudent" layoutX="261.0" layoutY="347.0" mnemonicParsing="false" onAction="#DeleteCurrentStudent" text="Löschen" />
+    </children>
+</AnchorPane>
