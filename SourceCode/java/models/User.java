@@ -9,7 +9,7 @@ public class User {
     public static final String FIELD_USERNAME = "username";
     public static final String FIELD_PERSON_ID = "person_id";
     public static final String FIELD_PASSWORD_HASH = "password_hash";
-    public static final String FIELD_PASSWORD = "password";
+    public static final String FIELD_SALT = "salt";
 
     @DatabaseField(id = true, columnName = FIELD_USERNAME)
     private String username;
@@ -17,29 +17,19 @@ public class User {
     @DatabaseField(columnName = FIELD_PASSWORD_HASH)
     private String passwordHash;
 
-    @DatabaseField(columnName=FIELD_PASSWORD)
-    private String password;
-
     @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true)
     private Person person;
 
+    @DatabaseField(columnName=FIELD_SALT)
+    private String salt;
+
     public User() {}
 
-    /**
-     * @deprecated
-     * use {@link User#User(String, String, String, Person)} instead
-     */
-    @Deprecated
-    public User(String username, String password, Person person) {
-        this.username = username;
-        this.password = password;
-        this.person = person;
-    }
 
-    public User(String username, String passwordHash, String password, Person person) {
+    public User(String username, String passwordHash, String salt, Person person) {
         this.username = username;
         this.passwordHash = passwordHash;
-        this.password = password;
+        this.salt = salt;
         this.person = person;
     }
 
@@ -49,14 +39,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Person getPerson() {
@@ -73,5 +55,13 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
