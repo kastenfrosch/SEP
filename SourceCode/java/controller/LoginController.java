@@ -61,7 +61,7 @@ public class LoginController {
         */
 
         try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/AddStudentForm.fxml"));
+            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
             rootPane.getScene().setRoot(p);
         } catch(IOException ex) {
             //TODO: shit broke yo

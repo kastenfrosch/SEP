@@ -71,4 +71,9 @@ public class Student {
     public int getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+    	return person.getFirstname() + " " + person.getLastname();
+    }
 }

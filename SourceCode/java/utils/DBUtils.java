@@ -1,14 +1,22 @@
-package utils;
+package connection;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import connection.DBManager;
 import models.*;
 
 import java.sql.SQLException;
 
 public class DBUtils {
+
+	public static void clearTables(ConnectionSource conn) throws SQLException {
+		TableUtils.clearTable(conn, Semester.class);
+		TableUtils.clearTable(conn, Person.class);
+        TableUtils.clearTable(conn, User.class);
+        TableUtils.clearTable(conn, Groupage.class);
+        TableUtils.clearTable(conn, Group.class);
+        TableUtils.clearTable(conn, Student.class);
+	}
 
 
     public static void createTables(ConnectionSource conn) throws SQLException {
