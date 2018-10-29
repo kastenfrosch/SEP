@@ -9,6 +9,15 @@ import java.sql.SQLException;
 
 public class DBUtils {
 
+	public static void clearTables(ConnectionSource conn) throws SQLException {
+		TableUtils.clearTable(conn, Semester.class);
+		TableUtils.clearTable(conn, Person.class);
+        TableUtils.clearTable(conn, User.class);
+        TableUtils.clearTable(conn, Groupage.class);
+        TableUtils.clearTable(conn, Group.class);
+        TableUtils.clearTable(conn, Student.class);
+	}
+
 
     public static void createTables(ConnectionSource conn) throws SQLException {
         TableUtils.createTable(conn, Semester.class);
