@@ -1,12 +1,20 @@
 package modal;
 
-import java.util.Optional;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
+import java.util.Optional;
+
 public class ConfirmationModal {
+
+	public static boolean show(String message) {
+		return show("WARNUNG", null, message);
+	}
+
+	public static boolean show(String header, String message) {
+		return show("WARNUNG", header, message);
+	}
 
 	public static boolean show(String title, String header, String message) {
 
