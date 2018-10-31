@@ -6,19 +6,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
 import models.Semester;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
-public class AdditGroupController {
+public class CreateGroupController {
 
     private DBManager db;
 
@@ -30,6 +34,8 @@ public class AdditGroupController {
         }
     }
 
+    @FXML
+    public AnchorPane anchorPane;
     @FXML
     public Text titleText;
     @FXML
@@ -93,7 +99,7 @@ public class AdditGroupController {
     public void chooseSemesterComboBox(ActionEvent actionEvent) {
     }
 
-    public void additGroupCreate(ActionEvent actionEvent) {
+    public void createGroupCreate(ActionEvent actionEvent) {
 
         // use all selections and text inputs to create a group.
 
@@ -102,6 +108,7 @@ public class AdditGroupController {
         String name;
         if (groupnameInput.getText() == null || groupnameInput.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Kein Gruppenname eingegeben!");
+            return;
         }
         name = groupnameInput.getText();
 
@@ -110,6 +117,7 @@ public class AdditGroupController {
         String groupageString;
         if (groupageComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Keine Groupage ausgewählt!");
+            return;
         }
         groupageString = (String) groupageComboBox.getSelectionModel().getSelectedItem();
 
@@ -118,6 +126,7 @@ public class AdditGroupController {
         String semesterString;
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt");
+            return;
         }
         semesterString = (String) semesterComboBox.getSelectionModel().getSelectedItem();
 
@@ -143,19 +152,40 @@ public class AdditGroupController {
             Dao<Group, Integer> groupDao = db.getGroupDao();
             groupDao.create(newGroup);
 
+            if (newGroup.getId() != 0) {
+                InfoModal.show("Group \"" + name + "\" created!");
+
+                //TODO: close window
+                // how to close a window?
+                try {
+                    Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+                    anchorPane.getScene().setRoot(p);
+                } catch (IOException e) {
+                    //TODO: is kaputt
+                }
+
+            } else {
+                //TODO:
+                InfoModal.show("FEHLER!", null, "Gruppe wurde nicht erstellt!");
+            }
+
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
 
-        // confirmation message
-        InfoModal.show("Group \"" + name + "\" created!");
 
     }
 
-    public void additGroupCancel(ActionEvent actionEvent) {
+    public void createGroupCancel(ActionEvent actionEvent) {
 
-        // close window and abort
-        InfoModal.show("Testmsg!");
+        //TODO: close window
+        // how to close a window?
+        try {
+            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
+            anchorPane.getScene().setRoot(p);
+        } catch (IOException e) {
+            //TODO: is kaputt
+        }
 
     }
 

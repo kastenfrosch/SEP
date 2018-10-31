@@ -1,14 +1,34 @@
-package connection;
+package utils;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import connection.DBManager;
 import models.*;
 
 import java.sql.SQLException;
 
 public class DBUtils {
 
+	public static void clearTables(ConnectionSource conn) throws SQLException {
+		TableUtils.clearTable(conn, Semester.class);
+		TableUtils.clearTable(conn, Person.class);
+        TableUtils.clearTable(conn, User.class);
+        TableUtils.clearTable(conn, Groupage.class);
+        TableUtils.clearTable(conn, Group.class);
+        TableUtils.clearTable(conn, Student.class);
+	}
+
+
+    public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, Student.class, false);
+        TableUtils.dropTable(conn, Group.class, false);
+        TableUtils.dropTable(conn, Groupage.class, false);
+        TableUtils.dropTable(conn, User.class, false);
+        TableUtils.dropTable(conn, Person.class, false);
+        TableUtils.dropTable(conn, Semester.class, false);
+    }
 
     public static void createTables(ConnectionSource conn) throws SQLException {
         TableUtils.createTable(conn, Semester.class);
@@ -17,6 +37,14 @@ public class DBUtils {
         TableUtils.createTable(conn, Groupage.class);
         TableUtils.createTable(conn, Group.class);
         TableUtils.createTable(conn, Student.class);
+    }
+
+    public static void resetDB(ConnectionSource conn, boolean withDummyData) throws SQLException {
+	    dropTables(conn);
+	    createTables(conn);
+	    if(withDummyData) {
+            insertDummyData(conn);
+        }
     }
 
     public static void insertDummyData(ConnectionSource conn) throws SQLException {
@@ -93,7 +121,7 @@ public class DBUtils {
         personDao.create(p12);
         personDao.create(p13);
 
-        User u1 = new User("besttutor","changeme", p12);
+        User u1 = new User("besttutor", "7A2A74526720526A0E438D027A6AD7B6", "E9506988FBCBBD1414970314455E9091", p12);
 
         Dao<User, String> userDao = manager.getUserDao();
         userDao.create(u1);

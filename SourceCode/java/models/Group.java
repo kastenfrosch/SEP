@@ -18,10 +18,13 @@ public class Group {
     @DatabaseField(columnName = FIELD_GROUP_NAME)
     private String name;
 
-    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true)
+    //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
+    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true,
+    columnDefinition = "varchar references semester(semester_id) on delete restrict")
     private Semester semester;
 
-    @DatabaseField(foreign = true, columnName = FIELD_GROUPAGE_ID, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, columnName = FIELD_GROUPAGE_ID, foreignAutoRefresh = true,
+    columnDefinition = "integer references groupage(groupage_id)")
     private Groupage groupage;
 
     public Group() {}
@@ -58,5 +61,10 @@ public class Group {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+    	return name;
     }
 }

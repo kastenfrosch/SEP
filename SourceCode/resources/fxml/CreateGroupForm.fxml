@@ -8,21 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdditGroupController">
+<AnchorPane id="createGroupPane" fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateGroupController">
    <children>
-      <Text fx:id="titleText" layoutX="179.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gruppe erstellen" textAlignment="CENTER">
+      <Text id="headerId" fx:id="titleText" layoutX="179.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gruppe erstellen" textAlignment="CENTER">
          <font>
             <Font size="35.0" />
          </font>
       </Text>
-      <Button id="btnCreateGroup" fx:id="createGroupBtn" layoutX="512.0" layoutY="346.0" mnemonicParsing="false" onAction="#additGroupCreate" text="Erstellen" />
-      <Button id="btnCancel" fx:id="cancelBtn" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#additGroupCancel" text="Abbrechen" />
+      <Button id="btnCreateGroup" fx:id="createGroupBtn" layoutX="512.0" layoutY="346.0" mnemonicParsing="false" onAction="#createGroupCreate" text="Erstellen" />
+      <Button id="btnCancel" fx:id="cancelBtn" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#createGroupCancel" text="Abbrechen" />
       <Label id="lblGroupname" fx:id="groupnameLbl" layoutX="45.0" layoutY="127.0" text="Gruppenname:">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="225.0" layoutY="127.0" onAction="#groupnameInput" prefWidth="150.0" />
+      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="225.0" layoutY="127.0" onAction="#groupnameInput" prefWidth="150.0" promptText="Name eingeben" />
       <Label id="lblSemester" fx:id="semesterLbl" layoutX="113.0" layoutY="178.0" text="Semester:">
          <font>
             <Font size="24.0" />

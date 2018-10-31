@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeScreenController">
+   <children>
+      <TreeView fx:id="treeView" layoutX="14.0" layoutY="72.0" prefHeight="238.0" prefWidth="572.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="72.0" />
+      <Button fx:id="editButton" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onEditButtonClicked" text="bearbeiten" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <Text layoutX="103.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SemestervErwaltungsPlan">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
+      <Button fx:id="deleteButton" layoutX="93.0" layoutY="361.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="löschen" AnchorPane.bottomAnchor="14.0" />
+      <Button fx:id="logoutButton" layoutX="535.0" layoutY="361.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" text="logout" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Button fx:id="addSemesterButton" layoutX="156.0" layoutY="361.0" mnemonicParsing="false" onAction="#onAddSemesterButtonClicked" text="neues Semester" AnchorPane.bottomAnchor="14.0" />
+      <Button fx:id="addGroupageButton" layoutX="261.0" layoutY="361.0" mnemonicParsing="false" onAction="#onAddGroupageButtonClicked" text="neue Klasse" AnchorPane.bottomAnchor="14.0" />
+      <Button fx:id="addGroupButton" layoutX="346.0" layoutY="361.0" mnemonicParsing="false" onAction="#onAddGroupButtonClicked" text="neue Gruppe" AnchorPane.bottomAnchor="14.0" />
+      <Button fx:id="addStudentButton" layoutX="437.0" layoutY="361.0" mnemonicParsing="false" onAction="#onAddStudentButtonClicked" text="neuer Student" AnchorPane.bottomAnchor="14.0" />
+   </children>
+</AnchorPane>

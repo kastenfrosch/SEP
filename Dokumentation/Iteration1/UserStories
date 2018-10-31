@@ -1,0 +1,29 @@
+User Stories:
+
+1.1 Als User einlogen
+1.2 Als Betreuer möchte ich mich im System anmelden können, um Fremdzugriff auf das System zu vermeiden.
+1.3 Als Betreuer möchte ich eine Benachrichtigung bekommen, wenn die von mir eingegebenen Login-Daten nicht korrekt sind, damit weiß, dass der Login-Vorgang fehlgeschlagen ist.
+ 
+2.1 Homescreen haben für eine übersichtlichkeit
+2.2 Als Betreuer möchte ich existierende Semester sehen, wenn ich mich an-melde, um bereits erstellte Semester sehen zu können.
+3.1 Semesterausfählen b
+3.2 Semester erstellen b
+3.3 Semester löschen b
+3.3.1Bestätigen b
+4. Klasse auswählen
+4.1. Klasse erstellen
+4.2 Klasse löschen
+4.2.1Bestätigen
+5. Gruppe auswählen 
+5.1 Gruppe erstellen
+5.2 Gruppe löschen
+5.2.1Bestätigen
+6. Student auswählen
+6.1 Student erstellen
+6.2 Student löschen
+6.2.1Bestätigen
+7. Student in Gruppe laden b
+8. Gruppe in Klasse laden b
+9. Klasse in Semester laden b
+
+10. Als Benutzer möchte ich, dass die Anwendung auf mehreren Clients ausgeführt werden kann, ohne dass dabei Dateninkonsistenzen auftre-ten, damit bei Parallelbetrieb keine Dateninkonsistenzen auftreten. 

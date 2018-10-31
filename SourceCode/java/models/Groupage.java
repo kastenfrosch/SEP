@@ -16,7 +16,10 @@ public class Groupage {
     @DatabaseField(columnName = FIELD_GROUPAGE_DESCRIPTION)
     private String description;
 
-    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true)
+
+    //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
+    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true,
+    columnDefinition = "varchar references semester(semester_id) on delete restrict")
     private Semester semester;
 
 
@@ -45,5 +48,10 @@ public class Groupage {
 
     public void setSemester(Semester semester) {
         this.semester = semester;
+    }
+
+    @Override
+    public String toString() {
+    	return description;
     }
 }
