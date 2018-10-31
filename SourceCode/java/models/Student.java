@@ -18,13 +18,18 @@ public class Student {
     @DatabaseField(columnName = FIELD_MATR_NO)
     private String matrNo;
 
-    @DatabaseField(foreign = true, columnName = FIELD_PERSON_ID, foreignAutoRefresh = true)
+
+    //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
+    @DatabaseField(foreign = true, columnName = FIELD_PERSON_ID, foreignAutoRefresh = true,
+    columnDefinition = "integer references person(person_id) on delete restrict")
     private Person person;
 
-    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true,
+    columnDefinition = "varchar references semester(semester_id) on delete restrict")
     private Semester semester;
 
-    @DatabaseField(foreign = true, columnName = FIELD_GROUP_ID, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, columnName = FIELD_GROUP_ID, foreignAutoRefresh = true,
+    columnDefinition = "integer references \"group\"(group_id) on delete restrict")
     private Group group;
 
     public Student() {}
