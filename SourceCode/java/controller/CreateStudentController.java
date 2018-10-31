@@ -4,16 +4,18 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import modal.InfoModal;
-import models.Person;
-import models.Student;
+import models.*;
 
 
 import javax.mail.internet.AddressException;
@@ -32,6 +34,11 @@ public class CreateStudentController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public ComboBox groupComboBox;
+    @FXML
+    public ComboBox semesterComboBox;
 
     @FXML
     private TextField firstnameInput;
@@ -54,8 +61,39 @@ public class CreateStudentController {
     @FXML
     private TextField emailInput;
 
-
     @FXML
+    public void initialize() {
+
+        // initializing combobox data
+
+        try {
+
+            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
+            Dao<Semester, String> semester = dbManager.getSemesterDao();
+
+            for (Semester s : semester.queryForAll()) {
+                semesterList.add(s);
+            }
+
+            semesterComboBox.setItems(semesterList);
+
+
+            ObservableList<Group> groupList = FXCollections.observableArrayList();
+            Dao<Group, Integer> group = dbManager.getGroupDao();
+
+            for (Group g : group.queryForAll()) {
+                groupList.add(g);
+            }
+
+            groupComboBox.setItems(groupList);
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+        @FXML
     public void AddStudentSave(ActionEvent event) {
 
         Person person = new Person();
@@ -87,12 +125,31 @@ public class CreateStudentController {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
-        //creat person & student
+            Group gCB;
+            if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
+                InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
+                return;
+            }
+            gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
+
+            Semester sCB;
+            if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
+                InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
+                return;
+            }
+            sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
+
+            //creat person & student
         person.setFirstname(firstnameInput.getText());
         person.setLastname(lastnameInput.getText());
         person.setEmail(emailInput.getText());
         student.setMatrNo(matNoInput.getText());
-        student.setPerson(person);
+
+
+
+        student.setSemester(sCB);
+        student.setGroup(gCB);
+
 
         try {
             //Creating the dao's
@@ -130,8 +187,13 @@ public class CreateStudentController {
 
     }
 
+    public void addToSemester(ActionEvent event) {
+    }
+
+    public void addToGroup(ActionEvent event) {
+    }
 }
-//go back to HomeScreen
+
 
 
 
