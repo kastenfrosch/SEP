@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.SQLException;
 import connection.DBManager;
-import connection.DBUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +18,6 @@ import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.Dao.DaoObserver;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
 
 public class HomeScreenController {
 
@@ -35,7 +33,9 @@ public class HomeScreenController {
         studentDao  = DBManager.getInstance().getStudentDao();
 		DaoObserver observer = new DaoObserver() {
 	        public void onChange() {
-	            redrawTreeView();
+	        	Node root = (Node)treeView.getRoot();
+	            drawTreeView(root.getExpandedChildren());
+//	            treeView.refresh();
 	        }
 	    };
 		semesterDao.registerObserver(observer);
@@ -87,8 +87,9 @@ public class HomeScreenController {
                 selectedItem = (Node)selectedItem.getParent();
                 treeView.getSelectionModel().select(selectedItem);
             }
-            if(ConfirmationModal.show("Warnung", null, "Soll das ausgewählte Element und ggf. seine untergeordneten Elemente wirklich gelöscht werden?")) {
-            	selectedItem.deleteNodeAndAllChildren();
+
+            if(ConfirmationModal.show("Warnung", null, "Soll das ausgew�hlte Element und ggf. seine untergeordneten Elemente wirklich gel�scht werden?")) {
+            	selectedItem.deleteNode();
             	treeView.getSelectionModel().clearSelection();
             }
         }
@@ -96,7 +97,8 @@ public class HomeScreenController {
 
     @FXML
     void onLogoutButtonClicked(ActionEvent event) {
-       redrawTreeView();
+    	Node root = (Node)treeView.getRoot();
+    	drawTreeView(root.getExpandedChildren());
 //    	Platform.exit();
     }
 
@@ -122,14 +124,13 @@ public class HomeScreenController {
 
     @FXML
     public void initialize() {
-//    	resetDB();
     	treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         drawTreeView(new ArrayList<String>());
     }
 
-    void drawTreeView(List<String> expandedNodeIds) {
-    	TreeItem<Object> root = new TreeItem<Object>();
-    	TreeItem<Object> selectedTreeItem = treeView.getSelectionModel().getSelectedItem();
+    void drawTreeView(List<String> expandedNodes) {
+    	Node root = new Node();
+    	Node selectedTreeItem = (Node)treeView.getSelectionModel().getSelectedItem();
         List<Semester> semesterList = null;
         List<Groupage> groupageList = null;
         List<Group> groupList = null;
@@ -145,15 +146,18 @@ public class HomeScreenController {
         }
         for (Semester sem : semesterList) {
             Node semesterNode = new Node(sem);
+            semesterNode.setExpanded(expandedNodes.contains(semesterNode.getId()));
             root.getChildren().add(semesterNode);
             semesterNode.getChildren().add(new Node(sem.getDescription()));
             for (Groupage groupage : groupageList) {
+            	Node groupageNode = new Node(groupage);
+            	groupageNode.setExpanded(expandedNodes.contains(groupageNode.getId()));
                 if (groupage.getSemester().getId().equals(sem.getId())) {
-                    Node groupageNode = new Node(groupage);
                     semesterNode.getChildren().add(groupageNode);
                     for (Group group : groupList) {
+                    	Node groupNode = new Node(group);
+                    	groupNode.setExpanded(expandedNodes.contains(groupNode.getId()));
                         if (group.getGroupage().getId() == groupage.getId()) {
-                            Node groupNode = new Node(group);
                             groupageNode.getChildren().add(groupNode);
                             for (Student student : studentList) {
                                 if (student.getGroup().getId() == group.getId()) {
@@ -161,74 +165,48 @@ public class HomeScreenController {
                                     groupNode.getChildren().add(studentNode);
                                     studentNode.getChildren().add(new Node(student.getMatrNo()));
                                     studentNode.getChildren().add(new Node(student.getPerson().getEmail()));
-                                    studentNode.setExpanded(expandedNodeIds.contains(studentNode.toString()));
+                                    studentNode.setExpanded(expandedNodes.contains(studentNode.getId()));
                                 }
                             }
-                            groupNode.setExpanded(expandedNodeIds.contains(groupNode.toString()));
                         }
                     }
-                    groupageNode.setExpanded(expandedNodeIds.contains(groupageNode.toString()));
                 }
             }
-            semesterNode.setExpanded(expandedNodeIds.contains(semesterNode.toString()));
         }
         treeView.setShowRoot(false);
         treeView.setRoot(root);
         treeView.getSelectionModel().select(selectedTreeItem);
     }
-
-    void redrawTreeView() {
-    	Node root = new Node(treeView.getRoot().getValue());
-    	ArrayList<String> expandedNodeIds = getExpandedNodeIds(root);
-    	for (String string : expandedNodeIds) {
-			System.out.println(string);
-		}
-    	drawTreeView(expandedNodeIds);
-    }
-
-    public ArrayList<String> getExpandedNodeIds(Node parent) {
-		ArrayList<String> ret = new ArrayList<String>();
-		ArrayList<Node> expandedNodes = new ArrayList<Node>();
-		expandedNodes = getExpandedNodes(expandedNodes, parent);
-		for (Node node : expandedNodes) {
-			ret.add(node.getId());
-		}
-		return ret;
-	}
-
-	public ArrayList<Node> getExpandedNodes(ArrayList<Node> expandedNodes, Node parent) {
-		if (!parent.isExpanded()) {
-			return expandedNodes;
-		}
-        for(TreeItem<Object> child: parent.getChildren()){
-        	Node tmp = (Node)child;
-            if(tmp.isExpanded()){
-            	expandedNodes.add((Node)child);
-            	return getExpandedNodes(expandedNodes, (Node)child);
-            }
-        }
-        return expandedNodes;
-	}
-
-    // testing
-	void resetDB() {
-		try {
-	    	DBUtils.clearTables(semesterDao.getConnectionSource());
-	    	DBUtils.insertDummyData(semesterDao.getConnectionSource());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
 
 class Node extends TreeItem<Object> {
 
-	public Node(Object obj) {
+	Node() {
+
+	}
+
+	Node(Object obj) {
 		super(obj);
 	}
 
-	public String getId() {
+	ArrayList<String> getExpandedChildren() {
+		ArrayList<String> expandedChildren = new ArrayList<String>();
+		expandedChildren = getExpandedChildren(expandedChildren, this);
+		return expandedChildren;
+	}
+
+	ArrayList<String> getExpandedChildren(ArrayList<String> list, Node parent) {
+		for(TreeItem<Object> child: parent.getChildren()){
+        	Node tmp = (Node)child;
+            if(!tmp.isLeaf() && tmp.isExpanded()){
+            	list.add(tmp.getId());
+            	list.addAll(getExpandedChildren(list, tmp));
+            }
+        }
+		return list;
+	}
+
+	String getId() {
 		if (getValue() instanceof Semester) {
 			Semester tmp = (Semester)getValue();
 			return "Semester: " + tmp.getId();
@@ -244,30 +222,21 @@ class Node extends TreeItem<Object> {
 		}
 	}
 
-	public ArrayList<Node> getAllChildren(ArrayList<Node> allChildren, Node parent) {
+	void deleteNode() {
+		deleteAllChildren(this);
+		deleteCorresbondingDBObject();
+	}
+
+	void deleteAllChildren(Node parent) {
         for(TreeItem<Object> child: parent.getChildren()){
         	Node tmp = (Node)child;
-            if(tmp.getValue() instanceof String){
-            	return allChildren;
-            } else {
-            	allChildren.add((Node)child);
-            	return getAllChildren(allChildren, (Node)child);
-
+            if(!tmp.isLeaf()){
+            	tmp.deleteNode();
             }
         }
-		return allChildren;
 	}
 
-	public void deleteNodeAndAllChildren() {
-		ArrayList<Node> allChildren = new ArrayList<Node>();
-		allChildren = getAllChildren(allChildren, this);
-		for (Node node : allChildren) {
-			node.deleteNode();
-		}
-		deleteNode();
-	}
-
-	public void deleteNode() {
+	void deleteCorresbondingDBObject() {
 		try {
             if(getValue() instanceof Semester) {
                 DBManager.getInstance().getSemesterDao().delete((Semester)getValue());
