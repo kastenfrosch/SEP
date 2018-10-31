@@ -145,8 +145,6 @@ public class CreateStudentController {
         person.setEmail(emailInput.getText());
         student.setMatrNo(matNoInput.getText());
 
-
-
         student.setSemester(sCB);
         student.setGroup(gCB);
 
