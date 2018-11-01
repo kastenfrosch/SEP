@@ -2,15 +2,21 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import modal.ConfirmationModal;
 import modal.InfoModal;
+import models.Group;
+import models.Semester;
 import models.Student;
 
 import javax.mail.internet.AddressException;
@@ -57,6 +63,42 @@ public class EditStudentController {
 
     @FXML
     private TextField emailInput;
+    @FXML
+    public ComboBox groupComboBox;
+    @FXML
+    public ComboBox semesterComboBox;
+    @FXML
+    public void initialize() {
+
+        // initializing combobox data
+
+        try {
+
+            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
+            Dao<Semester, String> semester = dbManager.getSemesterDao();
+
+            for (Semester s : semester.queryForAll()) {
+                semesterList.add(s);
+            }
+
+            semesterComboBox.setItems(semesterList);
+
+
+            ObservableList<Group> groupList = FXCollections.observableArrayList();
+            Dao<Group, Integer> group = dbManager.getGroupDao();
+
+            for (Group g : group.queryForAll()) {
+                groupList.add(g);
+            }
+
+            groupComboBox.setItems(groupList);
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     @FXML
     public void editStudentSave(ActionEvent event) {
@@ -84,6 +126,20 @@ public class EditStudentController {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
+        Group gCB;
+        if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
+            return;
+        }
+        gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
+
+        Semester sCB;
+        if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
+            return;
+        }
+        sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
+
         Dao<Student, Integer> studentDao = dbManager.getStudentDao();
 
         try {
@@ -107,6 +163,13 @@ public class EditStudentController {
 
     @FXML
     public void DeleteCurrentStudent(ActionEvent event) {
+
+        boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
+        if(!confirm){
+            return;
+        }
+
+
         Dao<Student, Integer> studentDao = dbManager.getStudentDao();
         try {
             studentDao.delete(student);
@@ -129,4 +192,9 @@ public class EditStudentController {
         this.student = student;
     }
 
+    public void addToGroup(ActionEvent event) {
+    }
+
+    public void addToSemester(ActionEvent event) {
+    }
 }
