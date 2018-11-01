@@ -29,6 +29,8 @@ import com.j256.ormlite.dao.Dao.DaoObserver;
 
 public class HomeScreenController {
 
+    private Node root;
+
     @FXML
     private TreeView<Object> treeView;
 
@@ -80,7 +82,7 @@ public class HomeScreenController {
 
             if(ConfirmationModal.show("Warnung", null, "Soll das ausgewählte Element und ggf. seine untergeordneten Elemente wirklich gelöscht werden?")) {
             	selectedItem.deleteNode();
-            	treeView.getSelectionModel().clearSelection();
+                drawTreeView();
             }
         }
     }
@@ -92,32 +94,38 @@ public class HomeScreenController {
 
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/EditSemesterForm.fxml");
+        showEditForm("/fxml/CreateSemesterForm.fxml");
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/EditGroupageForm.fxml");
+        showEditForm("/fxml/CreateGroupageForm.fxml");
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/EditGroupForm.fxml");
+        showEditForm("/fxml/CreateGroupForm.fxml");
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-       showEditForm("/fxml/EditStudentForm.fxml");
+       showEditForm("/fxml/CreateStudentForm.fxml");
     }
 
     @FXML
     public void initialize() {
     	treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        drawTreeView(new ArrayList<String>());
+        drawTreeView();
+        Thread observer = new databaseObserver(this);
+        observer.start();
     }
 
-    void drawTreeView(List<String> expandedNodes) {
-    	Node root = new Node();
+    void drawTreeView() {
+        ArrayList<String> expandedNodes = new ArrayList<String>();
+        if(root!= null) {
+            expandedNodes = new ArrayList<String>(root.getExpandedChildren());
+        }
+        root = new Node();
     	Node selectedTreeItem = (Node)treeView.getSelectionModel().getSelectedItem();
         List<Semester> semesterList = null;
         List<Groupage> groupageList = null;
@@ -198,6 +206,7 @@ public class HomeScreenController {
         popupStage.setScene(popupScene);
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.showAndWait();
+        drawTreeView();
     }
 }
 
@@ -274,4 +283,25 @@ class Node extends TreeItem<Object> {
             e.printStackTrace();
         }
 	}
+}
+
+class databaseObserver extends Thread {
+
+    private HomeScreenController hsc;
+
+    public databaseObserver(HomeScreenController hsc) {
+        this.hsc = hsc;
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            hsc.drawTreeView();
+        }
+    }
 }
