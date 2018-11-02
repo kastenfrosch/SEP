@@ -1,148 +1,125 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.j256.ormlite.dao.Dao;
+import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import modal.ConfirmationModal;
+import modal.ErrorModal;
 import modal.InfoModal;
-import models.Groupage;
 import models.Semester;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import utils.SceneManager;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
-import com.j256.ormlite.dao.Dao;
-
-import connection.DBManager;
-
 public class EditSemesterController {
+
+	private Semester semesterToEdit;
 	
-	private Semester semester;
-	
-	private DBManager  dbManager;
+	private DBManager db;
+
 	{
 		try {
-			dbManager = DBManager.getInstance();
-			} catch (SQLException e) {
-				e.printStackTrace();
-    }
-	
-	}
-	
-	
-	@FXML
-	private TextField idtextfield;
-	
-	@FXML
-    public AnchorPane anchorPane;
-
-	@FXML
-	public ComboBox combobox;
-	
-	@FXML
-	private TextField RenameInput;
-	
-	@FXML
-	private Button SaveButton;
-	
-	@FXML
-	private Button BackButton;
-	
-	
-	@FXML
-    public void initialize() {
-
-        // initializing combobox data
-
-        try {
-
-            ObservableList<String> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semester = dbManager.getSemesterDao();
-
-            for (Semester s : semester.queryForAll()) {
-                semesterList.add(s.getDescription());
-            }
-
-            combobox.setItems(semesterList);
-
-
-           
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-
-        //TODO: check which semester is selected and show possible grpgs accordingly
-
-    }
-	 
-	 @FXML
-	 public void SelectSemester() {
-		 
-
-		 
-	 }
-	
-	
-	@FXML
-	public void SaveRename (ActionEvent Event) {
-		
-		if (RenameInput.getText().isEmpty()|| RenameInput==null) {
-            InfoModal.show("FEHLER!", null, "Ungültiger Name");
-            return;
-        }
-//		if(RenameInput.getText().equals(CurrentSemesterName) {
-//			InfoModal.show("FEHLER!",null,"Der name wurd nicht verändert");
-//			reutrn;
-//		}
-		
-		 Dao<Semester, String > semesterdao = dbManager.getSemesterDao();
-		 
-		 Semester selecteditem;
-		  try {
-			
-		        if (combobox.getSelectionModel().getSelectedItem() == null) {
-		            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
-		            return;
-		        }
-		        selecteditem = (Semester) combobox.getSelectionModel().getSelectedItem();//.getSelectedItem();
-			  
-			Semester semester = semesterdao.queryForId(selecteditem.getId());
-		
-			if( RenameInput.getText().equals(semester.getDescription()))   {
-				InfoModal.show("Fehlgeschlagen, Identisch");
-				return;
-			}else {
-				InfoModal.show(semester.getDescription()+" Renamed to: "+RenameInput.getText());
-				
-			}
-			semester.setDescription(RenameInput.getText());
-			semesterdao.update(semester);
-			
+			db = DBManager.getInstance();
 		} catch (SQLException e) {
+				e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public Text titleText;
+	@FXML
+	public Button saveBtn;
+	@FXML
+	public Button deleteBtn;
+	@FXML
+	public TextField semesterDescriptionInput;
+	@FXML
+	public Button cancelBtn;
+
+	public void onSaveButtonClicked(ActionEvent actionEvent) {
+
+		// use text input to edit the group.
+
+		// making sure that semester description is not empty.
+		// if not, set semester description to the input.
+		String description;
+		if (semesterDescriptionInput.getText() == null || semesterDescriptionInput.getText().isBlank()) {
+			InfoModal.show("ACHTUNG!", null, "Keine Beschreibung eingegeben!");
+			return;
+		}
+		description = semesterDescriptionInput.getText();
+
+		try {
+
+			// passing variables to the semester instance
+			this.semesterToEdit.setDescription(description);
+
+			// save edited semester into database
+			Dao<Semester, String> semesterDao = db.getSemesterDao();
+			semesterDao.update(this.semesterToEdit);
+
+			// check if semester has been edited
+			// an existing semester has an id other than 0
+			if (this.semesterToEdit.getId() != null) {
+				InfoModal.show("Semester \"" + description + "\" wurde geändert!");
+
+				// close window
+				SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_SEMESTER);
+
+			} else {
+				ErrorModal.show("Semester konnte nicht geändert werden!");
+			}
+
+		} catch (java.sql.SQLException e) {
+			ErrorModal.show(e.getMessage());
 			e.printStackTrace();
 		}
 
-		
-	}
-	
-	public void Cancle (ActionEvent Event) {
-		
-	       try {
-	            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-	            anchorPane.getScene().setRoot(p);
-
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
 
 	}
-	
+
+	public void onDeleteButtonClicked(ActionEvent actionEvent) {
+
+		// check if sure to delete
+		boolean confirmDelete = ConfirmationModal.show("Soll das Semester wirklich gelöscht werden?");
+
+		if (confirmDelete) {
+
+			// delete semester from database
+			try {
+				Dao<Semester, String> semesterDao = db.getSemesterDao();
+				semesterDao.delete(this.semesterToEdit);
+			} catch (java.sql.SQLException e) {
+				ErrorModal.show(e.getMessage());
+				e.printStackTrace();
+			}
+
+			// close window
+			SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_SEMESTER);
+
+		}
+
+	}
+
+	public void onCancelButtonClicked(ActionEvent actionEvent) {
+
+		// close semester editing window
+		SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_SEMESTER);
+
+	}
+
+	public void setSelectedSemester(Semester semester) {
+
+		// setting up the passed group
+		this.semesterToEdit = semester;
+
+		// initializing the text input in the textfield according to the passed semester object
+		semesterDescriptionInput.setText(semester.getDescription());
+
+	}
+
 }

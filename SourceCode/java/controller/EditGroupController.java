@@ -158,7 +158,7 @@ public class EditGroupController {
             // delete group from database
             try {
                 Dao<Group, Integer> groupDao = db.getGroupDao();
-                groupDao.delete(groupToEdit);
+                groupDao.delete(this.groupToEdit);
             } catch (java.sql.SQLException e) {
                 ErrorModal.show(e.getMessage());
                 e.printStackTrace();
