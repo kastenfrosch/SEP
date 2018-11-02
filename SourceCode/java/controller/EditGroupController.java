@@ -53,8 +53,6 @@ public class EditGroupController {
     @FXML
     public TextField groupnameInput;
     @FXML
-    public ComboBox<Semester> semesterComboBox;
-    @FXML
     public ComboBox<Groupage> groupageComboBox;
     @FXML
     public Button deleteBtn;
@@ -64,14 +62,6 @@ public class EditGroupController {
 
         // initializing combobox data
         try {
-
-            // initializing an ObservableList which is filled with all the existing semester descriptions
-            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semesterDao = db.getSemesterDao();
-            semesterList.addAll(semesterDao.queryForAll());
-
-            // filling the combobox with the ObservableList
-            semesterComboBox.setItems(semesterList);
 
             // initializing an ObservableList which is filled with all the existing groupage descriptions
             ObservableList<Groupage> groupageList = FXCollections.observableArrayList();
@@ -85,8 +75,6 @@ public class EditGroupController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-
-        //TODO: check which semester is selected and show possible grpgs accordingly
 
     }
 
@@ -106,14 +94,10 @@ public class EditGroupController {
         // set groupage to the selection.
         Groupage groupage = groupageComboBox.getSelectionModel().getSelectedItem();
 
-        // set semester to the selection.
-        Semester semester = semesterComboBox.getSelectionModel().getSelectedItem();
-
         try {
 
             // passing variables to the group instance
             this.groupToEdit.setName(name);
-            this.groupToEdit.setSemester(semester);
             this.groupToEdit.setGroupage(groupage);
 
             // save edited group into database
@@ -178,7 +162,6 @@ public class EditGroupController {
         groupnameInput.setText(group.getName());
 
         // initializing the pre-marked selections in the comboboxes according to the passed group object
-        semesterComboBox.getSelectionModel().select(group.getSemester());
         groupageComboBox.getSelectionModel().select(group.getGroupage());
 
     }

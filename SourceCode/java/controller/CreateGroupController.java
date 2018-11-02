@@ -50,8 +50,6 @@ public class CreateGroupController {
     @FXML
     public Label groupageLbl;
     @FXML
-    public ComboBox<Semester> semesterComboBox;
-    @FXML
     public ComboBox<Groupage> groupageComboBox;
 
     @FXML
@@ -59,14 +57,6 @@ public class CreateGroupController {
 
         // initializing combobox data
         try {
-
-            // initializing an ObservableList which is filled with all the existing semester descriptions
-            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semesterDao = db.getSemesterDao();
-            semesterList.addAll(semesterDao.queryForAll());
-
-            // filling the combobox with the ObservableList
-            semesterComboBox.setItems(semesterList);
 
             // initializing an ObservableList which is filled with all the existing groupage descriptions
             ObservableList<Groupage> groupageList = FXCollections.observableArrayList();
@@ -82,6 +72,9 @@ public class CreateGroupController {
         }
 
         //TODO: check which semester is selected and show possible grpgs accordingly
+
+        groupnameInput.clear();
+        groupageComboBox.getSelectionModel().select(0);
 
     }
 
@@ -107,15 +100,6 @@ public class CreateGroupController {
         }
         groupage = groupageComboBox.getSelectionModel().getSelectedItem();
 
-        // making sure that semester is not empty.
-        // if not, set groupage to the selection.
-        Semester semester;
-        if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("ACHTUNG!", null, "Kein Semester ausgewählt");
-            return;
-        }
-        semester = semesterComboBox.getSelectionModel().getSelectedItem();
-
         try {
 
             // creating new group instance
@@ -123,7 +107,6 @@ public class CreateGroupController {
 
             // passing variables to the new group instance
             newGroup.setName(name);
-            newGroup.setSemester(semester);
             newGroup.setGroupage(groupage);
 
             // save new group into database
