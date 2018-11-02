@@ -162,6 +162,7 @@ public class EditStudentController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
 
     }
 
