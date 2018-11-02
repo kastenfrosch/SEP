@@ -9,8 +9,8 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateStudentController">
    <children>
-      <Button fx:id="StudentCreate" layoutX="495.0" layoutY="347.0" mnemonicParsing="false" onAction="#AddStudentSave" text="Speichern" />
-      <Button fx:id="StudentCancel" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#AddStudentCancel" text="Zurück" />
+      <Button fx:id="StudentCreate" layoutX="495.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
+      <Button fx:id="StudentCancel" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" text="Zurück" />
       <Label layoutX="212.0" layoutY="14.0" text="Student erstellen" AnchorPane.leftAnchor="212.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font size="24.0" />

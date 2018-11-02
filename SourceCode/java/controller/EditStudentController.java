@@ -76,17 +76,16 @@ public class EditStudentController {
         try {
 
             ObservableList<Semester> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semester = dbManager.getSemesterDao();
+            Dao<Semester, String> semesterDao = dbManager.getSemesterDao();
 
-            semesterList.addAll(semester.queryForAll());
+            semesterList.addAll(semesterDao.queryForAll());
 
             semesterComboBox.setItems(semesterList);
 
-
             ObservableList<Group> groupList = FXCollections.observableArrayList();
-            Dao<Group, Integer> group = dbManager.getGroupDao();
+            Dao<Group, Integer> groupDao = dbManager.getGroupDao();
 
-            groupList.addAll(group.queryForAll());
+            groupList.addAll(groupDao.queryForAll());
 
             groupComboBox.setItems(groupList);
 
@@ -98,8 +97,7 @@ public class EditStudentController {
     }
 
     @FXML
-    public void editStudentSave(ActionEvent event) {
-
+    public void onSaveBtnClicked(ActionEvent event) {
 
 
         if (matNoInput.getText().isEmpty() || matNoInput == null) {
@@ -141,15 +139,16 @@ public class EditStudentController {
             e.printStackTrace();
         }
 
-    }
-
-    @FXML
-    public void cancleEditStudent(ActionEvent event) {
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
     }
 
     @FXML
-    public void DeleteCurrentStudent(ActionEvent event) {
+    public void onCancelBTNClicked(ActionEvent event) {
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
+    }
+
+    @FXML
+    public void onDeleteBTNClicked(ActionEvent event) {
 
         boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
         if(!confirm){
@@ -190,4 +189,6 @@ public class EditStudentController {
 
     public void addToSemester(ActionEvent event) {
     }
+
+
 }
