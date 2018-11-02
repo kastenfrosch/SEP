@@ -44,10 +44,10 @@ public class CreateSemesterController {
     public Label lblYear;
 
     @FXML
-    public ComboBox comboTerm;
+    public ComboBox<String> comboTerm;
 
     @FXML
-    public ComboBox comboYear;
+    public ComboBox<Integer> comboYear;
 
     private DBManager db;
 
@@ -68,6 +68,17 @@ public class CreateSemesterController {
 
         //set terms for the ComboBox
         comboTerm.setItems(terms);
+
+        //lists to save years for the summer and winter terms
+        ObservableList<Integer> years = FXCollections.observableArrayList();
+
+
+        //adding one year from 2018 to 2050 to the "summeryears"
+        for (int i = 2018; i <= 2050; i++) {
+            years.add(i);
+        }
+        //set years for the summer terms into the ComboBox
+        comboYear.setItems(years);
     }
 
     public CreateSemesterController() {
@@ -86,7 +97,7 @@ public class CreateSemesterController {
         //variable to check whether winter or summer term is selected
         String checkTerm = comboTerm.getSelectionModel().getSelectedItem().toString();
 
-        switch(checkTerm) {
+        switch (checkTerm) {
             case "Wintersemester":
                 createWintersemester();
                 break;
@@ -100,16 +111,18 @@ public class CreateSemesterController {
 
     private void createWintersemester() {
         //select item chosen by the user
-        String yearString = (String) comboYear.getSelectionModel().getSelectedItem();
-        String termString = (String) comboTerm.getSelectionModel().getSelectedItem();
+        int year = comboYear.getSelectionModel().getSelectedItem();
+        year = year % 100;
+        String yearString = String.valueOf(year) + "/" + String.valueOf(year+1);
+        String termString = comboTerm.getSelectionModel().getSelectedItem();
 
         //ID for each term consisting of the terms short version and the year
         String semesterID;
 
-        if (termString == "Wintersemester") {
+        if (termString.equals("Wintersemester")) {
             semesterID = "WS";
 
-            semesterID = semesterID + " " + yearString;
+            semesterID = semesterID + yearString;
 
             //description for each term consisting of the terms shortform and the year
             String semesterDescription = termString + " " + yearString;
@@ -135,15 +148,16 @@ public class CreateSemesterController {
         //close window
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
+
     private void createSommersemster() {
         //select item chosen by the user
-        int yearString = (int) comboYear.getSelectionModel().getSelectedItem();
-        String termString = (String) comboTerm.getSelectionModel().getSelectedItem();
+        int yearString = comboYear.getSelectionModel().getSelectedItem();
+        String termString =  comboTerm.getSelectionModel().getSelectedItem();
 
         //ID for each term consisting of the terms short version and the year
         String semesterID;
 
-        if (termString == "Sommersemester") {
+        if (termString.equals("Sommersemester")) {
             semesterID = "SS";
 
             semesterID = semesterID + " " + yearString;
@@ -180,32 +194,7 @@ public class CreateSemesterController {
 
     public void chooseSemester(ActionEvent event) {
 
-        //lists to save years for the summer and winter terms
-        ObservableList<Integer> summerYears = FXCollections.observableArrayList();
-        ObservableList<String> winterYears = FXCollections.observableArrayList();
 
-        //select item chosen by the user
-        String selectedTerm = comboTerm.getSelectionModel().getSelectedItem().toString();
-
-        //adding one year from 2018 to 2050 to the "summeryears"
-        if (selectedTerm.equals("Sommersemester")) {
-            for (int i = 2018; i <= 2050; i++) {
-                summerYears.add(i);
-            }
-            //set years for the summer terms into the ComboBox
-            comboYear.setItems(summerYears);
-            //adding the current as well as the following year from 2018 to 2050 to the "winteryears"
-        } else {
-            if (selectedTerm.equals("Wintersemester")) {
-                for (int i = 2018; i <= 2050; ) {
-                    for (int j = 2019; j <= 2051; ) {
-                        winterYears.add(i++ + "/" + j++);
-                    }
-                }
-                //set years for the winter terms into the ComboBox
-                comboYear.setItems(winterYears);
-            }
-        }
     }
 
     public void chooseYear(ActionEvent event) {
