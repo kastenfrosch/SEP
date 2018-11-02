@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import modal.ErrorModal;
 import models.User;
 import utils.HashUtils;
+import utils.SceneManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -97,15 +98,8 @@ public class LoginController {
                 //updating the salt and hash failed. While it's not good, it will not
                 //prevent the application from working properly and the old hash + password will not be altered.
             }
-            try {
-                Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-                rootPane.getScene().setRoot(p);
-            } catch(IOException ex) {
-                ErrorModal.show(
-                        "Error",
-                        "A critical error has occured and the program needs to shut down",
-                        "The login was successful but an internal exception was encountered: " + ex.getMessage());
-            }
+
+            SceneManager.getInstance().switchTo(SceneManager.SceneType.HOME);
         }
         else
         {
