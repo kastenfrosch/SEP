@@ -1,13 +1,9 @@
 package controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import connection.DBManager;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
@@ -18,14 +14,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modal.ConfirmationModal;
 import modal.InfoModal;
-import models.*;
+import models.Group;
+import models.Groupage;
+import models.Semester;
+import models.Student;
+import utils.SceneManager;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.Dao.DaoObserver;
 
 public class HomeScreenController {
 
@@ -65,7 +63,31 @@ public class HomeScreenController {
                 selectedItem = (Node)selectedItem.getParent();
                 treeView.getSelectionModel().select(selectedItem);
             }
-            showEditForm(null);
+            if(selectedItem.getValue() instanceof Semester) {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_SEMESTER)
+                        .<EditSemesterController>getController()
+                        .setSemester((Semester) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_SEMESTER);
+            } else if(selectedItem.getValue() instanceof Groupage) {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_GROUPAGE)
+                        .<EditGroupageController>getController()
+                        .setGroupage((Groupage) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+            } else if(selectedItem.getValue() instanceof Group) {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_GROUP)
+                        .<EditGroupController>getController()
+                        .setGroup((Group) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_GROUP);
+            } else {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_STUDENT)
+                        .<EditStudentController>getController()
+                        .setStudent((Student) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_STUDENT);
+            }
         }
     }
 
@@ -89,35 +111,33 @@ public class HomeScreenController {
 
     @FXML
     void onLogoutButtonClicked(ActionEvent event) {
-    	Platform.exit();
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.HOME);
     }
 
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/CreateSemesterForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/CreateGroupageForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUPAGE;
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/CreateGroupForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUP);
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-       showEditForm("/fxml/CreateStudentForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_STUDENT);
     }
 
     @FXML
     public void initialize() {
     	treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         drawTreeView();
-        Thread observer = new databaseObserver(this);
-        observer.start();
     }
 
     void drawTreeView() {
@@ -172,41 +192,6 @@ public class HomeScreenController {
         treeView.setShowRoot(false);
         treeView.setRoot(root);
         treeView.getSelectionModel().select(selectedTreeItem);
-    }
-
-    void showEditForm(String fxmlResource) {
-        Pane pane = null;
-        FXMLLoader loader = null;
-        try {
-            if (fxmlResource == null) {
-                if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Semester) {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditSemesterForm.fxml"));
-                    pane = loader.load();
-                } else if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Groupage) {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditGroupageForm.fxml"));
-                    pane = loader.load();
-                } else if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Group) {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditGroupForm.fxml"));
-                    pane = loader.load();
-                    EditGroupController controller = loader.<EditGroupController>getController();
-                    controller.setSelectedGroup((Group)treeView.getSelectionModel().getSelectedItem().getValue());
-                } else {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditStudentForm.fxml"));
-                    pane = loader.load();
-                }
-            } else {
-                loader = new FXMLLoader(getClass().getResource(fxmlResource));
-                pane = loader.load();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage popupStage = new Stage();
-        Scene popupScene = new Scene(pane);
-        popupStage.setScene(popupScene);
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.showAndWait();
-        drawTreeView();
     }
 }
 
@@ -283,25 +268,4 @@ class Node extends TreeItem<Object> {
             e.printStackTrace();
         }
 	}
-}
-
-class databaseObserver extends Thread {
-
-    private HomeScreenController hsc;
-
-    public databaseObserver(HomeScreenController hsc) {
-        this.hsc = hsc;
-    }
-
-    @Override
-    public void run() {
-        while(true) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            hsc.drawTreeView();
-        }
-    }
 }

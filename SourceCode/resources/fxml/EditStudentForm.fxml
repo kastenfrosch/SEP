@@ -11,7 +11,7 @@
     <children>
         <Button fx:id="StudentCreate" layoutX="495.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
         <Button fx:id="StudentCancel" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" text="Zurück" />
-        <Label layoutX="193.0" layoutY="14.0" prefHeight="35.0" prefWidth="217.0" text="Student verändern" AnchorPane.leftAnchor="193.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="14.0">
+        <Label layoutX="193.0" layoutY="14.0" prefHeight="35.0" prefWidth="217.0" text="Studenten bearbeiten" AnchorPane.leftAnchor="193.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="14.0">
             <font>
                 <Font size="24.0" />
             </font>
