@@ -112,7 +112,7 @@ public class EditSemesterController {
 
 	}
 
-	public void setSelectedSemester(Semester semester) {
+	public void setSemester(Semester semester) {
 
 		// setting up the passed group
 		this.semesterToEdit = semester;
