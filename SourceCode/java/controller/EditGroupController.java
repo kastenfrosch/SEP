@@ -90,15 +90,6 @@ public class EditGroupController {
 
     }
 
-    public void groupNameInput(ActionEvent actionEvent) {
-    }
-
-    public void chooseSemesterComboBox(ActionEvent actionEvent) {
-    }
-
-    public void chooseGroupageComboBox(ActionEvent actionEvent) {
-    }
-
     public void onSaveButtonClicked(ActionEvent actionEvent) {
 
         // use all selections and text inputs to edit the group.

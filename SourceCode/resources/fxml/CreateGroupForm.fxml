@@ -22,18 +22,18 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="225.0" layoutY="127.0" onAction="#groupnameInput" prefWidth="150.0" promptText="Name eingeben" />
+      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="225.0" layoutY="127.0" prefWidth="150.0" promptText="Name eingeben" />
       <Label id="lblSemester" fx:id="semesterLbl" layoutX="113.0" layoutY="178.0" text="Semester:">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox id="chooseSemesterComboBox" fx:id="semesterComboBox" layoutX="225.0" layoutY="178.0" onAction="#chooseSemesterComboBox" prefWidth="150.0" promptText="Semester auswählen:" />
+      <ComboBox id="chooseSemesterComboBox" fx:id="semesterComboBox" layoutX="225.0" layoutY="178.0" prefWidth="150.0" promptText="Semester auswählen:" />
       <Label id="lblGroupage" fx:id="groupageLbl" layoutX="146.0" layoutY="229.0" text="Klasse:">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox id="chooseGroupageComboBox" fx:id="groupageComboBox" layoutX="225.0" layoutY="229.0" onAction="#chooseGroupageComboBox" prefWidth="150.0" promptText="Klasse auswählen:" />
+      <ComboBox id="chooseGroupageComboBox" fx:id="groupageComboBox" layoutX="225.0" layoutY="229.0" prefWidth="150.0" promptText="Klasse auswählen:" />
    </children>
 </AnchorPane>

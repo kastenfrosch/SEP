@@ -32,9 +32,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="349.0" layoutY="169.0" onAction="#groupNameInput" prefWidth="150.0" promptText="Name eingeben" />
-      <ComboBox id="chooseSemesterCombobox" fx:id="semesterComboBox" layoutX="349.0" layoutY="227.0" onAction="#chooseSemesterComboBox" prefWidth="150.0" promptText="Semester auswählen" />
-      <ComboBox id="chooseGroupageCombobox" fx:id="groupageComboBox" layoutX="349.0" layoutY="288.0" onAction="#chooseGroupageComboBox" prefWidth="150.0" promptText="Klasse auswählen" />
+      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="349.0" layoutY="169.0" prefWidth="150.0" promptText="Name eingeben" />
+      <ComboBox id="chooseSemesterCombobox" fx:id="semesterComboBox" layoutX="349.0" layoutY="227.0" prefWidth="150.0" promptText="Semester auswählen" />
+      <ComboBox id="chooseGroupageCombobox" fx:id="groupageComboBox" layoutX="349.0" layoutY="288.0" prefWidth="150.0" promptText="Klasse auswählen" />
       <Button id="btnDeleteGroup" fx:id="deleteBtn" layoutX="379.0" layoutY="544.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Löschen" textAlignment="CENTER" />
    </children>
 </AnchorPane>

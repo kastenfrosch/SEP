@@ -85,16 +85,6 @@ public class CreateGroupController {
 
     }
 
-
-    public void groupnameInput(ActionEvent actionEvent) {
-    }
-
-    public void chooseGroupageComboBox(ActionEvent actionEvent) {
-    }
-
-    public void chooseSemesterComboBox(ActionEvent actionEvent) {
-    }
-
     public void onCreateButtonClicked(ActionEvent actionEvent) {
 
         // use all selections and text inputs to create a group.
