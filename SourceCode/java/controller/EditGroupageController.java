@@ -22,133 +22,130 @@ import java.sql.SQLException;
 
 
 public class EditGroupageController {
-        private Groupage groupage;
+    private Groupage groupage;
 
 
-        private DBManager dbManager;
+    private DBManager dbManager;
 
-        {
-                try {
-                        dbManager = DBManager.getInstance();
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
+    {
+        try {
+            dbManager = DBManager.getInstance();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private Label semesterLabel;
+
+    @FXML
+    private ComboBox<Semester> semesterComboBox;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
+    private Label AddGroupageLabel;
+
+    @FXML
+    private Label GroupsLabel;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private TextField nameTextfield;
+
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    public void initialize() {
+
+        // initializing combobox data
+
+        try {
+
+            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
+            Dao<Semester, String> semesterDao = dbManager.getSemesterDao();
+
+            semesterList.addAll(semesterDao.queryForAll());
+
+            semesterComboBox.setItems(semesterList);
+
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
         }
 
 
-        @FXML
-        private Label semesterLabel;
+    }
 
-        @FXML
-        private ComboBox<Semester> semesterComboBox;
-
-        @FXML
-        private Button cancelButton;
-
-        @FXML
-        private AnchorPane anchorPane;
+    @FXML
+    public void onCancelBTNClicked(ActionEvent event) {
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
 
 
-        @FXML
-        private Label AddGroupageLabel;
+    }
 
-        @FXML
-        private Label GroupsLabel;
+    @FXML
+    public void onSaveBtnClicked(ActionEvent event) {
+        if (nameTextfield.getText().isEmpty() || nameTextfield == null) {
+            InfoModal.show("FEHLER!", null, "Keine Bezeichnung eingegeben!");
+            return;
+        }
+        if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
+            return;
+        }
+        Dao<Groupage, Integer> groupageDao = dbManager.getGroupageDao();
+        groupage.setDescription(nameTextfield.getText());
+        groupage.setSemester(semesterComboBox.getSelectionModel().getSelectedItem());
 
-        @FXML
-        private Button saveButton;
-
-        @FXML
-        private TextField nameTextfield;
-
-        @FXML
-        private Label nameLabel;
-
-        @FXML
-        public void initialize() {
-
-                // initializing combobox data
-
-                try {
-
-                        ObservableList<Semester> semesterList = FXCollections.observableArrayList();
-                        Dao<Semester, String> semesterDao = dbManager.getSemesterDao();
-
-                        semesterList.addAll(semesterDao.queryForAll());
-
-                        semesterComboBox.setItems(semesterList);
-;
-
-                } catch (java.sql.SQLException e) {
-                        e.printStackTrace();
-                }
-
-
+        try {
+            groupageDao.update(groupage);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        @FXML
-       public void onCancelBTNClicked(ActionEvent event) {
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+    }
 
 
-        }
-
-        @FXML
-        public void onSaveBtnClicked(ActionEvent event) {
-                if (nameTextfield.getText().isEmpty() || nameTextfield == null) {
-                        InfoModal.show("FEHLER!", null, "Keine Bezeichnung eingegeben!");
-                        return;
-                }
-
-
-
-                Semester sCB;
-                if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
-                        InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
-                        return;
-                }
-                sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
-                Dao<Groupage, Integer> groupageDao = dbManager.getGroupageDao();
-
-                try {
-                        groupageDao.update(groupage);
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
-
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+    public void onDeleteBTNClicked(ActionEvent event) {
+        boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
+        if (!confirm) {
+            return;
         }
 
 
-
-        public void onDeleteBTNClicked(ActionEvent event) {
-                boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
-                if(!confirm){
-                        return;
-                }
-
-
-                Dao<Groupage, Integer> studentDao = dbManager.getGroupageDao();
-                try {
-                        studentDao.delete(groupage);
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
-
-
+        Dao<Groupage, Integer> studentDao = dbManager.getGroupageDao();
+        try {
+            studentDao.delete(groupage);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        @FXML
-        public void addToGroup(ActionEvent event) {
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
 
-        }
 
-        @FXML
-        public void addToSemester(ActionEvent event) {
+    }
 
-        }
+    @FXML
+    public void addToGroup(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void addToSemester(ActionEvent event) {
+
+    }
+
     public void setGroupage(Groupage groupage) {
-
+        this.groupage = groupage;
         nameTextfield.setText(groupage.getDescription());
         semesterComboBox.getSelectionModel().select(groupage.getSemester());
     }
