@@ -16,7 +16,7 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-        <Button fx:id="cancelButton" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" text="Zurück" />
+        <Button fx:id="cancelButton" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" text="Abbrechen" />
         <Button fx:id="saveButton" layoutX="483.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
         <TextField fx:id="nameTextfield" layoutX="180.0" layoutY="110.0" />
         <Label fx:id="nameLabel" layoutX="55.0" layoutY="115.0" text="Bezeichnung:" />
