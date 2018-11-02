@@ -21,21 +21,20 @@ public class SceneManager {
      * @throws UnsupportedOperationException Thrown when getInstance() is called before getInstance(stage) was called
      */
     public static SceneManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             throw new UnsupportedOperationException("Stage is not set!");
         }
         return instance;
     }
 
     /**
-     *
      * @param s The stage of the primary window
      * @return The applications SceneManager
      * @throws UnsupportedOperationException Thrown when getInstance(stage) is called twice. Use getInstance() on
-     * the second call instead.
+     *                                       the second call instead.
      */
     public static SceneManager getInstance(Stage s) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new SceneManager(s);
             return instance;
         }
@@ -45,13 +44,13 @@ public class SceneManager {
     private SceneManager(Stage s) {
         this.root = s;
         //pre-load all scenes
-        for(SceneType type : SceneType.values()) {
+        for (SceneType type : SceneType.values()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(type.getPath()));
                 Parent p = loader.load();
                 SceneInfo info = new SceneInfo(type, loader, p);
                 scenes.put(type, info);
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 ErrorModal.show("ERROR", "A fatal exception has occured", ex.getLocalizedMessage());
                 ex.printStackTrace();
             }
@@ -59,7 +58,6 @@ public class SceneManager {
     }
 
     /**
-     *
      * @param sceneType The to the FXMLLoader corresponding scene
      * @return The FXMLLoader of the corresponding scene
      */
@@ -69,26 +67,27 @@ public class SceneManager {
 
     /**
      * Switches the main stages scene
+     *
      * @param sceneType The scene to switch to
      */
     public void switchTo(SceneType sceneType) {
         SceneInfo info = scenes.get(sceneType);
-        if(root.getScene() == null) {
+        if (root.getScene() == null) {
             root.setScene(new Scene(info.getParent()));
-        }
-        else {
+        } else {
             root.getScene().setRoot(info.getParent());
         }
     }
 
     /**
      * Opens a scene in a new window
+     *
      * @param sceneType The scene to open
      */
     public void showInNewWindow(SceneType sceneType) {
         SceneInfo info = scenes.get(sceneType);
         Stage stage = info.getStage();
-        if(stage == null) {
+        if (stage == null) {
             stage = new Stage();
             stage.setTitle("TODO: Add title");
             stage.setScene(new Scene(info.getParent()));
@@ -98,18 +97,20 @@ public class SceneManager {
     }
 
     /**
-     *
      * @param sceneType
      */
     public void closeWindow(SceneType sceneType) {
         SceneInfo info = scenes.get(sceneType);
-        try {
-            info.getStage().close();
-        } catch(IllegalStateException ex) {
-            //window is not open
+        if (info.getSceneType() == SceneType.HOME) {
+            root.close();
+        } else {
+            try {
+                info.getStage().close();
+            } catch (IllegalStateException ex) {
+                //window is not open
+            }
         }
     }
-
 
 
     public enum SceneType {
@@ -127,6 +128,7 @@ public class SceneManager {
 
 
         private String path;
+
         SceneType(String path) {
             this.path = path;
         }
@@ -165,6 +167,7 @@ public class SceneManager {
         public Stage getStage() {
             return stage;
         }
+
         public void setStage(Stage stage) {
             this.stage = stage;
         }

@@ -121,7 +121,7 @@ public class HomeScreenController {
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUPAGE;
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUPAGE);
     }
 
     @FXML
