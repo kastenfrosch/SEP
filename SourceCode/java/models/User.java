@@ -17,7 +17,10 @@ public class User {
     @DatabaseField(columnName = FIELD_PASSWORD_HASH)
     private String passwordHash;
 
-    @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true)
+
+    //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
+    @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true,
+    columnDefinition = "integer references person(person_id) on delete restrict")
     private Person person;
 
     @DatabaseField(columnName=FIELD_SALT)
