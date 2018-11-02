@@ -114,13 +114,14 @@ public class SceneManager {
 
     public enum SceneType {
 
-        ADD_GROUPAGE("/fxml/CreateGroupageForm.fxml"),
-        //TODO EditGroupage??
-        //TODO Create/Edit Semester??
         CREATE_GROUP("/fxml/CreateGroupForm.fxml"),
         CREATE_STUDENT("/fxml/CreateStudentForm.fxml"),
+        CREATE_SEMESTER("/fxml/CreateSemesterForm.fxml"),
+        CREATE_GROUPAGE("/fxml/CreateGroupageForm.fxml"),
         EDIT_GROUP("/fxml/EditGroupForm.fxml"),
         EDIT_STUDENT("/fxml/EditStudentForm.fxml"),
+        EDIT_SEMESTER("/fxml/EditSemesterForm.fxml"),
+        EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml"),
         HOME("/fxml/HomeScreenView.fxml"),
         LOGIN("/fxml/LoginForm.fxml");
 
