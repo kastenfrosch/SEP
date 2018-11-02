@@ -94,7 +94,8 @@ public class CreateStudentController {
 
 
     }
-        @FXML
+
+    @FXML
     public void onSaveBtnClicked(ActionEvent event) {
 
         Person person = new Person();
@@ -126,21 +127,21 @@ public class CreateStudentController {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
-            Group gCB;
-            if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
-                InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
-                return;
-            }
-            gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
+        Group gCB;
+        if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
+            return;
+        }
+        gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
 
-            Semester sCB;
-            if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
-                InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
-                return;
-            }
-            sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
+        Semester sCB;
+        if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
+            return;
+        }
+        sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
 
-            //creat person & student
+        //creat person & student
         person.setFirstname(firstnameInput.getText());
         person.setLastname(lastnameInput.getText());
         person.setEmail(emailInput.getText());
@@ -161,9 +162,9 @@ public class CreateStudentController {
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
-            SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
 
-        }
+    }
 
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
