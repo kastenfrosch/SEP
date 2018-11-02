@@ -53,9 +53,9 @@ public class EditGroupController {
     @FXML
     public TextField groupnameInput;
     @FXML
-    public ComboBox semesterComboBox;
+    public ComboBox<Semester> semesterComboBox;
     @FXML
-    public ComboBox groupageComboBox;
+    public ComboBox<Groupage> groupageComboBox;
     @FXML
     public Button deleteBtn;
 
@@ -66,23 +66,17 @@ public class EditGroupController {
         try {
 
             // initializing an ObservableList which is filled with all the existing semester descriptions
-            ObservableList<String> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semester = db.getSemesterDao();
-
-            for (Semester s : semester.queryForAll()) {
-                semesterList.add(s.getDescription());
-            }
+            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
+            Dao<Semester, String> semesterDao = db.getSemesterDao();
+            semesterList.addAll(semesterDao.queryForAll());
 
             // filling the combobox with the ObservableList
             semesterComboBox.setItems(semesterList);
 
             // initializing an ObservableList which is filled with all the existing groupage descriptions
-            ObservableList<String> groupageList = FXCollections.observableArrayList();
-            Dao<Groupage, Integer> groupage = db.getGroupageDao();
-
-            for (Groupage g : groupage.queryForAll()) {
-                groupageList.add(g.getDescription());
-            }
+            ObservableList<Groupage> groupageList = FXCollections.observableArrayList();
+            Dao<Groupage, Integer> groupageDao = db.getGroupageDao();
+            groupageList.addAll(groupageDao.queryForAll());
 
             // filling the combobox with the ObservableList
             groupageComboBox.setItems(groupageList);
@@ -105,7 +99,7 @@ public class EditGroupController {
     public void chooseGroupageComboBox(ActionEvent actionEvent) {
     }
 
-    public void editGroupEdit(ActionEvent actionEvent) {
+    public void onSaveButtonClicked(ActionEvent actionEvent) {
 
         // use all selections and text inputs to edit the group.
 
@@ -119,22 +113,12 @@ public class EditGroupController {
         name = groupnameInput.getText();
 
         // set groupage to the selection.
-        String groupageString;
-        groupageString = (String) groupageComboBox.getSelectionModel().getSelectedItem();
+        Groupage groupage = groupageComboBox.getSelectionModel().getSelectedItem();
 
-        // set groupage to the selection.
-        String semesterString;
-        semesterString = (String) semesterComboBox.getSelectionModel().getSelectedItem();
+        // set semester to the selection.
+        Semester semester = semesterComboBox.getSelectionModel().getSelectedItem();
 
         try {
-
-            // setting groupage string to the corresponding groupage id
-            Dao<Groupage, Integer> groupageDao = db.getGroupageDao();
-            Groupage groupage = groupageDao.queryForEq(Groupage.FIELD_GROUPAGE_DESCRIPTION, groupageString).get(0);
-
-            // setting semester string to the corresponding semester id
-            Dao<Semester, String> semesterDao = db.getSemesterDao();
-            Semester semester = semesterDao.queryForEq(Semester.FIELD_SEMESTER_DESCRIPTION, semesterString).get(0);
 
             // passing variables to the group instance
             this.groupToEdit.setName(name);
@@ -155,7 +139,6 @@ public class EditGroupController {
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht geändert werden!");
-                return;
             }
 
         } catch (java.sql.SQLException e) {
@@ -165,7 +148,7 @@ public class EditGroupController {
 
     }
 
-    public void editGroupDelete(ActionEvent actionEvent) {
+    public void onDeleteButtonClicked(ActionEvent actionEvent) {
 
         // check if sure to delete
         boolean confirmDelete = ConfirmationModal.show("Soll die Gruppe wirklich gelöscht werden?");
@@ -188,7 +171,7 @@ public class EditGroupController {
 
     }
 
-    public void editGroupCancel(ActionEvent actionEvent) {
+    public void onCancelButtonClicked(ActionEvent actionEvent) {
 
         // close group editing window
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
@@ -204,8 +187,8 @@ public class EditGroupController {
         groupnameInput.setText(group.getName());
 
         // initializing the pre-marked selections in the comboboxes according to the passed group object
-        semesterComboBox.getSelectionModel().select(group.getSemester().getDescription());
-        groupageComboBox.getSelectionModel().select(group.getGroupage().getDescription());
+        semesterComboBox.getSelectionModel().select(group.getSemester());
+        groupageComboBox.getSelectionModel().select(group.getGroupage());
 
     }
 

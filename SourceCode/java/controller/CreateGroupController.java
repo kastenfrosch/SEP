@@ -50,9 +50,9 @@ public class CreateGroupController {
     @FXML
     public Label groupageLbl;
     @FXML
-    public ComboBox semesterComboBox;
+    public ComboBox<Semester> semesterComboBox;
     @FXML
-    public ComboBox groupageComboBox;
+    public ComboBox<Groupage> groupageComboBox;
 
     @FXML
     public void initialize() {
@@ -61,23 +61,17 @@ public class CreateGroupController {
         try {
 
             // initializing an ObservableList which is filled with all the existing semester descriptions
-            ObservableList<String> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semester = db.getSemesterDao();
-
-            for (Semester s : semester.queryForAll()) {
-                semesterList.add(s.getDescription());
-            }
+            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
+            Dao<Semester, String> semesterDao = db.getSemesterDao();
+            semesterList.addAll(semesterDao.queryForAll());
 
             // filling the combobox with the ObservableList
             semesterComboBox.setItems(semesterList);
 
             // initializing an ObservableList which is filled with all the existing groupage descriptions
-            ObservableList<String> groupageList = FXCollections.observableArrayList();
-            Dao<Groupage, Integer> groupage = db.getGroupageDao();
-
-            for (Groupage g : groupage.queryForAll()) {
-                groupageList.add(g.getDescription());
-            }
+            ObservableList<Groupage> groupageList = FXCollections.observableArrayList();
+            Dao<Groupage, Integer> groupageDao = db.getGroupageDao();
+            groupageList.addAll(groupageDao.queryForAll());
 
             // filling the combobox with the ObservableList
             groupageComboBox.setItems(groupageList);
@@ -101,7 +95,7 @@ public class CreateGroupController {
     public void chooseSemesterComboBox(ActionEvent actionEvent) {
     }
 
-    public void createGroupCreate(ActionEvent actionEvent) {
+    public void onCreateButtonClicked(ActionEvent actionEvent) {
 
         // use all selections and text inputs to create a group.
 
@@ -116,31 +110,23 @@ public class CreateGroupController {
 
         // making sure that groupage is not empty.
         // if not, set groupage to the selection.
-        String groupageString;
+        Groupage groupage;
         if (groupageComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("ACHTUNG!", null, "Keine Groupage ausgewählt!");
             return;
         }
-        groupageString = (String) groupageComboBox.getSelectionModel().getSelectedItem();
+        groupage = groupageComboBox.getSelectionModel().getSelectedItem();
 
         // making sure that semester is not empty.
         // if not, set groupage to the selection.
-        String semesterString;
+        Semester semester;
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("ACHTUNG!", null, "Kein Semester ausgewählt");
             return;
         }
-        semesterString = (String) semesterComboBox.getSelectionModel().getSelectedItem();
+        semester = semesterComboBox.getSelectionModel().getSelectedItem();
 
         try {
-
-            // setting groupage string to the corresponding groupage id
-            Dao<Groupage, Integer> groupageDao = db.getGroupageDao();
-            Groupage groupage = groupageDao.queryForEq(Groupage.FIELD_GROUPAGE_DESCRIPTION, groupageString).get(0);
-
-            // setting semester string to the corresponding semester id
-            Dao<Semester, String> semesterDao = db.getSemesterDao();
-            Semester semester = semesterDao.queryForEq(Semester.FIELD_SEMESTER_DESCRIPTION, semesterString).get(0);
 
             // creating new group instance
             models.Group newGroup = new Group();
@@ -164,7 +150,6 @@ public class CreateGroupController {
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht erstellt werden!");
-                return;
             }
 
         } catch (java.sql.SQLException e) {
@@ -174,7 +159,7 @@ public class CreateGroupController {
 
     }
 
-    public void createGroupCancel(ActionEvent actionEvent) {
+    public void onCancelButtonClicked(ActionEvent actionEvent) {
 
         // close group creation window
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
