@@ -178,7 +178,7 @@ public class EditGroupController {
 
     }
 
-    public void setSelectedGroup(Group group) {
+    public void setGroup(Group group) {
 
         // setting up the passed group
         this.groupToEdit = group;
