@@ -162,13 +162,7 @@ public class CreateGroupController {
                 InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
 
                 // close window
-                try {
-                    Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-                    anchorPane.getScene().setRoot(p);
-                } catch (IOException e) {
-                    ErrorModal.show(e.getMessage());
-                    e.printStackTrace();
-                }
+                SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht erstellt werden!");
@@ -185,13 +179,7 @@ public class CreateGroupController {
     public void createGroupCancel(ActionEvent actionEvent) {
 
         // close group creation window
-        try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-            anchorPane.getScene().setRoot(p);
-        } catch (IOException e) {
-            ErrorModal.show(e.getMessage());
-            e.printStackTrace();
-        }
+        SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
 
     }
 

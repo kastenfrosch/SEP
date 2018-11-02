@@ -153,13 +153,7 @@ public class EditGroupController {
                 InfoModal.show("Gruppe \"" + name + "\" wurde geändert!");
 
                 // close window
-                try {
-                    Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-                    anchorPane.getScene().setRoot(p);
-                } catch (IOException e) {
-                    ErrorModal.show(e.getMessage());
-                    e.printStackTrace();
-                }
+                SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht geändert werden!");
@@ -190,13 +184,7 @@ public class EditGroupController {
             }
 
             // close window
-            try {
-                Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-                anchorPane.getScene().setRoot(p);
-            } catch (IOException e) {
-                ErrorModal.show(e.getMessage());
-                e.printStackTrace();
-            }
+            SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
 
         }
 
@@ -205,13 +193,7 @@ public class EditGroupController {
     public void editGroupCancel(ActionEvent actionEvent) {
 
         // close group editing window
-        try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-            anchorPane.getScene().setRoot(p);
-        } catch (IOException e) {
-            ErrorModal.show(e.getMessage());
-            e.printStackTrace();
-        }
+        SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
 
     }
 
