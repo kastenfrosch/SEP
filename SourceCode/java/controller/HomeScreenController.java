@@ -1,48 +1,35 @@
 package controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import connection.DBManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import modal.ConfirmationModal;
 import modal.InfoModal;
 import models.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.Dao.DaoObserver;
 
 public class HomeScreenController {
 
-    private Dao<Semester, String>  semesterDao;
-    private Dao<Groupage, Integer> groupageDao;
-    private Dao<Group, Integer>    groupDao;
-    private Dao<Student, Integer>  studentDao;
-
-    public HomeScreenController() throws SQLException {
-        semesterDao = DBManager.getInstance().getSemesterDao();
-        groupageDao = DBManager.getInstance().getGroupageDao();
-        groupDao    = DBManager.getInstance().getGroupDao();
-        studentDao  = DBManager.getInstance().getStudentDao();
-		DaoObserver observer = new DaoObserver() {
-	        public void onChange() {
-	        	Node root = (Node)treeView.getRoot();
-	            drawTreeView(root.getExpandedChildren());
-//	            treeView.refresh();
-	        }
-	    };
-		semesterDao.registerObserver(observer);
-		groupageDao.registerObserver(observer);
-		groupDao.registerObserver(observer);
-		studentDao.registerObserver(observer);
-    }
+    private Node root;
 
     @FXML
     private TreeView<Object> treeView;
@@ -73,7 +60,12 @@ public class HomeScreenController {
     	if(treeView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie ein Element aus.");
         } else {
-
+            Node selectedItem = (Node)treeView.getSelectionModel().getSelectedItem();
+            if (selectedItem.getValue() instanceof String) {
+                selectedItem = (Node)selectedItem.getParent();
+                treeView.getSelectionModel().select(selectedItem);
+            }
+            showEditForm(null);
         }
     }
 
@@ -88,58 +80,62 @@ public class HomeScreenController {
                 treeView.getSelectionModel().select(selectedItem);
             }
 
-            if(ConfirmationModal.show("Warnung", null, "Soll das ausgew�hlte Element und ggf. seine untergeordneten Elemente wirklich gel�scht werden?")) {
+            if(ConfirmationModal.show("Warnung", null, "Soll das ausgewählte Element und ggf. seine untergeordneten Elemente wirklich gelöscht werden?")) {
             	selectedItem.deleteNode();
-            	treeView.getSelectionModel().clearSelection();
+                drawTreeView();
             }
         }
     }
 
     @FXML
     void onLogoutButtonClicked(ActionEvent event) {
-    	Node root = (Node)treeView.getRoot();
-    	drawTreeView(root.getExpandedChildren());
-//    	Platform.exit();
+    	Platform.exit();
     }
 
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-
+        showEditForm("/fxml/CreateSemesterForm.fxml");
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-
+        showEditForm("/fxml/CreateGroupageForm.fxml");
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-
+        showEditForm("/fxml/CreateGroupForm.fxml");
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-
+       showEditForm("/fxml/CreateStudentForm.fxml");
     }
 
     @FXML
     public void initialize() {
     	treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        drawTreeView(new ArrayList<String>());
+        drawTreeView();
+        Thread observer = new databaseObserver(this);
+        observer.start();
     }
 
-    void drawTreeView(List<String> expandedNodes) {
-    	Node root = new Node();
+    void drawTreeView() {
+        ArrayList<String> expandedNodes = new ArrayList<String>();
+        if(root!= null) {
+            expandedNodes = new ArrayList<String>(root.getExpandedChildren());
+        }
+        root = new Node();
     	Node selectedTreeItem = (Node)treeView.getSelectionModel().getSelectedItem();
         List<Semester> semesterList = null;
         List<Groupage> groupageList = null;
         List<Group> groupList = null;
         List<Student> studentList = null;
         try {
-            semesterList = semesterDao.queryForAll();
-            groupageList = groupageDao.queryForAll();
-            groupList    = groupDao.queryForAll();
-            studentList  = studentDao.queryForAll();
+            semesterList = DBManager.getInstance().getSemesterDao().queryForAll();
+            groupageList = DBManager.getInstance().getGroupageDao().queryForAll();
+            groupList    = DBManager.getInstance().getGroupDao().queryForAll();
+            studentList  = DBManager.getInstance().getStudentDao().queryForAll();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -176,6 +172,41 @@ public class HomeScreenController {
         treeView.setShowRoot(false);
         treeView.setRoot(root);
         treeView.getSelectionModel().select(selectedTreeItem);
+    }
+
+    void showEditForm(String fxmlResource) {
+        Pane pane = null;
+        FXMLLoader loader = null;
+        try {
+            if (fxmlResource == null) {
+                if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Semester) {
+                    loader = new FXMLLoader(getClass().getResource("/fxml/EditSemesterForm.fxml"));
+                    pane = loader.load();
+                } else if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Groupage) {
+                    loader = new FXMLLoader(getClass().getResource("/fxml/EditGroupageForm.fxml"));
+                    pane = loader.load();
+                } else if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Group) {
+                    loader = new FXMLLoader(getClass().getResource("/fxml/EditGroupForm.fxml"));
+                    pane = loader.load();
+                    EditGroupController controller = loader.<EditGroupController>getController();
+                    controller.setSelectedGroup((Group)treeView.getSelectionModel().getSelectedItem().getValue());
+                } else {
+                    loader = new FXMLLoader(getClass().getResource("/fxml/EditStudentForm.fxml"));
+                    pane = loader.load();
+                }
+            } else {
+                loader = new FXMLLoader(getClass().getResource(fxmlResource));
+                pane = loader.load();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage popupStage = new Stage();
+        Scene popupScene = new Scene(pane);
+        popupStage.setScene(popupScene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.showAndWait();
+        drawTreeView();
     }
 }
 
@@ -252,4 +283,25 @@ class Node extends TreeItem<Object> {
             e.printStackTrace();
         }
 	}
+}
+
+class databaseObserver extends Thread {
+
+    private HomeScreenController hsc;
+
+    public databaseObserver(HomeScreenController hsc) {
+        this.hsc = hsc;
+    }
+
+    @Override
+    public void run() {
+        while(true) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            hsc.drawTreeView();
+        }
+    }
 }
