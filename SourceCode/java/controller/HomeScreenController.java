@@ -1,13 +1,9 @@
 package controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import connection.DBManager;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
@@ -18,15 +14,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modal.ConfirmationModal;
 import modal.InfoModal;
-import models.*;
+import models.Group;
+import models.Groupage;
+import models.Semester;
+import models.Student;
+import utils.SceneManager;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.Dao.DaoObserver;
-import utils.SceneManager;
 
 public class HomeScreenController {
 
@@ -195,41 +192,6 @@ public class HomeScreenController {
         treeView.setShowRoot(false);
         treeView.setRoot(root);
         treeView.getSelectionModel().select(selectedTreeItem);
-    }
-
-    void showEditForm(String fxmlResource) {
-        Pane pane = null;
-        FXMLLoader loader = null;
-        try {
-            if (fxmlResource == null) {
-                if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Semester) {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditSemesterForm.fxml"));
-                    pane = loader.load();
-                } else if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Groupage) {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditGroupageForm.fxml"));
-                    pane = loader.load();
-                } else if(treeView.getSelectionModel().getSelectedItem().getValue() instanceof Group) {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditGroupForm.fxml"));
-                    pane = loader.load();
-                    EditGroupController controller = loader.<EditGroupController>getController();
-                    controller.setSelectedGroup((Group)treeView.getSelectionModel().getSelectedItem().getValue());
-                } else {
-                    loader = new FXMLLoader(getClass().getResource("/fxml/EditStudentForm.fxml"));
-                    pane = loader.load();
-                }
-            } else {
-                loader = new FXMLLoader(getClass().getResource(fxmlResource));
-                pane = loader.load();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage popupStage = new Stage();
-        Scene popupScene = new Scene(pane);
-        popupStage.setScene(popupScene);
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.showAndWait();
-        drawTreeView();
     }
 }
 
