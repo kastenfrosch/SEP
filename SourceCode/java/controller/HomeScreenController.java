@@ -3,15 +3,10 @@ package controller;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import modal.ConfirmationModal;
 import modal.InfoModal;
 import models.Group;
@@ -20,7 +15,6 @@ import models.Semester;
 import models.Student;
 import utils.SceneManager;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,21 +111,25 @@ public class HomeScreenController {
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_SEMESTER);
+        drawTreeView();
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_GROUPAGE);
+        drawTreeView();
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_GROUP);
+        drawTreeView();
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_STUDENT);
+        drawTreeView();
     }
 
     @FXML
