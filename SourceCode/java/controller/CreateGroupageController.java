@@ -14,6 +14,7 @@ import modal.InfoModal;
 import models.Group;
 import models.Groupage;
 import models.Semester;
+import utils.SceneManager;
 
 import java.sql.SQLException;
 
@@ -78,6 +79,7 @@ public class CreateGroupageController {
     }
 
     public void addGroupageCancelButton(ActionEvent actionEvent) {
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUPAGE);
     }
 
     public void addGroupageAddSafeButton(ActionEvent actionEvent) {
@@ -120,5 +122,8 @@ public class CreateGroupageController {
             e.printStackTrace();
         }
         InfoModal.show("Klasse \"" + name + "\" erstellt!");
+
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUPAGE);
+
     }
 }

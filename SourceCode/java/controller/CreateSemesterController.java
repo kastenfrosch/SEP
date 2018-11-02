@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import models.Semester;
 import modal.InfoModal;
 import javafx.scene.input.MouseEvent;
+import utils.SceneManager;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -129,6 +131,9 @@ public class CreateSemesterController {
             }
             InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
         }
+
+        //close window
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
     private void createSommersemster() {
         //select item chosen by the user
@@ -163,13 +168,14 @@ public class CreateSemesterController {
             }
             InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
         }
+
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     @FXML
     public void addSemesterCancel(ActionEvent event) {
-
-        Stage stage = (Stage) btnCancel.getScene().getWindow();
-        stage.close();
+        //close window
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     public void chooseSemester(ActionEvent event) {
