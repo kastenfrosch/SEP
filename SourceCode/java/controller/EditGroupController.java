@@ -220,6 +220,9 @@ public class EditGroupController {
         // setting up the passed group
         this.groupToEdit = group;
 
+        // initializing the text input in the textfield according to the passed group object
+        groupnameInput.setText(group.getName());
+
         // initializing the pre-marked selections in the comboboxes according to the passed group object
         semesterComboBox.getSelectionModel().select(group.getSemester().getDescription());
         groupageComboBox.getSelectionModel().select(group.getGroupage().getDescription());
