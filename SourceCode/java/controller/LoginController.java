@@ -68,7 +68,6 @@ public class LoginController {
                 throw new SQLException();
             }
         } catch(SQLException ex) {
-            //TODO: put this in a function it's a dupe
             ErrorModal.show("Invalid User / Password");
             return;
         }
@@ -100,10 +99,7 @@ public class LoginController {
             }
 
             SceneManager.getInstance().switchTo(SceneManager.SceneType.HOME);
-        }
-        else
-        {
-            //TODO: put this in a function it's a dupe
+        } else {
             ErrorModal.show("Invalid User / Password!");
         }
     }
