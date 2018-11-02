@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.Dao.DaoObserver;
+import utils.SceneManager;
 
 public class HomeScreenController {
 
@@ -65,7 +66,31 @@ public class HomeScreenController {
                 selectedItem = (Node)selectedItem.getParent();
                 treeView.getSelectionModel().select(selectedItem);
             }
-            showEditForm(null);
+            if(selectedItem.getValue() instanceof Semester) {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_SEMESTER)
+                        .<EditSemesterController>getController()
+                        .setSemester((Semester) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_SEMESTER);
+            } else if(selectedItem.getValue() instanceof Groupage) {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_GROUPAGE)
+                        .<EditGroupageController>getController()
+                        .setGroupage((Groupage) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+            } else if(selectedItem.getValue() instanceof Group) {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_GROUP)
+                        .<EditGroupController>getController()
+                        .setGroup((Group) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_GROUP);
+            } else {
+                SceneManager.getInstance()
+                        .getLoaderForScene(SceneManager.SceneType.EDIT_STUDENT)
+                        .<EditStudentController>getController()
+                        .setStudent((Student) selectedItem.getValue());
+                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_STUDENT);
+            }
         }
     }
 
@@ -89,35 +114,33 @@ public class HomeScreenController {
 
     @FXML
     void onLogoutButtonClicked(ActionEvent event) {
-    	Platform.exit();
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.HOME);
     }
 
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/CreateSemesterForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/CreateGroupageForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUPAGE;
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-        showEditForm("/fxml/CreateGroupForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUP);
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-       showEditForm("/fxml/CreateStudentForm.fxml");
+        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_STUDENT);
     }
 
     @FXML
     public void initialize() {
     	treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         drawTreeView();
-        Thread observer = new databaseObserver(this);
-        observer.start();
     }
 
     void drawTreeView() {
@@ -283,25 +306,4 @@ class Node extends TreeItem<Object> {
             e.printStackTrace();
         }
 	}
-}
-
-class databaseObserver extends Thread {
-
-    private HomeScreenController hsc;
-
-    public databaseObserver(HomeScreenController hsc) {
-        this.hsc = hsc;
-    }
-
-    @Override
-    public void run() {
-        while(true) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            hsc.drawTreeView();
-        }
-    }
 }
