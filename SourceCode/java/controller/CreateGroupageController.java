@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import modal.ErrorModal;
 import modal.InfoModal;
 import models.Groupage;
 import models.Semester;
@@ -18,8 +19,17 @@ import utils.SceneManager;
 import java.sql.SQLException;
 
 
-
 public class CreateGroupageController {
+
+    private DBManager db;
+
+    {
+        try {
+            db = DBManager.getInstance();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public Label AddGroupageLabel;
@@ -33,36 +43,18 @@ public class CreateGroupageController {
     public Label nameLabel;
     @FXML
     public Label semesterLabel;
+    @FXML
+    public ComboBox<Semester> addChooseSemesterComboBox;
 
     @FXML
-    public ComboBox addChooseSemesterComboBox;
+    public void initialize() {
 
-    private DBManager db;
+        ObservableList<Semester> semesterList = FXCollections.observableArrayList();
+        Dao<Semester, String> semesterDao = db.getSemesterDao();
 
-    {
         try {
-            db = DBManager.getInstance();
+            semesterList.addAll(semesterDao.queryForAll());
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void groupList() {
-
-        try {
-
-
-            ObservableList<String> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semester = db.getSemesterDao();
-
-            for (Semester s : semester.queryForAll()) {
-                semesterList.add(s.getDescription());
-            }
-
-            addChooseSemesterComboBox.setItems(semesterList);
-
-        } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
     }
@@ -80,31 +72,31 @@ public class CreateGroupageController {
         }
         name = nameTextfield.getText();
 
-        String semesterString;
-        if(addChooseSemesterComboBox.getSelectionModel().getSelectedItem() == null|| addChooseSemesterComboBox == null) {
+        Semester semester;
+        if (addChooseSemesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Bitte Semester angeben!");
             return;
         }
-        semesterString = (String) addChooseSemesterComboBox.getSelectionModel().getSelectedItem();
-
+        semester = addChooseSemesterComboBox.getSelectionModel().getSelectedItem();
 
 
         try {
+            Groupage groupage = new Groupage();
 
-            Dao<Semester, String> semesterDao = db.getSemesterDao();
-            Semester semester = semesterDao.queryForEq(Semester.FIELD_SEMESTER_DESCRIPTION, semesterString).get(0);
+            groupage.setDescription(name);
+            groupage.setSemester(semester);
 
-            models.Groupage newGroupage = new Groupage();
+            Dao<Groupage, Integer> groupageDao = db.getGroupageDao();
 
-            newGroupage.setDescription(name);
-            newGroupage.setSemester(semester);
+            groupageDao.create(groupage);
+            InfoModal.show("Klasse \"" + name + "\" erstellt!");
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show("Die Klasse konnte nicht erstellt werden: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUPAGE);
         }
-        InfoModal.show("Klasse \"" + name + "\" erstellt!");
-
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUPAGE);
 
     }
 }
