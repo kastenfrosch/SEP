@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -19,8 +17,8 @@ import modal.InfoModal;
 import models.Group;
 import models.Groupage;
 import models.Semester;
+import utils.SceneManager;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class CreateGroupController {
@@ -162,7 +160,7 @@ public class CreateGroupController {
                 InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
 
                 // close window
-                SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
+                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht erstellt werden!");
@@ -179,7 +177,7 @@ public class CreateGroupController {
     public void createGroupCancel(ActionEvent actionEvent) {
 
         // close group creation window
-        SceneManager.getInstance().closeWindow(SceneManager.Scenetype.EDIT_GROUP);
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
 
     }
 
