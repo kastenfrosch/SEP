@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import modal.InfoModal;
 import models.*;
+import utils.SceneManager;
 
 
 import javax.mail.internet.AddressException;
@@ -174,13 +175,7 @@ public class CreateStudentController {
 
     @FXML
     void AddStudentCancel(ActionEvent event) {
-        try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-            anchorPane.getScene().setRoot(p);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
 
 
     }

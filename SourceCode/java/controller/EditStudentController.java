@@ -18,6 +18,7 @@ import modal.InfoModal;
 import models.Group;
 import models.Semester;
 import models.Student;
+import utils.SceneManager;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -64,9 +65,9 @@ public class EditStudentController {
     @FXML
     private TextField emailInput;
     @FXML
-    public ComboBox groupComboBox;
+    public ComboBox<Group> groupComboBox;
     @FXML
-    public ComboBox semesterComboBox;
+    public ComboBox<Semester> semesterComboBox;
     @FXML
     public void initialize() {
 
@@ -77,9 +78,7 @@ public class EditStudentController {
             ObservableList<Semester> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semester = dbManager.getSemesterDao();
 
-            for (Semester s : semester.queryForAll()) {
-                semesterList.add(s);
-            }
+            semesterList.addAll(semester.queryForAll());
 
             semesterComboBox.setItems(semesterList);
 
@@ -87,9 +86,7 @@ public class EditStudentController {
             ObservableList<Group> groupList = FXCollections.observableArrayList();
             Dao<Group, Integer> group = dbManager.getGroupDao();
 
-            for (Group g : group.queryForAll()) {
-                groupList.add(g);
-            }
+            groupList.addAll(group.queryForAll());
 
             groupComboBox.setItems(groupList);
 
@@ -103,10 +100,6 @@ public class EditStudentController {
     @FXML
     public void editStudentSave(ActionEvent event) {
 
-        matNoInput.setText(student.getMatrNo());
-        firstnameInput.setText(student.getPerson().getFirstname());
-        lastnameInput.setText(student.getPerson().getLastname());
-        emailInput.setText(student.getPerson().getEmail());
 
 
         if (matNoInput.getText().isEmpty() || matNoInput == null) {
@@ -152,13 +145,7 @@ public class EditStudentController {
 
     @FXML
     public void cancleEditStudent(ActionEvent event) {
-        try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-            anchorPane.getScene().setRoot(p);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
     }
 
     @FXML
@@ -188,8 +175,14 @@ public class EditStudentController {
         return true;
     }
 
-    private void setStudent(Student student) {
+    public void setStudent(Student student) {
         this.student = student;
+        lastnameInput.setText(student.getPerson().getLastname());
+        firstnameInput.setText(student.getPerson().getFirstname());
+        emailInput.setText(student.getPerson().getEmail());
+        matNoInput.setText(student.getMatrNo());
+        groupComboBox.getSelectionModel().select(student.getGroup());
+        semesterComboBox.getSelectionModel().select(student.getSemester());
     }
 
     public void addToGroup(ActionEvent event) {
