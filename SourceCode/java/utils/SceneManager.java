@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import modal.ErrorModal;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +95,19 @@ public class SceneManager {
             stage.setScene(new Scene(info.getParent()));
             info.setStage(stage);
         }
+
+        Method[] methods = info.getLoader().getController().getClass().getDeclaredMethods();
+        for(Method m : methods) {
+            if(m.getName().equals("initialize")) {
+                try {
+                    m.invoke(info.getLoader().getController());
+                } catch(IllegalAccessException |InvocationTargetException ex) {
+                    ErrorModal.show("Unable to reset controller for " + info.getSceneType().toString());
+                    ex.printStackTrace();
+                }
+            }
+        }
+
         stage.showAndWait();
     }
 
