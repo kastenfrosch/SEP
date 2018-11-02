@@ -116,22 +116,22 @@ public class HomeScreenController {
 
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_SEMESTER);
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUPAGE);
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_GROUPAGE);
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_GROUP);
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_GROUP);
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().switchTo(SceneManager.SceneType.CREATE_STUDENT);
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_STUDENT);
     }
 
     @FXML
