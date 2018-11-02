@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,32 +12,26 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="createGroupPane" fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateGroupController">
+<AnchorPane id="createGroupPane" fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateGroupController">
    <children>
-      <Text id="headerId" fx:id="titleText" layoutX="179.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gruppe erstellen" textAlignment="CENTER">
+      <Text id="headerId" fx:id="titleText" layoutX="212.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gruppe erstellen" textAlignment="CENTER">
          <font>
-            <Font size="35.0" />
+            <Font size="24.0" />
          </font>
       </Text>
       <Button id="btnCreateGroup" fx:id="createGroupBtn" layoutX="512.0" layoutY="346.0" mnemonicParsing="false" onAction="#onCreateButtonClicked" text="Speichern" />
       <Button id="btnCancel" fx:id="cancelBtn" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" text="Abbrechen" />
-      <Label id="lblGroupname" fx:id="groupnameLbl" layoutX="45.0" layoutY="127.0" text="Gruppenname:">
+      <Label id="lblGroupname" fx:id="groupnameLbl" layoutX="94.0" layoutY="122.0" text="Gruppenname:">
          <font>
-            <Font size="24.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="225.0" layoutY="127.0" prefWidth="150.0" promptText="Name eingeben" />
-      <Label id="lblSemester" fx:id="semesterLbl" layoutX="113.0" layoutY="178.0" text="Semester:">
+      <TextField id="groupnameField" fx:id="groupnameInput" layoutX="225.0" layoutY="123.0" prefWidth="150.0" promptText="Name eingeben" />
+      <Label id="lblGroupage" fx:id="groupageLbl" layoutX="159.0" layoutY="187.0" text="Klasse:">
          <font>
-            <Font size="24.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox id="chooseSemesterComboBox" fx:id="semesterComboBox" layoutX="225.0" layoutY="178.0" prefWidth="150.0" promptText="Semester auswählen:" />
-      <Label id="lblGroupage" fx:id="groupageLbl" layoutX="146.0" layoutY="229.0" text="Klasse:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <ComboBox id="chooseGroupageComboBox" fx:id="groupageComboBox" layoutX="225.0" layoutY="229.0" prefWidth="150.0" promptText="Klasse auswählen:" />
+      <ComboBox id="chooseGroupageComboBox" fx:id="groupageComboBox" layoutX="225.0" layoutY="188.0" prefWidth="150.0" promptText="Klasse auswählen:" />
    </children>
 </AnchorPane>
