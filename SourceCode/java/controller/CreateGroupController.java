@@ -146,7 +146,7 @@ public class CreateGroupController {
                 InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
 
                 // close window
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
+                SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUP);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht erstellt werden!");
@@ -162,7 +162,7 @@ public class CreateGroupController {
     public void onCancelButtonClicked(ActionEvent actionEvent) {
 
         // close group creation window
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUP);
 
     }
 
