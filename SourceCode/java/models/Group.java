@@ -70,9 +70,9 @@ public class Group {
 
     @Override
     public boolean equals(Object other) {
-        if(!(other instanceof Student)) {
+        if(!(other instanceof Group)) {
             return false;
         }
-        return this.id == ((Student) other).getId();
+        return this.id == ((Group) other).getId();
     }
 }
