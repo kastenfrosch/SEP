@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="312.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateSemesterController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <TextField fx:id="RenameInput1" layoutX="-45.0" layoutY="43.0" />
+            <Label fx:id="currentid" layoutX="-45.0" layoutY="26.0" prefHeight="17.0" prefWidth="104.0" text="Neue ID" />
+            <Text layoutX="-45.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Neue Bezeichnung" wrappingWidth="192.63427734375" />
+         </children>
+      </AnchorPane>
+      <Text layoutX="21.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester-Verwaltung" wrappingWidth="333.90380859375">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
+      <Button fx:id="SaveButton" layoutX="331.0" layoutY="273.0" mnemonicParsing="false" onAction="#SaveRename" text="Save" />
+      <Button fx:id="BackButton" layoutX="325.0" layoutY="9.0" mnemonicParsing="false" onAction="#Cancle" text="Back" />
+      <ComboBox fx:id="combobox" layoutX="57.0" layoutY="73.0" onAction="#SelectSemester" prefHeight="27.0" prefWidth="167.0" />
+      <TextField fx:id="RenameInput" layoutX="56.0" layoutY="212.0" />
+      <Text layoutX="56.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester auswählen" wrappingWidth="150.0" />
+   </children>
+</AnchorPane>
