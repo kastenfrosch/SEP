@@ -58,4 +58,18 @@ public class Person {
     public int getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return this.firstname + " " + this.firstname;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Person)) {
+            return false;
+        }
+
+        return this.getId() == ((Person) other).getId();
+    }
 }

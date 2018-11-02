@@ -11,20 +11,24 @@
     <children>
         <Button fx:id="StudentCreate" layoutX="495.0" layoutY="347.0" mnemonicParsing="false" onAction="#editStudentSave" text="Speichern" />
         <Button fx:id="StudentCancel" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#cancleEditStudent" text="Zurück" />
-        <Label layoutX="211.0" layoutY="27.0" text="Student erstellen" AnchorPane.leftAnchor="211.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="27.0">
+        <Label layoutX="193.0" layoutY="14.0" prefHeight="35.0" prefWidth="217.0" text="Student verändern" AnchorPane.leftAnchor="193.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="14.0">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <TextField fx:id="matNoInput" layoutX="189.0" layoutY="84.0" AnchorPane.leftAnchor="189.0" />
-        <TextField fx:id="firstnameInput" layoutX="189.0" layoutY="132.0" AnchorPane.leftAnchor="189.0" />
-        <TextField fx:id="lastnameInput" layoutX="188.0" layoutY="180.0" AnchorPane.leftAnchor="188.0" AnchorPane.topAnchor="180.0" />
-        <TextField fx:id="emailInput" layoutX="189.0" layoutY="226.0" AnchorPane.leftAnchor="189.0" />
-        <Label layoutX="53.0" layoutY="90.0" text="Mat Nr:" AnchorPane.leftAnchor="53.0" />
-        <Label layoutX="53.0" layoutY="138.0" text="Vorname: " AnchorPane.leftAnchor="53.0" />
-        <Label layoutX="53.0" layoutY="186.0" text="Nachname: " AnchorPane.leftAnchor="53.0" />
-        <Label layoutX="53.0" layoutY="232.0" text="Email: " AnchorPane.leftAnchor="53.0" />
+        <TextField fx:id="matNoInput" layoutX="188.0" layoutY="55.0" AnchorPane.leftAnchor="188.0" />
+        <TextField fx:id="firstnameInput" layoutX="189.0" layoutY="97.0" AnchorPane.leftAnchor="189.0" />
+        <TextField fx:id="lastnameInput" layoutX="188.0" layoutY="140.0" AnchorPane.leftAnchor="188.0" AnchorPane.topAnchor="140.0" />
+        <TextField fx:id="emailInput" layoutX="188.0" layoutY="181.0" AnchorPane.leftAnchor="188.0" />
+        <Label layoutX="53.0" layoutY="55.0" text="Mat Nr:" AnchorPane.leftAnchor="53.0" />
+        <Label layoutX="53.0" layoutY="103.0" text="Vorname: " AnchorPane.leftAnchor="53.0" />
+        <Label layoutX="53.0" layoutY="151.0" text="Nachname: " AnchorPane.leftAnchor="53.0" />
+        <Label layoutX="53.0" layoutY="187.0" text="Email: " AnchorPane.leftAnchor="53.0" />
         <Text fx:id="statusText" layoutX="189.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="224.0" />
       <Button fx:id="DeleteStudent" layoutX="261.0" layoutY="347.0" mnemonicParsing="false" onAction="#DeleteCurrentStudent" text="Löschen" />
+        <ComboBox fx:id="groupComboBox" layoutX="188.0" layoutY="275.0" onAction="#addToGroup" />
+        <Label layoutX="53.0" layoutY="281.0" text="Gruppe" />
+        <Label layoutX="42.0" layoutY="233.0" text="Semester" />
+        <ComboBox fx:id="semesterComboBox" layoutX="188.0" layoutY="227.0" onAction="#addToSemester" />
     </children>
 </AnchorPane>
