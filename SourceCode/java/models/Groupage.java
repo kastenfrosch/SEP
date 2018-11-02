@@ -19,7 +19,7 @@ public class Groupage {
 
     //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
     @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true,
-    columnDefinition = "varchar references semester(semester_id) on delete restrict")
+    columnDefinition = "varchar not null references semester(semester_id) on delete restrict")
     private Semester semester;
 
 
