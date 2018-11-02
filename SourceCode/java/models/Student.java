@@ -79,6 +79,15 @@ public class Student {
 
     @Override
     public String toString() {
-    	return person.getFirstname() + " " + person.getLastname();
+    	return person.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Student)) {
+            return false;
+        }
+
+        return this.getId() == ((Student)other).getId();
     }
 }

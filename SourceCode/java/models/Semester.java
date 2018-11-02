@@ -42,4 +42,12 @@ public class Semester {
     public String toString() {
     	return id;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Semester)) {
+            return false;
+        }
+        return this.getId().equals(((Semester)other).getId());
+    }
 }

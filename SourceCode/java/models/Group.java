@@ -67,4 +67,12 @@ public class Group {
     public String toString() {
     	return name;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Student)) {
+            return false;
+        }
+        return this.id == ((Student) other).getId();
+    }
 }

@@ -54,4 +54,12 @@ public class Groupage {
     public String toString() {
     	return description;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Groupage)) {
+            return false;
+        }
+        return this.getId() == ((Groupage) other).getId();
+    }
 }

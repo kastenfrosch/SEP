@@ -67,4 +67,18 @@ public class User {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+
+    @Override
+    public String toString() {
+        return this.getUsername();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof User)) {
+            return false;
+        }
+
+        return this.username.equals(((User) other).getUsername());
+    }
 }
