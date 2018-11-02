@@ -36,8 +36,6 @@ public class AddGroupageController {
     @FXML
     public Label GroupsLabel;
     @FXML
-    public TextField semesterTextfield; //TODO: ComboBox statt Textfeld nutzen!
-    @FXML
     public ComboBox groupsComboBox;
     @FXML
     public ComboBox addChooseSemesterComboBox;
@@ -87,19 +85,21 @@ public class AddGroupageController {
         String name;
         if (nameTextfield.getText() == null || nameTextfield.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Kein Klassenname eingegeben!");
+            return;
         }
         name = nameTextfield.getText();
 
         String semesterString;
-        if(semesterTextfield.getText().isEmpty()|| semesterTextfield == null) {
+        if(addChooseSemesterComboBox.getSelectionModel().getSelectedItem() == null|| addChooseSemesterComboBox == null) {
             InfoModal.show("FEHLER!", null, "Bitte Semester angeben!");
-
+            return;
         }
-        semesterString = (String) semesterTextfield.getText();
+        semesterString = (String) addChooseSemesterComboBox.getSelectionModel().getSelectedItem();
 
         String groupsString;
         if (groupsComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
+            return;
         }
         groupsString = (String) groupsComboBox.getSelectionModel().getSelectedItem();
 
