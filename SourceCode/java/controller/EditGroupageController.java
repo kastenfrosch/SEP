@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import modal.ConfirmationModal;
 import modal.InfoModal;
-import models.Group;
+
 import models.Groupage;
 import models.Semester;
 import utils.SceneManager;
@@ -48,8 +48,6 @@ public class EditGroupageController {
         @FXML
         private AnchorPane anchorPane;
 
-        @FXML
-        private ComboBox<Group> groupComboBox;
 
         @FXML
         private Label AddGroupageLabel;
@@ -79,13 +77,7 @@ public class EditGroupageController {
                         semesterList.addAll(semesterDao.queryForAll());
 
                         semesterComboBox.setItems(semesterList);
-
-                        ObservableList<Group> groupList = FXCollections.observableArrayList();
-                        Dao<Group, Integer> groupDao = dbManager.getGroupDao();
-
-                        groupList.addAll(groupDao.queryForAll());
-
-                        groupComboBox.setItems(groupList);
+;
 
                 } catch (java.sql.SQLException e) {
                         e.printStackTrace();
@@ -108,12 +100,7 @@ public class EditGroupageController {
                         return;
                 }
 
-                Group gCB;
-                if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
-                        InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
-                        return;
-                }
-                gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
+
 
                 Semester sCB;
                 if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
@@ -160,6 +147,11 @@ public class EditGroupageController {
         public void addToSemester(ActionEvent event) {
 
         }
+    public void setGroupage(Groupage groupage) {
+
+        nameTextfield.setText(groupage.getDescription());
+        semesterComboBox.getSelectionModel().select(groupage.getSemester());
+    }
 }
 
 

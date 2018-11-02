@@ -11,14 +11,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import modal.InfoModal;
-import models.Group;
 import models.Groupage;
 import models.Semester;
 import utils.SceneManager;
 
 import java.sql.SQLException;
 
-import static models.Group.*;
+
 
 public class CreateGroupageController {
 
@@ -34,10 +33,7 @@ public class CreateGroupageController {
     public Label nameLabel;
     @FXML
     public Label semesterLabel;
-    @FXML
-    public Label GroupsLabel;
-    @FXML
-    public ComboBox groupsComboBox;
+
     @FXML
     public ComboBox addChooseSemesterComboBox;
 
@@ -55,14 +51,7 @@ public class CreateGroupageController {
     public void groupList() {
 
         try {
-            ObservableList<String> groups = FXCollections.observableArrayList();
-            Dao<Group, Integer> group = db.getGroupDao();
-            for (Group s : group.queryForAll()) {
 
-                groups.add(s.getName());
-            }
-
-            groupsComboBox.setItems(groups);
 
             ObservableList<String> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semester = db.getSemesterDao();
@@ -98,17 +87,9 @@ public class CreateGroupageController {
         }
         semesterString = (String) addChooseSemesterComboBox.getSelectionModel().getSelectedItem();
 
-        String groupsString;
-        if (groupsComboBox.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
-            return;
-        }
-        groupsString = (String) groupsComboBox.getSelectionModel().getSelectedItem();
+
 
         try {
-
-            Dao<Group, Integer> groupDao = db.getGroupDao();
-            Group groups = groupDao.queryForEq(FIELD_GROUP_NAME, groupsString).get(0);
 
             Dao<Semester, String> semesterDao = db.getSemesterDao();
             Semester semester = semesterDao.queryForEq(Semester.FIELD_SEMESTER_DESCRIPTION, semesterString).get(0);
