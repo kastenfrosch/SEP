@@ -83,6 +83,7 @@ public class HomeScreenController {
                 SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_STUDENT);
             }
         }
+        drawTreeView();
     }
 
     @FXML
