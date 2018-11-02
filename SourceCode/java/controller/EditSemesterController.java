@@ -23,7 +23,7 @@ import com.j256.ormlite.dao.Dao;
 
 import connection.DBManager;
 
-public class UpdateSemesterController {
+public class EditSemesterController {
 	
 	private Semester semester;
 	

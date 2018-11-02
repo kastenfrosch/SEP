@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddGroupageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateGroupageController">
     <children>
         <Label fx:id="AddGroupageLabel" layoutX="180.0" layoutY="70.0" text="Klasse anlegen" />
         <Button fx:id="cancelButton" layoutX="450.0" layoutY="350.0" mnemonicParsing="false" onAction="#addGroupageCancelButton" text="Abbrechen" />

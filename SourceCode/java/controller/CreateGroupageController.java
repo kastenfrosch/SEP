@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 import static models.Group.*;
 
-public class AddGroupageController {
+public class CreateGroupageController {
 
     @FXML
     public Label AddGroupageLabel;

@@ -114,7 +114,7 @@ public class SceneManager {
 
     public enum SceneType {
 
-        ADD_GROUPAGE("/fxml/AddGroupageForm.fxml"),
+        ADD_GROUPAGE("/fxml/CreateGroupageForm.fxml"),
         //TODO EditGroupage??
         //TODO Create/Edit Semester??
         CREATE_GROUP("/fxml/CreateGroupForm.fxml"),
