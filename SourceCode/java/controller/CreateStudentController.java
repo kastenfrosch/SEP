@@ -161,7 +161,7 @@ public class CreateStudentController {
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
-            SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
+            SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
 
         }
 
