@@ -10,7 +10,7 @@
     <properties>
         <src.dir>SourceCode/java</src.dir>
         <res.dir>SourceCode/resources</res.dir>
-        <mainClass>SEP</mainClass>
+        <mainClass>Launcher</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <name>SEP</name>
@@ -49,7 +49,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>SEP</mainClass>
+                    <mainClass>${mainClass}</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -58,6 +58,19 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
