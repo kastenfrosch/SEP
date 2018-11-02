@@ -52,12 +52,6 @@ public class CreateStudentController {
     @FXML
     private TextField matNoInput;
 
-    @FXML
-    private Button StudentCreate;
-
-    @FXML
-    private Button StudentCancle;
-
 
     @FXML
     private TextField emailInput;
@@ -177,17 +171,12 @@ public class CreateStudentController {
     }
 
     @FXML
-    void onCancelBTNClicked(ActionEvent event) {
+    void onCancelBtnClicked(ActionEvent event) {
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
 
 
     }
 
-    public void addToSemester(ActionEvent event) {
-    }
-
-    public void addToGroup(ActionEvent event) {
-    }
 }
 
 
