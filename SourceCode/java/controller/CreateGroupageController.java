@@ -48,7 +48,6 @@ public class CreateGroupageController {
 
     @FXML
     public void initialize() {
-
         ObservableList<Semester> semesterList = FXCollections.observableArrayList();
         Dao<Semester, String> semesterDao = db.getSemesterDao();
 
@@ -58,6 +57,9 @@ public class CreateGroupageController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        nameTextfield.clear();
+        addChooseSemesterComboBox.getSelectionModel().select(0);
 
     }
 

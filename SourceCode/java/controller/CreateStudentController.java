@@ -37,9 +37,9 @@ public class CreateStudentController {
     }
 
     @FXML
-    public ComboBox groupComboBox;
+    public ComboBox<Group> groupComboBox;
     @FXML
-    public ComboBox semesterComboBox;
+    public ComboBox<Semester> semesterComboBox;
 
     @FXML
     private TextField firstnameInput;
@@ -66,9 +66,7 @@ public class CreateStudentController {
             ObservableList<Semester> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semester = dbManager.getSemesterDao();
 
-            for (Semester s : semester.queryForAll()) {
-                semesterList.add(s);
-            }
+            semesterList.addAll(semester.queryForAll());
 
             semesterComboBox.setItems(semesterList);
 
@@ -76,15 +74,20 @@ public class CreateStudentController {
             ObservableList<Group> groupList = FXCollections.observableArrayList();
             Dao<Group, Integer> group = dbManager.getGroupDao();
 
-            for (Group g : group.queryForAll()) {
-                groupList.add(g);
-            }
+            groupList.addAll(group.queryForAll());
 
             groupComboBox.setItems(groupList);
 
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
+
+        groupComboBox.getSelectionModel().select(0);
+        semesterComboBox.getSelectionModel().select(0);
+        firstnameInput.clear();
+        lastnameInput.clear();
+        matNoInput.clear();
+        emailInput.clear();
 
 
     }
@@ -126,16 +129,16 @@ public class CreateStudentController {
             InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
             return;
         }
-        gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
+        gCB = groupComboBox.getSelectionModel().getSelectedItem();
 
         Semester sCB;
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
             return;
         }
-        sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
+        sCB = semesterComboBox.getSelectionModel().getSelectedItem();
 
-        //creat person & student
+        //create person & student
         person.setFirstname(firstnameInput.getText());
         person.setLastname(lastnameInput.getText());
         person.setEmail(emailInput.getText());
@@ -144,9 +147,11 @@ public class CreateStudentController {
         student.setSemester(sCB);
         student.setGroup(gCB);
 
+        student.setPerson(person);
+
 
         try {
-            //Creating the dao's
+            //Creating the daos
             Dao<Person, Integer> pDao = dbManager.getPersonDao();
             Dao<Student, Integer> sDao = dbManager.getStudentDao();
             pDao.create(person);
@@ -163,7 +168,7 @@ public class CreateStudentController {
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
         try {
-            InternetAddress a = new InternetAddress(adr);
+            new InternetAddress(adr);
         } catch (AddressException e) {
             return false;
         }
@@ -173,9 +178,8 @@ public class CreateStudentController {
     @FXML
     void onCancelBtnClicked(ActionEvent event) {
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
-
-
     }
+
 
 }
 
