@@ -16,7 +16,10 @@ public class SceneManager {
     private Map<SceneType, SceneInfo> scenes = new HashMap<>();
     private Stage root;
 
-
+    /**
+     * @return The applications SceneManager
+     * @throws UnsupportedOperationException Thrown when getInstance() is called before getInstance(stage) was called
+     */
     public static SceneManager getInstance() {
         if(instance == null) {
             throw new UnsupportedOperationException("Stage is not set!");
@@ -24,6 +27,13 @@ public class SceneManager {
         return instance;
     }
 
+    /**
+     *
+     * @param s The stage of the primary window
+     * @return The applications SceneManager
+     * @throws UnsupportedOperationException Thrown when getInstance(stage) is called twice. Use getInstance() on
+     * the second call instead.
+     */
     public static SceneManager getInstance(Stage s) {
         if(instance == null) {
             instance = new SceneManager(s);
@@ -48,10 +58,19 @@ public class SceneManager {
         }
     }
 
+    /**
+     *
+     * @param sceneType The to the FXMLLoader corresponding scene
+     * @return The FXMLLoader of the corresponding scene
+     */
     public FXMLLoader getLoaderForScene(SceneType sceneType) {
         return scenes.get(sceneType).getLoader();
     }
 
+    /**
+     * Switches the main stages scene
+     * @param sceneType The scene to switch to
+     */
     public void switchTo(SceneType sceneType) {
         SceneInfo info = scenes.get(sceneType);
         if(root.getScene() == null) {
@@ -62,6 +81,10 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Opens a scene in a new window
+     * @param sceneType The scene to open
+     */
     public void showInNewWindow(SceneType sceneType) {
         SceneInfo info = scenes.get(sceneType);
         Stage stage = info.getStage();
@@ -74,9 +97,17 @@ public class SceneManager {
         stage.showAndWait();
     }
 
+    /**
+     *
+     * @param sceneType
+     */
     public void closeWindow(SceneType sceneType) {
         SceneInfo info = scenes.get(sceneType);
-        info.getStage().close();
+        try {
+            info.getStage().close();
+        } catch(IllegalStateException ex) {
+            //window is not open
+        }
     }
 
 
