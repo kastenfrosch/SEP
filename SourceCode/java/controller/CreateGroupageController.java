@@ -54,9 +54,11 @@ public class CreateGroupageController {
 
         try {
             semesterList.addAll(semesterDao.queryForAll());
+            addChooseSemesterComboBox.setItems(semesterList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     public void addGroupageCancelButton(ActionEvent actionEvent) {
