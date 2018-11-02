@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import modal.ConfirmationModal;
 import modal.InfoModal;
 import models.Group;
+import models.Person;
 import models.Semester;
 import models.Student;
 import utils.SceneManager;
@@ -117,23 +118,26 @@ public class EditStudentController {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
-        Group gCB;
         if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
             return;
         }
-        gCB = (Group) groupComboBox.getSelectionModel().getSelectedItem();
-
-        Semester sCB;
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
             return;
         }
-        sCB = (Semester) semesterComboBox.getSelectionModel().getSelectedItem();
+
+        student.setGroup(groupComboBox.getSelectionModel().getSelectedItem());
+        student.setSemester(semesterComboBox.getSelectionModel().getSelectedItem());
+        student.setMatrNo(matNoInput.getText());
+        student.getPerson().setFirstname(firstnameInput.getText());
+        student.getPerson().setLastname(lastnameInput.getText());
+        student.getPerson().setEmail(emailInput.getText());
 
         Dao<Student, Integer> studentDao = dbManager.getStudentDao();
-
+        Dao<Person, Integer> personDao = dbManager.getPersonDao();
         try {
+            personDao.update(student.getPerson());
             studentDao.update(student);
         } catch (SQLException e) {
             e.printStackTrace();
