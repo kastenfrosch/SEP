@@ -95,7 +95,7 @@ public class CreateStudentController {
 
     }
         @FXML
-    public void AddStudentSave(ActionEvent event) {
+    public void onSaveBtnClicked(ActionEvent event) {
 
         Person person = new Person();
         Student student = new Student();
@@ -161,7 +161,9 @@ public class CreateStudentController {
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
-    }
+            SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
+
+        }
 
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
@@ -174,7 +176,7 @@ public class CreateStudentController {
     }
 
     @FXML
-    void AddStudentCancel(ActionEvent event) {
+    void onCancelBTNClicked(ActionEvent event) {
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
 
 
