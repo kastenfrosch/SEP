@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import modal.ErrorModal;
 import models.Semester;
 import modal.InfoModal;
 import javafx.scene.input.MouseEvent;
@@ -79,6 +80,9 @@ public class CreateSemesterController {
         }
         //set years for the summer terms into the ComboBox
         comboYear.setItems(years);
+
+        comboTerm.getSelectionModel().select(0);
+        comboYear.getSelectionModel().select(0);
     }
 
     public CreateSemesterController() {
@@ -139,14 +143,17 @@ public class CreateSemesterController {
                 Dao<Semester, String> semesterDao = db.getSemesterDao();
                 semesterDao.create(newSemester);
 
+                InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
+
+
+                //close window
+                SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
+                ErrorModal.show("Semester konnte nicht erstellt werden.");
             }
-            InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
         }
 
-        //close window
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     private void createSommersemster() {
@@ -160,7 +167,7 @@ public class CreateSemesterController {
         if (termString.equals("Sommersemester")) {
             semesterID = "SS";
 
-            semesterID = semesterID + " " + yearString;
+            semesterID = semesterID + (yearString%100);
 
             //description for each term consisting of the terms shortform and the year
             String semesterDescription = termString + " " + yearString;
@@ -176,14 +183,16 @@ public class CreateSemesterController {
                 //put term details into the databaase
                 Dao<Semester, String> semesterDao = db.getSemesterDao();
                 semesterDao.create(newSemester);
+                InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
+
+                SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
 
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
+                ErrorModal.show("Semester konnte nicht erstellt werden.");
             }
-            InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
         }
 
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
     }
 
     @FXML
