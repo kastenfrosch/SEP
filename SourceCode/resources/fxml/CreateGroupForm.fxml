@@ -15,7 +15,7 @@
             <Font size="35.0" />
          </font>
       </Text>
-      <Button id="btnCreateGroup" fx:id="createGroupBtn" layoutX="512.0" layoutY="346.0" mnemonicParsing="false" onAction="#createGroupCreate" text="Erstellen" />
+      <Button id="btnCreateGroup" fx:id="createGroupBtn" layoutX="512.0" layoutY="346.0" mnemonicParsing="false" onAction="#createGroupCreate" text="Speichern" />
       <Button id="btnCancel" fx:id="cancelBtn" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#createGroupCancel" text="Abbrechen" />
       <Label id="lblGroupname" fx:id="groupnameLbl" layoutX="45.0" layoutY="127.0" text="Gruppenname:">
          <font>

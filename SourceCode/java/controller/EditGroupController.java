@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,12 +13,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import modal.ConfirmationModal;
+import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
 import models.Semester;
+import utils.SceneManager;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class EditGroupController {
@@ -64,9 +63,9 @@ public class EditGroupController {
     public void initialize() {
 
         // initializing combobox data
-
         try {
 
+            // initializing an ObservableList which is filled with all the existing semester descriptions
             ObservableList<String> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semester = db.getSemesterDao();
 
@@ -74,9 +73,10 @@ public class EditGroupController {
                 semesterList.add(s.getDescription());
             }
 
+            // filling the combobox with the ObservableList
             semesterComboBox.setItems(semesterList);
 
-
+            // initializing an ObservableList which is filled with all the existing groupage descriptions
             ObservableList<String> groupageList = FXCollections.observableArrayList();
             Dao<Groupage, Integer> groupage = db.getGroupageDao();
 
@@ -84,9 +84,11 @@ public class EditGroupController {
                 groupageList.add(g.getDescription());
             }
 
+            // filling the combobox with the ObservableList
             groupageComboBox.setItems(groupageList);
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
 
@@ -111,7 +113,7 @@ public class EditGroupController {
         // if not, set groupname to the input.
         String name;
         if (groupnameInput.getText() == null || groupnameInput.getText().isBlank()) {
-            InfoModal.show("FEHLER!", null, "Kein Gruppenname eingegeben!");
+            InfoModal.show("ACHTUNG!", null, "Kein Gruppenname eingegeben!");
             return;
         }
         name = groupnameInput.getText();
@@ -134,35 +136,30 @@ public class EditGroupController {
             Dao<Semester, String> semesterDao = db.getSemesterDao();
             Semester semester = semesterDao.queryForEq(Semester.FIELD_SEMESTER_DESCRIPTION, semesterString).get(0);
 
-            //TODO: is this the selected group?
             // passing variables to the group instance
             this.groupToEdit.setName(name);
             this.groupToEdit.setSemester(semester);
             this.groupToEdit.setGroupage(groupage);
 
             // save edited group into database
-            //TODO: will it be updated?
             Dao<Group, Integer> groupDao = db.getGroupDao();
             groupDao.update(this.groupToEdit);
 
+            // check if group has been edited
+            // an existing group has an id other than 0
             if (this.groupToEdit.getId() != 0) {
-                InfoModal.show("Group \"" + name + "\" created!");
+                InfoModal.show("Gruppe \"" + name + "\" wurde geändert!");
 
-                //TODO: close window
-                // how to close a window?
-                try {
-                    Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-                    anchorPane.getScene().setRoot(p);
-                } catch (IOException e) {
-                    //TODO: is kaputt
-                }
+                // close window
+                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
 
             } else {
-                //TODO:
-                InfoModal.show("FEHLER!", null, "Gruppe konnte nicht geändert werden!");
+                ErrorModal.show("Gruppe konnte nicht geändert werden!");
+                return;
             }
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
 
@@ -170,7 +167,7 @@ public class EditGroupController {
 
     public void editGroupDelete(ActionEvent actionEvent) {
 
-        // check if sure
+        // check if sure to delete
         boolean confirmDelete = ConfirmationModal.show("Soll die Gruppe wirklich gelöscht werden?");
 
         if (confirmDelete) {
@@ -180,17 +177,12 @@ public class EditGroupController {
                 Dao<Group, Integer> groupDao = db.getGroupDao();
                 groupDao.delete(groupToEdit);
             } catch (java.sql.SQLException e) {
+                ErrorModal.show(e.getMessage());
                 e.printStackTrace();
             }
 
-            //TODO: close window
-            // how to close a window?
-            try {
-                Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-                anchorPane.getScene().setRoot(p);
-            } catch (IOException e) {
-                //TODO: is kaputt
-            }
+            // close window
+            SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
 
         }
 
@@ -198,21 +190,20 @@ public class EditGroupController {
 
     public void editGroupCancel(ActionEvent actionEvent) {
 
-        //TODO: close window
-        // how to close a window?
-        try {
-            Parent p = FXMLLoader.load(getClass().getResource("/fxml/HomeScreenView.fxml"));
-            anchorPane.getScene().setRoot(p);
-        } catch (IOException e) {
-            //TODO: is kaputt
-        }
+        // close group editing window
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
 
     }
 
     public void setSelectedGroup(Group group) {
 
-        this.groupToEdit= group;
+        // setting up the passed group
+        this.groupToEdit = group;
 
+        // initializing the text input in the textfield according to the passed group object
+        groupnameInput.setText(group.getName());
+
+        // initializing the pre-marked selections in the comboboxes according to the passed group object
         semesterComboBox.getSelectionModel().select(group.getSemester().getDescription());
         groupageComboBox.getSelectionModel().select(group.getGroupage().getDescription());
 
