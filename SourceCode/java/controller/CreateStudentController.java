@@ -39,8 +39,7 @@ public class CreateStudentController {
 
     @FXML
     public ComboBox<Group> groupComboBox;
-    @FXML
-    public ComboBox<Semester> semesterComboBox;
+
 
     @FXML
     private TextField firstnameInput;
@@ -62,12 +61,6 @@ public class CreateStudentController {
 
         // initializing combobox data
         try {
-        // creat an observableList with all semesters
-            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semester = dbManager.getSemesterDao();
-            semesterList.addAll(semester.queryForAll());
-            //set semester combobox with the semester from the observableList
-            semesterComboBox.setItems(semesterList);
 
             // creat an observableList with all groups
             ObservableList<Group> groupList = FXCollections.observableArrayList();
@@ -82,7 +75,6 @@ public class CreateStudentController {
         }
         //clear all fields in the view
         groupComboBox.getSelectionModel().select(0);
-        semesterComboBox.getSelectionModel().select(0);
         firstnameInput.clear();
         lastnameInput.clear();
         matNoInput.clear();
@@ -122,27 +114,17 @@ public class CreateStudentController {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
-        Group gCB;
         if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
             return;
         }
-        gCB = groupComboBox.getSelectionModel().getSelectedItem();
-
-        Semester sCB;
-        if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
-            return;
-        }
-        sCB = semesterComboBox.getSelectionModel().getSelectedItem();
 
         //create person & student with the given attributes
         person.setFirstname(firstnameInput.getText());
         person.setLastname(lastnameInput.getText());
         person.setEmail(emailInput.getText());
         student.setMatrNo(matNoInput.getText());
-        student.setSemester(sCB);
-        student.setGroup(gCB);
+        student.setGroup(groupComboBox.getSelectionModel().getSelectedItem());
         student.setPerson(person);
 
 

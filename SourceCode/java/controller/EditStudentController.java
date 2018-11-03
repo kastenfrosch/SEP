@@ -69,19 +69,11 @@ public class EditStudentController {
     @FXML
     public ComboBox<Group> groupComboBox;
     @FXML
-    public ComboBox<Semester> semesterComboBox;
-    @FXML
     public void initialize() {
 
         // initializing combobox data
 
         try {
-            // creat an observableList with all semesters
-            ObservableList<Semester> semesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> semesterDao = dbManager.getSemesterDao();
-            semesterList.addAll(semesterDao.queryForAll());
-            //set semester combobox with the semester from the observableList
-            semesterComboBox.setItems(semesterList);
 
             // creat an observableList with all groups
             ObservableList<Group> groupList = FXCollections.observableArrayList();
@@ -127,14 +119,9 @@ public class EditStudentController {
             InfoModal.show("FEHLER!", null, "Keine Gruppe ausgewählt!");
             return;
         }
-        // making sure that semester is not empty.
-        if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
-            return;
-        }
+
         //create person & student with the given attributes
         student.setGroup(groupComboBox.getSelectionModel().getSelectedItem());
-        student.setSemester(semesterComboBox.getSelectionModel().getSelectedItem());
         student.setMatrNo(matNoInput.getText());
         student.getPerson().setFirstname(firstnameInput.getText());
         student.getPerson().setLastname(lastnameInput.getText());
@@ -199,7 +186,6 @@ public class EditStudentController {
         emailInput.setText(student.getPerson().getEmail());
         matNoInput.setText(student.getMatrNo());
         groupComboBox.getSelectionModel().select(student.getGroup());
-        semesterComboBox.getSelectionModel().select(student.getSemester());
     }
 
     public void addToGroup(ActionEvent event) {
