@@ -16,7 +16,6 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
-import models.Semester;
 import utils.SceneManager;
 
 import java.sql.SQLException;
@@ -45,8 +44,6 @@ public class CreateGroupController {
     public Label groupnameLbl;
     @FXML
     public TextField groupnameInput;
-    @FXML
-    public Label semesterLbl;
     @FXML
     public Label groupageLbl;
     @FXML
