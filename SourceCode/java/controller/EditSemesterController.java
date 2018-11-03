@@ -94,8 +94,7 @@ public class EditSemesterController {
 				Dao<Semester, String> semesterDao = db.getSemesterDao();
 				semesterDao.delete(this.semesterToEdit);
 			} catch (java.sql.SQLException e) {
-				ErrorModal.show(e.getMessage());
-				e.printStackTrace();
+				ErrorModal.show("Das Semester konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass dem Semester keine Klassen mehr zugeordnet sind.");
 			}
 
 			// close window
