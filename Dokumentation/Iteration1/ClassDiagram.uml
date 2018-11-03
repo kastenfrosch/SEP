@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1225.842943920063" y="813.0">utils.SceneManager.SceneInfo</node>
+    <node x="43.5" y="2817.0">controller.CreateSemesterController</node>
+    <node x="1416.5976302993868" y="1970.0">utils.SceneManager.SceneType</node>
+    <node x="1310.2262772533963" y="1375.5">utils.SceneManager</node>
+    <node x="3702.1710689200627" y="1342.0">models.Student</node>
+    <node x="2614.7167209026284" y="2070.0">modal.ConfirmationModal</node>
+    <node x="3487.683734791517" y="2894.5">controller.CreateStudentController</node>
+    <node x="1139.5976302993868" y="1981.5">utils.HashUtils</node>
+    <node x="3978.1710689200627" y="2927.5">controller.Node</node>
+    <node x="3420.7059636327203" y="746.0">models.Group</node>
+    <node x="4509.217943920063" y="2961.0">utils.DBUtils</node>
+    <node x="1724.3892969660533" y="2070.0">modal.InfoModal</node>
+    <node x="2637.100889663554" y="0.0">models.Semester</node>
+    <node x="3157.3295681248505" y="2795.0">controller.EditStudentController</node>
+    <node x="2987.5092948717947" y="3376.0">controller.HomeScreenController</node>
+    <node x="819.123076923077" y="2817.0">controller.EditGroupageController</node>
+    <node x="2700.5667209026283" y="2894.0">controller.EditSemesterController</node>
+    <node x="2610.6551282051278" y="340.0">models.Groupage</node>
+    <node x="1660.4917987544625" y="835.5">modal.ErrorModal</node>
+    <node x="336.5" y="2894.5">controller.CreateGroupageController</node>
+    <node x="2095.6551282051278" y="2872.5">controller.CreateGroupController</node>
+    <node x="3774.4090886327203" y="724.0">models.Person</node>
+    <node x="3376.1710689200627" y="1342.0">models.User</node>
+    <node x="1140.123076923077" y="2916.5">controller.LoginController</node>
+    <node x="1766.6551282051282" y="2828.0">controller.EditGroupController</node>
+    <node x="2334.7167209026284" y="2002.5">connection.DBManager</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.EditStudentController" target="modal.InfoModal">
+      <point x="-104.625" y="-235.5" />
+      <point x="3192.2045681248505" y="2425.0" />
+      <point x="1921.0559636327202" y="2425.0" />
+      <point x="78.66666666666674" y="47.5" />
+    </edge>
+    <edge source="controller.EditGroupController" target="connection.DBManager">
+      <point x="112.36363636363649" y="-202.5" />
+      <point x="2033.5187645687647" y="2725.0" />
+      <point x="2445.2167209026284" y="2725.0" />
+      <point x="-19.5" y="115.0" />
+    </edge>
+    <edge source="controller.LoginController" target="modal.ErrorModal">
+      <point x="-111.66666666666652" y="-114.0" />
+      <point x="1162.4564102564104" y="2535.0" />
+      <point x="989.3412200429766" y="2535.0" />
+      <point x="989.3412200429766" y="1302.0" />
+      <point x="1743.0917987544624" y="1302.0" />
+      <point x="-35.40000000000009" y="47.5" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="utils.SceneManager.SceneType">
+      <point x="-125.58333333333303" y="-136.0" />
+      <point x="3499.100401458184" y="2355.0" />
+      <point x="1576.197630299387" y="2355.0" />
+      <point x="75.60000000000014" y="147.5" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="utils.SceneManager">
+      <point x="32.44444444444446" y="-136.5" />
+      <point x="2879.011165347073" y="2745.0" />
+      <point x="2927.605609791517" y="2745.0" />
+      <point x="2927.605609791517" y="1720.0" />
+      <point x="1555.7647387918578" y="1720.0" />
+      <point x="93.53846153846143" y="125.5" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="utils.SceneManager.SceneType">
+      <point x="27.363636363636374" y="-213.5" />
+      <point x="996.9867132867134" y="2575.0" />
+      <point x="1458.5976302993868" y="2575.0" />
+      <point x="-42.0" y="147.5" />
+    </edge>
+    <edge source="controller.Node" target="models.Group">
+      <point x="-4.547473508864641E-13" y="-103.0" />
+      <point x="4185.171068920063" y="2775.0" />
+      <point x="4181.729361885776" y="2775.0" />
+      <point x="4181.729361885776" y="1112.0" />
+      <point x="3588.6747136327203" y="1112.0" />
+      <point x="60.46875" y="137.0" />
+    </edge>
+    <edge source="controller.Node" target="models.Student">
+      <point x="-82.80000000000064" y="-103.0" />
+      <point x="4102.3710689200625" y="2775.0" />
+      <point x="4170.729361885776" y="2775.0" />
+      <point x="4170.729361885776" y="1940.0" />
+      <point x="3876.9210689200627" y="1940.0" />
+      <point x="58.25" y="159.0" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="modal.InfoModal">
+      <point x="54.72727272727275" y="-213.5" />
+      <point x="1024.3503496503497" y="2625.0" />
+      <point x="1789.944852521609" y="2625.0" />
+      <point x="-52.44444444444434" y="47.5" />
+    </edge>
+    <edge source="controller.EditGroupController" target="modal.InfoModal">
+      <point x="-56.181818181818244" y="-202.5" />
+      <point x="1864.97331002331" y="2635.0" />
+      <point x="1842.3892969660533" y="2635.0" />
+      <point x="0.0" y="47.5" />
+    </edge>
+    <edge source="models.Group" target="models.Groupage">
+      <point x="53.75" y="-137.0" />
+      <point x="3581.9559636327203" y="694.0" />
+      <point x="2809.0301282051278" y="694.0" />
+      <point x="60.375" y="137.0" />
+    </edge>
+    <edge source="utils.SceneManager.SceneType" target="utils.SceneManager">
+      <point x="0.0" y="-147.5" />
+      <point x="1500.5976302993868" y="1880.0" />
+      <point x="1438.8416618687809" y="1880.0" />
+      <point x="-23.384615384615472" y="125.5" />
+    </edge>
+    <edge source="utils.DBUtils" target="models.User">
+      <point x="-114.23076923076951" y="-69.5" />
+      <point x="4543.487174689293" y="2285.0" />
+      <point x="3658.6710689200627" y="2285.0" />
+      <point x="3658.6710689200627" y="1910.0" />
+      <point x="3551.1710689200627" y="1910.0" />
+      <point x="50.0" y="159.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="controller.EditStudentController">
+      <point x="10.3125" y="-213.0" />
+      <point x="3162.8217948717947" y="3286.0" />
+      <point x="3296.8295681248505" y="3286.0" />
+      <point x="0.0" y="235.5" />
+    </edge>
+    <edge source="connection.DBManager" target="models.Semester">
+      <point x="-54.16666666666697" y="-115.0" />
+      <point x="2410.5500542359614" y="1840.0" />
+      <point x="2897.1551282051278" y="1840.0" />
+      <point x="2897.1551282051278" y="310.0" />
+      <point x="2797.413389663554" y="310.0" />
+      <point x="25.3125" y="115.0" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="models.Group">
+      <point x="77.25" y="-158.0" />
+      <point x="2327.4051282051278" y="2635.0" />
+      <point x="2324.2167209026284" y="2635.0" />
+      <point x="2324.2167209026284" y="1830.0" />
+      <point x="2832.7176282051278" y="1830.0" />
+      <point x="2832.7176282051278" y="1222.0" />
+      <point x="3467.7372136327203" y="1222.0" />
+      <point x="-60.46875" y="137.0" />
+    </edge>
+    <edge source="utils.SceneManager" target="modal.ErrorModal">
+      <point x="121.59999999999991" y="-125.5" />
+      <point x="1583.8262772533963" y="1312.0" />
+      <point x="1766.6917987544625" y="1312.0" />
+      <point x="-11.799999999999955" y="47.5" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="models.Groupage">
+      <point x="-15.450000000000045" y="-158.0" />
+      <point x="2234.705128205128" y="2515.0" />
+      <point x="2196.1542209026284" y="2515.0" />
+      <point x="2196.1542209026284" y="1760.0" />
+      <point x="2507.6542209026284" y="1760.0" />
+      <point x="2507.6542209026284" y="694.0" />
+      <point x="2722.7801282051278" y="694.0" />
+      <point x="-25.875" y="137.0" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="models.Semester">
+      <point x="129.77777777777777" y="-136.5" />
+      <point x="2976.344498680406" y="2775.0" />
+      <point x="3204.9679439200627" y="2775.0" />
+      <point x="3204.9679439200627" y="1880.0" />
+      <point x="3299.0304439200627" y="1880.0" />
+      <point x="3299.0304439200627" y="290.0" />
+      <point x="2831.163389663554" y="290.0" />
+      <point x="59.0625" y="115.0" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="modal.ErrorModal">
+      <point x="-46.34999999999991" y="-158.0" />
+      <point x="2203.8051282051283" y="2525.0" />
+      <point x="2104.380128205128" y="2525.0" />
+      <point x="2104.380128205128" y="1730.0" />
+      <point x="2069.2917987544624" y="1730.0" />
+      <point x="2069.2917987544624" y="1322.0" />
+      <point x="1813.8917987544626" y="1322.0" />
+      <point x="35.40000000000009" y="47.5" />
+    </edge>
+    <edge source="controller.EditStudentController" target="connection.DBManager">
+      <point x="-81.375" y="-235.5" />
+      <point x="3215.4545681248505" y="2415.0" />
+      <point x="2523.2167209026284" y="2415.0" />
+      <point x="58.5" y="115.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="controller.EditGroupageController">
+      <point x="-134.0625" y="-213.0" />
+      <point x="3018.4467948717947" y="3346.0" />
+      <point x="969.623076923077" y="3346.0" />
+      <point x="0.0" y="213.5" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="utils.SceneManager">
+      <point x="-154.6875" y="-213.0" />
+      <point x="2997.8217948717947" y="3356.0" />
+      <point x="33.0" y="3356.0" />
+      <point x="33.0" y="1910.0" />
+      <point x="1321.918584945704" y="1910.0" />
+      <point x="-140.30769230769238" y="125.5" />
+    </edge>
+    <edge source="controller.LoginController" target="connection.DBManager">
+      <point x="111.66666666666652" y="-114.0" />
+      <point x="1385.7897435897435" y="2705.0" />
+      <point x="2419.2167209026284" y="2705.0" />
+      <point x="-45.5" y="115.0" />
+    </edge>
+    <edge source="controller.EditGroupController" target="modal.ErrorModal">
+      <point x="-84.27272727272725" y="-202.5" />
+      <point x="1836.882400932401" y="2565.0" />
+      <point x="1713.8892969660533" y="2565.0" />
+      <point x="1713.8892969660533" y="1322.0" />
+      <point x="1790.2917987544624" y="1322.0" />
+      <point x="11.799999999999955" y="47.5" />
+    </edge>
+    <edge source="controller.EditGroupController" target="models.Groupage">
+      <point x="0.0" y="-202.5" />
+      <point x="1921.1551282051282" y="2615.0" />
+      <point x="1981.8892969660533" y="2615.0" />
+      <point x="1981.8892969660533" y="1760.0" />
+      <point x="2091.2917987544624" y="1760.0" />
+      <point x="2091.2917987544624" y="684.0" />
+      <point x="2705.5301282051278" y="684.0" />
+      <point x="-43.125" y="137.0" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="modal.ErrorModal">
+      <point x="-18.09999999999991" y="-136.0" />
+      <point x="499.4000000000001" y="2545.0" />
+      <point x="501.0" y="2545.0" />
+      <point x="501.0" y="1282.0" />
+      <point x="1695.8917987544626" y="1282.0" />
+      <point x="-82.59999999999991" y="47.5" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="utils.SceneManager.SceneType">
+      <point x="-129.77777777777783" y="-136.5" />
+      <point x="2716.7889431248504" y="2485.0" />
+      <point x="1542.5976302993868" y="2485.0" />
+      <point x="42.0" y="147.5" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="models.Groupage">
+      <point x="-54.30000000000018" y="-136.0" />
+      <point x="463.1999999999998" y="2505.0" />
+      <point x="405.31089263801186" y="2505.0" />
+      <point x="405.31089263801186" y="644.0" />
+      <point x="2636.5301282051278" y="644.0" />
+      <point x="-112.125" y="137.0" />
+    </edge>
+    <edge source="utils.SceneManager" target="utils.SceneManager.SceneInfo">
+      <point x="-60.799999999999955" y="-125.5" />
+      <point x="25.083333333333258" y="70.0" />
+    </edge>
+    <edge source="controller.LoginController" target="utils.HashUtils">
+      <point x="-22.333333333333485" y="-114.0" />
+      <point x="1251.7897435897435" y="2545.0" />
+      <point x="1268.0976302993868" y="2545.0" />
+      <point x="0.0" y="136.0" />
+    </edge>
+    <edge source="controller.Node" target="models.Semester">
+      <point x="165.5999999999999" y="-103.0" />
+      <point x="4350.771068920063" y="2755.0" />
+      <point x="4561.717943920063" y="2755.0" />
+      <point x="4561.717943920063" y="280.0" />
+      <point x="2848.038389663554" y="280.0" />
+      <point x="75.9375" y="115.0" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="connection.DBManager">
+      <point x="109.4545454545455" y="-213.5" />
+      <point x="1079.0776223776224" y="2695.0" />
+      <point x="2406.2167209026284" y="2695.0" />
+      <point x="-58.5" y="115.0" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="connection.DBManager">
+      <point x="-57.08333333333303" y="-136.0" />
+      <point x="3567.600401458184" y="2325.0" />
+      <point x="2562.2167209026284" y="2325.0" />
+      <point x="97.5" y="115.0" />
+    </edge>
+    <edge source="controller.EditGroupController" target="utils.SceneManager.SceneType">
+      <point x="-140.4545454545455" y="-202.5" />
+      <point x="1780.7005827505827" y="2585.0" />
+      <point x="1508.9976302993869" y="2585.0" />
+      <point x="8.400000000000091" y="147.5" />
+    </edge>
+    <edge source="controller.CreateSemesterController" target="connection.DBManager">
+      <point x="85.3125" y="-213.5" />
+      <point x="265.3125" y="2645.0" />
+      <point x="2341.2167209026284" y="2645.0" />
+      <point x="-123.5" y="115.0" />
+    </edge>
+    <edge source="utils.DBUtils" target="models.Person">
+      <point x="22.846153846154266" y="-69.5" />
+      <point x="4680.564097766217" y="2775.0" />
+      <point x="4686.025636227755" y="2775.0" />
+      <point x="4686.025636227755" y="1072.0" />
+      <point x="3965.2727249963564" y="1072.0" />
+      <point x="80.36363636363649" y="159.0" />
+    </edge>
+    <edge source="controller.CreateSemesterController" target="modal.ErrorModal">
+      <point x="-51.1875" y="-213.5" />
+      <point x="128.8125" y="2755.0" />
+      <point x="22.0" y="2755.0" />
+      <point x="22.0" y="1272.0" />
+      <point x="1672.2917987544624" y="1272.0" />
+      <point x="-106.20000000000005" y="47.5" />
+    </edge>
+    <edge source="connection.DBManager" target="models.Group">
+      <point x="-32.5" y="-115.0" />
+      <point x="2432.2167209026284" y="1850.0" />
+      <point x="2908.1551282051278" y="1850.0" />
+      <point x="2908.1551282051278" y="1232.0" />
+      <point x="3481.1747136327203" y="1232.0" />
+      <point x="-47.03125" y="137.0" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="connection.DBManager">
+      <point x="108.15000000000009" y="-158.0" />
+      <point x="2358.3051282051283" y="2735.0" />
+      <point x="2458.2167209026284" y="2735.0" />
+      <point x="-6.5" y="115.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="models.Semester">
+      <point x="154.6875" y="-213.0" />
+      <point x="3307.1967948717947" y="3356.0" />
+      <point x="4827.717943920063" y="3356.0" />
+      <point x="4827.717943920063" y="250.0" />
+      <point x="2898.663389663554" y="250.0" />
+      <point x="126.5625" y="115.0" />
+    </edge>
+    <edge source="models.Groupage" target="models.Semester">
+      <point x="-69.0" y="-137.0" />
+      <point x="2679.6551282051278" y="320.0" />
+      <point x="2763.663389663554" y="320.0" />
+      <point x="-8.4375" y="115.0" />
+    </edge>
+    <edge source="controller.EditStudentController" target="modal.ErrorModal">
+      <point x="11.625" y="-235.5" />
+      <point x="3308.4545681248505" y="2375.0" />
+      <point x="3277.0304439200627" y="2375.0" />
+      <point x="3277.0304439200627" y="1680.0" />
+      <point x="3158.605609791517" y="1680.0" />
+      <point x="3158.605609791517" y="1172.0" />
+      <point x="1861.0917987544624" y="1172.0" />
+      <point x="82.59999999999991" y="47.5" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="controller.Node">
+      <point x="72.1875" y="-213.0" />
+      <point x="3224.6967948717947" y="3316.0" />
+      <point x="4185.171068920063" y="3316.0" />
+      <point x="0.0" y="103.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="modal.ConfirmationModal">
+      <point x="-30.9375" y="-213.0" />
+      <point x="3121.5717948717947" y="3296.0" />
+      <point x="2690.0667209026283" y="3296.0" />
+      <point x="2690.0667209026283" y="2775.0" />
+      <point x="2742.7167209026284" y="2775.0" />
+      <point x="0.0" y="47.5" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="models.Group">
+      <point x="113.4375" y="-213.0" />
+      <point x="3265.9467948717947" y="3336.0" />
+      <point x="4402.671068920063" y="3336.0" />
+      <point x="4402.671068920063" y="1102.0" />
+      <point x="3602.1122136327203" y="1102.0" />
+      <point x="73.90625" y="137.0" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="models.Groupage">
+      <point x="-54.72727272727275" y="-213.5" />
+      <point x="914.8958041958042" y="2505.0" />
+      <point x="766.3018017289205" y="2505.0" />
+      <point x="766.3018017289205" y="664.0" />
+      <point x="2671.0301282051278" y="664.0" />
+      <point x="-77.625" y="137.0" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="connection.DBManager">
+      <point x="162.9000000000001" y="-136.0" />
+      <point x="680.4000000000001" y="2675.0" />
+      <point x="2380.2167209026284" y="2675.0" />
+      <point x="-84.5" y="115.0" />
+    </edge>
+    <edge source="models.User" target="models.Person">
+      <point x="62.5" y="-159.0" />
+      <point x="3563.6710689200627" y="1302.0" />
+      <point x="3844.7272704509023" y="1302.0" />
+      <point x="-40.18181818181802" y="159.0" />
+    </edge>
+    <edge source="connection.DBManager" target="models.Person">
+      <point x="10.833333333333485" y="-115.0" />
+      <point x="2475.550054235962" y="1870.0" />
+      <point x="2930.1551282051278" y="1870.0" />
+      <point x="2930.1551282051278" y="1272.0" />
+      <point x="3784.4545431781744" y="1272.0" />
+      <point x="-100.4545454545455" y="159.0" />
+    </edge>
+    <edge source="controller.EditGroupController" target="utils.SceneManager">
+      <point x="-112.36363636363649" y="-202.5" />
+      <point x="1808.7914918414917" y="2575.0" />
+      <point x="1606.0976302993868" y="2575.0" />
+      <point x="1606.0976302993868" y="1850.0" />
+      <point x="1508.995508022627" y="1850.0" />
+      <point x="46.76923076923072" y="125.5" />
+    </edge>
+    <edge source="controller.CreateSemesterController" target="models.Semester">
+      <point x="-85.3125" y="-213.5" />
+      <point x="94.6875" y="2765.0" />
+      <point x="11.0" y="2765.0" />
+      <point x="11.0" y="260.0" />
+      <point x="2662.413389663554" y="260.0" />
+      <point x="-109.6875" y="115.0" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="connection.DBManager">
+      <point x="-32.44444444444446" y="-136.5" />
+      <point x="2814.122276458184" y="2455.0" />
+      <point x="2510.2167209026284" y="2455.0" />
+      <point x="45.5" y="115.0" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="models.Semester">
+      <point x="-126.69999999999982" y="-136.0" />
+      <point x="390.8000000000002" y="2525.0" />
+      <point x="213.47964263801168" y="2525.0" />
+      <point x="213.47964263801168" y="280.0" />
+      <point x="2696.163389663554" y="280.0" />
+      <point x="-75.9375" y="115.0" />
+    </edge>
+    <edge source="controller.EditStudentController" target="models.Group">
+      <point x="58.125" y="-235.5" />
+      <point x="3354.9545681248505" y="2775.0" />
+      <point x="3365.6710689200627" y="2775.0" />
+      <point x="3365.6710689200627" y="1262.0" />
+      <point x="3521.4872136327203" y="1262.0" />
+      <point x="-6.71875" y="137.0" />
+    </edge>
+    <edge source="controller.EditGroupController" target="models.Group">
+      <point x="56.181818181818244" y="-202.5" />
+      <point x="1977.3369463869465" y="2635.0" />
+      <point x="2082.380128205128" y="2635.0" />
+      <point x="2082.380128205128" y="1780.0" />
+      <point x="2578.1551282051278" y="1780.0" />
+      <point x="2578.1551282051278" y="1202.0" />
+      <point x="3440.8622136327203" y="1202.0" />
+      <point x="-87.34375" y="137.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="utils.SceneManager.SceneType">
+      <point x="-113.4375" y="-213.0" />
+      <point x="3039.0717948717947" y="3336.0" />
+      <point x="1492.1976302993867" y="3336.0" />
+      <point x="-8.400000000000091" y="147.5" />
+    </edge>
+    <edge source="controller.EditGroupController" target="modal.ConfirmationModal">
+      <point x="140.4545454545455" y="-202.5" />
+      <point x="2061.6096736596737" y="2765.0" />
+      <point x="2691.5167209026285" y="2765.0" />
+      <point x="-51.200000000000045" y="47.5" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="modal.InfoModal">
+      <point x="-92.8125" y="-213.0" />
+      <point x="3059.6967948717947" y="3326.0" />
+      <point x="1755.432905982906" y="3326.0" />
+      <point x="1755.432905982906" y="2635.0" />
+      <point x="1816.167074743831" y="2635.0" />
+      <point x="-26.22222222222217" y="47.5" />
+    </edge>
+    <edge source="controller.EditStudentController" target="utils.SceneManager">
+      <point x="-11.625" y="-235.5" />
+      <point x="3285.2045681248505" y="2385.0" />
+      <point x="3010.5522785524427" y="2385.0" />
+      <point x="3010.5522785524427" y="1710.0" />
+      <point x="1579.1493541764733" y="1710.0" />
+      <point x="116.9230769230769" y="125.5" />
+    </edge>
+    <edge source="utils.SceneManager.SceneInfo" target="utils.SceneManager.SceneType">
+      <point x="-125.41666666666674" y="70.0" />
+      <point x="1250.9262772533962" y="1262.0" />
+      <point x="1288.7262772533963" y="1262.0" />
+      <point x="1288.7262772533963" y="1900.0" />
+      <point x="1433.3976302993867" y="1900.0" />
+      <point x="-67.20000000000005" y="-147.5" />
+    </edge>
+    <edge source="controller.LoginController" target="utils.SceneManager.SceneType">
+      <point x="22.333333333333485" y="-114.0" />
+      <point x="1296.4564102564104" y="2585.0" />
+      <point x="1475.3976302993867" y="2585.0" />
+      <point x="-25.200000000000045" y="147.5" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="modal.ErrorModal">
+      <point x="-11.416666666666515" y="-136.0" />
+      <point x="3613.267068124851" y="2705.0" />
+      <point x="3669.6710689200627" y="2705.0" />
+      <point x="3669.6710689200627" y="1162.0" />
+      <point x="1884.6917987544625" y="1162.0" />
+      <point x="106.20000000000005" y="47.5" />
+    </edge>
+    <edge source="utils.SceneManager.SceneInfo" target="utils.SceneManager">
+      <point x="125.41666666666652" y="70.0" />
+      <point x="1501.7596105867294" y="1262.0" />
+      <point x="1523.0262772533963" y="1262.0" />
+      <point x="60.799999999999955" y="-125.5" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="modal.InfoModal">
+      <point x="-97.33333333333337" y="-136.5" />
+      <point x="2749.233387569295" y="2475.0" />
+      <point x="1894.8337414104976" y="2475.0" />
+      <point x="52.44444444444434" y="47.5" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="models.Group">
+      <point x="34.25" y="-136.0" />
+      <point x="3658.933734791517" y="2725.0" />
+      <point x="3691.6710689200627" y="2725.0" />
+      <point x="3691.6710689200627" y="1142.0" />
+      <point x="3548.3622136327203" y="1142.0" />
+      <point x="20.15625" y="137.0" />
+    </edge>
+    <edge source="utils.DBUtils" target="models.Group">
+      <point x="-22.846153846154266" y="-69.5" />
+      <point x="4634.871790073908" y="2775.0" />
+      <point x="4623.025636227755" y="2775.0" />
+      <point x="4623.025636227755" y="1092.0" />
+      <point x="3615.5497136327203" y="1092.0" />
+      <point x="87.34375" y="137.0" />
+    </edge>
+    <edge source="controller.LoginController" target="models.User">
+      <point x="67.0" y="-114.0" />
+      <point x="1341.123076923077" y="2595.0" />
+      <point x="1595.0976302993868" y="2595.0" />
+      <point x="1595.0976302993868" y="1890.0" />
+      <point x="3401.1710689200627" y="1890.0" />
+      <point x="-100.0" y="159.0" />
+    </edge>
+    <edge source="utils.DBUtils" target="models.Student">
+      <point x="-45.69230769230762" y="-69.5" />
+      <point x="4612.025636227755" y="1880.0" />
+      <point x="3923.521068920063" y="1880.0" />
+      <point x="104.84999999999991" y="159.0" />
+    </edge>
+    <edge source="connection.DBManager" target="models.Groupage">
+      <point x="-75.83333333333348" y="-115.0" />
+      <point x="2388.883387569295" y="1820.0" />
+      <point x="2771.4051282051278" y="1820.0" />
+      <point x="2771.4051282051278" y="704.0" />
+      <point x="2774.5301282051278" y="704.0" />
+      <point x="25.875" y="137.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="controller.EditSemesterController">
+      <point x="-10.3125" y="-213.0" />
+      <point x="3142.1967948717947" y="3286.0" />
+      <point x="2846.5667209026283" y="3286.0" />
+      <point x="0.0" y="136.5" />
+    </edge>
+    <edge source="controller.EditStudentController" target="models.Student">
+      <point x="127.875" y="-235.5" />
+      <point x="3424.7045681248505" y="2735.0" />
+      <point x="3755.496068920063" y="2735.0" />
+      <point x="3755.496068920063" y="1950.0" />
+      <point x="3783.721068920063" y="1950.0" />
+      <point x="-34.94999999999982" y="159.0" />
+    </edge>
+    <edge source="controller.EditStudentController" target="modal.ConfirmationModal">
+      <point x="-34.875" y="-235.5" />
+      <point x="3261.9545681248505" y="2395.0" />
+      <point x="2845.1167209026285" y="2395.0" />
+      <point x="102.39999999999998" y="47.5" />
+    </edge>
+    <edge source="controller.Node" target="connection.DBManager">
+      <point x="-165.60000000000036" y="-103.0" />
+      <point x="4019.5710689200623" y="2305.0" />
+      <point x="2575.2167209026284" y="2305.0" />
+      <point x="110.5" y="115.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="connection.DBManager">
+      <point x="-51.5625" y="-213.0" />
+      <point x="3100.9467948717947" y="3306.0" />
+      <point x="2537.8217948717947" y="3306.0" />
+      <point x="2537.8217948717947" y="2745.0" />
+      <point x="2484.2167209026284" y="2745.0" />
+      <point x="19.5" y="115.0" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="models.Student">
+      <point x="57.083333333333485" y="-136.0" />
+      <point x="3681.767068124851" y="2745.0" />
+      <point x="3813.1710689200627" y="2745.0" />
+      <point x="3813.1710689200627" y="1950.0" />
+      <point x="3807.021068920063" y="1950.0" />
+      <point x="-11.650000000000091" y="159.0" />
+    </edge>
+    <edge source="controller.LoginController" target="utils.SceneManager">
+      <point x="-67.0" y="-114.0" />
+      <point x="1207.123076923077" y="2525.0" />
+      <point x="1063.0142969660535" y="2525.0" />
+      <point x="1063.0142969660535" y="1950.0" />
+      <point x="1415.4570464841656" y="1950.0" />
+      <point x="-46.76923076923072" y="125.5" />
+    </edge>
+    <edge source="utils.DBUtils" target="models.Groupage">
+      <point x="91.38461538461502" y="-69.5" />
+      <point x="4749.102559304678" y="2755.0" />
+      <point x="4719.025636227755" y="2755.0" />
+      <point x="4719.025636227755" y="664.0" />
+      <point x="2860.7801282051278" y="664.0" />
+      <point x="112.125" y="137.0" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="utils.SceneManager">
+      <point x="0.0" y="-213.5" />
+      <point x="969.623076923077" y="2545.0" />
+      <point x="1052.0142969660535" y="2545.0" />
+      <point x="1052.0142969660535" y="1940.0" />
+      <point x="1392.0724310995502" y="1940.0" />
+      <point x="-70.15384615384619" y="125.5" />
+    </edge>
+    <edge source="utils.DBUtils" target="connection.DBManager">
+      <point x="-137.07692307692287" y="-69.5" />
+      <point x="4520.64102084314" y="2295.0" />
+      <point x="2588.2167209026284" y="2295.0" />
+      <point x="123.5" y="115.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="controller.EditGroupController">
+      <point x="-72.1875" y="-213.0" />
+      <point x="3080.3217948717947" y="3316.0" />
+      <point x="1921.1551282051282" y="3316.0" />
+      <point x="0.0" y="202.5" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="modal.InfoModal">
+      <point x="90.5" y="-136.0" />
+      <point x="608.0" y="2615.0" />
+      <point x="1763.7226302993868" y="2615.0" />
+      <point x="-78.66666666666674" y="47.5" />
+    </edge>
+    <edge source="controller.Node" target="models.Groupage">
+      <point x="82.79999999999973" y="-103.0" />
+      <point x="4267.971068920063" y="2775.0" />
+      <point x="4258.021068920063" y="2775.0" />
+      <point x="4258.021068920063" y="1950.0" />
+      <point x="4550.717943920063" y="1950.0" />
+      <point x="4550.717943920063" y="684.0" />
+      <point x="2826.2801282051278" y="684.0" />
+      <point x="77.625" y="137.0" />
+    </edge>
+    <edge source="controller.EditStudentController" target="models.Person">
+      <point x="81.375" y="-235.5" />
+      <point x="3378.2045681248505" y="2685.0" />
+      <point x="3636.6710689200627" y="2685.0" />
+      <point x="3636.6710689200627" y="1312.0" />
+      <point x="3864.8181795418113" y="1312.0" />
+      <point x="-20.09090909090901" y="159.0" />
+    </edge>
+    <edge source="utils.SceneManager" target="utils.SceneManager.SceneType">
+      <point x="23.384615384615245" y="125.5" />
+      <point x="1485.6108926380116" y="1860.0" />
+      <point x="1567.7976302993868" y="1860.0" />
+      <point x="67.20000000000005" y="-147.5" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="models.Person">
+      <point x="102.75" y="-136.0" />
+      <point x="3727.433734791517" y="2765.0" />
+      <point x="3945.6710689200627" y="2765.0" />
+      <point x="3945.6710689200627" y="1322.0" />
+      <point x="3925.0909068145384" y="1322.0" />
+      <point x="40.18181818181802" y="159.0" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="utils.SceneManager">
+      <point x="-77.25" y="-158.0" />
+      <point x="2172.9051282051278" y="2535.0" />
+      <point x="2093.380128205128" y="2535.0" />
+      <point x="2093.380128205128" y="1740.0" />
+      <point x="1532.3801234072425" y="1740.0" />
+      <point x="70.15384615384619" y="125.5" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="models.Semester">
+      <point x="-109.4545454545455" y="-213.5" />
+      <point x="860.1685314685315" y="2525.0" />
+      <point x="612.7654624672189" y="2525.0" />
+      <point x="612.7654624672189" y="300.0" />
+      <point x="2729.913389663554" y="300.0" />
+      <point x="-42.1875" y="115.0" />
+    </edge>
+    <edge source="models.Student" target="models.Person">
+      <point x="87.375" y="-159.0" />
+      <point x="3906.0460689200627" y="1322.0" />
+      <point x="3904.9999977236293" y="1322.0" />
+      <point x="20.09090909090901" y="159.0" />
+    </edge>
+    <edge source="connection.DBManager" target="models.Student">
+      <point x="119.16666666666652" y="-115.0" />
+      <point x="2583.883387569295" y="1930.0" />
+      <point x="3737.1210689200625" y="1930.0" />
+      <point x="-81.55000000000018" y="159.0" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="models.Student">
+      <point x="30.9375" y="-213.0" />
+      <point x="3183.4467948717947" y="3296.0" />
+      <point x="3967.6710689200627" y="3296.0" />
+      <point x="3967.6710689200627" y="1950.0" />
+      <point x="3853.6210689200634" y="1950.0" />
+      <point x="34.95000000000027" y="159.0" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="modal.ConfirmationModal">
+      <point x="136.81818181818176" y="-213.5" />
+      <point x="1106.4412587412587" y="2755.0" />
+      <point x="2640.3167209026283" y="2755.0" />
+      <point x="-102.39999999999998" y="47.5" />
+    </edge>
+    <edge source="controller.CreateSemesterController" target="utils.SceneManager">
+      <point x="-17.0625" y="-213.5" />
+      <point x="162.9375" y="2545.0" />
+      <point x="255.74330337631" y="2545.0" />
+      <point x="255.74330337631" y="1920.0" />
+      <point x="1345.3032003303194" y="1920.0" />
+      <point x="-116.9230769230769" y="125.5" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="utils.SceneManager">
+      <point x="-34.25" y="-136.0" />
+      <point x="3590.433734791517" y="2315.0" />
+      <point x="3193.9679439200627" y="2315.0" />
+      <point x="3193.9679439200627" y="1690.0" />
+      <point x="1602.5339695610887" y="1690.0" />
+      <point x="140.30769230769238" y="125.5" />
+    </edge>
+    <edge source="utils.DBUtils" target="models.Semester">
+      <point x="114.23076923076928" y="-69.5" />
+      <point x="4771.948713150832" y="2745.0" />
+      <point x="4730.025636227755" y="2745.0" />
+      <point x="4730.025636227755" y="270.0" />
+      <point x="2864.913389663554" y="270.0" />
+      <point x="92.8125" y="115.0" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="utils.SceneManager.SceneType">
+      <point x="54.299999999999955" y="-136.0" />
+      <point x="571.8000000000002" y="2565.0" />
+      <point x="1441.7976302993868" y="2565.0" />
+      <point x="-58.799999999999955" y="147.5" />
+    </edge>
+    <edge source="controller.EditStudentController" target="utils.SceneManager.SceneType">
+      <point x="-127.875" y="-235.5" />
+      <point x="3168.9545681248505" y="2435.0" />
+      <point x="1559.3976302993867" y="2435.0" />
+      <point x="58.799999999999955" y="147.5" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="modal.ErrorModal">
+      <point x="64.88888888888891" y="-136.5" />
+      <point x="2911.4556097915174" y="2755.0" />
+      <point x="3021.5522785524427" y="2755.0" />
+      <point x="3021.5522785524427" y="1700.0" />
+      <point x="2496.6542209026284" y="1700.0" />
+      <point x="2496.6542209026284" y="1182.0" />
+      <point x="1837.4917987544625" y="1182.0" />
+      <point x="59.0" y="47.5" />
+    </edge>
+    <edge source="controller.EditGroupageController" target="modal.ErrorModal">
+      <point x="-27.363636363636488" y="-213.5" />
+      <point x="942.2594405594405" y="2495.0" />
+      <point x="895.95" y="2495.0" />
+      <point x="895.95" y="1292.0" />
+      <point x="1719.4917987544625" y="1292.0" />
+      <point x="-59.0" y="47.5" />
+    </edge>
+    <edge source="connection.DBManager" target="models.User">
+      <point x="54.166666666666515" y="-115.0" />
+      <point x="2518.883387569295" y="1900.0" />
+      <point x="3451.1710689200627" y="1900.0" />
+      <point x="-50.0" y="159.0" />
+    </edge>
+    <edge source="controller.EditSemesterController" target="modal.ConfirmationModal">
+      <point x="0.0" y="-136.5" />
+      <point x="2846.5667209026283" y="2445.0" />
+      <point x="2793.916720902628" y="2445.0" />
+      <point x="51.200000000000045" y="47.5" />
+    </edge>
+    <edge source="controller.CreateSemesterController" target="utils.SceneManager.SceneType">
+      <point x="17.0625" y="-213.5" />
+      <point x="197.0625" y="2555.0" />
+      <point x="1424.9976302993869" y="2555.0" />
+      <point x="-75.59999999999991" y="147.5" />
+    </edge>
+    <edge source="controller.CreateGroupageController" target="utils.SceneManager">
+      <point x="18.09999999999991" y="-136.0" />
+      <point x="535.5999999999999" y="2545.0" />
+      <point x="623.7654624672189" y="2545.0" />
+      <point x="623.7654624672189" y="1930.0" />
+      <point x="1368.687815714935" y="1930.0" />
+      <point x="-93.53846153846143" y="125.5" />
+    </edge>
+    <edge source="controller.HomeScreenController" target="models.Groupage">
+      <point x="134.0625" y="-213.0" />
+      <point x="3286.5717948717947" y="3346.0" />
+      <point x="4816.717943920063" y="3346.0" />
+      <point x="4816.717943920063" y="654.0" />
+      <point x="2878.0301282051278" y="654.0" />
+      <point x="129.375" y="137.0" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="utils.SceneManager.SceneType">
+      <point x="-139.04999999999995" y="-158.0" />
+      <point x="2111.105128205128" y="2555.0" />
+      <point x="1525.7976302993868" y="2555.0" />
+      <point x="25.200000000000045" y="147.5" />
+    </edge>
+    <edge source="models.Student" target="models.Group">
+      <point x="-87.375" y="-159.0" />
+      <point x="3731.2960689200627" y="1132.0" />
+      <point x="3561.7997136327203" y="1132.0" />
+      <point x="33.59375" y="137.0" />
+    </edge>
+    <edge source="controller.CreateGroupController" target="modal.InfoModal">
+      <point x="-108.14999999999986" y="-158.0" />
+      <point x="2142.005128205128" y="2545.0" />
+      <point x="1868.6115191882755" y="2545.0" />
+      <point x="26.22222222222217" y="47.5" />
+    </edge>
+    <edge source="controller.CreateSemesterController" target="modal.InfoModal">
+      <point x="51.1875" y="-213.5" />
+      <point x="231.1875" y="2605.0" />
+      <point x="1737.5004080771646" y="2605.0" />
+      <point x="-104.88888888888891" y="47.5" />
+    </edge>
+    <edge source="controller.CreateStudentController" target="modal.InfoModal">
+      <point x="-102.75" y="-136.0" />
+      <point x="3521.933734791517" y="2345.0" />
+      <point x="1947.2781858549424" y="2345.0" />
+      <point x="104.88888888888891" y="47.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.2" x="75.0" y="1430.0000000000005" />
+  <SelectedNodes>
+    <node>connection.DBManager</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
