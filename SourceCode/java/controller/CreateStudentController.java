@@ -39,8 +39,6 @@ public class CreateStudentController {
 
     @FXML
     public ComboBox<Group> groupComboBox;
-
-
     @FXML
     private TextField firstnameInput;
     @FXML
