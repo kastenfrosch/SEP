@@ -17,7 +17,6 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
-import models.Semester;
 import utils.SceneManager;
 
 import java.sql.SQLException;
@@ -46,8 +45,6 @@ public class EditGroupController {
     public Label groupNameLbl;
     @FXML
     public Button editBtn;
-    @FXML
-    public Label semesterLbl;
     @FXML
     public Label groupageLbl;
     @FXML
