@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import modal.ErrorModal;
 import modal.InfoModal;
 import models.*;
 import utils.SceneManager;
@@ -60,28 +61,26 @@ public class CreateStudentController {
     public void initialize() {
 
         // initializing combobox data
-
         try {
-
+        // creat an observableList with all semesters
             ObservableList<Semester> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semester = dbManager.getSemesterDao();
-
             semesterList.addAll(semester.queryForAll());
-
+            //set semester combobox with the semester from the observableList
             semesterComboBox.setItems(semesterList);
 
-
+            // creat an observableList with all groups
             ObservableList<Group> groupList = FXCollections.observableArrayList();
             Dao<Group, Integer> group = dbManager.getGroupDao();
-
             groupList.addAll(group.queryForAll());
-
+            //set semester combobox with the semester from the observableList
             groupComboBox.setItems(groupList);
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-
+        //clear all fields in the view
         groupComboBox.getSelectionModel().select(0);
         semesterComboBox.getSelectionModel().select(0);
         firstnameInput.clear();
@@ -98,7 +97,6 @@ public class CreateStudentController {
         Person person = new Person();
         Student student = new Student();
 
-        // use all selections and text inputs to create a student.
 
         // making sure that matNo is not empty.
 
@@ -138,15 +136,13 @@ public class CreateStudentController {
         }
         sCB = semesterComboBox.getSelectionModel().getSelectedItem();
 
-        //create person & student
+        //create person & student with the given attributes
         person.setFirstname(firstnameInput.getText());
         person.setLastname(lastnameInput.getText());
         person.setEmail(emailInput.getText());
         student.setMatrNo(matNoInput.getText());
-
         student.setSemester(sCB);
         student.setGroup(gCB);
-
         student.setPerson(person);
 
 
@@ -156,11 +152,15 @@ public class CreateStudentController {
             Dao<Student, Integer> sDao = dbManager.getStudentDao();
             pDao.create(person);
             sDao.create(student);
-
+            //notification that the student is now created
+            if (student.getId() != 0) {
+                InfoModal.show("Der Student \"" + firstnameInput.getText() +" "+ lastnameInput.getText()+ "\" wurde erstellt!");}
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
+        //back to homeview
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
 
     }
@@ -176,6 +176,7 @@ public class CreateStudentController {
     }
 
     @FXML
+    //back to homeview
     void onCancelBtnClicked(ActionEvent event) {
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_STUDENT);
     }
