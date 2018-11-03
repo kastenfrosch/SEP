@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import modal.ConfirmationModal;
+import modal.ErrorModal;
 import modal.InfoModal;
 
 import models.Groupage;
@@ -69,16 +70,17 @@ public class EditGroupageController {
         // initializing combobox data
 
         try {
+            // creat an observableList with all semesters
 
             ObservableList<Semester> semesterList = FXCollections.observableArrayList();
             Dao<Semester, String> semesterDao = dbManager.getSemesterDao();
-
             semesterList.addAll(semesterDao.queryForAll());
-
+            //set semester combobox with the semester from the observableList
             semesterComboBox.setItems(semesterList);
 
 
         } catch (java.sql.SQLException e) {
+            ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
 
@@ -87,6 +89,7 @@ public class EditGroupageController {
 
     @FXML
     public void onCancelBTNClicked(ActionEvent event) {
+        //back to homeview
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
 
 
@@ -94,41 +97,50 @@ public class EditGroupageController {
 
     @FXML
     public void onSaveBtnClicked(ActionEvent event) {
+        //making sure nameTextfield is not empty
         if (nameTextfield.getText().isEmpty() || nameTextfield == null) {
             InfoModal.show("FEHLER!", null, "Keine Bezeichnung eingegeben!");
             return;
         }
+
+        //making sure semesterCombobox is not empty
         if (semesterComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Kein Semester ausgewählt!");
             return;
         }
+        //creating the groupage dao with the edit attributes
         Dao<Groupage, Integer> groupageDao = dbManager.getGroupageDao();
         groupage.setDescription(nameTextfield.getText());
         groupage.setSemester(semesterComboBox.getSelectionModel().getSelectedItem());
 
         try {
+            //update the groupage in the database
             groupageDao.update(groupage);
         } catch (SQLException e) {
-            e.printStackTrace();
+         ErrorModal.show(e.getMessage());
+         e.printStackTrace();
         }
-
+        // back to homeview
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
     }
 
 
     public void onDeleteBTNClicked(ActionEvent event) {
+        //check if user wants to delete the groupage
         boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
         if (!confirm) {
             return;
         }
 
 
-        Dao<Groupage, Integer> studentDao = dbManager.getGroupageDao();
+        Dao<Groupage, Integer> groupageDao = dbManager.getGroupageDao();
         try {
-            studentDao.delete(groupage);
+            //delete the groupage dao from the database
+            groupageDao.delete(groupage);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        //back to the homeview
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
 
 
@@ -145,6 +157,7 @@ public class EditGroupageController {
     }
 
     public void setGroupage(Groupage groupage) {
+        // set groupage
         this.groupage = groupage;
         nameTextfield.setText(groupage.getDescription());
         semesterComboBox.getSelectionModel().select(groupage.getSemester());
