@@ -141,7 +141,7 @@ public class EditGroupageController {
             //delete the groupage dao from the database
             groupageDao.delete(groupage);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorModal.show("Die Klasse konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass keine Gruppen mehr dieser Klasse zugeordnet sind.");
         }
         //back to the homeview
         SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);

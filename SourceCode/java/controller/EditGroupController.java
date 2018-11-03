@@ -135,8 +135,7 @@ public class EditGroupController {
                 Dao<Group, Integer> groupDao = db.getGroupDao();
                 groupDao.delete(this.groupToEdit);
             } catch (java.sql.SQLException e) {
-                ErrorModal.show(e.getMessage());
-                e.printStackTrace();
+                ErrorModal.show("Die Gruppe konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass sich keine Studenten mehr in der Gruppe befinden.");
             }
 
             // close window
