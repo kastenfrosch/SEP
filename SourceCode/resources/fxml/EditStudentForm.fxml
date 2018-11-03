@@ -20,13 +20,13 @@
         <TextField fx:id="firstnameInput" layoutX="189.0" layoutY="97.0" AnchorPane.leftAnchor="189.0" />
         <TextField fx:id="lastnameInput" layoutX="188.0" layoutY="140.0" AnchorPane.leftAnchor="188.0" AnchorPane.topAnchor="140.0" />
         <TextField fx:id="emailInput" layoutX="188.0" layoutY="181.0" AnchorPane.leftAnchor="188.0" />
-        <Label layoutX="112.0" layoutY="58.0" text="Mat Nr:" AnchorPane.leftAnchor="112.0" />
-        <Label layoutX="97.0" layoutY="103.0" text="Vorname: " AnchorPane.leftAnchor="97.0" />
-        <Label layoutX="82.0" layoutY="146.0" text="Nachname: " AnchorPane.leftAnchor="82.0" />
-        <Label layoutX="122.0" layoutY="187.0" text="Email: " AnchorPane.leftAnchor="122.0" />
+        <Label layoutX="58.0" layoutY="61.0" prefHeight="27.0" prefWidth="95.0" text="Mat Nr:" AnchorPane.leftAnchor="58.0" />
+        <Label layoutX="58.0" layoutY="97.0" prefHeight="27.0" prefWidth="95.0" text="Vorname: " AnchorPane.leftAnchor="58.0" />
+        <Label layoutX="58.0" layoutY="146.0" prefHeight="27.0" prefWidth="95.0" text="Nachname: " AnchorPane.leftAnchor="58.0" />
+        <Label layoutX="58.0" layoutY="187.0" text="Email: " AnchorPane.leftAnchor="58.0" />
         <Text fx:id="statusText" layoutX="189.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="224.0" />
       <Button fx:id="deleteStudent" layoutX="261.0" layoutY="347.0" mnemonicParsing="false" onAction="#onDeleteBTNClicked" text="Löschen" />
         <ComboBox fx:id="groupComboBox" layoutX="189.0" layoutY="227.0" onAction="#addToGroup" prefHeight="39.0" prefWidth="224.0" />
-        <Label layoutX="105.0" layoutY="233.0" text="Gruppe:" />
+        <Label layoutX="58.0" layoutY="233.0" text="Gruppe:" AnchorPane.leftAnchor="58.0" />
     </children>
 </AnchorPane>
