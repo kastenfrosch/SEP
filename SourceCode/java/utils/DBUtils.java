@@ -126,18 +126,18 @@ public class DBUtils {
         Dao<User, String> userDao = manager.getUserDao();
         userDao.create(u1);
 
-        Student s1 = new Student("0000001", p1, g1, WS1819);
-        Student s2 = new Student("0000002", p2, g1, WS1819);
-        Student s3 = new Student("0000003", p3, g1, WS1819);
-        Student s4 = new Student("0000004", p4, g1, WS1819);
-        Student s5 = new Student("0000005", p5, g2, SS19);
-        Student s6 = new Student("0000006", p6, g2, SS19);
-        Student s7 = new Student("0000007", p7, g3, SS19);
-        Student s8 = new Student("0000008", p8, g4, SS19);
-        Student s9 = new Student("0000009", p9, g5, WS1920);
-        Student s10 = new Student("0000010", p10, g6, WS1920);
-        Student s11 = new Student("0000011", p11, g7, SS20);
-        Student s12 = new Student("0000012", p13, g8, SS20);
+        Student s1 = new Student("0000001", p1, g1);
+        Student s2 = new Student("0000002", p2, g1);
+        Student s3 = new Student("0000003", p3, g1);
+        Student s4 = new Student("0000004", p4, g1);
+        Student s5 = new Student("0000005", p5, g2);
+        Student s6 = new Student("0000006", p6, g2);
+        Student s7 = new Student("0000007", p7, g3);
+        Student s8 = new Student("0000008", p8, g4);
+        Student s9 = new Student("0000009", p9, g5);
+        Student s10 = new Student("0000010", p10, g6);
+        Student s11 = new Student("0000011", p11, g7);
+        Student s12 = new Student("0000012", p13, g8);
 
         Dao<Student, Integer> studentDao = manager.getStudentDao();
         studentDao.create(s1);
