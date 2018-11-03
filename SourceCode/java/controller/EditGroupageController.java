@@ -116,6 +116,9 @@ public class EditGroupageController {
         try {
             //update the groupage in the database
             groupageDao.update(groupage);
+            if (this.groupage.getId() != 0) {
+                InfoModal.show("Klasse \"" + nameTextfield.getText() + "\" wurde geändert!");}
+
         } catch (SQLException e) {
          ErrorModal.show(e.getMessage());
          e.printStackTrace();
