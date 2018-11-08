@@ -19,7 +19,7 @@ public class User {
 
 
     //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
-    @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true,
+    @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true, foreignAutoCreate = true,
     columnDefinition = "integer not null references person(person_id) on delete restrict")
     private Person person;
 
