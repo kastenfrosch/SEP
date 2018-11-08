@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import modal.ErrorModal;
+import modal.InfoModal;
 import models.User;
+import utils.SceneManager;
 
 import java.sql.SQLException;
 
@@ -52,6 +54,20 @@ public class ChatTabController {
     }
 
     public void onStartChatButtonClicked(ActionEvent actionEvent) {
+        // check if selection in userView has been made
+        User chatPartner;
+        if (userView.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("Bitte wählen Sie einen Benutzer aus!");
+            return;
+        }
+        chatPartner = (User) userView.getSelectionModel().getSelectedItem();
+
+        // open chat window with selected user
+        SceneManager.getInstance()
+                .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
+                .<ChatWindowController>getController()
+                .setChatPartner(chatPartner);
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW);
     }
 
     public void onExportHistoryButtonClicked(ActionEvent actionEvent) {
