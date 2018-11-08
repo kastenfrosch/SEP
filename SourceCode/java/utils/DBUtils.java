@@ -18,16 +18,20 @@ public class DBUtils {
         TableUtils.clearTable(conn, Groupage.class);
         TableUtils.clearTable(conn, Group.class);
         TableUtils.clearTable(conn, Student.class);
+        TableUtils.clearTable(conn, CalendarEntry.class);
+        TableUtils.clearTable(conn, Calendar.class);
 	}
 
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
-        TableUtils.dropTable(conn, Student.class, false);
-        TableUtils.dropTable(conn, Group.class, false);
-        TableUtils.dropTable(conn, Groupage.class, false);
-        TableUtils.dropTable(conn, User.class, false);
-        TableUtils.dropTable(conn, Person.class, false);
-        TableUtils.dropTable(conn, Semester.class, false);
+	    TableUtils.dropTable(conn, CalendarEntry.class, true);
+	    TableUtils.dropTable(conn, Calendar.class, true);
+        TableUtils.dropTable(conn, Student.class, true);
+        TableUtils.dropTable(conn, Group.class, true);
+        TableUtils.dropTable(conn, Groupage.class, true);
+        TableUtils.dropTable(conn, User.class, true);
+        TableUtils.dropTable(conn, Person.class, true);
+        TableUtils.dropTable(conn, Semester.class, true);
     }
 
     public static void createTables(ConnectionSource conn) throws SQLException {
@@ -37,6 +41,8 @@ public class DBUtils {
         TableUtils.createTable(conn, Groupage.class);
         TableUtils.createTable(conn, Group.class);
         TableUtils.createTable(conn, Student.class);
+        TableUtils.createTable(conn, Calendar.class);
+        TableUtils.createTable(conn, CalendarEntry.class);
     }
 
     public static void resetDB(ConnectionSource conn, boolean withDummyData) throws SQLException {

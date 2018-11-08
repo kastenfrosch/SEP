@@ -18,30 +18,32 @@ public class DBManager {
     private Dao<Student, Integer> studentDao;
     private Dao<Person, Integer> personDao;
     private Dao<User, String> userDao;
+    private Dao<Calendar, Integer> calendarDao;
+    private Dao<CalendarEntry, Integer> calendarEntryDao;
 
-    
-    
+
     public static DBManager getInstance() throws SQLException {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DBManager();
         }
         return instance;
     }
 
     private DBManager() throws SQLException {
-      	String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep";
+        String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep";
         JdbcConnectionSource conn = new JdbcConnectionSource(databaseUrl);
-    	conn.setUsername("sep");
-    	conn.setPassword("ayy1mao");
+        conn.setUsername("sep");
+        conn.setPassword("ayy1mao");
 
-        
+
         this.semesterDao = DaoManager.createDao(conn, Semester.class);
         this.groupageDao = DaoManager.createDao(conn, Groupage.class);
         this.groupDao = DaoManager.createDao(conn, Group.class);
         this.studentDao = DaoManager.createDao(conn, Student.class);
         this.personDao = DaoManager.createDao(conn, Person.class);
         this.userDao = DaoManager.createDao(conn, User.class);
-
+        this.calendarDao = DaoManager.createDao(conn, Calendar.class);
+        this.calendarEntryDao = DaoManager.createDao(conn, CalendarEntry.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -66,5 +68,13 @@ public class DBManager {
 
     public Dao<User, String> getUserDao() {
         return userDao;
+    }
+
+    public Dao<Calendar, Integer> getCalendarDao() {
+        return calendarDao;
+    }
+
+    public Dao<CalendarEntry, Integer> getCalendarEntryDao() {
+        return calendarEntryDao;
     }
 }
