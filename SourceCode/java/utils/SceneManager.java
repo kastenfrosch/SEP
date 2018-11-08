@@ -139,7 +139,11 @@ public class SceneManager {
         EDIT_SEMESTER("/fxml/EditSemesterForm.fxml"),
         EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml"),
         HOME("/fxml/HomeScreenView.fxml"),
-        LOGIN("/fxml/LoginForm.fxml");
+        LOGIN("/fxml/LoginForm.fxml"),
+        REGISTER("/fxml/RegisterForm.fxml"),
+        CHAT_TAB("/fxml/ChatTab.fxml"),
+        CHAT_WINDOW("/fxml/ChatWindow.fxml");
+
 
 
         private String path;
