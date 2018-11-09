@@ -101,7 +101,7 @@ public class SceneManager {
             if(m.getName().equals("initialize")) {
                 try {
                     m.invoke(info.getLoader().getController());
-                } catch(IllegalAccessException | InvocationTargetException ex) {
+                } catch(IllegalAccessException |InvocationTargetException ex) {
                     ErrorModal.show("Unable to reset controller for " + info.getSceneType().toString());
                     ex.printStackTrace();
                 }
@@ -140,7 +140,7 @@ public class SceneManager {
         EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml"),
         HOME("/fxml/HomeScreenView.fxml"),
         LOGIN("/fxml/LoginForm.fxml"),
-        // REGISTER("/fxml/RegisterForm.fxml"),
+        //REGISTER("/fxml/RegisterForm.fxml"), //erst auskommentieren wenn die FXML auch gepusht wird!
         CHAT_TAB("/fxml/ChatTab.fxml"),
         CHAT_WINDOW("/fxml/ChatWindow.fxml");
 
