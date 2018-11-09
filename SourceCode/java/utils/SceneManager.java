@@ -140,7 +140,7 @@ public class SceneManager {
         EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml"),
         HOME("/fxml/HomeScreenView.fxml"),
         LOGIN("/fxml/LoginForm.fxml"),
-        REGISTER("/fxml/RegisterForm.fxml"),
+        //REGISTER("/fxml/RegisterForm.fxml"), //erst auskommentieren wenn die FXML auch gepusht wird!
         CHAT_TAB("/fxml/ChatTab.fxml"),
         CHAT_WINDOW("/fxml/ChatWindow.fxml");
 
