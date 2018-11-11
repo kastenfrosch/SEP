@@ -3,9 +3,9 @@ package models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "semester")
+@DatabaseTable(tableName = Semester.TABLE_SEMESTER)
 public class Semester {
-    public static final String TABLE_NAME_SEMESTER = "semester";
+    public static final String TABLE_SEMESTER = "semester";
     public static final String FIELD_SEMESTER_ID = "semester_id";
     public static final String FIELD_SEMESTER_DESCRIPTION = "description";
 
