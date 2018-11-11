@@ -176,7 +176,6 @@ public class SceneManager {
             this.sceneType = sceneType;
             this.loader = loader;
             this.parent = parent;
-            this.stage = stage;
         }
 
         public SceneType getSceneType() {
