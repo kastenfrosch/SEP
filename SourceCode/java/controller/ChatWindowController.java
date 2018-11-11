@@ -3,6 +3,7 @@ package controller;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
@@ -45,6 +46,8 @@ public class ChatWindowController {
 
 
     public void initialize() {
+
+        writeMessageBox.requestFocus();
         // paste chat history into chatBox
     }
 

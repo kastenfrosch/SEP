@@ -5,15 +5,18 @@ import connection.DBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.User;
 import utils.SceneManager;
-
 import java.sql.SQLException;
 
 public class ChatTabController {
@@ -36,6 +39,7 @@ public class ChatTabController {
     public Button startChatButton;
     @FXML
     public Button exportHistoryButton;
+
 
     public void initialize() {
         // initialize userView
@@ -61,15 +65,39 @@ public class ChatTabController {
             return;
         }
         chatPartner = (User) userView.getSelectionModel().getSelectedItem();
+        String chatWindowTitle = "Chat mit " + chatPartner;
 
         // open chat window with selected user
         SceneManager.getInstance()
                 .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
                 .<ChatWindowController>getController()
                 .setChatPartner(chatPartner);
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW);
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW, chatWindowTitle);
+    }
+
+    public void onListViewClicked(MouseEvent mouseEvent) {
+
+        userView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                // detect a double click
+                if (click.getClickCount() == 2) {
+                    User chatPartner = (User) userView.getSelectionModel().getSelectedItem();
+                    String chatWindowTitle = "Chat mit " + chatPartner;
+
+                    // open chat window with selected user
+                    SceneManager.getInstance()
+                            .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
+                            .<ChatWindowController>getController()
+                            .setChatPartner(chatPartner);
+                    SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW, chatWindowTitle);
+                }
+            }
+        });
+
     }
 
     public void onExportHistoryButtonClicked(ActionEvent actionEvent) {
     }
+
 }
