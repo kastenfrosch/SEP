@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.uni-due.git</groupId>
     <artifactId>SEP_Gruppe_E</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>Iteration-1.0</version>
     <packaging>jar</packaging>
     <properties>
         <src.dir>SourceCode/java</src.dir>
@@ -96,10 +96,24 @@
             <artifactId>mail</artifactId>
             <version>1.4</version>
         </dependency>
-        <dependency>
+        <dependency> <!-- this is a different driver from the org.postgresql one that supports async events, used in PGNotificationHandler -->
+            <!-- PostgreSQL JDBC driver -->
+            <groupId>com.impossibl.pgjdbc-ng</groupId>
+            <artifactId>pgjdbc-ng</artifactId>
+            <version>0.3</version>
+            <classifier>complete</classifier>
+        </dependency>
+        <dependency> <!-- standard postgresql driver, used with ormlite -->
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.5.jre7</version>
         </dependency>
+        <dependency> <!-- needed for the pgjdbc-ng driver because the javax.xml module isn't part of JRE11 anymore -->
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+
+
     </dependencies>
 </project>
