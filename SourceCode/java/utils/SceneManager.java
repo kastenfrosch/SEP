@@ -79,19 +79,21 @@ public class SceneManager {
         } else {
             root.getScene().setRoot(info.getParent());
         }
+        root.setTitle(sceneType.getTitle());
     }
 
     /**
      * Opens a scene in a new window
      *
      * @param sceneType The scene to open
+     * @param stageTitle The title of the new window
      */
-    public void showInNewWindow(SceneType sceneType) {
+    public void showInNewWindow(SceneType sceneType, String stageTitle) {
         SceneInfo info = scenes.get(sceneType);
         Stage stage = info.getStage();
         if (stage == null) {
             stage = new Stage();
-            stage.setTitle("TODO: Add title");
+            stage.setTitle(stageTitle);
             stage.setScene(new Scene(info.getParent()));
             info.setStage(stage);
         }
@@ -107,8 +109,11 @@ public class SceneManager {
                 }
             }
         }
-
         stage.showAndWait();
+    }
+
+    public void showInNewWindow(SceneType sceneType) {
+        showInNewWindow(sceneType, sceneType.getTitle());
     }
 
     /**
@@ -130,31 +135,34 @@ public class SceneManager {
 
     public enum SceneType {
 
-        CREATE_GROUP("/fxml/CreateGroupForm.fxml"),
-        CREATE_STUDENT("/fxml/CreateStudentForm.fxml"),
-        CREATE_SEMESTER("/fxml/CreateSemesterForm.fxml"),
-        CREATE_GROUPAGE("/fxml/CreateGroupageForm.fxml"),
-        EDIT_GROUP("/fxml/EditGroupForm.fxml"),
-        EDIT_STUDENT("/fxml/EditStudentForm.fxml"),
-        EDIT_SEMESTER("/fxml/EditSemesterForm.fxml"),
-        EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml"),
-        HOME("/fxml/HomeScreenView.fxml"),
-        LOGIN("/fxml/LoginForm.fxml"),
+        CREATE_GROUP("/fxml/CreateGroupForm.fxml", "Gruppe erstellen"),
+        CREATE_STUDENT("/fxml/CreateStudentForm.fxml", "Studenten erstellen"),
+        CREATE_SEMESTER("/fxml/CreateSemesterForm.fxml", "Semester erstellen"),
+        CREATE_GROUPAGE("/fxml/CreateGroupageForm.fxml", "Klasse erstellen"),
+        EDIT_GROUP("/fxml/EditGroupForm.fxml", "Gruppe bearbeiten"),
+        EDIT_STUDENT("/fxml/EditStudentForm.fxml", "Studenten bearbeiten"),
+        EDIT_SEMESTER("/fxml/EditSemesterForm.fxml", "Semester bearbeiten"),
+        EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml", "Klasse bearbeiten"),
+        HOME("/fxml/HomeScreenView.fxml", "SemestervErwaltungsPlan"),
+        LOGIN("/fxml/LoginForm.fxml", "SemestervErwaltungsPlan"),
         //REGISTER("/fxml/RegisterForm.fxml"), //erst auskommentieren wenn die FXML auch gepusht wird!
-        CHAT_TAB("/fxml/ChatTab.fxml"),
-        CHAT_WINDOW("/fxml/ChatWindow.fxml");
+        CHAT_TAB("/fxml/ChatTab.fxml", "ChatTab"),
+        CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow");
 
 
 
-        private String path;
+        private String path, title;
 
-        SceneType(String path) {
+        SceneType(String path, String title) {
             this.path = path;
+            this.title = title;
         }
 
         public String getPath() {
             return this.path;
         }
+
+        public String getTitle() { return this.title; }
 
     }
 
@@ -168,7 +176,6 @@ public class SceneManager {
             this.sceneType = sceneType;
             this.loader = loader;
             this.parent = parent;
-            this.stage = stage;
         }
 
         public SceneType getSceneType() {
