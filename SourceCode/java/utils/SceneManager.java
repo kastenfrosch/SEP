@@ -147,7 +147,8 @@ public class SceneManager {
         LOGIN("/fxml/LoginForm.fxml", "SemestervErwaltungsPlan"),
         REGISTER("/fxml/RegisterForm.fxml", "Registrierung"),
         CHAT_TAB("/fxml/ChatTab.fxml", "ChatTab"),
-        CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow");
+        CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow"),
+        NOTEPAD_WINDOW("/fxml/AddNotepadForm.fxml", "NotepadWindow");
 
 
 
