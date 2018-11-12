@@ -11,6 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import modal.InfoModal;
+import utils.SceneManager;
 
 public class AddNotepadController {
 
@@ -63,5 +64,6 @@ public class AddNotepadController {
     }
 
     public void cancelButton(ActionEvent actionEvent) {
+        SceneManager.getInstance().closeWindow(SceneManager.SceneType.NOTEPAD_WINDOW);
     }
 }
