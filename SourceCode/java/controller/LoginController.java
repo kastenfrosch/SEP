@@ -104,4 +104,7 @@ public class LoginController {
         }
     }
 
+    public void onRegisterBtnClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.REGISTER);
+    }
 }

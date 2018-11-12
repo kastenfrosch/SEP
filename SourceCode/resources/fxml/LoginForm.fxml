@@ -33,5 +33,6 @@
          </font>
       </Text>
       <Text fx:id="statusText" fill="RED" layoutX="239.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+      <Button fx:id="registerBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" onAction="#onRegisterBtnClicked" prefHeight="59.0" prefWidth="137.0" text="Regsitrieren" />
    </children>
 </AnchorPane>

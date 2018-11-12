@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
+   <children>
+      <Label layoutX="229.0" layoutY="23.0" text="Registrierung">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="116.0" layoutY="90.0" text="Vorname:" AnchorPane.rightAnchor="407.0" />
+      <Label layoutX="104.0" layoutY="131.0" text="Nachname:" AnchorPane.rightAnchor="407.0" />
+      <Label layoutX="103.0" layoutY="171.0" text="User Name:" AnchorPane.rightAnchor="407.0" />
+      <Label layoutX="119.0" layoutY="214.0" text="Passwort:" AnchorPane.rightAnchor="407.0" />
+      <Label layoutX="13.0" layoutY="260.0" text="Passwort Wiederholen:" AnchorPane.rightAnchor="407.0" />
+      <Label layoutX="84.0" layoutY="306.0" text="Email Adresse:" AnchorPane.rightAnchor="407.0" />
+      <TextField fx:id="firstnameInput" layoutX="206.0" layoutY="84.0" />
+      <TextField fx:id="lastnameInput" layoutX="206.0" layoutY="125.0" />
+      <TextField fx:id="usernameInput" layoutX="206.0" layoutY="165.0" />
+      <Button layoutX="493.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
+      <Button layoutX="16.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" text="Abbrechen" />
+      <TextField fx:id="emailInput" layoutX="206.0" layoutY="300.0" />
+      <PasswordField fx:id="passwordField" layoutX="206.0" layoutY="208.0" />
+      <PasswordField fx:id="passwordFieldTwo" layoutX="206.0" layoutY="254.0" />
+   </children>
+</AnchorPane>
