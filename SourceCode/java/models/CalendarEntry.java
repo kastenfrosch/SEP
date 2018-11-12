@@ -1,9 +1,11 @@
 package models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 
 @DatabaseTable(tableName=CalendarEntry.TABLE_CALENDAR_ENTRY)
 public class CalendarEntry {
@@ -11,9 +13,8 @@ public class CalendarEntry {
     public static final String FIELD_ENTRY_ID = "entry_id";
     public static final String FIELD_DESCRIPTION = "description";
     public static final String FIELD_TIME_START = "time_start";
-    public static final String FIELD_TIME_END = "time_end";
     public static final String FIELD_CALENDAR_ID = "calendar_id";
-
+    public static final String FIELD_DAY_OF_WEEK = "day_of_week";
 
     @DatabaseField(generatedId = true, columnName = FIELD_ENTRY_ID)
     private int entryId;
@@ -27,8 +28,8 @@ public class CalendarEntry {
     @DatabaseField(columnName = FIELD_TIME_START, canBeNull = false)
     private Timestamp startTime;
 
-    @DatabaseField(columnName = FIELD_TIME_END, canBeNull = false)
-    private Timestamp endTime;
+    @DatabaseField(columnName = FIELD_DAY_OF_WEEK, canBeNull = false, dataType = DataType.ENUM_INTEGER)
+    private DayOfWeek dayOfWeek;
 
     public int getEntryId() {
         return entryId;
@@ -50,7 +51,6 @@ public class CalendarEntry {
         this.description = description;
     }
 
-
     public Timestamp getStartTime() {
         return startTime;
     }
@@ -59,12 +59,12 @@ public class CalendarEntry {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
-        return endTime;
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
     }
 
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 }
 
