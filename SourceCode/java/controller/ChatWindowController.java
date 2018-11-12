@@ -1,17 +1,24 @@
 package controller;
 
+import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import modal.ErrorModal;
+import models.ChatMessage;
 import models.User;
 import utils.SceneManager;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatWindowController {
 
@@ -27,6 +34,8 @@ public class ChatWindowController {
         }
     }
 
+    @FXML
+    public TabPane tabPane;
     @FXML
     public AnchorPane anchorPane;
     @FXML
@@ -44,16 +53,40 @@ public class ChatWindowController {
     @FXML
     public Button btnCancel;
 
-
+    @FXML
     public void initialize() {
 
-        writeMessageBox.requestFocus();
+        Platform.runLater(()-> writeMessageBox.requestFocus());
+
         // paste chat history into chatBox
+        List<ChatMessage> messageHistoryList = new ArrayList<>();
+        try {
+            Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
+            var query =
+                    msgDao
+                            .queryBuilder()
+                            .where()
+                            .eq(ChatMessage.FIELD_FROM_USER_ID, this.currentUser)
+                            .and()
+                            .eq(ChatMessage.FIELD_TO_USER_ID, this.chatPartner)
+                            .prepare();
+            messageHistoryList.addAll(msgDao.query(query));
+
+            String text = "";
+            for (ChatMessage msg : messageHistoryList) {
+                text = text + msg.getSender() + " (" + msg.getMessageId() + "):\n";
+                text = text + msg.getContent() + "\n";
+            }
+            chatBox.setText(text);
+        } catch (java.sql.SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
     public void onSendButtonClicked(ActionEvent actionEvent) {
 
-        /*// send a message
+        // send a message
         String message;
         if (writeMessageBox.getText().isBlank()) return;
         message = writeMessageBox.getText();
@@ -65,16 +98,17 @@ public class ChatWindowController {
 
             // passing variables to the new group instance
             newMessage.setContent(message);
-            newMessage.setSender(currentUser);
-            newMessage.setReceiver(chatPartner);
+            newMessage.setSender(this.currentUser);
+            newMessage.setReceiver(this.chatPartner);
 
             // save new group into database
             Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
             msgDao.create(newMessage);
+            writeMessageBox.clear();
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
-        }*/
+        }
 
     }
 
@@ -88,8 +122,9 @@ public class ChatWindowController {
         // do i need that?
     }
 
-    public void setChatPartner(User user) {
-        this.chatPartner = user;
+    public void setChatPartners(User currentUser, User chatPartner) {
+        this.currentUser = currentUser;
+        this.chatPartner = chatPartner;
     }
 
 }

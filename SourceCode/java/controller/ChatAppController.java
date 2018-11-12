@@ -19,13 +19,19 @@ import models.User;
 import utils.SceneManager;
 import java.sql.SQLException;
 
-public class ChatTabController {
+public class ChatAppController {
 
     private DBManager dbManager;
+    private User currentUser;
 
     {
         try {
             dbManager = DBManager.getInstance();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            currentUser = dbManager.getUserDao().queryForId("besttutor");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +77,7 @@ public class ChatTabController {
         SceneManager.getInstance()
                 .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
                 .<ChatWindowController>getController()
-                .setChatPartner(chatPartner);
+                .setChatPartners(this.currentUser, chatPartner);
         SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW, chatWindowTitle);
     }
 
@@ -89,7 +95,7 @@ public class ChatTabController {
                     SceneManager.getInstance()
                             .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
                             .<ChatWindowController>getController()
-                            .setChatPartner(chatPartner);
+                            .setChatPartners(currentUser, chatPartner);
                     SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW, chatWindowTitle);
                 }
             }
