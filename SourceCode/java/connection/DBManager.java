@@ -22,6 +22,8 @@ public class DBManager {
     private Dao<CalendarEntry, Integer> calendarEntryDao;
     private Dao<ChatMessage, Integer> chatMessageDao;
 
+    private User loggedInUser = null;
+
     public static DBManager getInstance() throws SQLException {
         if (instance == null) {
             instance = new DBManager();
@@ -81,5 +83,16 @@ public class DBManager {
 
     public Dao<CalendarEntry, Integer> getCalendarEntryDao() {
         return calendarEntryDao;
+    }
+
+    public void setLoggedInUser(User user) {
+        if(this.loggedInUser != null) {
+            throw new IllegalStateException("Logged in user cannot be changed once set");
+        }
+        this.loggedInUser = user;
+    }
+
+    public User getLoggedInUser() {
+        return this.loggedInUser;
     }
 }
