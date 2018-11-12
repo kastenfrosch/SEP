@@ -109,7 +109,7 @@ public class CreateSemesterController {
                 createSommersemster();
                 break;
             default:
-                InfoModal.show("Fehler", null, "Es konnte kein Semester erstellt werden. Bitte versuchen sie es erneut.");
+                InfoModal.show("Fehler", null, "Es konnte kein Semester erstellt werden. Bitte versuchen sie es erneut!");
         }
     }
 
@@ -210,5 +210,6 @@ public class CreateSemesterController {
     }
 
     private void checkTextFieldInput(ActionEvent event) {
+
     }
 }

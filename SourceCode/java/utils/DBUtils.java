@@ -5,9 +5,15 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import connection.DBManager;
+import connection.PGNotificationHandler.NotificationChannel;
 import models.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class DBUtils {
 
@@ -20,6 +26,7 @@ public class DBUtils {
         TableUtils.clearTable(conn, Student.class);
         TableUtils.clearTable(conn, CalendarEntry.class);
         TableUtils.clearTable(conn, Calendar.class);
+        TableUtils.clearTable(conn, ChatMessage.class);
 	}
 
 
@@ -32,6 +39,7 @@ public class DBUtils {
         TableUtils.dropTable(conn, User.class, true);
         TableUtils.dropTable(conn, Person.class, true);
         TableUtils.dropTable(conn, Semester.class, true);
+        TableUtils.dropTable(conn, ChatMessage.class, true);
     }
 
     public static void createTables(ConnectionSource conn) throws SQLException {
@@ -43,14 +51,64 @@ public class DBUtils {
         TableUtils.createTable(conn, Student.class);
         TableUtils.createTable(conn, Calendar.class);
         TableUtils.createTable(conn, CalendarEntry.class);
+        TableUtils.createTable(conn, ChatMessage.class);
     }
 
-    public static void resetDB(ConnectionSource conn, boolean withDummyData) throws SQLException {
+    public static void createTriggers() throws SQLException{
+	    //This function is, currently, way too complicated.
+
+        var dao = DBManager.getInstance().getGroupageDao();
+
+        Map<NotificationChannel, List<Class>> classMap = new HashMap<>();
+
+        for(var channel : NotificationChannel.values()) {
+            classMap.put(channel, new LinkedList<>());
+        }
+
+        List<Class> dataChannelClasses = classMap.get(NotificationChannel.DATA);
+        dataChannelClasses.add(Group.class);
+        dataChannelClasses.add(Groupage.class);
+        dataChannelClasses.add(Person.class);
+        dataChannelClasses.add(Semester.class);
+        dataChannelClasses.add(Student.class);
+        dataChannelClasses.add(User.class);
+
+        List<Class> chatChannelClasses = classMap.get(NotificationChannel.CHAT);
+        chatChannelClasses.add(ChatMessage.class);
+
+
+        String triggerSql = "CREATE TRIGGER notification_%s AFTER INSERT OR UPDATE OR DELETE ON \"%s\" EXECUTE PROCEDURE %s();";
+
+        for(var channel : NotificationChannel.values()) {
+            dao.executeRaw(channel.getTriggerFunctionSQL());
+            for(var clazz : classMap.get(channel)) {
+                String tableName = getTableName(clazz);
+                dao.executeRaw(String.format(triggerSql, tableName, tableName, channel.getProcedureName()));
+            }
+        }
+
+    }
+
+    private static String getTableName(Class c) {
+	    for(var field : c.getDeclaredFields()) {
+	        if(field.getName().matches("TABLE_.+")) {
+	            try {
+                    return (String) field.get(null);
+                } catch(IllegalAccessException e) {
+                    throw new IllegalArgumentException("Unable to access %_NAME property of object.", e);
+                }
+            }
+        }
+        throw new IllegalArgumentException("Unable to access %_NAME property of object.");
+    }
+
+    public static void resetDB(ConnectionSource conn, boolean withDummyData) throws SQLException, IOException {
 	    dropTables(conn);
 	    createTables(conn);
 	    if(withDummyData) {
             insertDummyData(conn);
         }
+        createTriggers();
     }
 
     public static void insertDummyData(ConnectionSource conn) throws SQLException {

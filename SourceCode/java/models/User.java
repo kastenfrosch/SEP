@@ -81,4 +81,7 @@ public class User {
 
         return this.username.equals(((User) other).getUsername());
     }
+
+    public void setSalt() {
+    }
 }
