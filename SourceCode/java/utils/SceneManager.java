@@ -103,7 +103,7 @@ public class SceneManager {
             if(m.getName().equals("initialize")) {
                 try {
                     m.invoke(info.getLoader().getController());
-                } catch(IllegalAccessException |InvocationTargetException ex) {
+                } catch(IllegalAccessException | InvocationTargetException ex) {
                     ErrorModal.show("Unable to reset controller for " + info.getSceneType().toString());
                     ex.printStackTrace();
                 }
@@ -148,7 +148,9 @@ public class SceneManager {
         REGISTER("/fxml/RegisterForm.fxml", "Registrierung"),
         CHAT_APP("/fxml/ChatApp.fxml", "ChatApp"),
         CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow"),
-        NOTEPAD_WINDOW("/fxml/AddNotepadForm.fxml", "NotepadWindow");
+        NOTEPAD_WINDOW("/fxml/AddNotepadForm.fxml", "NotepadWindow"),
+        CHAT_TAB_CONTENT_TEST("/fxml/ChatTabContentTest.fxml", "ChatTabContentTest"),
+        CHAT_WINDOW_TAB_PANE_TEST("/fxml/ChatWindowTabPaneTest.fxml", "ChatWindowTabPaneTest");
 
 
 

@@ -1,11 +1,11 @@
 package controller;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
 import connection.DBManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -59,10 +59,10 @@ public class ChatWindowController {
         Platform.runLater(()-> writeMessageBox.requestFocus());
 
         // paste chat history into chatBox
-        List<ChatMessage> messageHistoryList = new ArrayList<>();
+        /*List<ChatMessage> messageHistoryList = new ArrayList<>();
         try {
             Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
-            var query =
+            PreparedQuery<ChatMessage> query =
                     msgDao
                             .queryBuilder()
                             .where()
@@ -80,7 +80,7 @@ public class ChatWindowController {
             chatBox.setText(text);
         } catch (java.sql.SQLException e){
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -92,7 +92,7 @@ public class ChatWindowController {
         message = writeMessageBox.getText();
 
         // making an sql statement out of the message and creating a message into the database
-        try {
+        /*try {
             // creating new group instance
             models.ChatMessage newMessage = new ChatMessage();
 
@@ -108,7 +108,7 @@ public class ChatWindowController {
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
-        }
+        }*/
 
     }
 

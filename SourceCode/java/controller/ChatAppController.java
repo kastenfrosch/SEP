@@ -49,7 +49,7 @@ public class ChatAppController {
 
     public void initialize() {
         // initialize userView
-        try {
+        /*try {
             // initializing an ObservableList which is filled with all the existing usernames
             ObservableList<User> userList = FXCollections.observableArrayList();
             Dao<User, String> userDao = dbManager.getUserDao();
@@ -60,7 +60,7 @@ public class ChatAppController {
         } catch (java.sql.SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void onStartChatButtonClicked(ActionEvent actionEvent) {
