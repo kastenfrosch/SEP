@@ -3,6 +3,8 @@ package models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.sql.Timestamp;
+
 @DatabaseTable(tableName = ChatMessage.TABLE_CHAT_MESSAGE)
 public class ChatMessage {
     public static final String TABLE_CHAT_MESSAGE = "chat_message";
@@ -10,6 +12,7 @@ public class ChatMessage {
     public static final String FIELD_FROM_USER_ID = "sender";
     public static final String FIELD_TO_USER_ID = "receiver";
     public static final String FIELD_CONTENT = "content";
+    public static final String FIELD_TIME = "time";
 
     @DatabaseField(generatedId = true, columnName = FIELD_MESSAGE_ID)
     private int messageId;
@@ -20,8 +23,11 @@ public class ChatMessage {
     @DatabaseField(columnName=FIELD_TO_USER_ID, foreign = true, foreignAutoRefresh = true)
     private User receiver;
 
-    @DatabaseField(columnName=FIELD_CONTENT)
+    @DatabaseField(columnName=FIELD_CONTENT, canBeNull = false)
     private String content;
+
+    @DatabaseField(columnName=FIELD_TIME, canBeNull = false)
+    private Timestamp time;
 
     public int getMessageId() {
         return this.messageId;
@@ -49,5 +55,13 @@ public class ChatMessage {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 }
