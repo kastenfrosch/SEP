@@ -3,7 +3,11 @@ package models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @DatabaseTable(tableName = ChatMessage.TABLE_CHAT_MESSAGE)
 public class ChatMessage {
@@ -59,6 +63,10 @@ public class ChatMessage {
 
     public Timestamp getTime() {
         return time;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return LocalDateTime.ofInstant(time.toInstant(), TimeZone.getDefault().toZoneId());
     }
 
     public void setTime(Timestamp time) {
