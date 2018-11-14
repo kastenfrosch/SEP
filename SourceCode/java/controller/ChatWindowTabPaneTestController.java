@@ -14,14 +14,15 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.ChatMessage;
 import models.User;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
+import utils.scene.TabInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class ChatWindowTabPaneTestController {
                     try {
                         Tab newChatTab = new Tab();
                         SceneManager.getInstance()
-                                .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
+                                .getLoaderForScene(SceneType.CHAT_WINDOW)
                                 .<ChatWindowController>getController()
                                 .setChatPartners(currentUser, chatPartner);
                         newChatTab.setContent(FXMLLoader.load(this.getClass().getResource("/fxml/ChatTabContentTest.fxml")));
@@ -116,9 +117,14 @@ public class ChatWindowTabPaneTestController {
 
             // open chat tab with selected user
             //TODO: change setting of chatpartners with upcoming implementation of the scenebuilder
-            Tab newChatTab = new Tab();
+
+            TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_WINDOW);
+            Tab newChatTab = tabInfo.getTab();
+            var controller = tabInfo.<ChatWindowController>getController();
+
+
             SceneManager.getInstance()
-                    .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
+                    .getLoaderForScene(SceneType.CHAT_WINDOW)
                     .<ChatWindowController>getController()
                     .setChatPartners(this.currentUser, chatPartner);
             newChatTab.setContent(FXMLLoader.load(this.getClass().getResource("/fxml/ChatTabContentTest.fxml")));

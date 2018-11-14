@@ -7,11 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
 import modal.InfoModal;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 public class AddNotepadController {
 
@@ -64,6 +62,6 @@ public class AddNotepadController {
     }
 
     public void cancelButton(ActionEvent actionEvent) {
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.NOTEPAD_WINDOW);
+        SceneManager.getInstance().closeWindow(SceneType.NOTEPAD_WINDOW);
     }
 }

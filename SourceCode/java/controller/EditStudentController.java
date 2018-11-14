@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -18,13 +16,12 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Person;
-import models.Semester;
 import models.Student;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class EditStudentController {
@@ -140,13 +137,13 @@ public class EditStudentController {
             e.printStackTrace();
         }
         //back to homeview
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_STUDENT);
     }
 
     @FXML
     //back to homeview
     public void onCancelBTNClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_STUDENT);
     }
 
     @FXML
@@ -165,7 +162,7 @@ public class EditStudentController {
             e.printStackTrace();
         }
         //back to homwview
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_STUDENT);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_STUDENT);
 
     }
     //Validate the Mail Address by using the javaax.mail InternetAddress object.

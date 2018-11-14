@@ -13,7 +13,8 @@ import models.Group;
 import models.Groupage;
 import models.Semester;
 import models.Student;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,28 +60,28 @@ public class HomeScreenController {
             }
             if(selectedItem.getValue() instanceof Semester) {
                 SceneManager.getInstance()
-                        .getLoaderForScene(SceneManager.SceneType.EDIT_SEMESTER)
+                        .getLoaderForScene(SceneType.EDIT_SEMESTER)
                         .<EditSemesterController>getController()
                         .setSemester((Semester) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_SEMESTER);
+                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_SEMESTER);
             } else if(selectedItem.getValue() instanceof Groupage) {
                 SceneManager.getInstance()
-                        .getLoaderForScene(SceneManager.SceneType.EDIT_GROUPAGE)
+                        .getLoaderForScene(SceneType.EDIT_GROUPAGE)
                         .<EditGroupageController>getController()
                         .setGroupage((Groupage) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_GROUPAGE);
             } else if(selectedItem.getValue() instanceof Group) {
                 SceneManager.getInstance()
-                        .getLoaderForScene(SceneManager.SceneType.EDIT_GROUP)
+                        .getLoaderForScene(SceneType.EDIT_GROUP)
                         .<EditGroupController>getController()
                         .setGroup((Group) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_GROUP);
+                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_GROUP);
             } else {
                 SceneManager.getInstance()
-                        .getLoaderForScene(SceneManager.SceneType.EDIT_STUDENT)
+                        .getLoaderForScene(SceneType.EDIT_STUDENT)
                         .<EditStudentController>getController()
                         .setStudent((Student) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.EDIT_STUDENT);
+                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_STUDENT);
             }
         }
         drawTreeView();
@@ -106,30 +107,30 @@ public class HomeScreenController {
 
     @FXML
     void onLogoutButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.HOME);
+        SceneManager.getInstance().closeWindow(SceneType.HOME);
     }
 
     @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_SEMESTER);
+        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_SEMESTER);
         drawTreeView();
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_GROUPAGE);
+        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_GROUPAGE);
         drawTreeView();
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_GROUP);
+        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_GROUP);
         drawTreeView();
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CREATE_STUDENT);
+        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_STUDENT);
         drawTreeView();
     }
 

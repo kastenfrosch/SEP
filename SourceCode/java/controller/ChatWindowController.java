@@ -1,7 +1,5 @@
 package controller;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
 import connection.DBManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -11,14 +9,11 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import modal.ErrorModal;
-import models.ChatMessage;
 import models.User;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatWindowController {
 
@@ -114,7 +109,7 @@ public class ChatWindowController {
 
     public void onCancelButtonClicked(ActionEvent actionEvent) {
         // close window
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CHAT_WINDOW);
+        SceneManager.getInstance().closeWindow(SceneType.CHAT_WINDOW);
     }
 
     public void listen() {

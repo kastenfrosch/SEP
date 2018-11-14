@@ -17,7 +17,8 @@ import modal.InfoModal;
 
 import models.Groupage;
 import models.Semester;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
@@ -90,7 +91,7 @@ public class EditGroupageController {
     @FXML
     public void onCancelBTNClicked(ActionEvent event) {
         //back to homeview
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUPAGE);
 
 
     }
@@ -124,7 +125,7 @@ public class EditGroupageController {
          e.printStackTrace();
         }
         // back to homeview
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUPAGE);
     }
 
 
@@ -144,7 +145,7 @@ public class EditGroupageController {
             ErrorModal.show("Die Klasse konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass keine Gruppen mehr dieser Klasse zugeordnet sind.");
         }
         //back to the homeview
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUPAGE);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUPAGE);
 
 
     }

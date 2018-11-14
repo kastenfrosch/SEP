@@ -12,7 +12,8 @@ import javafx.scene.text.Text;
 import modal.ErrorModal;
 import models.User;
 import utils.HashUtils;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
@@ -95,13 +96,13 @@ public class LoginController {
             }
 
             dbManager.setLoggedInUser(user);
-            SceneManager.getInstance().switchTo(SceneManager.SceneType.HOME);
+            SceneManager.getInstance().switchTo(SceneType.HOME);
         } else {
             ErrorModal.show("Invalid User / Password!");
         }
     }
 
     public void onRegisterBtnClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.REGISTER);
+        SceneManager.getInstance().showInNewWindow(SceneType.REGISTER);
     }
 }

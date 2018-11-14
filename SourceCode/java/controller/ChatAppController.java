@@ -1,22 +1,18 @@
 package controller;
 
-import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import modal.ErrorModal;
 import modal.InfoModal;
 import models.User;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
+
 import java.sql.SQLException;
 
 public class ChatAppController {
@@ -75,10 +71,10 @@ public class ChatAppController {
 
         // open chat window with selected user
         SceneManager.getInstance()
-                .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
+                .getLoaderForScene(SceneType.CHAT_WINDOW)
                 .<ChatWindowController>getController()
                 .setChatPartners(this.currentUser, chatPartner);
-        SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW, chatWindowTitle);
+        SceneManager.getInstance().showInNewWindow(SceneType.CHAT_WINDOW, chatWindowTitle);
     }
 
     public void onListViewClicked(MouseEvent mouseEvent) {
@@ -93,10 +89,10 @@ public class ChatAppController {
 
                     // open chat window with selected user
                     SceneManager.getInstance()
-                            .getLoaderForScene(SceneManager.SceneType.CHAT_WINDOW)
+                            .getLoaderForScene(SceneType.CHAT_WINDOW)
                             .<ChatWindowController>getController()
                             .setChatPartners(currentUser, chatPartner);
-                    SceneManager.getInstance().showInNewWindow(SceneManager.SceneType.CHAT_WINDOW, chatWindowTitle);
+                    SceneManager.getInstance().showInNewWindow(SceneType.CHAT_WINDOW, chatWindowTitle);
                 }
             }
         });

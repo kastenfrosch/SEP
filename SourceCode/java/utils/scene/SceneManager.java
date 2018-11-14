@@ -1,8 +1,10 @@
-package utils;
+package utils.scene;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import modal.ErrorModal;
 
@@ -10,12 +12,14 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class SceneManager {
     private static SceneManager instance;
 
-    private Map<SceneType, SceneInfo> scenes = new HashMap<>();
+    private Map<SceneType, WindowInfo> scenes = new HashMap<>();
+    private Map<SceneType, Map<Integer, TabInfo>> tabs = new HashMap<>();
     private Stage root;
 
     /**
@@ -50,7 +54,7 @@ public class SceneManager {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(type.getPath()));
                 Parent p = loader.load();
-                SceneInfo info = new SceneInfo(type, loader, p);
+                WindowInfo info = new WindowInfo(type, loader, p);
                 scenes.put(type, info);
             } catch (IOException ex) {
                 ErrorModal.show("ERROR", "A fatal exception has occured", ex.getLocalizedMessage());
@@ -89,7 +93,7 @@ public class SceneManager {
      * @param stageTitle The title of the new window
      */
     public void showInNewWindow(SceneType sceneType, String stageTitle) {
-        SceneInfo info = scenes.get(sceneType);
+        WindowInfo info = scenes.get(sceneType);
         Stage stage = info.getStage();
         if (stage == null) {
             stage = new Stage();
@@ -120,7 +124,7 @@ public class SceneManager {
      * @param sceneType
      */
     public void closeWindow(SceneType sceneType) {
-        SceneInfo info = scenes.get(sceneType);
+        WindowInfo info = scenes.get(sceneType);
         if (info.getSceneType() == SceneType.HOME) {
             root.close();
         } else {
@@ -133,73 +137,18 @@ public class SceneManager {
     }
 
 
-    public enum SceneType {
+    public TabInfo createNewTab(SceneType sceneType) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneType.getPath()));
+        try {
+            Parent p = loader.load();
+            Tab tab = new Tab();
+            tab.setContent(p);
 
-        CREATE_GROUP("/fxml/CreateGroupForm.fxml", "Gruppe erstellen"),
-        CREATE_STUDENT("/fxml/CreateStudentForm.fxml", "Studenten erstellen"),
-        CREATE_SEMESTER("/fxml/CreateSemesterForm.fxml", "Semester erstellen"),
-        CREATE_GROUPAGE("/fxml/CreateGroupageForm.fxml", "Klasse erstellen"),
-        EDIT_GROUP("/fxml/EditGroupForm.fxml", "Gruppe bearbeiten"),
-        EDIT_STUDENT("/fxml/EditStudentForm.fxml", "Studenten bearbeiten"),
-        EDIT_SEMESTER("/fxml/EditSemesterForm.fxml", "Semester bearbeiten"),
-        EDIT_GROUPAGE("/fxml/EditGroupageForm.fxml", "Klasse bearbeiten"),
-        HOME("/fxml/HomeScreenView.fxml", "SemestervErwaltungsPlan"),
-        LOGIN("/fxml/LoginForm.fxml", "SemestervErwaltungsPlan"),
-        REGISTER("/fxml/RegisterForm.fxml", "Registrierung"),
-        CHAT_APP("/fxml/ChatApp.fxml", "ChatApp"),
-        CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow"),
-        NOTEPAD_WINDOW("/fxml/AddNotepadForm.fxml", "NotepadWindow"),
-        CHAT_TAB_CONTENT_TEST("/fxml/ChatTabContentTest.fxml", "ChatTabContentTest"),
-        CHAT_WINDOW_TAB_PANE_TEST("/fxml/ChatWindowTabPaneTest.fxml", "ChatWindowTabPaneTest");
-
-
-
-
-        private String path, title;
-
-        SceneType(String path, String title) {
-            this.path = path;
-            this.title = title;
-        }
-
-        public String getPath() {
-            return this.path;
-        }
-
-        public String getTitle() { return this.title; }
-
-    }
-
-    private class SceneInfo {
-        private SceneType sceneType;
-        private FXMLLoader loader;
-        private Parent parent;
-        private Stage stage = null;
-
-        public SceneInfo(SceneType sceneType, FXMLLoader loader, Parent parent) {
-            this.sceneType = sceneType;
-            this.loader = loader;
-            this.parent = parent;
-        }
-
-        public SceneType getSceneType() {
-            return sceneType;
-        }
-
-        public FXMLLoader getLoader() {
-            return loader;
-        }
-
-        public Parent getParent() {
-            return parent;
-        }
-
-        public Stage getStage() {
-            return stage;
-        }
-
-        public void setStage(Stage stage) {
-            this.stage = stage;
+            return new TabInfo(sceneType, loader, p);
+        } catch (IOException e) {
+            ErrorModal.show("ERROR","A fatal exception has occured", e.getLocalizedMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -17,7 +17,8 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
@@ -107,7 +108,7 @@ public class EditGroupController {
                 InfoModal.show("Gruppe \"" + name + "\" wurde geändert!");
 
                 // close window
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
+                SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUP);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht geändert werden!");
@@ -136,7 +137,7 @@ public class EditGroupController {
             }
 
             // close window
-            SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
+            SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUP);
 
         }
 
@@ -145,7 +146,7 @@ public class EditGroupController {
     public void onCancelButtonClicked(ActionEvent actionEvent) {
 
         // close group editing window
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_GROUP);
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUP);
 
     }
 

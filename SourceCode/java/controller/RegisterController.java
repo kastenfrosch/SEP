@@ -11,7 +11,8 @@ import modal.InfoModal;
 import models.Person;
 import models.User;
 import utils.HashUtils;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -114,13 +115,13 @@ public class RegisterController {
 
         if (!usernameInput.equals(null)) {
             InfoModal.show("Du hast dich erfolgreich registriert, " + firstnameInput.getText());
-            SceneManager.getInstance().closeWindow(SceneManager.SceneType.REGISTER);
+            SceneManager.getInstance().closeWindow(SceneType.REGISTER);
         }
 
     }
 
     public void onCancelBtnClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.REGISTER);
+        SceneManager.getInstance().closeWindow(SceneType.REGISTER);
     }
 
 

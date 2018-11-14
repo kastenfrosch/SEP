@@ -14,7 +14,8 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.Groupage;
 import models.Semester;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
@@ -64,7 +65,7 @@ public class CreateGroupageController {
     }
 
     public void addGroupageCancelButton(ActionEvent actionEvent) {
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUPAGE);
+        SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUPAGE);
     }
 
     public void addGroupageAddSafeButton(ActionEvent actionEvent) {
@@ -99,7 +100,7 @@ public class CreateGroupageController {
             ErrorModal.show("Die Klasse konnte nicht erstellt werden: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUPAGE);
+            SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUPAGE);
         }
 
     }

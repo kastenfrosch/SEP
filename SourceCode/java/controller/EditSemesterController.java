@@ -11,7 +11,8 @@ import modal.ConfirmationModal;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.Semester;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
@@ -68,7 +69,7 @@ public class EditSemesterController {
 				InfoModal.show("Semester \"" + description + "\" wurde geändert!");
 
 				// close window
-				SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_SEMESTER);
+				SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
 
 			} else {
 				ErrorModal.show("Semester konnte nicht geändert werden!");
@@ -98,7 +99,7 @@ public class EditSemesterController {
 			}
 
 			// close window
-			SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_SEMESTER);
+			SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
 
 		}
 
@@ -107,7 +108,7 @@ public class EditSemesterController {
 	public void onCancelButtonClicked(ActionEvent actionEvent) {
 
 		// close semester editing window
-		SceneManager.getInstance().closeWindow(SceneManager.SceneType.EDIT_SEMESTER);
+		SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
 
 	}
 

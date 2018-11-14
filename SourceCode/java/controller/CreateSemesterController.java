@@ -5,23 +5,18 @@ import connection.DBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import modal.ErrorModal;
 import models.Semester;
 import modal.InfoModal;
-import javafx.scene.input.MouseEvent;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class CreateSemesterController {
@@ -147,7 +142,7 @@ public class CreateSemesterController {
 
 
                 //close window
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
+                SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
                 ErrorModal.show("Semester konnte nicht erstellt werden.");
@@ -185,7 +180,7 @@ public class CreateSemesterController {
                 semesterDao.create(newSemester);
                 InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
 
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
+                SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
 
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
@@ -198,7 +193,7 @@ public class CreateSemesterController {
     @FXML
     public void addSemesterCancel(ActionEvent event) {
         //close window
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_SEMESTER);
+        SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
     }
 
     public void chooseSemester(ActionEvent event) {

@@ -16,7 +16,8 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.Group;
 import models.Groupage;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
@@ -116,7 +117,7 @@ public class CreateGroupController {
                 InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
 
                 // close window
-                SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUP);
+                SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUP);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht erstellt werden!");
@@ -132,7 +133,7 @@ public class CreateGroupController {
     public void onCancelButtonClicked(ActionEvent actionEvent) {
 
         // close group creation window
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CREATE_GROUP);
+        SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUP);
 
     }
 

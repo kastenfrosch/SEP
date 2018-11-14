@@ -7,20 +7,17 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import modal.ErrorModal;
-import modal.InfoModal;
 import models.ChatMessage;
 import models.User;
-import utils.SceneManager;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +114,7 @@ public class ChatTabContentTest {
     public void onCloseButtonClicked(ActionEvent actionEvent) {
         // close window
         //TODO: properly close with merlins upcoming implementation
-        SceneManager.getInstance().closeWindow(SceneManager.SceneType.CHAT_TAB_CONTENT_TEST);
+        SceneManager.getInstance().closeWindow(SceneType.CHAT_TAB_CONTENT_TEST);
     }
 
     public void setChatPartners(User currentUser, User chatPartner) {
