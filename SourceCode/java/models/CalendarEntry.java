@@ -4,10 +4,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.sql.Timestamp;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.util.TimeZone;
 
 @DatabaseTable(tableName=CalendarEntry.TABLE_CALENDAR_ENTRY)
 public class CalendarEntry {
@@ -28,7 +25,7 @@ public class CalendarEntry {
     private String description;
 
     @DatabaseField(columnName = FIELD_TIME_START, canBeNull = false)
-    private Timestamp startTime;
+    private int startTime;
 
     @DatabaseField(columnName = FIELD_DAY_OF_WEEK, canBeNull = false, dataType = DataType.ENUM_INTEGER)
     private DayOfWeek dayOfWeek;
@@ -53,19 +50,11 @@ public class CalendarEntry {
         this.description = description;
     }
 
-    public Timestamp getStartTime() {
+    public int getStartTime() {
         return startTime;
     }
 
-    public LocalDateTime getStartTimeAsDateTime() {
-        return LocalDateTime.ofInstant(startTime.toInstant(), TimeZone.getDefault().toZoneId());
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = Timestamp.valueOf(startTime);
-    }
-
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
 
