@@ -29,10 +29,10 @@ public class CalendarEntry {
     @DatabaseField(columnName = FIELD_DESCRIPTION, canBeNull = false)
     private String description;
 
-    @DatabaseField(columnName = FIELD_TIME_START, canBeNull = false)
+    @DatabaseField(columnName = FIELD_TIME_START, canBeNull = false, dataType = DataType.TIME_STAMP)
     private Timestamp startTime;
 
-    @DatabaseField(columnName = FIELD_TIME_END)
+    @DatabaseField(columnName = FIELD_TIME_END, dataType = DataType.TIME_STAMP)
     private Timestamp endTime;
 
     @DatabaseField(columnName = FIELD_DAY_OF_WEEK, canBeNull = false, dataType = DataType.ENUM_INTEGER)
@@ -67,7 +67,7 @@ public class CalendarEntry {
     }
 
     public void setStartTime(int startTime) {
-        this.startTime = Timestamp.valueOf(LocalDateTime.of(0, 0, 0, startTime, 0, 0));
+        this.startTime = Timestamp.valueOf(LocalDateTime.of(1, 1, 1, startTime, 0, 0));
     }
 
     public void setStartTime(LocalDateTime startTime) {

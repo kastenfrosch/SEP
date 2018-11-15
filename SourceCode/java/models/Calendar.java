@@ -17,7 +17,7 @@ public class Calendar {
     @DatabaseField(generatedId = true, columnName = FIELD_CALENDAR_ID)
     private int calendarId;
 
-    @DatabaseField(columnName = FIELD_CALENDAR_TYPE, dataType = DataType.ENUM_INTEGER)
+    @DatabaseField(columnName = FIELD_CALENDAR_TYPE, dataType = DataType.ENUM_INTEGER, canBeNull = false)
     private CalendarType calendarType;
 
     @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true,
@@ -54,9 +54,5 @@ public class Calendar {
 
     public ForeignCollection<CalendarEntry> getCalendarEntries() {
         return calendarEntries;
-    }
-
-    public void setCalendarEntries(ForeignCollection<CalendarEntry> calendarEntries) {
-        this.calendarEntries = calendarEntries;
     }
 }

@@ -15,7 +15,7 @@ class WindowInfo extends SceneInfo {
         this.stage = stage;
     }
 
-    public Stage getStage() {
+    Stage getStage() {
         return this.stage;
     }
 }
