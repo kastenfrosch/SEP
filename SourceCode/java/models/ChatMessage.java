@@ -1,5 +1,6 @@
 package models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -30,7 +31,7 @@ public class ChatMessage {
     @DatabaseField(columnName=FIELD_CONTENT, canBeNull = false)
     private String content;
 
-    @DatabaseField(columnName=FIELD_TIME, canBeNull = false)
+    @DatabaseField(columnName=FIELD_TIME, canBeNull = false, dataType = DataType.TIME_STAMP)
     private Timestamp time;
 
     public int getMessageId() {
