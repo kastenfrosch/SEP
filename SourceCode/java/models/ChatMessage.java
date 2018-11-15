@@ -72,4 +72,8 @@ public class ChatMessage {
     public void setTime(Timestamp time) {
         this.time = time;
     }
+
+    public void setTime(LocalDateTime time) {
+        this.time = Timestamp.valueOf(LocalDateTime.now());
+    }
 }
