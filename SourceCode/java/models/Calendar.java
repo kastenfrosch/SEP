@@ -55,8 +55,4 @@ public class Calendar {
     public ForeignCollection<CalendarEntry> getCalendarEntries() {
         return calendarEntries;
     }
-
-    public void setCalendarEntries(ForeignCollection<CalendarEntry> calendarEntries) {
-        this.calendarEntries = calendarEntries;
-    }
 }
