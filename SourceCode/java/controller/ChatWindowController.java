@@ -15,6 +15,7 @@ import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
+@Deprecated
 public class ChatWindowController {
 
     private User chatPartner;
