@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<SplitPane dividerPositions="0.37468671679197996" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+           minWidth="-Infinity" prefHeight="595.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CheckAttendance">
+   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="593.0" prefWidth="260.0">
+      <ComboBox id="comboBoxGroupage" fx:id="comboBoxGroupage" layoutX="147.0" layoutY="23.0" prefHeight="31.0"
+                prefWidth="134.0"/>
+      <ComboBox id="comboBoxGroup" fx:id="comboBoxGroup" layoutX="147.0" layoutY="70.0" prefHeight="31.0"
+                prefWidth="134.0"/>
+      <Label id="lblGroupage" fx:id="lblGroupage" layoutX="14.0" layoutY="28.0" text="Klasse:"/>
+      <Label id="lblGroup" fx:id="lblGroup" layoutX="16.0" layoutY="75.0" text="Gruppe:"/>
+      <Label id="lblStudents" fx:id="lblStudents" layoutX="16.0" layoutY="127.0" text="Studenten:"/>
+      <ComboBox id="comboBoxStudent7" fx:id="comboBoxStudent7" layoutX="98.0" layoutY="504.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <ComboBox id="comboBoxStudent4" fx:id="comboBoxStudent4" layoutX="98.0" layoutY="326.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <ComboBox id="comboBoxStudent5" fx:id="comboBoxStudent5" layoutX="98.0" layoutY="383.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <ComboBox id="comboBoxStudent6" fx:id="comboBoxStudent6" layoutX="98.0" layoutY="450.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <ComboBox id="comboBoxStudent3" fx:id="comboBoxStudent3" layoutX="98.0" layoutY="261.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <ComboBox id="comboBoxStudent2" fx:id="comboBoxStudent2" layoutX="98.0" layoutY="194.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <ComboBox id="comboBoxStudent1" fx:id="comboBoxStudent1" layoutX="98.0" layoutY="122.0" prefHeight="31.0"
+                prefWidth="184.0"/>
+      <Button id="btnCancel" fx:id="btnCancel" layoutX="12.0" layoutY="549.0" mnemonicParsing="false"
+              onAction="#cancelAttendance" text="Abbrechen"/>
+   </AnchorPane>
+   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="671.0" prefWidth="644.0">
+      <CheckBox id="checkBoxPerfectAttendance" fx:id="checkBoxPerfectAttendance" layoutX="194.0" layoutY="66.0"
+                mnemonicParsing="false"/>
+      <Label id="lblPerfectAttendance" fx:id="lblPerfectAttendance" layoutX="50.0" layoutY="66.0"
+             text="Alle sind anwesend:"/>
+      <ComboBox id="comboBoxAttendanceStudent1" fx:id="comboBoxAttendanceStudent1" layoutX="50.0" layoutY="116.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <ComboBox id="comboBoxAttendanceStudent2" fx:id="comboBoxAttendanceStudent2" layoutX="50.0" layoutY="188.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <ComboBox id="comboBoxAttendanceStudent3" fx:id="comboBoxAttendanceStudent3" layoutX="50.0" layoutY="255.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <ComboBox id="comboBoxAttendanceStudent6" fx:id="comboBoxAttendanceStudent6" layoutX="50.0" layoutY="444.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <ComboBox id="comboBoxAttendanceStudent5" fx:id="comboBoxAttendanceStudent5" layoutX="50.0" layoutY="377.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <ComboBox id="comboBoxAttendanceStudent4" fx:id="comboBoxAttendanceStudent4" layoutX="50.0" layoutY="324.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <ComboBox id="comboBoxAttendanceStudent7" fx:id="comboBoxAttendanceStudent7" layoutX="50.0" layoutY="504.0"
+                prefHeight="31.0" prefWidth="93.0"/>
+      <Text id="textAttendanceStatus" fx:id="textAttendanceStatus" layoutX="5.0" layoutY="46.0" strokeType="OUTSIDE"
+            strokeWidth="0.0" text="Anwesenheitsstatus">
+         <font>
+            <Font size="25.0"/>
+         </font>
+      </Text>
+      <Text id="textMissedTime" fx:id="textMissedTime" layoutX="262.0" layoutY="46.0" strokeType="OUTSIDE"
+            strokeWidth="0.0" text="Fehlzeit (in Minuten)">
+         <font>
+            <Font size="25.0"/>
+         </font>
+      </Text>
+      <TextField id="textFieldMissedTimeStudent1" fx:id="textFieldMissedTimeStudent1" layoutX="311.0" layoutY="116.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <TextField id="textFieldMissedTimeStudent2" fx:id="textFieldMissedTimeStudent2" layoutX="311.0" layoutY="188.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <TextField id="textFieldMissedTimeStudent3" fx:id="textFieldMissedTimeStudent3" layoutX="311.0" layoutY="255.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <TextField id="textFieldMissedTimeStudent4" fx:id="textFieldMissedTimeStudent4" layoutX="311.0" layoutY="324.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <TextField id="textFieldMissedTimeStudent5" fx:id="textFieldMissedTimeStudent5" layoutX="311.0" layoutY="377.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <TextField id="textFieldMissedTimeStudent6" fx:id="textFieldMissedTimeStudent6" layoutX="311.0" layoutY="444.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <TextField id="textFieldMissedTimeStudent7" fx:id="textFieldMissedTimeStudent7" layoutX="311.0" layoutY="504.0"
+                 prefHeight="31.0" prefWidth="64.0"/>
+      <Button id="btnSave" fx:id="btnSave" layoutX="406.0" layoutY="543.0" mnemonicParsing="false"
+              onAction="#saveAttendance" text="Speichern"/>
+   </AnchorPane>
+</SplitPane>
