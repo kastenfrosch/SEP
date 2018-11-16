@@ -17,10 +17,10 @@ public enum SceneType {
     CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow"),
     NOTEPAD_WINDOW("/fxml/AddNotepadForm.fxml", "NotepadWindow"),
     CHAT_TAB_CONTENT_TEST("/fxml/ChatTabContentTest.fxml", "ChatTabContentTest"),
-    CHAT_WINDOW_TAB_PANE_TEST("/fxml/ChatWindowTabPaneTest.fxml", "ChatWindowTabPaneTest");
-
-
-
+    CHAT_WINDOW_TAB_PANE_TEST("/fxml/ChatWindowTabPaneTest.fxml", "ChatWindowTabPaneTest"),
+    USER_ADMIN("/fxml/UserAdministrationForm.fxml", "User Administration"),
+    EDIT_USER ("/fxml/EditUserForm.fxml","User bearbeiten"),
+    PASSWORD_RESET("/fxml/PasswordResetForm.fxml","Passwort ändern");
 
     private String path, title;
 
