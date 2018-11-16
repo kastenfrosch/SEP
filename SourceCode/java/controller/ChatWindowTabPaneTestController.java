@@ -85,18 +85,17 @@ public class ChatWindowTabPaneTestController {
 
                     // open chat tab with selected user
                     //TODO: change setting of chatpartners with upcoming implementation of the scenebuilder
-                    try {
-                        Tab newChatTab = new Tab();
-                        SceneManager.getInstance()
-                                .getLoaderForScene(SceneType.CHAT_WINDOW)
-                                .<ChatWindowController>getController()
-                                .setChatPartners(currentUser, chatPartner);
-                        newChatTab.setContent(FXMLLoader.load(this.getClass().getResource("/fxml/ChatTabContentTest.fxml")));
-                        newChatTab.setText(chatWindowTitle);
-                        tabPane.getTabs().add(newChatTab);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+                    TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_TAB_CONTENT_TEST);
+                    Tab newChatTab = tabInfo.getTab();
+                    newChatTab.setText(chatWindowTitle);
+
+                    var controller = tabInfo.<ChatTabContentTest>getController();
+                    controller.setChatPartners(currentUser, chatPartner);
+                    controller.loadHistory();
+
+                    tabPane.getTabs().add(0, newChatTab);
+                    tabPane.getSelectionModel().select(newChatTab);
 
                 }
             }
@@ -106,33 +105,27 @@ public class ChatWindowTabPaneTestController {
 
     public void onStartChatButtonClicked(ActionEvent actionEvent) {
 
-        try {
-            User chatPartner;
-            if (userListView.getSelectionModel().getSelectedItem() == null) {
-                InfoModal.show("Bitte wählen Sie einen Benutzer aus!");
-                return;
-            }
-            chatPartner = (User) userListView.getSelectionModel().getSelectedItem();
-            String chatWindowTitle = "Chat mit " + chatPartner;
-
-            // open chat tab with selected user
-            //TODO: change setting of chatpartners with upcoming implementation of the scenebuilder
-
-            TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_WINDOW);
-            Tab newChatTab = tabInfo.getTab();
-            var controller = tabInfo.<ChatWindowController>getController();
-
-
-            SceneManager.getInstance()
-                    .getLoaderForScene(SceneType.CHAT_WINDOW)
-                    .<ChatWindowController>getController()
-                    .setChatPartners(this.currentUser, chatPartner);
-            newChatTab.setContent(FXMLLoader.load(this.getClass().getResource("/fxml/ChatTabContentTest.fxml")));
-            newChatTab.setText(chatWindowTitle);
-            tabPane.getTabs().add(newChatTab);
-        } catch (IOException e) {
-            e.printStackTrace();
+        User chatPartner;
+        if (userListView.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("Bitte wählen Sie einen Benutzer aus!");
+            return;
         }
+        chatPartner = (User) userListView.getSelectionModel().getSelectedItem();
+        String chatWindowTitle = "Chat mit " + chatPartner;
+
+        // open chat tab with selected user
+        //TODO: change setting of chatpartners with upcoming implementation of the scenebuilder
+
+        TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_TAB_CONTENT_TEST);
+        Tab newChatTab = tabInfo.getTab();
+        newChatTab.setText(chatWindowTitle);
+
+        var controller = tabInfo.<ChatTabContentTest>getController();
+        controller.setChatPartners(this.currentUser, chatPartner);
+        controller.loadHistory();
+
+        tabPane.getTabs().add(0, newChatTab);
+        tabPane.getSelectionModel().select(newChatTab);
 
     }
 
@@ -165,10 +158,10 @@ public class ChatWindowTabPaneTestController {
             messageHistoryList.addAll(msgDao.query(query));
 
             // pasting the list into a string with formatting
-            String messageHistory = "";
+            String history = "";
             for (ChatMessage msg : messageHistoryList) {
-                messageHistory = messageHistory + msg.getSender() + " (" + msg.getMessageId() + "):\r\n";
-                messageHistory = messageHistory + msg.getContent() + "\r\n";
+                history += msg.getSender() + " (" + msg.getMessageId() + "):\r\n";
+                history += msg.getContent() + "\r\n";
             }
 
             // creating filechooser
@@ -188,7 +181,7 @@ public class ChatWindowTabPaneTestController {
                 try {
                     // writing the text into file
                     PrintWriter out = new PrintWriter(savingPath);
-                    out.print(messageHistory);
+                    out.print(history);
                     out.close();
                 } catch (java.io.FileNotFoundException e) {
                     ErrorModal.show(e.getMessage());

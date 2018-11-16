@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import modal.ErrorModal;
 
@@ -12,14 +11,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class SceneManager {
     private static SceneManager instance;
 
     private Map<SceneType, WindowInfo> scenes = new HashMap<>();
-    private Map<SceneType, Map<Integer, TabInfo>> tabs = new HashMap<>();
     private Stage root;
 
     /**
@@ -102,6 +99,10 @@ public class SceneManager {
             info.setStage(stage);
         }
 
+        if(stage.getScene().getRoot() == null) {
+            stage.getScene().setRoot(info.getParent());
+        }
+
         Method[] methods = info.getLoader().getController().getClass().getDeclaredMethods();
         for(Method m : methods) {
             if(m.getName().equals("initialize")) {
@@ -150,5 +151,17 @@ public class SceneManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public WindowInfo getWindow(SceneType sceneType) {
+        WindowInfo info = this.scenes.get(sceneType);
+        //need to remove the element from scene because it cannot have two parents
+        if(info.getStage().isShowing()) {
+            throw new IllegalStateException("Cannot load dynamic window while static window is open");
+        }
+        if(info.getParent().getScene() != null) {
+            info.getParent().getScene().setRoot(null);
+        }
+        return info;
     }
 }
