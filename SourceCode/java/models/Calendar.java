@@ -17,10 +17,10 @@ public class Calendar {
     @DatabaseField(generatedId = true, columnName = FIELD_CALENDAR_ID)
     private int calendarId;
 
-    @DatabaseField(columnName = FIELD_CALENDAR_TYPE, dataType = DataType.ENUM_INTEGER, canBeNull = false)
+    @DatabaseField(columnName = FIELD_CALENDAR_TYPE, dataType = DataType.ENUM_INTEGER, canBeNull = false, uniqueCombo = true)
     private CalendarType calendarType;
 
-    @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true,
+    @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
             columnDefinition = "varchar not null references \"user\"(username)")
     private User user;
 
