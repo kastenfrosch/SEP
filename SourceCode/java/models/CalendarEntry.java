@@ -64,7 +64,7 @@ public class CalendarEntry {
     }
 
     public LocalDateTime getStartTimeAsLocalDateTime() {
-        return LocalDateTime.ofInstant(startTime.toInstant(), TimeZone.getDefault().toZoneId());
+        return startTime.toLocalDateTime();
     }
 
     public void setStartTime(int startTime) {
@@ -76,7 +76,7 @@ public class CalendarEntry {
     }
 
     public LocalDateTime getEndTime() {
-        return LocalDateTime.ofInstant(endTime.toInstant(), TimeZone.getDefault().toZoneId());
+        return endTime.toLocalDateTime();
     }
 
     public void setEndTime(LocalDateTime endTime) {

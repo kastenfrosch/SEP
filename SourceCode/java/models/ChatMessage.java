@@ -67,7 +67,7 @@ public class ChatMessage {
     }
 
     public LocalDateTime getLocalDateTime() {
-        return LocalDateTime.ofInstant(time.toInstant(), TimeZone.getDefault().toZoneId());
+        return time.toLocalDateTime();
     }
 
     public void setTime(Timestamp time) {
