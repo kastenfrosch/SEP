@@ -23,7 +23,7 @@
       <Button fx:id="passwordReset" layoutX="223.0" layoutY="340.0" mnemonicParsing="false" onAction="#onPasswordResetClicked" text="Passwort ändern" />
       <TextField fx:id="firstnameTextfield" layoutX="189.0" layoutY="77.0" />
       <TextField fx:id="lastnameTextfield" layoutX="188.0" layoutY="128.0" />
-      <TextField fx:id="usernameTextfield" layoutX="188.0" layoutY="181.0" />
+      <TextField fx:id="usernameTextfield" disable="true" layoutX="188.0" layoutY="181.0" />
       <TextField fx:id="emailTextfield" layoutX="188.0" layoutY="232.0" />
    </children>
 </AnchorPane>
