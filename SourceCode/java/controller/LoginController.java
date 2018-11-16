@@ -48,7 +48,7 @@ public class LoginController {
         DBManager dbManager;
         try {
             dbManager = DBManager.getInstance();
-        } catch(SQLException ex) {
+        } catch (SQLException ex) {
             ErrorModal.show("ERROR", "Database Error", ex.getMessage());
             return;
         }
@@ -61,10 +61,10 @@ public class LoginController {
 
         try {
             user = userDao.queryForId(username);
-            if(user == null) {
+            if (user == null) {
                 throw new SQLException();
             }
-        } catch(SQLException ex) {
+        } catch (SQLException ex) {
             ErrorModal.show("Invalid User / Password");
             return;
         }
@@ -75,7 +75,7 @@ public class LoginController {
         byte[] salt = HashUtils.fromHex(hexSalt);
         byte[] passEntered = HashUtils.hash(pass, salt);
 
-        if(HashUtils.toHex(passEntered).equals(hexPass)) {
+        if (HashUtils.toHex(passEntered).equals(hexPass)) {
             //dingding, you're in
             //now we re-calculate a new hash with a new salt. Security, baby!
             salt = HashUtils.getRandomSalt();
@@ -89,7 +89,7 @@ public class LoginController {
 
             try {
                 userDao.update(user);
-            } catch(SQLException ex) {
+            } catch (SQLException ex) {
                 //we can theoretially ignore this exception because it only means that
                 //updating the salt and hash failed. While it's not good, it will not
                 //prevent the application from working properly and the old hash + password will not be altered.

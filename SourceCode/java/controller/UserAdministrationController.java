@@ -61,9 +61,10 @@ public class UserAdministrationController {
                 .getLoaderForScene(SceneType.EDIT_USER)
                 .<EditUserController>getController()
                 .setUser(selectedItem);
-SceneManager.getInstance().showInNewWindow(SceneType.EDIT_USER);
+        SceneManager.getInstance().showInNewWindow(SceneType.EDIT_USER);
     }
-@FXML
+
+    @FXML
     public void onDeleteBtnClicked(ActionEvent event) {
         //check if user wants to delete the groupage
         boolean confirm = ConfirmationModal.show("Soll der User wirklich gelöscht werden?");
@@ -84,7 +85,8 @@ SceneManager.getInstance().showInNewWindow(SceneType.EDIT_USER);
         InfoModal.show("User " + user.getUsername() + " wurde gelöscht.");
         SceneManager.getInstance().switchTo(SceneType.HOME);
     }
-@FXML
+
+    @FXML
     public void onCancelBtnClicked(ActionEvent event) {
         SceneManager.getInstance().switchTo(SceneType.HOME);
     }
