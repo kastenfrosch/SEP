@@ -23,7 +23,8 @@ public class CalendarEntry {
     @DatabaseField(generatedId = true, columnName = FIELD_ENTRY_ID)
     private int entryId;
 
-    @DatabaseField(columnName = FIELD_CALENDAR_ID, canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(columnName = FIELD_CALENDAR_ID, canBeNull = false, foreign = true, foreignAutoRefresh = true,
+            columnDefinition = "integer not null references calendar(calendar_id)")
     private Calendar calendar;
 
     @DatabaseField(columnName = FIELD_DESCRIPTION, canBeNull = false)
