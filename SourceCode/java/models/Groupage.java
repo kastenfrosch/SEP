@@ -22,10 +22,10 @@ public class Groupage {
     @DatabaseField(columnName = FIELD_GROUPAGE_DESCRIPTION, canBeNull = false)
     private String description;
 
-    @DatabaseField(columnName = FIELD_TIME_START, canBeNull = false, dataType = DataType.TIME_STAMP)
+    @DatabaseField(columnName = FIELD_TIME_START, dataType = DataType.TIME_STAMP)
     private Timestamp startTime;
 
-    @DatabaseField(columnName = FIELD_TIME_END, canBeNull = false, dataType = DataType.TIME_STAMP)
+    @DatabaseField(columnName = FIELD_TIME_END, dataType = DataType.TIME_STAMP)
     private Timestamp endTime;
 
 
@@ -37,9 +37,11 @@ public class Groupage {
 
     public Groupage() {}
 
-    public Groupage(String description, Semester semester) {
+    public Groupage(String description, Semester semester, Timestamp startTime, Timestamp endTime) {
         this.description = description;
         this.semester = semester;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public String getDescription() {
