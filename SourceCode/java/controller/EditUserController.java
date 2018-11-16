@@ -18,7 +18,7 @@ import javax.mail.internet.InternetAddress;
 import java.sql.SQLException;
 
 public class EditUserController {
-    User user =  new User();
+    User user = new User();
     Person person = new Person();
     private DBManager dbManager;
 
@@ -98,6 +98,9 @@ public class EditUserController {
 
     @FXML
     void onPasswordResetClicked(ActionEvent event) {
+        SceneManager.getInstance().getLoaderForScene(SceneType.PASSWORD_RESET)
+                .<PasswordResetController>getController()
+                .setUser(this.user);
         SceneManager.getInstance().showInNewWindow(SceneType.PASSWORD_RESET);
 
     }
@@ -112,13 +115,13 @@ public class EditUserController {
         return true;
     }
 
-        public void setUser(User user){
-            this.user = user;
-            lastnameTextfield.setText(user.getPerson().getLastname());
-            firstnameTextfield.setText(user.getPerson().getFirstname());
-            emailTextfield.setText(user.getPerson().getEmail());
-            usernameTextfield.setText(user.getUsername());
+    public void setUser(User user) {
+        this.user = user;
+        lastnameTextfield.setText(user.getPerson().getLastname());
+        firstnameTextfield.setText(user.getPerson().getFirstname());
+        emailTextfield.setText(user.getPerson().getEmail());
+        usernameTextfield.setText(user.getUsername());
 
-        }
+    }
 
 }
