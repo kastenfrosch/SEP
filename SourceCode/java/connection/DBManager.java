@@ -23,7 +23,7 @@ public class DBManager {
     private Dao<ChatMessage, Integer> chatMessageDao;
     private Dao<Notepad, Integer> notepadDao;
     private Dao<Tardy, Integer> tardyDao;
-
+    private Dao<InviteCode, String> inviteCodeDao;
     private User loggedInUser = null;
 
     public static DBManager getInstance() throws SQLException {
@@ -51,6 +51,7 @@ public class DBManager {
         this.chatMessageDao = DaoManager.createDao(conn, ChatMessage.class);
         this.notepadDao = DaoManager.createDao(conn, Notepad.class);
         this.tardyDao = DaoManager.createDao(conn, Tardy.class);
+        this.inviteCodeDao = DaoManager.createDao(conn, InviteCode.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -94,6 +95,8 @@ public class DBManager {
     public Dao<Tardy, Integer> getTardyDao() {
         return tardyDao;
     }
+
+    public Dao<InviteCode, String> getInviteCodeDao(){return inviteCodeDao;}
 
     public void setLoggedInUser(User user) {
         if (this.loggedInUser != null) {
