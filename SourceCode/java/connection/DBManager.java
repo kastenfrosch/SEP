@@ -21,6 +21,7 @@ public class DBManager {
     private Dao<Calendar, Integer> calendarDao;
     private Dao<CalendarEntry, Integer> calendarEntryDao;
     private Dao<ChatMessage, Integer> chatMessageDao;
+    private Dao<Notepad, Integer> notepadDao;
 
     private User loggedInUser = null;
 
@@ -47,6 +48,7 @@ public class DBManager {
         this.calendarDao = DaoManager.createDao(conn, Calendar.class);
         this.calendarEntryDao = DaoManager.createDao(conn, CalendarEntry.class);
         this.chatMessageDao = DaoManager.createDao(conn, ChatMessage.class);
+        this.notepadDao = DaoManager.createDao(conn, Notepad.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -84,6 +86,8 @@ public class DBManager {
     public Dao<CalendarEntry, Integer> getCalendarEntryDao() {
         return calendarEntryDao;
     }
+
+    public Dao<Notepad, Integer> getNotepadDao() {return notepadDao;}
 
     public void setLoggedInUser(User user) {
         if(this.loggedInUser != null) {
