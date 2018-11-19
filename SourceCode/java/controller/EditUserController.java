@@ -43,7 +43,7 @@ public class EditUserController {
 
 
     @FXML
-    void onSaveBtnClicked(ActionEvent event) {
+    public void onSaveBtnClicked(ActionEvent event) {
 
         // making sure that firstname is not empty.
         if (firstnameTextfield.getText().isBlank()) {
