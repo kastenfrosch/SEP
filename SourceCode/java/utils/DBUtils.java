@@ -10,6 +10,8 @@ import models.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class DBUtils {
         TableUtils.clearTable(conn, CalendarEntry.class);
         TableUtils.clearTable(conn, Calendar.class);
         TableUtils.clearTable(conn, ChatMessage.class);
+        TableUtils.clearTable(conn, Tardy.class);
+        TableUtils.clearTable(conn, Notepad.class);
 	}
 
 
@@ -40,6 +44,8 @@ public class DBUtils {
         TableUtils.dropTable(conn, Person.class, true);
         TableUtils.dropTable(conn, Semester.class, true);
         TableUtils.dropTable(conn, ChatMessage.class, true);
+        TableUtils.dropTable(conn, Tardy.class, true);
+        TableUtils.dropTable(conn, Notepad.class, true);
     }
 
     public static void createTables(ConnectionSource conn) throws SQLException {
@@ -52,6 +58,8 @@ public class DBUtils {
         TableUtils.createTable(conn, Calendar.class);
         TableUtils.createTable(conn, CalendarEntry.class);
         TableUtils.createTable(conn, ChatMessage.class);
+        TableUtils.createTable(conn, Tardy.class);
+        TableUtils.createTable(conn, Notepad.class);
     }
 
     public static void createTriggers() throws SQLException{
@@ -216,6 +224,28 @@ public class DBUtils {
         studentDao.create(s10);
         studentDao.create(s11);
         studentDao.create(s12);
+
+        Tardy t1 = new Tardy();
+        t1.setStudent(s1);
+        t1.setTimeMissed(15);
+        t1.setDateMissed(Timestamp.valueOf(LocalDateTime.now()));
+
+        Tardy t2 = new Tardy();
+        t2.setStudent(s1);
+        t2.setTimeMissed(60);
+        t2.setDateMissed(Timestamp.valueOf(LocalDateTime.now()));
+
+        ChatMessage cm1 = new ChatMessage();
+        cm1.setContent("Standard testnachricht");
+        cm1.setSender(u1);
+        cm1.setReceiver(u1);
+        cm1.setTime(LocalDateTime.now());
+
+        ChatMessage cm2 = new ChatMessage();
+        cm1.setContent("Standard Antwort");
+        cm1.setSender(u1);
+        cm1.setReceiver(u1);
+        cm2.setTime(LocalDateTime.now());
 
     }
 }

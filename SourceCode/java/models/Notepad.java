@@ -6,10 +6,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = Notepad.TABLE_NOTEPAD)
 public class Notepad {
 
-    public static final String TABLE_NOTEPAD = "Notepad";
-    public static final String FIELD_NOTEPAD_ID = "Notepad_id";
-    public static final String FIELD_NOTEPAD_PRIORITY = "Notepad_Priority";
-    public static final String FIELD_NOTEPAD_CONTENT = "Notepad_Content";
+    public static final String TABLE_NOTEPAD = "notepad";
+    public static final String FIELD_NOTEPAD_ID = "notepad_id";
+    public static final String FIELD_NOTEPAD_PRIORITY = "notepad_priority";
+    public static final String FIELD_NOTEPAD_CONTENT = "notepad_content";
     public static final String FIELD_USERNAME = User.FIELD_USERNAME;
 
     @DatabaseField(generatedId = true, columnName = FIELD_NOTEPAD_ID)
@@ -26,7 +26,6 @@ public class Notepad {
     private User user;
 
     public int getNotepadId() {return notepadId;}
-    public void setNotepadId(int notepadId) {this.notepadId = notepadId;}
 
     public String getNotepadPriority() {return notepadPriority;}
     public void setNotepadPriority(String notepadPriority) {this.notepadPriority = notepadPriority;}
