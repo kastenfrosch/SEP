@@ -37,6 +37,15 @@ public class Groupage {
 
     public Groupage() {}
 
+    /**
+     * @deprecated use {@link Groupage#Groupage(String, Semester, Timestamp, Timestamp)} instead
+     */
+    @Deprecated
+    public Groupage(String description, Semester semester) {
+        this.description = description;
+        this.semester = semester;
+    }
+
     public Groupage(String description, Semester semester, Timestamp startTime, Timestamp endTime) {
         this.description = description;
         this.semester = semester;
