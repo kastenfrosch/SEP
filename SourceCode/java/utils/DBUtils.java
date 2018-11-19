@@ -20,6 +20,8 @@ import java.util.Map;
 public class DBUtils {
 
 	public static void clearTables(ConnectionSource conn) throws SQLException {
+        TableUtils.clearTable(conn, Tardy.class);
+        TableUtils.clearTable(conn, Notepad.class);
 		TableUtils.clearTable(conn, Semester.class);
 		TableUtils.clearTable(conn, Person.class);
         TableUtils.clearTable(conn, User.class);
@@ -29,12 +31,12 @@ public class DBUtils {
         TableUtils.clearTable(conn, CalendarEntry.class);
         TableUtils.clearTable(conn, Calendar.class);
         TableUtils.clearTable(conn, ChatMessage.class);
-        TableUtils.clearTable(conn, Tardy.class);
-        TableUtils.clearTable(conn, Notepad.class);
 	}
 
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, Tardy.class, true);
+        TableUtils.dropTable(conn, Notepad.class, true);
 	    TableUtils.dropTable(conn, CalendarEntry.class, true);
 	    TableUtils.dropTable(conn, Calendar.class, true);
         TableUtils.dropTable(conn, Student.class, true);
@@ -44,8 +46,6 @@ public class DBUtils {
         TableUtils.dropTable(conn, Person.class, true);
         TableUtils.dropTable(conn, Semester.class, true);
         TableUtils.dropTable(conn, ChatMessage.class, true);
-        TableUtils.dropTable(conn, Tardy.class, true);
-        TableUtils.dropTable(conn, Notepad.class, true);
     }
 
     public static void createTables(ConnectionSource conn) throws SQLException {
@@ -235,6 +235,11 @@ public class DBUtils {
         t2.setTimeMissed(60);
         t2.setDateMissed(Timestamp.valueOf(LocalDateTime.now()));
 
+        Dao<Tardy, Integer> tardyDao = manager.getTardyDao();
+
+        tardyDao.create(t1);
+        tardyDao.create(t2);
+
         ChatMessage cm1 = new ChatMessage();
         cm1.setContent("Standard testnachricht");
         cm1.setSender(u1);
@@ -242,10 +247,14 @@ public class DBUtils {
         cm1.setTime(LocalDateTime.now());
 
         ChatMessage cm2 = new ChatMessage();
-        cm1.setContent("Standard Antwort");
-        cm1.setSender(u1);
-        cm1.setReceiver(u1);
+        cm2.setContent("Standard Antwort");
+        cm2.setSender(u1);
+        cm2.setReceiver(u1);
         cm2.setTime(LocalDateTime.now());
+
+        Dao<ChatMessage, Integer> cmDao = manager.getChatMessageDao();
+        cmDao.create(cm1);
+        cmDao.create(cm2);
 
     }
 }
