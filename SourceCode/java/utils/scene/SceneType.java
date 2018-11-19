@@ -15,12 +15,14 @@ public enum SceneType {
     REGISTER("/fxml/RegisterForm.fxml", "Registrierung"),
     CHAT_APP("/fxml/ChatApp.fxml", "ChatApp"),
     CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow"),
-    NOTEPAD_WINDOW("/fxml/AddNotepadForm.fxml", "NotepadWindow"),
+    CREATE_NOTEPAD_WINDOW("/fxml/CreateNotepadForm.fxml", "CreateNotepadWindow"),
+    EDIT_NOTEPAD_WINDOW("/fxml/EditNotepadForm.fxml", "EditNotepadWindow"),
     CHAT_TAB_CONTENT_TEST("/fxml/ChatTabContentTest.fxml", "ChatTabContentTest"),
     CHAT_WINDOW_TAB_PANE_TEST("/fxml/ChatWindowTabPaneTest.fxml", "ChatWindowTabPaneTest"),
     USER_ADMIN("/fxml/UserAdministrationForm.fxml", "User Administration"),
     EDIT_USER ("/fxml/EditUserForm.fxml","User bearbeiten"),
     PASSWORD_RESET("/fxml/PasswordResetForm.fxml","Passwort ändern");
+
 
     private String path, title;
 
