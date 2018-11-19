@@ -241,13 +241,13 @@ public class DBUtils {
         tardyDao.create(t2);
 
         ChatMessage cm1 = new ChatMessage();
-        cm1.setContent("Standard testnachricht");
+        cm1.setContent("Standard testnachricht\n");
         cm1.setSender(u1);
         cm1.setReceiver(u1);
         cm1.setTime(LocalDateTime.now());
 
         ChatMessage cm2 = new ChatMessage();
-        cm2.setContent("Standard Antwort");
+        cm2.setContent("Standard Antwort\r\n");
         cm2.setSender(u1);
         cm2.setReceiver(u1);
         cm2.setTime(LocalDateTime.now());
