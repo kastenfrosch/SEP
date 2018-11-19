@@ -70,7 +70,7 @@ public class CreateTimetableController {
 
     @FXML
     public void initialize() {
-
+    //
         appendTextfields();
     }
 
