@@ -22,6 +22,7 @@ public class DBManager {
     private Dao<CalendarEntry, Integer> calendarEntryDao;
     private Dao<ChatMessage, Integer> chatMessageDao;
     private Dao<Notepad, Integer> notepadDao;
+    private Dao<Tardy, Integer> tardyDao;
 
     private User loggedInUser = null;
 
@@ -49,6 +50,7 @@ public class DBManager {
         this.calendarEntryDao = DaoManager.createDao(conn, CalendarEntry.class);
         this.chatMessageDao = DaoManager.createDao(conn, ChatMessage.class);
         this.notepadDao = DaoManager.createDao(conn, Notepad.class);
+        this.tardyDao = DaoManager.createDao(conn, Tardy.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -89,8 +91,12 @@ public class DBManager {
 
     public Dao<Notepad, Integer> getNotepadDao() {return notepadDao;}
 
+    public Dao<Tardy, Integer> getTardyDao() {
+        return tardyDao;
+    }
+
     public void setLoggedInUser(User user) {
-        if(this.loggedInUser != null) {
+        if (this.loggedInUser != null) {
             throw new IllegalStateException("Logged in user cannot be changed once set");
         }
         this.loggedInUser = user;
