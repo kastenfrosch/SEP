@@ -10,6 +10,7 @@ public class User {
     public static final String FIELD_PERSON_ID = "person_id";
     public static final String FIELD_PASSWORD_HASH = "password_hash";
     public static final String FIELD_SALT = "salt";
+    public static final String FIELD_ENABLED = "enabled";
 
     @DatabaseField(id = true, columnName = FIELD_USERNAME)
     private String username;
@@ -20,11 +21,14 @@ public class User {
 
     //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
     @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true, foreignAutoCreate = true,
-    columnDefinition = "integer not null references person(person_id) on delete restrict")
+    columnDefinition = "integer not null references person(person_id) on delete restrict", canBeNull = false)
     private Person person;
 
-    @DatabaseField(columnName=FIELD_SALT)
+    @DatabaseField(columnName=FIELD_SALT, canBeNull = false)
     private String salt;
+
+    @DatabaseField(columnName=FIELD_ENABLED, canBeNull = false, defaultValue = "false")
+    private boolean enabled;
 
     public User() {}
 
@@ -68,6 +72,14 @@ public class User {
         this.salt = salt;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return this.getUsername();
@@ -82,6 +94,5 @@ public class User {
         return this.username.equals(((User) other).getUsername());
     }
 
-    public void setSalt() {
-    }
+
 }
