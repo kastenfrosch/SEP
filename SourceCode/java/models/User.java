@@ -10,7 +10,6 @@ public class User {
     public static final String FIELD_PERSON_ID = "person_id";
     public static final String FIELD_PASSWORD_HASH = "password_hash";
     public static final String FIELD_SALT = "salt";
-    public static final String FIELD_ENABLED = "enabled";
 
     @DatabaseField(id = true, columnName = FIELD_USERNAME)
     private String username;
@@ -26,9 +25,6 @@ public class User {
 
     @DatabaseField(columnName=FIELD_SALT, canBeNull = false)
     private String salt;
-
-    @DatabaseField(columnName=FIELD_ENABLED, canBeNull = false, defaultValue = "false")
-    private boolean enabled;
 
     public User() {}
 
@@ -70,14 +66,6 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     @Override
