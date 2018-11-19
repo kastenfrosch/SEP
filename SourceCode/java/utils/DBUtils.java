@@ -11,6 +11,7 @@ import models.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,10 +32,12 @@ public class DBUtils {
         TableUtils.clearTable(conn, CalendarEntry.class);
         TableUtils.clearTable(conn, Calendar.class);
         TableUtils.clearTable(conn, ChatMessage.class);
+        TableUtils.clearTable(conn, InviteCode.class);
 	}
 
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
+	    TableUtils.dropTable(conn, InviteCode.class, true);
         TableUtils.dropTable(conn, Tardy.class, true);
         TableUtils.dropTable(conn, Notepad.class, true);
 	    TableUtils.dropTable(conn, CalendarEntry.class, true);
@@ -60,6 +63,7 @@ public class DBUtils {
         TableUtils.createTable(conn, ChatMessage.class);
         TableUtils.createTable(conn, Tardy.class);
         TableUtils.createTable(conn, Notepad.class);
+        TableUtils.createTable(conn, InviteCode.class);
     }
 
     public static void createTriggers() throws SQLException{
@@ -255,6 +259,26 @@ public class DBUtils {
         Dao<ChatMessage, Integer> cmDao = manager.getChatMessageDao();
         cmDao.create(cm1);
         cmDao.create(cm2);
+
+        Calendar c = new Calendar();
+        c.setCalendarType(Calendar.CalendarType.WEEK);
+        c.setUser(u1);
+
+        Dao<Calendar, Integer> calendarDao = manager.getCalendarDao();
+        calendarDao.create(c);
+
+        CalendarEntry ce = new CalendarEntry();
+        ce.setStartTime(8);
+        ce.setDayOfWeek(DayOfWeek.MONDAY);
+        ce.setCalendar(c);
+        ce.setDescription("TestEintrag");
+
+        Dao<CalendarEntry, Integer> ceDao = manager.getCalendarEntryDao();
+        ceDao.create(ce);
+
+        InviteCode code = new InviteCode();
+        Dao<InviteCode, String> inviteDao = manager.getInviteCodeDao();
+        inviteDao.create(code);
 
     }
 }

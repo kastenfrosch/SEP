@@ -92,6 +92,8 @@ public class UserAdministrationController {
     }
 
 
+    public void onCodeBtnClicked(ActionEvent event) {
+    }
 }
 
 

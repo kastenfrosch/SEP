@@ -20,10 +20,10 @@ public class User {
 
     //Note: The column defintions are currently constants. I have not found a way to have them generated yet.
     @DatabaseField(foreign=true, columnName=FIELD_PERSON_ID, foreignAutoRefresh = true, foreignAutoCreate = true,
-    columnDefinition = "integer not null references person(person_id) on delete restrict")
+    columnDefinition = "integer not null references person(person_id) on delete restrict", canBeNull = false)
     private Person person;
 
-    @DatabaseField(columnName=FIELD_SALT)
+    @DatabaseField(columnName=FIELD_SALT, canBeNull = false)
     private String salt;
 
     public User() {}
@@ -82,6 +82,5 @@ public class User {
         return this.username.equals(((User) other).getUsername());
     }
 
-    public void setSalt() {
-    }
+
 }
