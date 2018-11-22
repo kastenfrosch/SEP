@@ -7,14 +7,18 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = FavouriteSemester.TABLE_FAV_SEMESTER)
 public class FavouriteSemester {
     public static final String TABLE_FAV_SEMESTER = "favourite_semester";
+    public static final String FIELD_FAVOURITE_ID = "favourite_id";
     public static final String FIELD_SEMESTER_ID = "semester_id";
     public static final String FIELD_USER_ID = "user_id";
 
-    @DatabaseField(columnName = FIELD_SEMESTER_ID, id = true, foreign = true, foreignAutoRefresh = true,
+    @DatabaseField(columnName = FIELD_FAVOURITE_ID, generatedId = true)
+    private int id;
+
+    @DatabaseField(columnName = FIELD_SEMESTER_ID,foreign = true, foreignAutoRefresh = true,
     columnDefinition = "integer not null references semester(semester_id)")
     private int semesterId;
 
-    @DatabaseField(columnName = FIELD_USER_ID, id = true, foreign = true, foreignAutoRefresh = true,
+    @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
     columnDefinition = "integer not null references \"user\"(user_id)")
     private int userId;
 
@@ -32,5 +36,9 @@ public class FavouriteSemester {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
     }
 }

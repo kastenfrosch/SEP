@@ -24,6 +24,11 @@ public class DBManager {
     private Dao<Notepad, Integer> notepadDao;
     private Dao<Tardy, Integer> tardyDao;
     private Dao<InviteCode, String> inviteCodeDao;
+    private Dao<FavouriteGroup, Integer> favouriteGroupDao;
+    private Dao<FavouriteGroupage, Integer> favouriteGroupageDao;
+    private Dao<FavouriteSemester, Integer> favouriteSemesterDao;
+    private Dao<FavouriteStudent, Integer> favouriteStudentDao;
+
     private User loggedInUser = null;
 
     public static DBManager getInstance() throws SQLException {
@@ -52,6 +57,10 @@ public class DBManager {
         this.notepadDao = DaoManager.createDao(conn, Notepad.class);
         this.tardyDao = DaoManager.createDao(conn, Tardy.class);
         this.inviteCodeDao = DaoManager.createDao(conn, InviteCode.class);
+        this.favouriteGroupDao = DaoManager.createDao(conn, FavouriteGroup.class);
+        this.favouriteGroupageDao = DaoManager.createDao(conn, FavouriteGroupage.class);
+        this.favouriteSemesterDao = DaoManager.createDao(conn, FavouriteSemester.class);
+        this.favouriteStudentDao = DaoManager.createDao(conn, FavouriteStudent.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -97,6 +106,23 @@ public class DBManager {
     }
 
     public Dao<InviteCode, String> getInviteCodeDao(){return inviteCodeDao;}
+
+
+    public Dao<FavouriteGroup, Integer> getFavouriteGroupDao() {
+        return favouriteGroupDao;
+    }
+
+    public Dao<FavouriteGroupage, Integer> getFavouriteGroupageDao() {
+        return favouriteGroupageDao;
+    }
+
+    public Dao<FavouriteSemester, Integer> getFavouriteSemesterDao() {
+        return favouriteSemesterDao;
+    }
+
+    public Dao<FavouriteStudent, Integer> getFavouriteStudentDao() {
+        return favouriteStudentDao;
+    }
 
     public void setLoggedInUser(User user) {
         if (this.loggedInUser != null) {
