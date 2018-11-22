@@ -17,26 +17,26 @@ public class FavouriteGroupage {
 
     @DatabaseField(columnName = FIELD_GROUPAGE_ID, foreign = true, foreignAutoRefresh = true,
     columnDefinition = "integer not null references groupage(groupage_id)")
-    private int groupageId;
+    private Groupage groupage;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
     columnDefinition = "integer not null references \"user\"(user_id)")
-    private int userId;
+    private User user;
 
-    public int getGroupageId() {
-        return groupageId;
+    public Groupage getGroupage() {
+        return groupage;
     }
 
-    public void setGroupageId(int groupageId) {
-        this.groupageId = groupageId;
+    public void setGroupage(Groupage groupage) {
+        this.groupage = groupage;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {

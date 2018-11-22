@@ -16,26 +16,26 @@ public class FavouriteStudent {
 
     @DatabaseField(columnName = FIELD_STUDENT_ID, foreign = true, foreignAutoRefresh = true,
             columnDefinition = "integer not null references student(student_id)")
-    private int groupId;
+    private Student student;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
             columnDefinition = "integer not null references \"user\"(user_id)")
-    private int userId;
+    private User user;
 
-    public int getGroupId() {
-        return groupId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {

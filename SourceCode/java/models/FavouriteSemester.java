@@ -16,26 +16,26 @@ public class FavouriteSemester {
 
     @DatabaseField(columnName = FIELD_SEMESTER_ID,foreign = true, foreignAutoRefresh = true,
     columnDefinition = "integer not null references semester(semester_id)")
-    private int semesterId;
+    private Semester semester;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
     columnDefinition = "integer not null references \"user\"(user_id)")
-    private int userId;
+    private User user;
 
-    public int getSemesterId() {
-        return semesterId;
+    public Semester getSemester() {
+        return semester;
     }
 
-    public void setSemesterId(int semesterId) {
-        this.semesterId = semesterId;
+    public void setSemester(Semester semester) {
+        this.semester = semester;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
