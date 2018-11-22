@@ -50,8 +50,8 @@ public class InviteCodeController {
     }
 
     public void onGenerateCodeBtnClicked(ActionEvent event) {
-        String inviteCode = InviteCode.getCode();
-        System.out.print(inviteCode);
+        //String inviteCode = InviteCode.getCode();
+       // System.out.print(inviteCode);
 
 
     }
