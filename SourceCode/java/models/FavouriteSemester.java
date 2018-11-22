@@ -15,11 +15,11 @@ public class FavouriteSemester {
     private int id;
 
     @DatabaseField(columnName = FIELD_SEMESTER_ID,foreign = true, foreignAutoRefresh = true,
-    columnDefinition = "integer not null references semester(semester_id)")
+    columnDefinition = "varchar not null references semester(semester_id)")
     private Semester semester;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-    columnDefinition = "integer not null references \"user\"(user_id)")
+    columnDefinition = "varchar not null references \"user\"(username)")
     private User user;
 
     public Semester getSemester() {

@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = FavouriteGroup.TABLE_FAV_GROUP)
 public class FavouriteGroup {
-    public static final String TABLE_FAV_GROUP = "favourite_semester";
+    public static final String TABLE_FAV_GROUP = "favourite_group";
     //group_id / user_id would be better but ormlite and multi-field keys dont like each other
     public static final String FIELD_FAVOURITE_ID = "favourite_id";
     public static final String FIELD_GROUP_ID = "group_id";
@@ -16,11 +16,11 @@ public class FavouriteGroup {
     private int id;
 
     @DatabaseField(columnName = FIELD_GROUP_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references group(group_id)")
+            columnDefinition = "integer not null references \"group\"(group_id)")
     private Group group;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references \"user\"(user_id)")
+            columnDefinition = "varchar not null references \"user\"(username)")
     private User user;
 
     public Group getGroup() {

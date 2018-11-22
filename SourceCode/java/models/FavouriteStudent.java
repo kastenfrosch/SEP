@@ -19,7 +19,7 @@ public class FavouriteStudent {
     private Student student;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references \"user\"(user_id)")
+            columnDefinition = "varchar not null references \"user\"(username)")
     private User user;
 
     public Student getStudent() {

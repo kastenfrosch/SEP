@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = FavouriteGroupage.TABLE_FAV_GROUPAGE)
 public class FavouriteGroupage {
-    public static final String TABLE_FAV_GROUPAGE = "favourite_semester";
+    public static final String TABLE_FAV_GROUPAGE = "favourite_groupage";
     //same as in FavouriteGroup
     public static final String FIELD_FAVOURITE_ID = "favourite_id";
     public static final String FIELD_GROUPAGE_ID = "groupage_id";
@@ -20,7 +20,7 @@ public class FavouriteGroupage {
     private Groupage groupage;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-    columnDefinition = "integer not null references \"user\"(user_id)")
+    columnDefinition = "varchar not null references \"user\"(username)")
     private User user;
 
     public Groupage getGroupage() {
