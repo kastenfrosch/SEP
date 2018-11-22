@@ -28,6 +28,7 @@ public class DBManager {
     private Dao<FavouriteGroupage, Integer> favouriteGroupageDao;
     private Dao<FavouriteSemester, Integer> favouriteSemesterDao;
     private Dao<FavouriteStudent, Integer> favouriteStudentDao;
+    private Dao<CalendarExtraInfo, Integer> calendarExtraInfoDao;
 
     private User loggedInUser = null;
 
@@ -61,6 +62,7 @@ public class DBManager {
         this.favouriteGroupageDao = DaoManager.createDao(conn, FavouriteGroupage.class);
         this.favouriteSemesterDao = DaoManager.createDao(conn, FavouriteSemester.class);
         this.favouriteStudentDao = DaoManager.createDao(conn, FavouriteStudent.class);
+        this.calendarExtraInfoDao = DaoManager.createDao(conn, CalendarExtraInfo.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -122,6 +124,10 @@ public class DBManager {
 
     public Dao<FavouriteStudent, Integer> getFavouriteStudentDao() {
         return favouriteStudentDao;
+    }
+
+    public Dao<CalendarExtraInfo, Integer> getCalendarExtraInfoDao() {
+        return calendarExtraInfoDao;
     }
 
     public void setLoggedInUser(User user) {

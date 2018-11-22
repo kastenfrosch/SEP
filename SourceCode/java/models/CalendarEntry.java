@@ -3,7 +3,9 @@ package models;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import connection.DBManager;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -89,6 +91,17 @@ public class CalendarEntry {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public CalendarExtraInfo getExtraInfo() {
+        try {
+            return DBManager.getInstance().getCalendarExtraInfoDao().queryForEq(
+                    CalendarExtraInfo.FIELD_CALENDAR_ENTRY_ID,
+                    this.entryId
+            ).get(0);
+        } catch(SQLException ex) {
+            return null;
+        }
     }
 }
 

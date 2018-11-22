@@ -15,7 +15,7 @@ public class CalendarExtraInfo {
     @DatabaseField(columnName = FIELD_EXTRA_INFO_ID, generatedId = true)
     private int id;
 
-    @DatabaseField(columnName = FIELD_CALENDAR_ENTRY_ID, foreign = true, foreignAutoRefresh = true,
+    @DatabaseField(columnName = FIELD_CALENDAR_ENTRY_ID, foreign = true, foreignAutoRefresh = true, unique = true,
             columnDefinition = "integer not null references calendar_entry(entry_id)")
     private CalendarEntry calendarEntry;
 
