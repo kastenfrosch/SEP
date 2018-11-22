@@ -18,6 +18,7 @@ import java.sql.SQLException;
 
 public class EditNotepadController {
 
+    private Notepad notepad;
     private DBManager dbManager;
 
     {
@@ -70,8 +71,6 @@ public class EditNotepadController {
 
     public void editNotepadSave(ActionEvent actionEvent) {
 
-        Notepad notepad = new Notepad();
-
         String noteName;
         if(editNotepadName == null || editNotepadName.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Bezeichnung eingeben!");
@@ -95,12 +94,12 @@ public class EditNotepadController {
 
         Dao<Notepad, Integer> notepadDao = dbManager.getNotepadDao();
 
-        notepad.setNotepadName(noteName);
-        notepad.setNotepadPriority(priority);
-        notepad.setNotepadContent(textContent);
+        this.notepad.setNotepadName(noteName);
+        this.notepad.setNotepadPriority(priority);
+        this.notepad.setNotepadContent(textContent);
 
         try {
-            notepadDao.update(notepad);
+            notepadDao.update(this.notepad);
             InfoModal.show("Notiz" + editNotepadName.getText() + " wurde geändert!");
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
@@ -110,13 +109,12 @@ public class EditNotepadController {
     }
 
     public void editNotepadDelete(ActionEvent actionEvent) {
-        Notepad notepad = new Notepad();
 
         boolean delete = ConfirmationModal.show("Soll die Notiz gelöscht werden?");
         if (delete) {
             Dao<Notepad, Integer> notepadDao = dbManager.getNotepadDao();
             try {
-                notepadDao.delete(notepad);
+                notepadDao.delete(this.notepad);
             } catch (SQLException e) {
                 ErrorModal.show("Fehler: Die Notiz konnte nicht geloescht werden.");
             }
@@ -129,5 +127,13 @@ public class EditNotepadController {
 
     public void editNotepadCancel(ActionEvent actionEvent) {
         SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
+    }
+
+    public void setNotepad(Notepad notepad) {
+
+        this.notepad = notepad;
+        this.notepad.setNotepadName(notepad.getNotepadName());
+        this.notepad.setNotepadPriority(notepad.getNotepadPriority());
+        this.notepad.setNotepadContent(notepad.getNotepadContent());
     }
 }
