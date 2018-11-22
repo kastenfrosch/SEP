@@ -29,7 +29,7 @@ public class ChatTabContentTest                                                 
     private User chatPartner;
     private DBManager dbManager;
     private String history;
-    private Timestamp latestTime;
+    private Timestamp latestTime = Timestamp.valueOf(LocalDateTime.now());
     private int greatestID;
     private Tab currentTab;
 
@@ -127,7 +127,6 @@ public class ChatTabContentTest                                                 
                     // pasting the string into the upper box
                     chatBox.setText(history);
                     chatBox.positionCaret(history.length());
-                    //this.currentTab.setText(msgCount + this.currentTab.getText());
 
                     return null;
                 });
