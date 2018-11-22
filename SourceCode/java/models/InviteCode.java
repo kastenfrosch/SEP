@@ -15,7 +15,7 @@ public class InviteCode {
     private User usedBy;
 
     @DatabaseField(columnName = FIELD_CODE, canBeNull = false, id = true)
-    private static String code;
+    private String code;
 
     public InviteCode() {
         this.code = HashUtils.toHex(HashUtils.getRandomSalt());
@@ -29,7 +29,24 @@ public class InviteCode {
         this.usedBy = usedBy;
     }
 
-    public static String getCode() {
+    public String getCode() {
         return code;
+    }
+
+    @Override
+    public String toString() {
+        return this.code;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(!(obj instanceof InviteCode)) {
+            return false;
+        }
+
+        return ((InviteCode) obj).code.equals(this.code);
     }
 }
