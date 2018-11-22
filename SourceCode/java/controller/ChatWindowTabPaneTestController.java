@@ -84,14 +84,12 @@ public class ChatWindowTabPaneTestController {
                     String chatWindowTitle = "Chat mit " + chatPartner;
 
                     // open chat tab with selected user
-                    //TODO: change setting of chatpartners with upcoming implementation of the scenebuilder
-
                     TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_TAB_CONTENT_TEST);
                     Tab newChatTab = tabInfo.getTab();
                     newChatTab.setText(chatWindowTitle);
 
                     var controller = tabInfo.<ChatTabContentTest>getController();
-                    controller.setChatPartners(currentUser, chatPartner);
+                    controller.setChatPartners(currentUser, chatPartner, newChatTab);
                     controller.loadHistory();
 
                     tabPane.getTabs().add(0, newChatTab);
@@ -114,14 +112,12 @@ public class ChatWindowTabPaneTestController {
         String chatWindowTitle = "Chat mit " + chatPartner;
 
         // open chat tab with selected user
-        //TODO: change setting of chatpartners with upcoming implementation of the scenebuilder
-
         TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_TAB_CONTENT_TEST);
         Tab newChatTab = tabInfo.getTab();
         newChatTab.setText(chatWindowTitle);
 
         var controller = tabInfo.<ChatTabContentTest>getController();
-        controller.setChatPartners(this.currentUser, chatPartner);
+        controller.setChatPartners(this.currentUser, chatPartner, newChatTab);
         controller.loadHistory();
 
         tabPane.getTabs().add(0, newChatTab);

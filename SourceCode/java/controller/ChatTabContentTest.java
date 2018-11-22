@@ -8,27 +8,20 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import modal.ErrorModal;
 import models.ChatMessage;
 import models.User;
 import utils.TimeUtils;
-import utils.scene.SceneManager;
-import utils.scene.SceneType;
-import utils.scene.TabInfo;
 
-import javax.mail.Message;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChatTabContentTest                                                                                         {
 
@@ -37,6 +30,8 @@ public class ChatTabContentTest                                                 
     private DBManager dbManager;
     private String history;
     private Timestamp latestTime;
+    private int greatestID;
+    private Tab currentTab;
 
     {
         try {
@@ -50,6 +45,7 @@ public class ChatTabContentTest                                                 
             KeyCode.ENTER, KeyCodeCombination.CONTROL_DOWN);
 
     @FXML
+    public AnchorPane anchorpaneParent;
     public SplitPane splitPane;
     public AnchorPane anchorPane1;
     public TextArea writeMessageBox;
@@ -60,48 +56,8 @@ public class ChatTabContentTest                                                 
 
     @FXML
     public void initialize() {
-
         // setting focus to the box so one can immediately start typing
         Platform.runLater(() -> writeMessageBox.requestFocus());
-
-        //TODO: listener
-
-        PGNotificationHandler
-            .getInstance()
-                .registerListener(PGNotificationHandler.NotificationChannel.CHAT, () -> {
-
-                    List<ChatMessage> msgList = new ArrayList<>();
-
-                    Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
-                    PreparedQuery<ChatMessage> query =
-                            msgDao
-                                    .queryBuilder()
-                                    .orderBy(ChatMessage.FIELD_TIME, true)
-                                    .limit(1L)
-                                    .where()
-                                    .gt(ChatMessage.FIELD_TIME, latestTime)
-                                    .and()
-                                    .eq(ChatMessage.FIELD_FROM_USER_ID, this.currentUser)
-                                    .and()
-                                    .eq(ChatMessage.FIELD_TO_USER_ID, this.chatPartner)
-                                    .prepare();
-
-                    // ... and adding it to the list
-                    msgList.addAll(msgDao.query(query));
-                    ChatMessage msg = msgList.get(msgList.size()-1);
-
-                    if (msg.getTime().after(this.latestTime)) {
-                        history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
-                        history += msg.getContent() + "\r\n";
-                    }
-
-                    // pasting the string into the upper box
-                    chatBox.setText(history);
-                    chatBox.positionCaret(history.length());
-
-                    return null;
-                });
-
     }
 
     public void onSendButtonClicked(ActionEvent actionEvent) {
@@ -126,16 +82,55 @@ public class ChatTabContentTest                                                 
 
     }
 
-    public void onCloseButtonClicked(ActionEvent actionEvent) {
-        // close window
-        //TODO: properly close with merlins upcoming implementation
-        SceneManager.getInstance().closeWindow(SceneType.CHAT_TAB_CONTENT_TEST);
-
-    }
-
-    public void setChatPartners(User currentUser, User chatPartner) {
+    public void setChatPartners(User currentUser, User chatPartner, Tab currentTab) {
         this.currentUser = currentUser;
         this.chatPartner = chatPartner;
+        this.currentTab = currentTab;
+
+        registerListener();
+    }
+
+    public void registerListener() {
+        // listening for new messages
+        //AtomicInteger msgCount = new AtomicInteger();
+
+        PGNotificationHandler
+                .getInstance()
+                .registerListener(PGNotificationHandler.NotificationChannel.CHAT, () -> {
+
+                    List<ChatMessage> msgList = new ArrayList<>();
+
+                    Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
+                    PreparedQuery<ChatMessage> query =
+                            msgDao
+                                    .queryBuilder()
+                                    .orderBy(ChatMessage.FIELD_TIME, false)
+                                    .limit(1L)
+                                    .where()
+                                    .gt(ChatMessage.FIELD_MESSAGE_ID, greatestID)
+                                    .and()
+                                    .eq(ChatMessage.FIELD_FROM_USER_ID, currentUser)
+                                    .and()
+                                    .eq(ChatMessage.FIELD_TO_USER_ID, chatPartner)
+                                    .prepare();
+
+                    // ... and adding it to the list
+                    msgList.addAll(msgDao.query(query));
+                    ChatMessage msg = msgList.get(msgList.size()-1);
+
+                    if (msg.getTime().after(this.latestTime)) {
+                        history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
+                        history += msg.getContent() + "\r\n";
+                        //msgCount.addAndGet(1);
+                    }
+
+                    // pasting the string into the upper box
+                    chatBox.setText(history);
+                    chatBox.positionCaret(history.length());
+                    //this.currentTab.setText(msgCount + this.currentTab.getText());
+
+                    return null;
+                });
     }
 
     public void loadHistory() {
@@ -161,11 +156,13 @@ public class ChatTabContentTest                                                 
             this.history = "";
 
             Timestamp latestTimestamp = null;
+            int msgID = 0;
 
             for (ChatMessage msg : messageHistoryList) {
                 this.history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
                 this.history += msg.getContent() + "\r\n";
                 latestTimestamp = msg.getTime();
+                msgID = msg.getMessageId();
             }
 
             // pasting the string into the upper box
@@ -174,6 +171,7 @@ public class ChatTabContentTest                                                 
 
             // setting latestTime for the listener
             this.latestTime = latestTimestamp;
+            this.greatestID = msgID;
 
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
@@ -209,6 +207,16 @@ public class ChatTabContentTest                                                 
             e.printStackTrace();
         }
 
+    }
+
+    public void onCloseButtonClicked(ActionEvent actionEvent) {
+        // close window
+        TabPane test = (TabPane) this.anchorpaneParent.getParent().getParent();
+        for (Tab t : test.getTabs()) {
+          if (t == this.currentTab) {
+              test.getTabs().remove(t);
+          }
+        }
     }
 
 }
