@@ -20,23 +20,11 @@ import java.util.Map;
 
 public class DBUtils {
 
-	public static void clearTables(ConnectionSource conn) throws SQLException {
-        TableUtils.clearTable(conn, Tardy.class);
-        TableUtils.clearTable(conn, Notepad.class);
-		TableUtils.clearTable(conn, Semester.class);
-		TableUtils.clearTable(conn, Person.class);
-        TableUtils.clearTable(conn, User.class);
-        TableUtils.clearTable(conn, Groupage.class);
-        TableUtils.clearTable(conn, Group.class);
-        TableUtils.clearTable(conn, Student.class);
-        TableUtils.clearTable(conn, CalendarEntry.class);
-        TableUtils.clearTable(conn, Calendar.class);
-        TableUtils.clearTable(conn, ChatMessage.class);
-        TableUtils.clearTable(conn, InviteCode.class);
-	}
-
-
     public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, FavouriteSemester.class, true);
+        TableUtils.dropTable(conn, FavouriteGroup.class, true);
+        TableUtils.dropTable(conn, FavouriteGroupage.class, true);
+        TableUtils.dropTable(conn, FavouriteStudent.class, true);
 	    TableUtils.dropTable(conn, InviteCode.class, true);
         TableUtils.dropTable(conn, Tardy.class, true);
         TableUtils.dropTable(conn, Notepad.class, true);
@@ -64,6 +52,10 @@ public class DBUtils {
         TableUtils.createTable(conn, Tardy.class);
         TableUtils.createTable(conn, Notepad.class);
         TableUtils.createTable(conn, InviteCode.class);
+        TableUtils.createTable(conn, FavouriteSemester.class);
+        TableUtils.createTable(conn, FavouriteGroup.class);
+        TableUtils.createTable(conn, FavouriteGroupage.class);
+        TableUtils.createTable(conn, FavouriteStudent.class);
     }
 
     public static void createTriggers() throws SQLException{
@@ -84,6 +76,10 @@ public class DBUtils {
         dataChannelClasses.add(Semester.class);
         dataChannelClasses.add(Student.class);
         dataChannelClasses.add(User.class);
+        dataChannelClasses.add(FavouriteSemester.class);
+        dataChannelClasses.add(FavouriteGroup.class);
+        dataChannelClasses.add(FavouriteGroupage.class);
+        dataChannelClasses.add(FavouriteStudent.class);
 
         List<Class> chatChannelClasses = classMap.get(NotificationChannel.CHAT);
         chatChannelClasses.add(ChatMessage.class);
