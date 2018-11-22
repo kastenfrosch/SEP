@@ -21,6 +21,7 @@ import java.util.Map;
 public class DBUtils {
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, CalendarExtraInfo.class, true);
         TableUtils.dropTable(conn, FavouriteSemester.class, true);
         TableUtils.dropTable(conn, FavouriteGroup.class, true);
         TableUtils.dropTable(conn, FavouriteGroupage.class, true);
@@ -56,6 +57,7 @@ public class DBUtils {
         TableUtils.createTable(conn, FavouriteGroup.class);
         TableUtils.createTable(conn, FavouriteGroupage.class);
         TableUtils.createTable(conn, FavouriteStudent.class);
+        TableUtils.createTable(conn, CalendarExtraInfo.class);
     }
 
     public static void createTriggers() throws SQLException{
@@ -177,6 +179,7 @@ public class DBUtils {
         Person p11 = new Person("Kalle", "Kanders", "know@example.com");
         Person p12 = new Person("Linda", "Lustig", "iliketrains@example.com");
         Person p13 = new Person("Montag", "Morgen", "event@example.com");
+        Person p14 = new Person("Nina", "Nini", "ogre@example.com");
 
         Dao<Person, Integer> personDao = manager.getPersonDao();
         personDao.create(p1);
@@ -192,11 +195,14 @@ public class DBUtils {
         personDao.create(p11);
         personDao.create(p12);
         personDao.create(p13);
+        personDao.create(p14);
 
         User u1 = new User("besttutor", "7A2A74526720526A0E438D027A6AD7B6", "E9506988FBCBBD1414970314455E9091", p12);
+        User u2 = new User("moretutor", "7A2A74526720526A0E438D027A6AD7B6", "E9506988FBCBBD1414970314455E9091", p14);
 
         Dao<User, String> userDao = manager.getUserDao();
         userDao.create(u1);
+        userDao.create(u2);
 
         Student s1 = new Student("0000001", p1, g1);
         Student s2 = new Student("0000002", p2, g1);
