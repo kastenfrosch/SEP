@@ -1,7 +1,9 @@
 package models;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import connection.DBManager;
 
@@ -40,6 +42,9 @@ public class CalendarEntry {
 
     @DatabaseField(columnName = FIELD_DAY_OF_WEEK, canBeNull = false, dataType = DataType.ENUM_INTEGER)
     private DayOfWeek dayOfWeek;
+
+    @ForeignCollectionField
+    private ForeignCollection<CalendarExtraInfo> extraInfo;
 
     public int getEntryId() {
         return entryId;
@@ -93,15 +98,8 @@ public class CalendarEntry {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public CalendarExtraInfo getExtraInfo() {
-        try {
-            return DBManager.getInstance().getCalendarExtraInfoDao().queryForEq(
-                    CalendarExtraInfo.FIELD_CALENDAR_ENTRY_ID,
-                    this.entryId
-            ).get(0);
-        } catch(SQLException ex) {
-            return null;
-        }
+    public ForeignCollection<CalendarExtraInfo> getExtraInfo() {
+        return extraInfo;
     }
 }
 
