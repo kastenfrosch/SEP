@@ -44,16 +44,10 @@ public class EditNotepadController {
     @FXML
     public Button editNotepadDeleteButton;
 
-    public void initializeComboBox() {
-        ObservableList<String> prioritaet = FXCollections.observableArrayList();
-        prioritaet.add("Hohe Priorität");
-        prioritaet.add("Mittlere Priorität");
-        prioritaet.add("Geringe Priorität");
-        prioritaet.add("Keine Priorität");
-
-        for (String s : prioritaet) {
-            editNotepadPriorityComboBox.setItems(prioritaet);
-        }
+    public void initialize() {
+        ObservableList<String> prioritaet = FXCollections.observableArrayList("Hohe Priorität", "Mittlere Priorität",
+                                                                                   "Geringe Priorität", "Keine Priorität");
+        editNotepadPriorityComboBox.setItems(prioritaet);
         editNotepadPriorityComboBox.getSelectionModel().select(0);
     }
 
