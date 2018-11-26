@@ -44,14 +44,13 @@ public class EditNotepadController {
     @FXML
     public Button editNotepadDeleteButton;
 
-    public void initialize() {
+    public void initialize() { //Initializing ComboBox
         ObservableList<String> prioritaet = FXCollections.observableArrayList("Hohe Priorität", "Mittlere Priorität",
                                                                                    "Geringe Priorität", "Keine Priorität");
         editNotepadPriorityComboBox.setItems(prioritaet);
-        editNotepadPriorityComboBox.getSelectionModel().select(0);
     }
 
-    public void setPriority(ActionEvent actionEvent) {
+    public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
         if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == "Hohe Priorität") {
             editNotepadTextarea.setStyle("-fx-background-color: red");
         } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == "Mittlere Priorität") {
@@ -63,8 +62,7 @@ public class EditNotepadController {
         }
     }
 
-    public void editNotepadSave(ActionEvent actionEvent) {
-
+    public void editNotepadSave(ActionEvent actionEvent) { //Updating notepad changes
         String noteName;
         if(editNotepadName == null || editNotepadName.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Bezeichnung eingeben!");
@@ -102,8 +100,7 @@ public class EditNotepadController {
         SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void editNotepadDelete(ActionEvent actionEvent) {
-
+    public void editNotepadDelete(ActionEvent actionEvent) { //deleting notepad
         boolean delete = ConfirmationModal.show("Soll die Notiz gelöscht werden?");
         if (delete) {
             Dao<Notepad, Integer> notepadDao = dbManager.getNotepadDao();
@@ -119,12 +116,11 @@ public class EditNotepadController {
         }
     }
 
-    public void editNotepadCancel(ActionEvent actionEvent) {
+    public void editNotepadCancel(ActionEvent actionEvent) { //When Cancel Button is pressed
         SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void setNotepad(Notepad notepad) {
-
+    public void setNotepad(Notepad notepad) { //Function to edit Notepad form HomescreenController
         this.notepad = notepad;
         this.notepad.setNotepadName(notepad.getNotepadName());
         this.notepad.setNotepadPriority(notepad.getNotepadPriority());
