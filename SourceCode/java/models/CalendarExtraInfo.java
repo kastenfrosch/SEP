@@ -29,6 +29,17 @@ public class CalendarExtraInfo {
     private String workphaseInfo;
 
 
+    public CalendarExtraInfo(CalendarEntry calendarEntry, String iterationInfo, String lectureInfo, String workphaseInfo) {
+        this.calendarEntry = calendarEntry;
+        this.iterationInfo = iterationInfo;
+        this.lectureInfo = lectureInfo;
+        this.workphaseInfo = workphaseInfo;
+    }
+
+    public CalendarExtraInfo() {
+
+    }
+
     public CalendarEntry getCalendarEntry() {
         return calendarEntry;
     }
