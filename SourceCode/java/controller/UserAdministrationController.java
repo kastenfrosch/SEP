@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import modal.ConfirmationModal;
 import modal.ErrorModal;
 import modal.InfoModal;
+import models.InviteCode;
 import models.User;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
@@ -93,6 +94,9 @@ public class UserAdministrationController {
 
 
     public void onCodeBtnClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.INVITE_CODE);
+
+
     }
 }
 
