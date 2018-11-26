@@ -80,6 +80,7 @@ public class SceneManager {
         } else {
             root.getScene().setRoot(info.getParent());
         }
+        scenes.get(sceneType).setStage(root);
         root.setTitle(sceneType.getTitle());
     }
 
@@ -92,7 +93,7 @@ public class SceneManager {
     public void showInNewWindow(SceneType sceneType, String stageTitle) {
         WindowInfo info = scenes.get(sceneType);
         Stage stage = info.getStage();
-        if (stage == null) {
+        if (stage == null || stage == root) {
             stage = new Stage();
             stage.setTitle(stageTitle);
             stage.setScene(new Scene(info.getParent()));
