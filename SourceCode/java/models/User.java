@@ -2,6 +2,8 @@ package models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.j256.ormlite.field.DataType;
+import utils.scene.SceneType;
 
 @DatabaseTable(tableName=User.TABLE_USER)
 public class User {
@@ -10,6 +12,9 @@ public class User {
     public static final String FIELD_PERSON_ID = "person_id";
     public static final String FIELD_PASSWORD_HASH = "password_hash";
     public static final String FIELD_SALT = "salt";
+    public static final String FIELD_LAST_TAB = "last_tab";
+    public static final String FIELD_LAST_ITEM = "last_item";
+
 
     @DatabaseField(id = true, columnName = FIELD_USERNAME)
     private String username;
@@ -25,6 +30,12 @@ public class User {
 
     @DatabaseField(columnName=FIELD_SALT, canBeNull = false)
     private String salt;
+
+    @DatabaseField(columnName=FIELD_LAST_TAB, dataType = DataType.ENUM_INTEGER)
+    private SceneType lastTab;
+
+    @DatabaseField(columnName=FIELD_LAST_ITEM)
+    private String lastItem;
 
     public User() {}
 
@@ -66,6 +77,22 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public SceneType getLastTab() {
+        return lastTab;
+    }
+
+    public void setLastTab(SceneType lastTab) {
+        this.lastTab = lastTab;
+    }
+
+    public String getLastItem() {
+        return lastItem;
+    }
+
+    public void setLastItem(String lastItem) {
+        this.lastItem = lastItem;
     }
 
     @Override
