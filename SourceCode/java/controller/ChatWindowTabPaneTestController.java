@@ -43,7 +43,7 @@ public class ChatWindowTabPaneTestController {
             e.printStackTrace();
         }
         try {
-            currentUser = dbManager.getUserDao().queryForId("besttutor");
+            currentUser = dbManager.getUserDao().queryForId("moretutor");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,10 +59,11 @@ public class ChatWindowTabPaneTestController {
     public void initialize() {
         // initialize userView
         try {
-            // initializing an ObservableList which is filled with all the existing usernames
+            // initializing an ObservableList which is filled with all the existing usernames except oneself
             ObservableList<User> userList = FXCollections.observableArrayList();
             Dao<User, String> userDao = dbManager.getUserDao();
             userList.addAll(userDao.queryForAll());
+            userList.remove(currentUser);
 
             // filling the userView with the ObservableList
             userListView.setItems(userList);
@@ -74,24 +75,27 @@ public class ChatWindowTabPaneTestController {
 
 
     public void onUserListViewClicked(MouseEvent mouseEvent) {
-
+        // this eventhandler detects a doubleclick on a name in the userlist and opens the corresponding chat tab
         userListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent click) {
                 // detect a double click
                 if (click.getClickCount() == 2) {
+                    // selecting a user on doubleclick
                     User chatPartner = (User) userListView.getSelectionModel().getSelectedItem();
                     String chatWindowTitle = "Chat mit " + chatPartner;
 
-                    // open chat tab with selected user
+                    // creating new chat tab and set chat header
                     TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_TAB_CONTENT_TEST);
                     Tab newChatTab = tabInfo.getTab();
                     newChatTab.setText(chatWindowTitle);
 
+                    // setting chat partners and load chat history between chatpartners
                     var controller = tabInfo.<ChatTabContentTest>getController();
                     controller.setChatPartners(currentUser, chatPartner, newChatTab);
                     controller.loadHistory();
 
+                    // adding new chat tab to tab pane and open chat tab
                     tabPane.getTabs().add(0, newChatTab);
                     tabPane.getSelectionModel().select(newChatTab);
 
@@ -102,7 +106,7 @@ public class ChatWindowTabPaneTestController {
     }
 
     public void onStartChatButtonClicked(ActionEvent actionEvent) {
-
+        // checking if chatpartner is null and setting chatpartner
         User chatPartner;
         if (userListView.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("Bitte wählen Sie einen Benutzer aus!");
@@ -111,15 +115,17 @@ public class ChatWindowTabPaneTestController {
         chatPartner = (User) userListView.getSelectionModel().getSelectedItem();
         String chatWindowTitle = "Chat mit " + chatPartner;
 
-        // open chat tab with selected user
+        // creating new chat tab and set chat header
         TabInfo tabInfo = SceneManager.getInstance().createNewTab(SceneType.CHAT_TAB_CONTENT_TEST);
         Tab newChatTab = tabInfo.getTab();
         newChatTab.setText(chatWindowTitle);
 
+        // setting chat partners and load chat history between chatpartners
         var controller = tabInfo.<ChatTabContentTest>getController();
         controller.setChatPartners(this.currentUser, chatPartner, newChatTab);
         controller.loadHistory();
 
+        // adding new chat tab to tab pane and open chat tab
         tabPane.getTabs().add(0, newChatTab);
         tabPane.getSelectionModel().select(newChatTab);
 
