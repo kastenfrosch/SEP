@@ -4,9 +4,12 @@ import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import modal.ErrorModal;
@@ -42,6 +45,9 @@ public class LoginController {
 
     @FXML
     private Text statusText;
+
+    @FXML
+    private Button loginBtn;
 
     @FXML
     public void onLoginBtnClicked(ActionEvent event) {
@@ -104,5 +110,12 @@ public class LoginController {
 
     public void onRegisterBtnClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneType.REGISTER);
+    }
+
+    public void onKeyPressed(KeyEvent keyEvent) {
+        if(keyEvent.getCode() == KeyCode.ENTER) {
+            this.loginBtn.fire();
+            keyEvent.consume();
+        }
     }
 }
