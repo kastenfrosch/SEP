@@ -19,6 +19,7 @@ import utils.TimeUtils;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -121,13 +122,15 @@ public class ChatTabContentTest                                                 
                     if (msg.getTime().after(this.latestTime)) {
                         history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
                         history += msg.getContent() + "\r\n";
-                        //msgCount.addAndGet(1);
+
+                        // updating latesttime
+                        this.latestTime = msg.getTime();
+
+                        // pasting the string into the upper box
+                        chatBox.setText(history);
+                        chatBox.positionCaret(history.length());
                     }
-
-                    // pasting the string into the upper box
-                    chatBox.setText(history);
-                    chatBox.positionCaret(history.length());
-
+                    
                     return null;
                 });
     }
