@@ -42,14 +42,15 @@ import java.sql.SQLException;
         public Button cancelButton;
 
         @FXML
-        public void initialize() {
+        public void initialize() { //initializing ComboBox
             ObservableList<String> prioritaet = FXCollections.observableArrayList("Hohe Priorität", "Mittlere Priorität",
                                                                                         "Geringe Priorität", "Keine Priorität");
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
+            priorityComboBox.setStyle("-fx-background-color: red");
         }
 
-        public void setPriority(ActionEvent actionEvent) {
+        public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
 
             if (priorityComboBox.getSelectionModel().getSelectedItem() == "Hohe Priorität") {
                 addNotepad.setStyle("-fx-background-color: red");
@@ -62,7 +63,7 @@ import java.sql.SQLException;
             }
         }
 
-        public void saveButton(ActionEvent actionEvent) {
+        public void saveButton(ActionEvent actionEvent) { //Saving notepad
 
             String noteName;
             if(bezeichnungTextField == null || bezeichnungTextField.getText().isBlank()) {
@@ -91,6 +92,7 @@ import java.sql.SQLException;
                 notepad.setNotepadContent(textContent);
                 notepad.setNotepadPriority(priority);
                 notepad.setNotepadName(noteName);
+                notepad.setUser(db.getLoggedInUser());
 
                 Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
 
@@ -104,7 +106,7 @@ import java.sql.SQLException;
             }
         }
 
-        public void cancelButton(ActionEvent actionEvent) {
+        public void cancelButton(ActionEvent actionEvent) { //When Cancel Button is pressed
             SceneManager.getInstance().closeWindow(SceneType.CREATE_NOTEPAD_WINDOW);
         }
     }
