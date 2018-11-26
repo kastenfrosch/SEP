@@ -231,6 +231,11 @@ public class DBUtils {
         studentDao.create(s11);
         studentDao.create(s12);
 
+        Dao<InviteCode, String> inviteCodeDao = manager.getInviteCodeDao();
+        InviteCode i1 = new InviteCode();
+        inviteCodeDao.create(i1);
+
+
         Tardy t1 = new Tardy();
         t1.setStudent(s1);
         t1.setTimeMissed(15);
