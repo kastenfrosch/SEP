@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-class WindowInfo extends SceneInfo {
+public class WindowInfo extends SceneInfo {
     private Stage stage = null;
 
     public WindowInfo(SceneType sceneType, FXMLLoader loader, Parent parent) {
