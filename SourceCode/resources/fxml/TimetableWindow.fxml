@@ -55,33 +55,33 @@
             <Label fx:id="m1" text="Label" GridPane.rowIndex="1" />
             <Label fx:id="m2" text="Label" GridPane.rowIndex="2" />
             <Label fx:id="m3" text="Label" GridPane.rowIndex="3" />
-            <Label text="Label" GridPane.rowIndex="4" />
-            <Label text="Label" GridPane.rowIndex="5" />
-            <Label text="Label" GridPane.rowIndex="6" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <Label fx:id="m4" text="Label" GridPane.rowIndex="4" />
+            <Label fx:id="m5" text="Label" GridPane.rowIndex="5" />
+            <Label fx:id="m6" text="Label" GridPane.rowIndex="6" />
+            <Label fx:id="di1" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="di2" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="di3" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="di4" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="di5" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="di6" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="mi1" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="mi2" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="mi3" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="mi4" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="mi5" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="mi6" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <Label fx:id="do1" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label fx:id="do2" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="do3" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label fx:id="do4" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="do5" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <Label fx:id="do6" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <Label fx:id="f1" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label fx:id="f2" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Label fx:id="f3" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Label fx:id="f4" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Label fx:id="f5" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Label fx:id="f6" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <Label layoutX="27.0" layoutY="175.0" prefHeight="46.0" prefWidth="132.0" text="8:00-10:00">

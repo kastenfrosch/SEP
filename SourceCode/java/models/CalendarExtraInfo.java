@@ -20,7 +20,7 @@ public class CalendarExtraInfo {
     private CalendarEntry calendarEntry;
 
     @DatabaseField(columnName=FIELD_INFO_ITERATION)
-    private int iterationInfo;
+    private String iterationInfo;
 
     @DatabaseField(columnName = FIELD_INFO_LECTURE)
     private String lectureInfo;
@@ -37,11 +37,11 @@ public class CalendarExtraInfo {
         this.calendarEntry = calendarEntry;
     }
 
-    public int getIterationInfo() {
+    public String getIterationInfo() {
         return iterationInfo;
     }
 
-    public void setIterationInfo(int iterationInfo) {
+    public void setIterationInfo(String iterationInfo) {
         this.iterationInfo = iterationInfo;
     }
 

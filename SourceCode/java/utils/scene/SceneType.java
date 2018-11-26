@@ -22,6 +22,7 @@ public enum SceneType {
     USER_ADMIN("/fxml/UserAdministrationForm.fxml", "User Administration"),
     EDIT_USER ("/fxml/EditUserForm.fxml","User bearbeiten"),
     CREATE_TIMETABLE("/fxml/CreateTimetable.fxml","Kalender"),
+    TIMETABLE_WINDOW("/fxml/TimetableWindow.fxml","Stundenplan"),
     INVITE_CODE("/fxml/InviteCode.fxml", "Einwahlcodes"),
     PASSWORD_RESET("/fxml/PasswordResetForm.fxml","Passwort ändern");
 
