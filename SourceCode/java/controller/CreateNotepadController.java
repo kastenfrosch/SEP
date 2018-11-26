@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import modal.ErrorModal;
 import modal.InfoModal;
+import models.User;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import models.Notepad;
@@ -48,6 +49,7 @@ import java.sql.SQLException;
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
             priorityComboBox.setStyle("-fx-background-color: red");
+
         }
 
         public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
@@ -88,6 +90,15 @@ import java.sql.SQLException;
 
             try {
                 Notepad notepad = new Notepad();
+                Dao<User, String> user = db.getUserDao();
+                try {
+                    User tester = user.queryForId("besttutor");
+                    notepad.setUser(tester);
+                } catch (
+                        SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
                 notepad.setNotepadContent(textContent);
                 notepad.setNotepadPriority(priority);
