@@ -121,6 +121,10 @@ public class SceneManager {
         showInNewWindow(sceneType, sceneType.getTitle());
     }
 
+    public WindowInfo getRawWindow(SceneType sceneType) {
+        return this.scenes.get(sceneType);
+    }
+
     /**
      * @param sceneType
      */
