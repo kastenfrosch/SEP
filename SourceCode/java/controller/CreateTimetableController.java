@@ -70,220 +70,220 @@ public class CreateTimetableController {
 
     @FXML
     public void initialize() {
-    //
-        appendTextfields();
-    }
-
-    public void CreateCalendar(){
-
-    }
-
-    @FXML
-    public void CreateTimetable() {
-
-        Calendar calendar = new Calendar();
-        Dao<User, String> user = db.getUserDao();
-        calendar.setCalendarType(Calendar.CalendarType.WEEK);
-
-        try {
-
-            User tester = user.queryForId("besttutor");
-            calendar.setUser(tester);
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
-        Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
-        try {
-            CalendarDao.create(calendar);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
-        setMonday(mon, calendar);
-        setTuesday(di, calendar);
-        setWednesday(mi, calendar);
-        setThursday(don, calendar);
-        setFriday(f, calendar);
-
-    }
-
-    public void setMonday(ArrayList<TextField> array, Calendar calendar) {
-
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry monday = new CalendarEntry();
-            monday.setDayOfWeek(DayOfWeek.MONDAY);
-            monday.setCalendar(calendar);
-            monday.setDescription(t.getText());
-            monday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                //+.create(monday);
-                CalendarDaoEntry.create(monday);
-                System.out.print("MONDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-        }
+//    //
+//        appendTextfields();
+//    }
+//
+//    public void CreateCalendar(){
+//
+//    }
+//
+//    @FXML
+//    public void CreateTimetable() {
+//
+//        Calendar calendar = new Calendar();
+//        Dao<User, String> user = db.getUserDao();
+//        calendar.setCalendarType(Calendar.CalendarType.WEEK);
+//
+//        try {
+//
+//            User tester = user.queryForId("besttutor");
+//            calendar.setUser(tester);
+//
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//
+//
+//        Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
+//        try {
+//            CalendarDao.create(calendar);
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//
+//
+//        setMonday(mon, calendar);
+//        setTuesday(di, calendar);
+//        setWednesday(mi, calendar);
+//        setThursday(don, calendar);
+//        setFriday(f, calendar);
 
     }
 
-    public void setTuesday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry tuesday = new CalendarEntry();
-            tuesday.setDayOfWeek(DayOfWeek.TUESDAY);
-
-            tuesday.setCalendar(calendar);
-            tuesday.setDescription(t.getText());
-            tuesday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(tuesday);
-                System.out.print("TUESDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-        }
-    }
-
-    public void setWednesday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry wednesday = new CalendarEntry();
-            wednesday.setDayOfWeek(DayOfWeek.WEDNESDAY);
-            wednesday.setCalendar(calendar);
-            wednesday.setDescription(t.getText());
-            wednesday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(wednesday);
-                System.out.print("WEDNESDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-        }
-    }
-
-    public void setThursday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry thursday = new CalendarEntry();
-            thursday.setDayOfWeek(DayOfWeek.THURSDAY);
-            thursday.setCalendar(calendar);
-            thursday.setDescription(t.getText());
-            thursday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(thursday);
-                System.out.print("THURSDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-
-        }
-
-
-    }
-
-    public void setFriday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry friday = new CalendarEntry();
-            friday.setDayOfWeek(DayOfWeek.FRIDAY);
-            friday.setCalendar(calendar);
-            friday.setDescription(t.getText());
-            friday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(friday);
-                System.out.print("FRIDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-        }
-    }
-
-
-    //fertig
-    public void appendTextfields() {
-        mon.add(m1);
-        mon.add(m2);
-        mon.add(m3);
-        mon.add(m4);
-        mon.add(m5);
-        mon.add(m6);
-
-        di.add(di1);
-        di.add(di2);
-        di.add(di3);
-        di.add(di4);
-        di.add(di5);
-        di.add(di6);
-
-        mi.add(mi1);
-        mi.add(mi2);
-        mi.add(mi3);
-        mi.add(mi4);
-        mi.add(mi5);
-        mi.add(mi6);
-
-        don.add(do1);
-        don.add(do2);
-        don.add(do3);
-        don.add(do4);
-        don.add(do5);
-        don.add(do6);
-
-        f.add(f1);
-        f.add(f2);
-        f.add(f3);
-        f.add(f4);
-        f.add(f5);
-        f.add(f6);
-
-    }
-
-
+//    public void setMonday(ArrayList<TextField> array, Calendar calendar) {
+//
+//
+//        Iterator<TextField> i = array.iterator();
+//        for (int hour = 8; i.hasNext(); hour += 2) {
+//            TextField t = i.next();
+//            CalendarEntry monday = new CalendarEntry();
+//            monday.setDayOfWeek(DayOfWeek.MONDAY);
+//            monday.setCalendar(calendar);
+//            monday.setDescription(t.getText());
+//            monday.setStartTime(hour);
+//            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+//            try {
+//
+//                //+.create(monday);
+//                CalendarDaoEntry.create(monday);
+//                System.out.print("MONDAY"+hour);
+//
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                System.out.println("fuckml");
+//                e.printStackTrace();
+//
+//            }
+//        }
+//
+//    }
+//
+//    public void setTuesday(ArrayList<TextField> array, Calendar calendar) {
+//
+//        Iterator<TextField> i = array.iterator();
+//        for (int hour = 8; i.hasNext(); hour += 2) {
+//            TextField t = i.next();
+//            CalendarEntry tuesday = new CalendarEntry();
+//            tuesday.setDayOfWeek(DayOfWeek.TUESDAY);
+//
+//            tuesday.setCalendar(calendar);
+//            tuesday.setDescription(t.getText());
+//            tuesday.setStartTime(hour);
+//            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+//            try {
+//
+//                CalendarDaoEntry.create(tuesday);
+//                System.out.print("TUESDAY"+hour);
+//
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                System.out.println("fuckml");
+//                e.printStackTrace();
+//
+//            }
+//        }
+//    }
+//
+//    public void setWednesday(ArrayList<TextField> array, Calendar calendar) {
+//
+//        Iterator<TextField> i = array.iterator();
+//        for (int hour = 8; i.hasNext(); hour += 2) {
+//            TextField t = i.next();
+//            CalendarEntry wednesday = new CalendarEntry();
+//            wednesday.setDayOfWeek(DayOfWeek.WEDNESDAY);
+//            wednesday.setCalendar(calendar);
+//            wednesday.setDescription(t.getText());
+//            wednesday.setStartTime(hour);
+//            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+//            try {
+//
+//                CalendarDaoEntry.create(wednesday);
+//                System.out.print("WEDNESDAY"+hour);
+//
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                System.out.println("fuckml");
+//                e.printStackTrace();
+//
+//            }
+//        }
+//    }
+//
+//    public void setThursday(ArrayList<TextField> array, Calendar calendar) {
+//
+//        Iterator<TextField> i = array.iterator();
+//        for (int hour = 8; i.hasNext(); hour += 2) {
+//            TextField t = i.next();
+//            CalendarEntry thursday = new CalendarEntry();
+//            thursday.setDayOfWeek(DayOfWeek.THURSDAY);
+//            thursday.setCalendar(calendar);
+//            thursday.setDescription(t.getText());
+//            thursday.setStartTime(hour);
+//            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+//            try {
+//
+//                CalendarDaoEntry.create(thursday);
+//                System.out.print("THURSDAY"+hour);
+//
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                System.out.println("fuckml");
+//                e.printStackTrace();
+//
+//            }
+//
+//        }
+//
+//
+//    }
+//
+//    public void setFriday(ArrayList<TextField> array, Calendar calendar) {
+//
+//        Iterator<TextField> i = array.iterator();
+//        for (int hour = 8; i.hasNext(); hour += 2) {
+//            TextField t = i.next();
+//            CalendarEntry friday = new CalendarEntry();
+//            friday.setDayOfWeek(DayOfWeek.FRIDAY);
+//            friday.setCalendar(calendar);
+//            friday.setDescription(t.getText());
+//            friday.setStartTime(hour);
+//            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+//            try {
+//
+//                CalendarDaoEntry.create(friday);
+//                System.out.print("FRIDAY"+hour);
+//
+//            } catch (SQLException e) {
+//                // TODO Auto-generated catch block
+//                System.out.println("fuckml");
+//                e.printStackTrace();
+//
+//            }
+//        }
+//    }
+//
+//
+//    //fertig
+//    public void appendTextfields() {
+//        mon.add(m1);
+//        mon.add(m2);
+//        mon.add(m3);
+//        mon.add(m4);
+//        mon.add(m5);
+//        mon.add(m6);
+//
+//        di.add(di1);
+//        di.add(di2);
+//        di.add(di3);
+//        di.add(di4);
+//        di.add(di5);
+//        di.add(di6);
+//
+//        mi.add(mi1);
+//        mi.add(mi2);
+//        mi.add(mi3);
+//        mi.add(mi4);
+//        mi.add(mi5);
+//        mi.add(mi6);
+//
+//        don.add(do1);
+//        don.add(do2);
+//        don.add(do3);
+//        don.add(do4);
+//        don.add(do5);
+//        don.add(do6);
+//
+//        f.add(f1);
+//        f.add(f2);
+//        f.add(f3);
+//        f.add(f4);
+//        f.add(f5);
+//        f.add(f6);
+//
+//    }
+//
+//
 }
