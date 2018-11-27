@@ -1,17 +1,17 @@
 package controller;
 
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import connection.DBManager;
 import connection.PGNotificationHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import modal.ConfirmationModal;
 import modal.InfoModal;
-import models.Group;
-import models.Groupage;
-import models.Semester;
-import models.Student;
+import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
@@ -22,83 +22,35 @@ import java.util.concurrent.Callable;
 
 public class HomeScreenController {
 
-    private Node root;
+    private boolean running = false;
+    private DBManager dbm;
+    private User user;
+    private Node treeViewRoot;
+    private Node selectedNode;
+    private Tab selectedTab;
     private PGNotificationHandler handler;
+    private List<Semester> semesterList;
+    private List<Groupage> groupageList;
+    private List<Group> groupList;
+    private List<Student> studentList;
 
     @FXML
     private TreeView<Object> treeView;
 
     @FXML
-    private Tab timeTableSemester;
+    private TabPane tabPane;
 
     @FXML
-    private Tab timeTableWeek;
+    private Tab detailsTab;
 
     @FXML
-    private Tab notes;
+    private Tab notesTab;
 
     @FXML
-    private Tab userAdministration;
+    private Tab weekPlanTab;
 
     @FXML
-    private Button deleteButton;
-
-    @FXML
-    private Button addSemesterButton;
-
-    @FXML
-    private Button addStudentButton;
-
-    @FXML
-    private Button addGroupButton;
-
-    @FXML
-    private Button editButton;
-
-    @FXML
-    private Button addGroupageButton;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    void onEditButtonClicked(ActionEvent event) {
-        if (treeView.getSelectionModel().isEmpty()) {
-            InfoModal.show("Bitte wählen Sie ein Element aus.");
-        } else {
-            Node selectedItem = (Node) treeView.getSelectionModel().getSelectedItem();
-            if (selectedItem.getValue() instanceof String) {
-                selectedItem = (Node) selectedItem.getParent();
-                treeView.getSelectionModel().select(selectedItem);
-            }
-            if (selectedItem.getValue() instanceof Semester) {
-                SceneManager.getInstance()
-                        .getLoaderForScene(SceneType.EDIT_SEMESTER)
-                        .<EditSemesterController>getController()
-                        .setSemester((Semester) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_SEMESTER);
-            } else if (selectedItem.getValue() instanceof Groupage) {
-                SceneManager.getInstance()
-                        .getLoaderForScene(SceneType.EDIT_GROUPAGE)
-                        .<EditGroupageController>getController()
-                        .setGroupage((Groupage) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_GROUPAGE);
-            } else if (selectedItem.getValue() instanceof Group) {
-                SceneManager.getInstance()
-                        .getLoaderForScene(SceneType.EDIT_GROUP)
-                        .<EditGroupController>getController()
-                        .setGroup((Group) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_GROUP);
-            } else {
-                SceneManager.getInstance()
-                        .getLoaderForScene(SceneType.EDIT_STUDENT)
-                        .<EditStudentController>getController()
-                        .setStudent((Student) selectedItem.getValue());
-                SceneManager.getInstance().showInNewWindow(SceneType.EDIT_STUDENT);
-            }
-        }
-//        drawTreeView();
-    }
+    private Tab semesterPlanTab;
 
     @FXML
     void onDeleteButtonClicked(ActionEvent event) {
@@ -106,102 +58,195 @@ public class HomeScreenController {
             InfoModal.show("Bitte wählen Sie ein Element aus.");
         } else {
             Node selectedItem = (Node) treeView.getSelectionModel().getSelectedItem();
-            if (selectedItem.getValue() instanceof String) {
-                selectedItem = (Node) selectedItem.getParent();
-                treeView.getSelectionModel().select(selectedItem);
-            }
 
             if (ConfirmationModal.show("Warnung", null, "Soll das ausgewählte Element und ggf. seine untergeordneten Elemente wirklich gelöscht werden?")) {
                 selectedItem.deleteNode();
-//                drawTreeView();
             }
         }
     }
 
     @FXML
-    void onLogoutButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneType.HOME);
-    }
-
-    @FXML
     void onAddSemesterButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_SEMESTER);
-//        drawTreeView();
+        tabPane.getSelectionModel().select(detailsTab);
+        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_SEMESTER).getRoot());
     }
 
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_GROUPAGE);
-//        drawTreeView();
+        tabPane.getSelectionModel().select(detailsTab);
+        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUPAGE).getRoot());
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_GROUP);
-//        drawTreeView();
+        tabPane.getSelectionModel().select(detailsTab);
+        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUP).getRoot());
     }
 
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_STUDENT);
-//        drawTreeView();
+        tabPane.getSelectionModel().select(detailsTab);
+        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_STUDENT).getRoot());
+    }
+
+    @FXML
+    void onChatButtonClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.CHAT_WINDOW_TAB_PANE_TEST);
+    }
+
+    @FXML
+    void onUserAdministrationButtonClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.USER_ADMIN);
+    }
+
+    @FXML
+    void onLogoutButtonClicked(ActionEvent event) {
+        try {
+            user.setLastItem(((Node) treeView.getSelectionModel().getSelectedItem()).getUniqueId());
+            // TODO lasttab as scenetype hurts
+            dbm.getUserDao().update(user);
+
+            ConnectionSource conn = dbm.getFavouriteSemesterDao().getConnectionSource();
+            TableUtils.clearTable(conn, FavouriteSemester.class);
+            TableUtils.clearTable(conn, FavouriteGroupage.class);
+            TableUtils.clearTable(conn, FavouriteGroup.class);
+            TableUtils.clearTable(conn, FavouriteStudent.class);
+
+            ArrayList<Node> expandedNodes = getExpandedNodes();
+            for (Node tmp : expandedNodes) {
+                if(tmp.getValue()instanceof Semester) {
+                    FavouriteSemester fav = new FavouriteSemester();
+                    fav.setUser(user);
+                    fav.setSemester((Semester) tmp.getValue());
+                    dbm.getFavouriteSemesterDao().createIfNotExists(fav);
+                } else if(tmp.getValue()instanceof Groupage) {
+                    FavouriteGroupage fav = new FavouriteGroupage();
+                    fav.setUser(user);
+                    fav.setGroupage((Groupage) tmp.getValue());
+                    dbm.getFavouriteGroupageDao().createIfNotExists(fav);
+                } else if(tmp.getValue()instanceof Group) {
+                    FavouriteGroup fav = new FavouriteGroup();
+                    fav.setUser(user);
+                    fav.setGroup((Group) tmp.getValue());
+                    dbm.getFavouriteGroupDao().createIfNotExists(fav);
+                } else {
+                    FavouriteStudent fav = new FavouriteStudent();
+                    fav.setUser(user);
+                    fav.setStudent((Student) tmp.getValue());
+                    dbm.getFavouriteStudentDao().createIfNotExists(fav);
+                }
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        SceneManager.getInstance().closeWindow(SceneType.HOME);
     }
 
     @FXML
     public void initialize() {
+        getData();
+        selectedTab = detailsTab;
+        treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        treeView.getSelectionModel().selectedItemProperty().addListener((ov, oldNode, newNode) -> {
+            selectedNode = (Node) newNode;
+            showTabContent();
+        });
+        tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+            selectedTab = newTab;
+            showTabContent();
+        });
+        drawTreeView();
         Callable c = () -> {
             Platform.runLater(() -> {
+                getData();
                 drawTreeView();
             });
             return null;
         };
         PGNotificationHandler.getInstance().registerListener(PGNotificationHandler.NotificationChannel.DATA, c);
-        treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        drawTreeView();
     }
 
-    void drawTreeView() {
-        ArrayList<String> expandedNodes = new ArrayList<String>();
-        if (root != null) {
-            expandedNodes = new ArrayList<String>(root.getExpandedChildren());
-        }
-        root = new Node();
-        Node selectedTreeItem = (Node) treeView.getSelectionModel().getSelectedItem();
-        List<Semester> semesterList = null;
-        List<Groupage> groupageList = null;
-        List<Group> groupList = null;
-        List<Student> studentList = null;
+    void getData() {
         try {
-            semesterList = DBManager.getInstance().getSemesterDao().queryForAll();
-            groupageList = DBManager.getInstance().getGroupageDao().queryForAll();
-            groupList = DBManager.getInstance().getGroupDao().queryForAll();
-            studentList = DBManager.getInstance().getStudentDao().queryForAll();
+            dbm = DBManager.getInstance();
+            semesterList = dbm.getSemesterDao().queryForAll();
+            groupageList = dbm.getGroupageDao().queryForAll();
+            groupList    = dbm.getGroupDao().queryForAll();
+            studentList  = dbm.getStudentDao().queryForAll();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        user = dbm.getLoggedInUser();
+    }
+
+    public void showTabContent() {
+        if (selectedNode != null) {
+            SceneManager sm = SceneManager.getInstance();
+            SceneType sceneType = null;
+            switch (selectedTab.getId()) {
+                case "notesTab" : sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+                    break;
+                    // TODO complete precise naming needed
+                case "weekPlanTab" : ;
+                    break;
+                case "semesterPlanTab" : ;
+                    break;
+                default : ;
+                    break;
+            }
+            if(selectedNode.getValue() instanceof Semester) {
+                if (sceneType == null) {
+                    sceneType = SceneType.EDIT_SEMESTER;
+                    sm.getLoaderForScene(sceneType).<EditSemesterController>getController()
+                            .setSemester((Semester) selectedNode.getValue());
+                }
+            } else if(selectedNode.getValue() instanceof Groupage) {
+                if (sceneType == null) {
+                    sceneType = SceneType.EDIT_GROUPAGE;
+                    sm.getLoaderForScene(sceneType).<EditGroupageController>getController()
+                            .setGroupage((Groupage) selectedNode.getValue());
+                }
+            } else if(selectedNode.getValue() instanceof Group) {
+                if (sceneType == null) {
+                    sceneType = SceneType.EDIT_GROUP;
+                    sm.getLoaderForScene(sceneType).<EditGroupController>getController()
+                            .setGroup((Group) selectedNode.getValue());
+                }
+            } else {
+                if (sceneType == null) {
+                    sceneType = SceneType.EDIT_STUDENT;
+                    sm.getLoaderForScene(sceneType).<EditStudentController>getController()
+                            .setStudent((Student) selectedNode.getValue());
+                }
+            }
+            selectedTab.setContent(sm.getLoaderForScene(sceneType).getRoot());
+        } else {
+            Text selectNotification = new Text("Bitte wählen Sie ein Element links aus der Baumstruktur.");
+            selectedTab.setContent(selectNotification);
+        }
+    }
+
+    void drawTreeView() {
+        ArrayList<Node> expandedNodes = null;
+        expandedNodes = getExpandedNodes();
+        treeViewRoot = new Node();
         for (Semester sem : semesterList) {
             Node semesterNode = new Node(sem);
-            semesterNode.setExpanded(expandedNodes.contains(semesterNode.getId()));
-            root.getChildren().add(semesterNode);
-            semesterNode.getChildren().add(new Node(sem.getDescription()));
+            treeViewRoot.getChildren().add(semesterNode);
             for (Groupage groupage : groupageList) {
                 Node groupageNode = new Node(groupage);
-                groupageNode.setExpanded(expandedNodes.contains(groupageNode.getId()));
                 if (groupage.getSemester().getId().equals(sem.getId())) {
                     semesterNode.getChildren().add(groupageNode);
                     for (Group group : groupList) {
                         Node groupNode = new Node(group);
-                        groupNode.setExpanded(expandedNodes.contains(groupNode.getId()));
                         if (group.getGroupage().getId() == groupage.getId()) {
                             groupageNode.getChildren().add(groupNode);
                             for (Student student : studentList) {
                                 if (student.getGroup().getId() == group.getId()) {
                                     Node studentNode = new Node(student);
                                     groupNode.getChildren().add(studentNode);
-                                    studentNode.getChildren().add(new Node(student.getMatrNo()));
-                                    studentNode.getChildren().add(new Node(student.getPerson().getEmail()));
-                                    studentNode.setExpanded(expandedNodes.contains(studentNode.getId()));
                                 }
                             }
                         }
@@ -210,39 +255,100 @@ public class HomeScreenController {
             }
         }
         treeView.setShowRoot(false);
-        treeView.setRoot(root);
-        treeView.getSelectionModel().select(selectedTreeItem);
+        treeView.setRoot(treeViewRoot);
+        if (expandedNodes != null) {
+            treeViewRoot.expandChildren(expandedNodes);
+        }
+        if (!running) {
+            if (user != null) {
+                selectedNode = treeViewRoot.getNode(user.getLastItem());
+                running = true;
+            }
+        }
+        treeView.getSelectionModel().select(selectedNode);
+    }
+
+    ArrayList<Node> getExpandedNodes() {
+        if (running) {
+            return treeViewRoot.getExpandedChildren();
+        } else {
+            List<FavouriteSemester> favSemesterList = null;
+            List<FavouriteGroupage> favGroupageList = null;
+            List<FavouriteGroup>    favGroupList    = null;
+            List<FavouriteStudent>  favStudentList  = null;
+            ArrayList<Node> favNodes = new ArrayList<>();
+            if (user != null) {
+                try {
+                    favSemesterList = dbm.getFavouriteSemesterDao().queryForEq(FavouriteSemester.FIELD_USER_ID, user.getUsername());
+                    favGroupageList = dbm.getFavouriteGroupageDao().queryForEq(FavouriteGroupage.FIELD_USER_ID, user.getUsername());
+                    favGroupList = dbm.getFavouriteGroupDao().queryForEq(FavouriteGroup.FIELD_USER_ID, user.getUsername());
+                    favStudentList = dbm.getFavouriteStudentDao().queryForEq(FavouriteStudent.FIELD_USER_ID, user.getUsername());
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                for (FavouriteSemester fav : favSemesterList) {
+                    favNodes.add(new Node(fav.getSemester()));
+                }
+                for (FavouriteGroupage fav : favGroupageList) {
+                    favNodes.add(new Node(fav.getGroupage()));
+                }
+                for (FavouriteGroup fav : favGroupList) {
+                    favNodes.add(new Node(fav.getGroup()));
+                }
+                for (FavouriteStudent fav : favStudentList) {
+                    favNodes.add(new Node(fav.getStudent()));
+                }
+            }
+            return favNodes;
+        }
+    }
+
+    public void setSelectedNode(Object obj) {
+        treeView.getSelectionModel().select(new Node(obj));
     }
 }
 
 class Node extends TreeItem<Object> {
 
-    Node() {
-
-    }
+    Node() {}
 
     Node(Object obj) {
         super(obj);
     }
 
-    ArrayList<String> getExpandedChildren() {
-        ArrayList<String> expandedChildren = new ArrayList<String>();
-        expandedChildren = getExpandedChildren(expandedChildren, this);
+    ArrayList<Node> getExpandedChildren() {
+        ArrayList<Node> expandedChildren = new ArrayList<>();
+        expandedChildren = getExpandedChildren(expandedChildren);
         return expandedChildren;
     }
 
-    ArrayList<String> getExpandedChildren(ArrayList<String> list, Node parent) {
-        for (TreeItem<Object> child : parent.getChildren()) {
+    ArrayList<Node> getExpandedChildren(ArrayList<Node> expandedChildren) {
+        for (TreeItem<Object> child : getChildren()) {
             Node tmp = (Node) child;
             if (!tmp.isLeaf() && tmp.isExpanded()) {
-                list.add(tmp.getId());
-                list.addAll(getExpandedChildren(list, tmp));
+                expandedChildren.add(tmp);
+                tmp.getExpandedChildren(expandedChildren);
             }
         }
-        return list;
+        return expandedChildren;
     }
 
-    String getId() {
+    void expandChildren(List<Node> expandedChildren) {
+        for (TreeItem<Object> child : getChildren()) {
+            Node tmp = (Node) child;
+            if (!tmp.isLeaf()) {
+                for (Node expandedChild : expandedChildren) {
+                    if (tmp.getUniqueId().equals(expandedChild.getUniqueId())) {
+                        tmp.setExpanded(true);
+                        tmp.expandChildren(expandedChildren);
+                    }
+                }
+            }
+        }
+    }
+
+    String getUniqueId() {
         if (getValue() instanceof Semester) {
             Semester tmp = (Semester) getValue();
             return "Semester: " + tmp.getId();
@@ -258,17 +364,45 @@ class Node extends TreeItem<Object> {
         }
     }
 
+    Node getNode(String uniqueId) {
+        for (TreeItem treeItem: this.getChildren()) {
+            Node child = (Node) treeItem;
+            Node result =  getNode(child, uniqueId);
+            if (result != null) {
+                return result;
+            }
+        }
+        return null;
+    }
+
+    Node getNode(Node node, String uniqueId) {
+        if (node.getUniqueId().equals(uniqueId)) {
+            return node;
+        } else {
+            return node.getNode(uniqueId);
+        }
+    }
+
+    Semester getSemester() {
+        if(getValue() instanceof Semester) {
+            return (Semester) getValue();
+        } else if(getValue()  instanceof Groupage) {
+            return ((Groupage) getValue()).getSemester();
+        } else if(getValue() instanceof Group) {
+            return ((Group) getValue()).getGroupage().getSemester();
+        } else {
+            return ((Student) getValue()).getGroup().getGroupage().getSemester();
+        }
+    }
+
     void deleteNode() {
-        deleteAllChildren(this);
+        deleteAllChildren();
         deleteCorresbondingDBObject();
     }
 
-    void deleteAllChildren(Node parent) {
-        for (TreeItem<Object> child : parent.getChildren()) {
-            Node tmp = (Node) child;
-            if (!tmp.isLeaf()) {
-                tmp.deleteNode();
-            }
+    void deleteAllChildren() {
+        for (TreeItem<Object> child : getChildren()) {
+            ((Node) child).deleteNode();
         }
     }
 

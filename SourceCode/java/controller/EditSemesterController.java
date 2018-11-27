@@ -69,7 +69,7 @@ public class EditSemesterController {
 				InfoModal.show("Semester \"" + description + "\" wurde geändert!");
 
 				// close window
-				SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
+				//SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
 
 			} else {
 				ErrorModal.show("Semester konnte nicht geändert werden!");
@@ -98,8 +98,10 @@ public class EditSemesterController {
 				ErrorModal.show("Das Semester konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass dem Semester keine Klassen mehr zugeordnet sind.");
 			}
 
+			SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+					<HomeScreenController>getController().setSelectedNode(null);
 			// close window
-			SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
+			//SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
 
 		}
 
@@ -107,8 +109,10 @@ public class EditSemesterController {
 
 	public void onCancelButtonClicked(ActionEvent actionEvent) {
 
+		SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+				<HomeScreenController>getController().showTabContent();
 		// close semester editing window
-		SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
+		//SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
 
 	}
 
