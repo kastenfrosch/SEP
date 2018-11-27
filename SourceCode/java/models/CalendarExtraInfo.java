@@ -37,11 +37,13 @@ public class CalendarExtraInfo {
     private int meetingNo;
 
 
-    public CalendarExtraInfo(CalendarEntry calendarEntry, String iterationInfo, String lectureInfo, String workphaseInfo) {
+    public CalendarExtraInfo(CalendarEntry calendarEntry, String iterationInfo, String lectureInfo, String workphaseInfo, int calendarWeek, int meetingNo) {
         this.calendarEntry = calendarEntry;
         this.iterationInfo = iterationInfo;
         this.lectureInfo = lectureInfo;
         this.workphaseInfo = workphaseInfo;
+        this.calendarWeek = calendarWeek;
+        this.meetingNo = meetingNo;
     }
 
     public CalendarExtraInfo() {
