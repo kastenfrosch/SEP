@@ -11,6 +11,8 @@ public class CalendarExtraInfo {
     public static final String FIELD_INFO_ITERATION = "info_iteration";
     public static final String FIELD_INFO_LECTURE = "info_lecture";
     public static final String FIELD_INFO_WORKPHASE = "info_workphase";
+    public static final String FIELD_CALENDAR_WEEK = "calendar_week";
+    public static final String FIELD_MEETING_NO = "meeting_no";
 
     @DatabaseField(columnName = FIELD_EXTRA_INFO_ID, generatedId = true)
     private int id;
@@ -27,6 +29,12 @@ public class CalendarExtraInfo {
 
     @DatabaseField(columnName = FIELD_INFO_WORKPHASE)
     private String workphaseInfo;
+
+    @DatabaseField(columnName = FIELD_CALENDAR_WEEK)
+    private int calendarWeek;
+
+    @DatabaseField(columnName = FIELD_MEETING_NO)
+    private int meetingNo;
 
 
     public CalendarExtraInfo(CalendarEntry calendarEntry, String iterationInfo, String lectureInfo, String workphaseInfo) {
@@ -70,6 +78,22 @@ public class CalendarExtraInfo {
 
     public void setWorkphaseInfo(String workphaseInfo) {
         this.workphaseInfo = workphaseInfo;
+    }
+
+    public int getCalendarWeek() {
+        return calendarWeek;
+    }
+
+    public void setCalendarWeek(int calendarWeek) {
+        this.calendarWeek = calendarWeek;
+    }
+
+    public int getMeetingNo() {
+        return meetingNo;
+    }
+
+    public void setMeetingNo(int meetingNo) {
+        this.meetingNo = meetingNo;
     }
 
     public int getId() {
