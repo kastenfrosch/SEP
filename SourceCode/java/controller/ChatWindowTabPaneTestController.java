@@ -20,6 +20,7 @@ import modal.ErrorModal;
 import modal.InfoModal;
 import models.ChatMessage;
 import models.User;
+import utils.TimeUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import utils.scene.TabInfo;
@@ -43,7 +44,7 @@ public class ChatWindowTabPaneTestController {
             e.printStackTrace();
         }
         try {
-            currentUser = dbManager.getUserDao().queryForId("moretutor");
+            currentUser = dbManager.getUserDao().queryForId("besttutor");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -162,7 +163,7 @@ public class ChatWindowTabPaneTestController {
             // pasting the list into a string with formatting
             String history = "";
             for (ChatMessage msg : messageHistoryList) {
-                history += msg.getSender() + " (" + msg.getMessageId() + "):\r\n";
+                history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
                 history += msg.getContent() + "\r\n";
             }
 

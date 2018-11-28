@@ -30,15 +30,13 @@ public class ChatTabContentTest                                                 
     private User chatPartner;
     private DBManager dbManager;
     private String history;
-    private Timestamp latestTime;
-    private int greatestID;
+    private int lastId;
     private Tab currentTab;
 
     {
         try {
             dbManager = DBManager.getInstance();
-            // don't know why timestamp is not set at this point
-            latestTime = Timestamp.valueOf(LocalDateTime.now());
+            lastId = -1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -103,44 +101,35 @@ public class ChatTabContentTest                                                 
                     List<ChatMessage> msgList = new ArrayList<>();
                     Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
 
-                    // query for all messages between the users, order by descending timestamp
-                    // limit query results to 1
-                    // this way the list only contains only the latest message between the chat partners
+                    // query for all messages between the users that are newer than last seen message
                     PreparedQuery<ChatMessage> query =
                             msgDao
                                     .queryBuilder()
-                                    .orderBy(ChatMessage.FIELD_TIME, false)
-                                    .limit(1L)
+                                    .orderBy(ChatMessage.FIELD_TIME, true)
                                     .where()
-                                    .gt(ChatMessage.FIELD_MESSAGE_ID, greatestID)
+                                    .gt(ChatMessage.FIELD_MESSAGE_ID, lastId)
                                     .and()
-                                    .eq(ChatMessage.FIELD_FROM_USER_ID, currentUser)
+                                    .in(ChatMessage.FIELD_FROM_USER_ID,
+                                            currentUser.getUsername(),
+                                            chatPartner.getUsername())
                                     .and()
-                                    .eq(ChatMessage.FIELD_TO_USER_ID, chatPartner)
+                                    .in(ChatMessage.FIELD_TO_USER_ID,
+                                            currentUser.getUsername(),
+                                            chatPartner.getUsername())
                                     .prepare();
 
                     // ... and adding it to the list
                     msgList.addAll(msgDao.query(query));
-                    ChatMessage msg = msgList.get(msgList.size()-1);
 
-                    // temporary fix until latestTame can be set at initialization
-                    if (this.latestTime == null) {
-                        this.latestTime = Timestamp.valueOf(msg.getLocalDateTime().minusSeconds(1));
-                    }
-                    // compare timestamp of message to latest message bestween those users
-                    // if timestamp is later than latest timestamp, add the message to history
-                    if (msg.getTime().after(this.latestTime)) {
+                    for (ChatMessage msg : msgList) {
                         history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
                         history += msg.getContent() + "\r\n";
-
-                        // updating latesttime
-                        this.latestTime = msg.getTime();
 
                         // pasting the string into the upper box
                         chatBox.setText(history);
                         chatBox.positionCaret(history.length());
                     }
-                    
+
                     return null;
                 });
     }
@@ -156,9 +145,13 @@ public class ChatTabContentTest                                                 
                     msgDao
                             .queryBuilder()
                             .where()
-                            .eq(ChatMessage.FIELD_FROM_USER_ID, this.currentUser)
+                            .in(ChatMessage.FIELD_FROM_USER_ID,
+                                    this.currentUser.getUsername(),
+                                    this.chatPartner.getUsername())
                             .and()
-                            .eq(ChatMessage.FIELD_TO_USER_ID, this.chatPartner)
+                            .in(ChatMessage.FIELD_TO_USER_ID,
+                                    this.currentUser.getUsername(),
+                                    this.chatPartner.getUsername())
                             .prepare();
 
             // ... and adding it to the list
@@ -167,14 +160,13 @@ public class ChatTabContentTest                                                 
             // pasting the list into a string with formatting
             this.history = "";
 
-            Timestamp latestTimestamp = null;
+            // just to initialize the variable
             int msgID = 0;
 
             // ... more formatting
             for (ChatMessage msg : messageHistoryList) {
                 this.history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
                 this.history += msg.getContent() + "\r\n";
-                latestTimestamp = msg.getTime();
                 msgID = msg.getMessageId();
             }
 
@@ -182,9 +174,8 @@ public class ChatTabContentTest                                                 
             chatBox.setText(this.history);
             chatBox.positionCaret(this.history.length());
 
-            // setting latestTime for the listener
-            this.latestTime = latestTimestamp;
-            this.greatestID = msgID;
+            // setting lastId for the listener
+            this.lastId = msgID;
 
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
