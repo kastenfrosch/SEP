@@ -143,6 +143,7 @@ public class RegisterController {
         try {
             userDao.create(user);
             codeDao.update(checkCode);
+
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
