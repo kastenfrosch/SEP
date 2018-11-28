@@ -140,9 +140,10 @@ public class CreateSemesterController {
 
                 InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
 
-
+                SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                        <HomeScreenController>getController().setSelectedNode(newSemester);
                 //close window
-                SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
+                //SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
                 ErrorModal.show("Semester konnte nicht erstellt werden.");
@@ -180,7 +181,9 @@ public class CreateSemesterController {
                 semesterDao.create(newSemester);
                 InfoModal.show("Semester \"" + semesterID + "\" erstellt!");
 
-                SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
+                SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                        <HomeScreenController>getController().setSelectedNode(newSemester);
+                //SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
 
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
@@ -192,8 +195,10 @@ public class CreateSemesterController {
 
     @FXML
     public void addSemesterCancel(ActionEvent event) {
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
         //close window
-        SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
+//        SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
     }
 
     public void chooseSemester(ActionEvent event) {

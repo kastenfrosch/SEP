@@ -269,7 +269,7 @@ public class DBUtils {
 
         Calendar c = new Calendar();
         c.setCalendarType(Calendar.CalendarType.WEEK);
-        c.setUser(u1);
+        c.setSemester(SS19);
 
         Dao<Calendar, Integer> calendarDao = manager.getCalendarDao();
         calendarDao.create(c);

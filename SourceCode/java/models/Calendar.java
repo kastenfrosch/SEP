@@ -11,7 +11,8 @@ public class Calendar {
     public static final String TABLE_CALENDAR = "calendar";
     public static final String FIELD_CALENDAR_ID = "calendar_id";
     public static final String FIELD_CALENDAR_TYPE = "calendar_type";
-    public static final String FIELD_USERNAME = User.FIELD_USERNAME;
+    public static final String FIELD_SEMESTER_ID = Semester.FIELD_SEMESTER_ID;
+
 
 
     @DatabaseField(generatedId = true, columnName = FIELD_CALENDAR_ID)
@@ -20,9 +21,9 @@ public class Calendar {
     @DatabaseField(columnName = FIELD_CALENDAR_TYPE, dataType = DataType.ENUM_INTEGER, canBeNull = false, uniqueCombo = true)
     private CalendarType calendarType;
 
-    @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
-            columnDefinition = "varchar not null references \"user\"(username)")
-    private User user;
+    @DatabaseField(columnName = FIELD_SEMESTER_ID, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
+            columnDefinition = "varchar not null references \"semester\"(semester_id)")
+    private Semester semester;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<CalendarEntry> calendarEntries;
@@ -44,12 +45,12 @@ public class Calendar {
         this.calendarType = calendarType;
     }
 
-    public User getUser() {
-        return user;
+    public Semester getSemester() {
+        return semester;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSemester(Semester semester) {
+        this.semester = semester;
     }
 
     public ForeignCollection<CalendarEntry> getCalendarEntries() {
