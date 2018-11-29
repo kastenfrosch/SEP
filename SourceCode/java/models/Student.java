@@ -1,6 +1,8 @@
 package models;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName=Student.TABLE_STUDENT)
@@ -26,6 +28,9 @@ public class Student {
     @DatabaseField(foreign = true, columnName = FIELD_GROUP_ID, foreignAutoRefresh = true,
     columnDefinition = "integer not null references \"group\"(group_id) on delete restrict")
     private Group group;
+
+    @ForeignCollectionField
+    private ForeignCollection<Tardy> tardies;
 
     public Student() {}
 
@@ -61,6 +66,10 @@ public class Student {
 
     public int getId() {
         return id;
+    }
+
+    public ForeignCollection<Tardy> getTardies() {
+        return tardies;
     }
 
     @Override
