@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.text.Text;
 import modal.ErrorModal;
 import models.InviteCode;
 import models.User;
@@ -37,7 +36,7 @@ public class InviteCodeController {
     }
 
     public void initialize() {
-
+        //create list for user and invite code
         try {
             ObservableList<InviteCode> codeList = FXCollections.observableArrayList();
             Dao<InviteCode, String> codeDao = db.getInviteCodeDao();
@@ -45,9 +44,9 @@ public class InviteCodeController {
             codeListView.setItems(codeList);
 
             ObservableList<User> usedByList = FXCollections.observableArrayList();
-
-          for(int i =0; i<codeList.size();i++){
-              usedByList.add(codeList.get(i).getUsedBy());
+            // fill list with the users using the invite code
+            for (int i = 0; i < codeList.size(); i++) {
+                usedByList.add(codeList.get(i).getUsedBy());
             }
             usedbyListView.setItems(usedByList);
 
@@ -65,25 +64,27 @@ public class InviteCodeController {
     }
 
     public void onGenerateCodeBtnClicked(ActionEvent event) {
-
+// get a new invite code
+        // code generation is part of the class
         Dao<InviteCode, String> codeDao = db.getInviteCodeDao();
-       InviteCode newCode = new InviteCode();
-       try{
-           codeDao.create(newCode);
-           codeListView.getItems().add(newCode);
+        InviteCode newCode = new InviteCode();
+        try {
+            codeDao.create(newCode);
+            codeListView.getItems().add(newCode);
 
-       } catch (SQLException e) {
-           ErrorModal.show(e.getMessage());
-           e.printStackTrace();
-       }
+        } catch (SQLException e) {
+            ErrorModal.show(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void onClipboardBtnClicked(ActionEvent actionEvent) {
+        // create a clipboard
         ClipboardContent codeContent = new ClipboardContent();
         Clipboard codeClip = Toolkit.getDefaultToolkit().getSystemClipboard();
+        //get the selected section
         StringSelection selection = new StringSelection(codeListView.getSelectionModel().getSelectedItem().toString());
-        codeClip.setContents(selection,selection);
-
+        codeClip.setContents(selection, selection);
 
 
     }
