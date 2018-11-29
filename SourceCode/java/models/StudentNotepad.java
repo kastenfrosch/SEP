@@ -18,7 +18,7 @@ public class StudentNotepad {
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "varchar not null references student(student_id)", uniqueCombo = true)
+            columnDefinition = "integer not null references student(student_id)", uniqueCombo = true)
     private Student student;
 
     public Notepad getNotepad() {
