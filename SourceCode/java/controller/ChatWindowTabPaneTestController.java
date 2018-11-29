@@ -84,7 +84,7 @@ public class ChatWindowTabPaneTestController {
                 .getInstance()
                 .registerListener(PGNotificationHandler.NotificationChannel.CHAT, () -> {
 
-                    User chatPartner;
+                    User receiver;
                     List<ChatMessage> msgList = new ArrayList<>();
                     Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
 
@@ -97,15 +97,18 @@ public class ChatWindowTabPaneTestController {
                                     .where()
                                     .in(ChatMessage.FIELD_FROM_USER_ID,
                                             currentUser.getUsername())
+                                    .and()
+                                    .in(ChatMessage.FIELD_TO_USER_ID,
+                                            currentUser.getUsername())
                                     .prepare();
 
                     // ... and adding it to the list
                     msgList.addAll(msgDao.query(query));
                     ChatMessage msg = msgList.get(0);
-                    chatPartner = msg.getSender();
+                    receiver = msg.getReceiver();
 
-                    if (!currentUser.equals(chatPartner)) {
-                        Platform.runLater(() -> InfoModal.show("Neue Nachricht von " + chatPartner));
+                    if (currentUser.equals(receiver)) {
+                        Platform.runLater(() -> InfoModal.show("Neue Nachricht von " + receiver));
                     }
 
                     return null;
