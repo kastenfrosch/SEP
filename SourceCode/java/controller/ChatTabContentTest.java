@@ -105,7 +105,8 @@ public class ChatTabContentTest                                                 
                     PreparedQuery<ChatMessage> query =
                             msgDao
                                     .queryBuilder()
-                                    .orderBy(ChatMessage.FIELD_TIME, true)
+                                    .orderBy(ChatMessage.FIELD_TIME, false)
+                                    .limit(1L)
                                     .where()
                                     .gt(ChatMessage.FIELD_MESSAGE_ID, lastId)
                                     .and()
@@ -120,15 +121,24 @@ public class ChatTabContentTest                                                 
 
                     // ... and adding it to the list
                     msgList.addAll(msgDao.query(query));
+                    ChatMessage msg = msgList.get(0);
+                    int count = 0;
 
-                    for (ChatMessage msg : msgList) {
-                        history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
-                        history += msg.getContent() + "\r\n";
+                    history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
+                    history += msg.getContent() + "\r\n";
 
-                        // pasting the string into the upper box
-                        chatBox.setText(history);
-                        chatBox.positionCaret(history.length());
+                    count += 1;
+
+                    TabPane tabPane = (TabPane) anchorpaneParent.getParent().getParent();
+                    SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+
+                    if (selectionModel.getSelectedItem() != currentTab) {
+                        currentTab.setText("(" + count + ")" + currentTab.getText());
                     }
+
+                    // pasting the string into the upper box
+                    chatBox.setText(history);
+                    chatBox.positionCaret(history.length());
 
                     return null;
                 });
@@ -215,10 +225,10 @@ public class ChatTabContentTest                                                 
 
     public void onCloseButtonClicked(ActionEvent actionEvent) {
         // close window
-        TabPane test = (TabPane) this.anchorpaneParent.getParent().getParent();
-        for (Tab t : test.getTabs()) {
+        TabPane tabPane = (TabPane) this.anchorpaneParent.getParent().getParent();
+        for (Tab t : tabPane.getTabs()) {
           if (t == this.currentTab) {
-              test.getTabs().remove(t);
+              tabPane.getTabs().remove(t);
           }
         }
     }

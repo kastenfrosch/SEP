@@ -3,6 +3,8 @@ package controller;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import connection.DBManager;
+import connection.PGNotificationHandler;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -72,6 +74,42 @@ public class ChatWindowTabPaneTestController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
+
+        registerListener();
+    }
+
+    public void registerListener() {
+        // listening for new messages to show notifications
+        PGNotificationHandler
+                .getInstance()
+                .registerListener(PGNotificationHandler.NotificationChannel.CHAT, () -> {
+
+                    User chatPartner;
+                    List<ChatMessage> msgList = new ArrayList<>();
+                    Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
+
+                    // query for all new messages to currentUser
+                    PreparedQuery<ChatMessage> query =
+                            msgDao
+                                    .queryBuilder()
+                                    .orderBy(ChatMessage.FIELD_TIME, false)
+                                    .limit(1L)
+                                    .where()
+                                    .in(ChatMessage.FIELD_FROM_USER_ID,
+                                            currentUser.getUsername())
+                                    .prepare();
+
+                    // ... and adding it to the list
+                    msgList.addAll(msgDao.query(query));
+                    ChatMessage msg = msgList.get(0);
+                    chatPartner = msg.getSender();
+
+                    if (!currentUser.equals(chatPartner)) {
+                        Platform.runLater(() -> InfoModal.show("Neue Nachricht von " + chatPartner));
+                    }
+
+                    return null;
+                });
     }
 
 
@@ -152,9 +190,13 @@ public class ChatWindowTabPaneTestController {
                     msgDao
                             .queryBuilder()
                             .where()
-                            .eq(ChatMessage.FIELD_FROM_USER_ID, this.currentUser)
+                            .in(ChatMessage.FIELD_FROM_USER_ID,
+                                    this.currentUser.getUsername(),
+                                    chatPartner.getUsername())
                             .and()
-                            .eq(ChatMessage.FIELD_TO_USER_ID, chatPartner)
+                            .in(ChatMessage.FIELD_TO_USER_ID,
+                                    this.currentUser.getUsername(),
+                                    chatPartner.getUsername())
                             .prepare();
 
             // ... and adding it to the list
