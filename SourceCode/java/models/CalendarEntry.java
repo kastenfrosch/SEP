@@ -6,6 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import connection.DBManager;
+import utils.TimeUtils;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -100,6 +101,22 @@ public class CalendarEntry {
 
     public ForeignCollection<CalendarExtraInfo> getExtraInfo() {
         return extraInfo;
+    }
+
+    @Override
+    public String toString() {
+        return TimeUtils.toSimpleString(startTime.toLocalDateTime());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == null) {
+            return false;
+        }
+        if(!(other instanceof CalendarEntry)) {
+            return false;
+        }
+        return ((CalendarEntry) other).getEntryId() == this.entryId;
     }
 }
 
