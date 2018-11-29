@@ -105,7 +105,7 @@ public class CalendarEntry {
 
     @Override
     public String toString() {
-        return TimeUtils.toSimpleString(startTime.toLocalDateTime());
+        return TimeUtils.toSimpleDateString(startTime.toLocalDateTime());
     }
 
     @Override
