@@ -279,6 +279,7 @@ public class DBUtils {
         ce.setDayOfWeek(DayOfWeek.MONDAY);
         ce.setCalendar(c);
         ce.setDescription("TestEintrag");
+        ce.setStartTime(LocalDateTime.of(2018, 11, 29, 12, 0));
 
         Dao<CalendarEntry, Integer> ceDao = manager.getCalendarEntryDao();
         ceDao.create(ce);

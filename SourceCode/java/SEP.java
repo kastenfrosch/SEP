@@ -17,7 +17,7 @@ public class SEP extends Application {
 
         //set primary stage for SceneManager
         SceneManager.getInstance(stage);
-        SceneManager.getInstance().switchTo(SceneType.CHAT_WINDOW_TAB_PANE_TEST);
+        SceneManager.getInstance().switchTo(SceneType.CREATE_TERM_ORGANISATION);
         stage.show();
     }
 }

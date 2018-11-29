@@ -105,20 +105,20 @@ public class TimetableWindowController {
 //            // TODO Auto-generated catch block
 //
 //            e.printStackTrace();
-    }
-//
+ //   }
+
 //    append();
 //        getMonday(mon);
 //        getTuesday(di);
 //        getWednesday(mi);
 //        getThursday(don);
 //        getFriday(f);
-//
-//
-//	}
-//
-//    public void getMonday(ArrayList<Label> array){
-//
+
+
+	}
+
+    public void getMonday(ArrayList<Label> array){
+
 //        Iterator<Label> i = array.iterator();
 //        int currentmonday = 0;
 //        for (int hour = 8; i.hasNext(); hour += 2) {
@@ -145,10 +145,10 @@ public class TimetableWindowController {
 //            Label l = i.next();
 //        }
 //
-//
-//    }
-//    public void getTuesday(ArrayList<Label> array){
-//
+
+    }
+    public void getTuesday(ArrayList<Label> array){
+
 //        Iterator<Label> i = array.iterator();
 //        int currentTuesday = 0;
 //        for (int hour = 8; i.hasNext(); hour += 2) {
@@ -174,11 +174,11 @@ public class TimetableWindowController {
 //            currentTuesday++;
 //            Label l = i.next();
 //        }
-//
-//
-//    }
-//    public void getWednesday(ArrayList<Label> array){
-//
+
+
+    }
+    public void getWednesday(ArrayList<Label> array){
+
 //        Iterator<Label> i = array.iterator();
 //        int currentwednesday = 0;
 //        for (int hour = 8; i.hasNext(); hour += 2) {
@@ -204,11 +204,11 @@ public class TimetableWindowController {
 //            currentwednesday++;
 //            Label l = i.next();
 //        }
-//
-//
-//    }
-//    public void getThursday(ArrayList<Label> array){
-//
+
+
+    }
+    public void getThursday(ArrayList<Label> array){
+
 //        Iterator<Label> i = array.iterator();
 //        int currentThursday = 0;
 //        for (int hour = 8; i.hasNext(); hour += 2) {
@@ -234,11 +234,11 @@ public class TimetableWindowController {
 //            currentThursday++;
 //            Label l = i.next();
 //        }
-//
-//
-//    }
-//    public void getFriday(ArrayList<Label> array){
-//
+
+
+    }
+    public void getFriday(ArrayList<Label> array){
+
 //        Iterator<Label> i = array.iterator();
 //        int currentFriday = 0;
 //        for (int hour = 8; i.hasNext(); hour += 2) {
@@ -264,11 +264,11 @@ public class TimetableWindowController {
 //            currentFriday++;
 //            Label l = i.next();
 //        }
-//
-//
-//    }
-//
-//    public void append(){
+
+
+    }
+
+    public void append(){
 //        mon.add(m1);
 //        mon.add(m2);
 //        mon.add(m3);
@@ -303,6 +303,6 @@ public class TimetableWindowController {
 //        f.add(f4);
 //        f.add(f5);
 //        f.add(f6);
-//
-//    }
+
+    }
 }

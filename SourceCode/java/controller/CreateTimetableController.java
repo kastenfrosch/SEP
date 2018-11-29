@@ -70,17 +70,17 @@ public class CreateTimetableController {
 
     @FXML
     public void initialize() {
-//    //
+    //
 //        appendTextfields();
-//    }
-//
-//    public void CreateCalendar(){
-//
-//    }
-//
-//    @FXML
-//    public void CreateTimetable() {
-//
+    }
+
+    public void CreateCalendar(){
+
+    }
+
+    @FXML
+    public void CreateTimetable() {
+
 //        Calendar calendar = new Calendar();
 //        Dao<User, String> user = db.getUserDao();
 //        calendar.setCalendarType(Calendar.CalendarType.WEEK);
@@ -113,7 +113,7 @@ public class CreateTimetableController {
 
     }
 
-//    public void setMonday(ArrayList<TextField> array, Calendar calendar) {
+    public void setMonday(ArrayList<TextField> array, Calendar calendar) {
 //
 //
 //        Iterator<TextField> i = array.iterator();
@@ -138,11 +138,11 @@ public class CreateTimetableController {
 //
 //            }
 //        }
-//
-//    }
-//
-//    public void setTuesday(ArrayList<TextField> array, Calendar calendar) {
-//
+
+    }
+
+    public void setTuesday(ArrayList<TextField> array, Calendar calendar) {
+
 //        Iterator<TextField> i = array.iterator();
 //        for (int hour = 8; i.hasNext(); hour += 2) {
 //            TextField t = i.next();
@@ -165,10 +165,10 @@ public class CreateTimetableController {
 //
 //            }
 //        }
-//    }
-//
-//    public void setWednesday(ArrayList<TextField> array, Calendar calendar) {
-//
+    }
+
+    public void setWednesday(ArrayList<TextField> array, Calendar calendar) {
+
 //        Iterator<TextField> i = array.iterator();
 //        for (int hour = 8; i.hasNext(); hour += 2) {
 //            TextField t = i.next();
@@ -190,10 +190,10 @@ public class CreateTimetableController {
 //
 //            }
 //        }
-//    }
-//
-//    public void setThursday(ArrayList<TextField> array, Calendar calendar) {
-//
+    }
+
+    public void setThursday(ArrayList<TextField> array, Calendar calendar) {
+
 //        Iterator<TextField> i = array.iterator();
 //        for (int hour = 8; i.hasNext(); hour += 2) {
 //            TextField t = i.next();
@@ -216,12 +216,12 @@ public class CreateTimetableController {
 //            }
 //
 //        }
-//
-//
-//    }
-//
-//    public void setFriday(ArrayList<TextField> array, Calendar calendar) {
-//
+
+
+    }
+
+    public void setFriday(ArrayList<TextField> array, Calendar calendar) {
+
 //        Iterator<TextField> i = array.iterator();
 //        for (int hour = 8; i.hasNext(); hour += 2) {
 //            TextField t = i.next();
@@ -243,11 +243,11 @@ public class CreateTimetableController {
 //
 //            }
 //        }
-//    }
-//
-//
-//    //fertig
-//    public void appendTextfields() {
+    }
+
+
+    //fertig
+    public void appendTextfields() {
 //        mon.add(m1);
 //        mon.add(m2);
 //        mon.add(m3);
@@ -282,8 +282,8 @@ public class CreateTimetableController {
 //        f.add(f4);
 //        f.add(f5);
 //        f.add(f6);
-//
-//    }
-//
-//
+
+    }
+
+
 }
