@@ -72,6 +72,8 @@ public class RegisterController {
 
     public void onSaveBtnClicked(ActionEvent event) {
 
+        //check if everything not blank
+
         if (firstnameInput.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Kein Vornamen eingegeben!");
             return;
@@ -104,10 +106,10 @@ public class RegisterController {
             return;
         }
         Dao<InviteCode, String> codeDao = db.getInviteCodeDao();
-
-            InviteCode checkCode;
+        //check if the invitecode is in the database
+        InviteCode checkCode;
         try {
-             checkCode = codeDao.queryForId(codeInputField.getText());
+            checkCode = codeDao.queryForId(codeInputField.getText());
 
             if (checkCode == null || codeDao.queryForId(codeInputField.getText()).getUsedBy() != null) {
                 InfoModal.show("FEHLER!", null, "Der Einwahlcode ist nicht korrekt!");
@@ -119,9 +121,8 @@ public class RegisterController {
             return;
         }
 
-
+        //set the new user
         Dao<User, String> userDao = db.getUserDao();
-
         person.setFirstname(firstnameInput.getText());
         person.setLastname(lastnameInput.getText());
         person.setEmail(emailInput.getText());
@@ -129,6 +130,7 @@ public class RegisterController {
         user.setPerson(person);
         checkCode.setUsedBy(user);
 
+        //convert the password in hex and use the salt to increase security
         byte[] salt = HashUtils.getRandomSalt();
         byte[] hashed = HashUtils.hash(passwordField.getText(), salt);
 
@@ -138,8 +140,7 @@ public class RegisterController {
         user.setPasswordHash(hexPass);
 
 
-
-
+        //create and update the daos
         try {
             userDao.create(user);
             codeDao.update(checkCode);
