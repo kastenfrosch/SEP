@@ -18,7 +18,7 @@ import utils.scene.SceneType;
 import java.sql.SQLException;
 
 public class UserAdministrationController {
-
+// get user and db Manager
     static User user = new User();
     private DBManager db;
 
@@ -79,17 +79,18 @@ public class UserAdministrationController {
         try {
             //delete the userDao from the database
             userDao.delete(user);
+            InfoModal.show("User " + user.getUsername() + " wurde gelöscht.");
+            SceneManager.getInstance().switchTo(SceneType.HOME);
         } catch (SQLException e) {
             ErrorModal.show("Der User konnte nicht gelöscht werden.");
         }
         //back to the homeview
-        InfoModal.show("User " + user.getUsername() + " wurde gelöscht.");
-        SceneManager.getInstance().switchTo(SceneType.HOME);
+
     }
 
     @FXML
     public void onCancelBtnClicked(ActionEvent event) {
-        SceneManager.getInstance().switchTo(SceneType.HOME);
+        SceneManager.getInstance().closeWindow(SceneType.USER_ADMIN);
     }
 
 
