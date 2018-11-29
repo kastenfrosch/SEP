@@ -12,8 +12,7 @@ public class Calendar {
     public static final String FIELD_CALENDAR_ID = "calendar_id";
     public static final String FIELD_CALENDAR_TYPE = "calendar_type";
     public static final String FIELD_SEMESTER_ID = Semester.FIELD_SEMESTER_ID;
-
-
+    public static final String FIELD_GROUPAGE_ID = Groupage.FIELD_GROUPAGE_ID;
 
     @DatabaseField(generatedId = true, columnName = FIELD_CALENDAR_ID)
     private int calendarId;
@@ -24,6 +23,10 @@ public class Calendar {
     @DatabaseField(columnName = FIELD_SEMESTER_ID, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
             columnDefinition = "varchar not null references \"semester\"(semester_id)")
     private Semester semester;
+
+    @DatabaseField(columnName = FIELD_GROUPAGE_ID, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
+            columnDefinition = "integer references groupage(groupage_id)")
+    private Groupage groupage;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<CalendarEntry> calendarEntries;
@@ -55,5 +58,14 @@ public class Calendar {
 
     public ForeignCollection<CalendarEntry> getCalendarEntries() {
         return calendarEntries;
+    }
+
+
+    public Groupage getGroupage() {
+        return groupage;
+    }
+
+    public void setGroupage(Groupage groupage) {
+        this.groupage = groupage;
     }
 }
