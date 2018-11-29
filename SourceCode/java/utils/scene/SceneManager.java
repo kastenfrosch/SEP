@@ -56,6 +56,8 @@ public class SceneManager {
             } catch (IOException ex) {
                 ErrorModal.show("ERROR", "A fatal exception has occured", ex.getLocalizedMessage());
                 ex.printStackTrace();
+            } catch(IllegalStateException ex) {
+                ErrorModal.show("ERROR", "Der Ersteller von " + type.getPath() + " hat VERKACKT!");
             }
         }
     }

@@ -31,8 +31,8 @@ public class User {
     @DatabaseField(columnName=FIELD_SALT, canBeNull = false)
     private String salt;
 
-    @DatabaseField(columnName=FIELD_LAST_TAB, dataType = DataType.ENUM_INTEGER)
-    private SceneType lastTab;
+    @DatabaseField(columnName=FIELD_LAST_TAB)
+    private String lastTab;
 
     @DatabaseField(columnName=FIELD_LAST_ITEM)
     private String lastItem;
@@ -79,11 +79,11 @@ public class User {
         this.salt = salt;
     }
 
-    public SceneType getLastTab() {
+    public String getLastTab() {
         return lastTab;
     }
 
-    public void setLastTab(SceneType lastTab) {
+    public void setLastTab(String lastTab) {
         this.lastTab = lastTab;
     }
 
