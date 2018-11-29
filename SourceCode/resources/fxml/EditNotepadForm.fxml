@@ -15,6 +15,5 @@
       <ComboBox fx:id="editNotepadPriorityComboBox" layoutX="400.0" layoutY="100.0" onAction="#setPriority" prefWidth="150.0" promptText="Priorität" />
       <Button fx:id="editNotepadSaveButton" layoutX="14.0" layoutY="340.0" mnemonicParsing="false" onAction="#editNotepadSave" text="Speichern" />
       <Button fx:id="editNotepadCancelButton" layoutX="480.0" layoutY="340.0" mnemonicParsing="false" onAction="#editNotepadCancel" text="Abbrechen" />
-      <Button fx:id="editNotepadDeleteButton" layoutX="260.0" layoutY="340.0" mnemonicParsing="false" onAction="#editNotepadDelete" text="Löschen" />
    </children>
 </AnchorPane>
