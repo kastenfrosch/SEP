@@ -41,8 +41,6 @@ public class EditNotepadController {
     public Button editNotepadSaveButton;
     @FXML
     public Button editNotepadCancelButton;
-    @FXML
-    public Button editNotepadDeleteButton;
 
     public void initialize() { //Initializing ComboBox
         ObservableList<String> prioritaet = FXCollections.observableArrayList("Hohe Priorität", "Mittlere Priorität",
@@ -64,21 +62,21 @@ public class EditNotepadController {
 
     public void editNotepadSave(ActionEvent actionEvent) { //Updating notepad changes
         String noteName;
-        if(editNotepadName == null || editNotepadName.getText().isBlank()) {
+        if (editNotepadName == null || editNotepadName.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Bezeichnung eingeben!");
             return;
         }
         noteName = editNotepadName.getText();
 
         String priority;
-        if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == null) {
+        if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Bitte Priorität bestimmen!");
             return;
         }
         priority = editNotepadPriorityComboBox.getSelectionModel().getSelectedItem();
 
         String textContent;
-        if(editNotepadTextarea == null || editNotepadTextarea.getText().isBlank()) {
+        if (editNotepadTextarea == null || editNotepadTextarea.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Notiz eingeben");
             return;
         }
@@ -89,6 +87,7 @@ public class EditNotepadController {
         this.notepad.setNotepadName(noteName);
         this.notepad.setNotepadPriority(priority);
         this.notepad.setNotepadContent(textContent);
+        this.notepad.setNotepadObject(dbManager.getNotepadDao().getTableName());
 
         try {
             notepadDao.update(this.notepad);
@@ -98,22 +97,6 @@ public class EditNotepadController {
             e.printStackTrace();
         }
         SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
-    }
-
-    public void editNotepadDelete(ActionEvent actionEvent) { //deleting notepad
-        boolean delete = ConfirmationModal.show("Soll die Notiz gelöscht werden?");
-        if (delete) {
-            Dao<Notepad, Integer> notepadDao = dbManager.getNotepadDao();
-            try {
-                notepadDao.delete(this.notepad);
-            } catch (SQLException e) {
-                ErrorModal.show("Fehler: Die Notiz konnte nicht geloescht werden.");
-            }
-            SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
-        }
-        else {
-            return;
-        }
     }
 
     public void editNotepadCancel(ActionEvent actionEvent) { //When Cancel Button is pressed

@@ -15,6 +15,7 @@ import utils.scene.SceneType;
 import models.Notepad;
 import java.sql.SQLException;
 
+    //todo: (600x400) Link zu Student Gruppe Goupage sodass die Notiz quasi dort eingeordnet ist; Tab mit Notizliste zur zugehoerigen Entitaet
     public class CreateNotepadController {
 
         private DBManager db;
@@ -32,8 +33,6 @@ import java.sql.SQLException;
         @FXML
         public TextField bezeichnungTextField;
         @FXML
-        public TextArea addNotepad;
-        @FXML
         public Button saveButton;
         @FXML
         public ComboBox<String> priorityComboBox;
@@ -48,20 +47,19 @@ import java.sql.SQLException;
                                                                                         "Geringe Priorität", "Keine Priorität");
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
-            priorityComboBox.setStyle("-fx-background-color: red");
-
+            notepadTextarea.setStyle("-fx-background-color: red");
         }
 
         public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
 
             if (priorityComboBox.getSelectionModel().getSelectedItem() == "Hohe Priorität") {
-                addNotepad.setStyle("-fx-background-color: red");
+                notepadTextarea.setStyle("-fx-background-color: red");
             } else if (priorityComboBox.getSelectionModel().getSelectedItem() == "Mittlere Priorität") {
-                addNotepad.setStyle("-fx-background-color: yellow");
+                notepadTextarea.setStyle("-fx-background-color: yellow");
             } else if (priorityComboBox.getSelectionModel().getSelectedItem() == "niedrige Priorität") {
-                addNotepad.setStyle("-fx-background-color: green");
+                notepadTextarea.setStyle("-fx-background-color: green");
             } else if (priorityComboBox.getSelectionModel().getSelectedItem() == "Keine Priorität") {
-                addNotepad.setStyle("-fx-background-color: grey");
+                notepadTextarea.setStyle("-fx-background-color: grey");
             }
         }
 
@@ -103,7 +101,8 @@ import java.sql.SQLException;
                 notepad.setNotepadContent(textContent);
                 notepad.setNotepadPriority(priority);
                 notepad.setNotepadName(noteName);
-                notepad.setUser(db.getLoggedInUser());
+                notepad.setNotepadObject(db.getNotepadDao().getTableName());
+                //notepad.setUser(db.getLoggedInUser());
 
                 Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
 
