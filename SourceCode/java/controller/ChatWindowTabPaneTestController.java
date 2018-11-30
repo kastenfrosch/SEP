@@ -48,7 +48,7 @@ public class ChatWindowTabPaneTestController {
             e.printStackTrace();
         }
         try {
-            currentUser = dbManager.getUserDao().queryForId("moretutor");
+            currentUser = dbManager.getUserDao().queryForId("besttutor");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,7 +89,7 @@ public class ChatWindowTabPaneTestController {
                     Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
                     lastId = msgDao.queryForAll().get(msgDao.queryForAll().size()-1).getMessageId();
 
-                    User receiver;
+                    //User receiver;
                     List<ChatMessage> msgList = new ArrayList<>();
 
                     // query for all new messages to currentUser
@@ -106,27 +106,19 @@ public class ChatWindowTabPaneTestController {
                     // ... and adding it to the list
                     msgList.addAll(msgDao.query(query));
 
-                    for (ChatMessage msg : msgList)
-                    System.out.println(msg.getMessageId() + msg.getContent());
-
+                    // making sure it works for chat partner with no history
                     if (msgList.size() > 0) {
+
                         ChatMessage msg = msgList.get(0);
-
-                        receiver = msg.getReceiver();
                         User sender = msg.getSender();
-                        int id = msg.getMessageId();
 
-                        System.out.println();
-                        System.out.println("receiver: " + receiver);
-                        System.out.println("sender: " + sender);
-                        System.out.println("id: " + id);
-                        System.out.println(msg.getContent());
-                        System.out.println();
-
-
-                        // pop up when someone sent a message to current user
-                        if (!currentUser.getUsername().equals(sender.getUsername())) {
-                            Platform.runLater(() -> InfoModal.show("Neue Nachricht von " + sender));
+                        // pop up when someone sent a message to current user and tab is not focussed
+                        if (!tabPane.getSelectionModel().getSelectedItem().getText().contains(sender.getUsername())) {
+                            if (!currentUser.getUsername().equals(sender.getUsername())) {
+                                Platform.runLater(() ->
+                                        InfoModal.show("Neue Nachricht von " + sender)
+                                );
+                            }
                         }
                     }
 
