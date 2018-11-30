@@ -1,7 +1,9 @@
 package models;
 
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = Group.TABLE_GROUP)
@@ -21,6 +23,9 @@ public class Group {
     @DatabaseField(foreign = true, columnName = FIELD_GROUPAGE_ID, foreignAutoRefresh = true,
     columnDefinition = "integer not null references groupage(groupage_id)")
     private Groupage groupage;
+
+    @ForeignCollectionField
+    private ForeignCollection<Student> students;
 
     public Group() {}
 
@@ -47,6 +52,10 @@ public class Group {
 
     public int getId() {
         return id;
+    }
+
+    public ForeignCollection<Student> getStudents() {
+        return students;
     }
 
     @Override

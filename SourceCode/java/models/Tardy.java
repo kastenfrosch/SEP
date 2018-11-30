@@ -14,6 +14,7 @@ public class Tardy {
     public static final String TABLE_TARDY = "tardy";
     public static final String FIELD_ID = "tardy_id";
     public static final String FIELD_STUDENT = "student_id";
+    public static final String FIELD_PRESENT = "present";
     public static final String FIELD_TIME_MISSED = "time_missed";
     public static final String FIELD_DATE_MISSED = "date_missed";
     public static final String FIELD_EXCUSED = "excused";
@@ -28,11 +29,15 @@ public class Tardy {
     @DatabaseField(columnName = FIELD_TIME_MISSED, canBeNull = false)
     private int timeMissed;
 
-    @DatabaseField(columnName = FIELD_DATE_MISSED, canBeNull = false, dataType = DataType.TIME_STAMP)
-    private Timestamp dateMissed;
+    @DatabaseField(columnName = FIELD_DATE_MISSED, canBeNull = false, foreign = true, foreignAutoRefresh = true,
+            columnDefinition = "integer not null references calendar_entry(entry_id)")
+    private CalendarEntry dateMissed;
 
     @DatabaseField(columnName = FIELD_EXCUSED, canBeNull = false, defaultValue = "false")
     private boolean excused;
+
+    @DatabaseField(columnName = FIELD_PRESENT, canBeNull = false, defaultValue = "true")
+    private boolean present;
 
     public Student getStudent() {
         return student;
@@ -50,11 +55,11 @@ public class Tardy {
         this.timeMissed = timeMissed;
     }
 
-    public Timestamp getDateMissed() {
+    public CalendarEntry getDateMissed() {
         return dateMissed;
     }
 
-    public void setDateMissed(Timestamp dateMissed) {
+    public void setDateMissed(CalendarEntry dateMissed) {
         this.dateMissed = dateMissed;
     }
 
@@ -66,11 +71,11 @@ public class Tardy {
         this.excused = excused;
     }
 
-    public LocalDate getLocalDateMissed() {
-        return this.dateMissed.toLocalDateTime().toLocalDate();
+    public boolean isPresent() {
+        return present;
     }
 
-    public void setLocalDateMissed(LocalDate ld) {
-        this.dateMissed = Timestamp.valueOf(LocalDateTime.of(ld, LocalTime.of(0, 0, 0)));
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 }

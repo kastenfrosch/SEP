@@ -1,7 +1,9 @@
 package models;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.Timestamp;
@@ -33,6 +35,9 @@ public class Groupage {
     @DatabaseField(foreign = true, columnName = FIELD_SEMESTER_ID, foreignAutoRefresh = true,
     columnDefinition = "varchar not null references semester(semester_id) on delete restrict")
     private Semester semester;
+
+    @ForeignCollectionField
+    private ForeignCollection<Group> groups;
 
 
     public Groupage() {}
@@ -116,5 +121,9 @@ public class Groupage {
 
     public void setEndTime(LocalDateTime t) {
         this.endTime = Timestamp.valueOf(t);
+    }
+
+    public ForeignCollection<Group> getGroups() {
+        return groups;
     }
 }
