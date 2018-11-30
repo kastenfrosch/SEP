@@ -17,6 +17,8 @@ public enum SceneType {
     CHAT_WINDOW("/fxml/ChatWindow.fxml", "ChatWindow"),
     CREATE_NOTEPAD_WINDOW("/fxml/CreateNotepadForm.fxml", "CreateNotepadWindow"),
     EDIT_NOTEPAD_WINDOW("/fxml/EditNotepadForm.fxml", "EditNotepadWindow"),
+    NOTESTAB_WINDOW("/fxml/NotesTabForm.fxml", "NotesTabWindow"),
+    NOTE_WINDOW("/fxml/NoteWindowForm.fxml", "NoteWindow"),
     CHAT_TAB_CONTENT_TEST("/fxml/ChatTabContentTest.fxml", "ChatTabContentTest"),
     CHAT_WINDOW_TAB_PANE_TEST("/fxml/ChatWindowTabPaneTest.fxml", "ChatWindowTabPaneTest"),
     USER_ADMIN("/fxml/UserAdministrationForm.fxml", "User Administration"),
