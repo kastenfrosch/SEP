@@ -97,11 +97,10 @@ public class CreateTermOrganisationController {
     public void initialize() {
 
         CalendarEntry calendarEntry = new CalendarEntry();
-        //calendarEntry.setStartTime(LocalDateTime.of(2018, 10, 8, 18, 0));
         ObservableList<CalendarExtraInfo> ersteZeile =
                 FXCollections.observableArrayList(new CalendarExtraInfo(calendarEntry, "V-Kick-Off", "Einführungsveranstaltung", "Gruppenanmeldung", 41, 0));
 
-        colSEPdates.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, CalendarEntry>("calendarEntry"));
+        // colSEPdates.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, CalendarEntry>("calendarEntry"));
         colCalendarWeek.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, Integer>("calendarWeek"));
         colMeetingNo.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, Integer>("meetingNo"));
         colIteration.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, String>("iterationInfo"));

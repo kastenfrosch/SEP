@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import modal.ConfirmationModal;
 import modal.ErrorModal;
 import modal.InfoModal;
-import models.*;
+import models.Notepad;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
@@ -18,13 +18,12 @@ import java.sql.SQLException;
 
 public class EditNotepadController {
 
-    private Object objectType;
     private Notepad notepad;
-    private DBManager db;
+    private DBManager dbManager;
 
     {
         try {
-            db = DBManager.getInstance();
+            dbManager = DBManager.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,51 +42,20 @@ public class EditNotepadController {
     @FXML
     public Button editNotepadCancelButton;
 
-    public void initialize() throws SQLException { //Initializing ComboBox
-        ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
-                                                                                   "Niedrig", "Neutral");
+    public void initialize() { //Initializing ComboBox
+        ObservableList<String> prioritaet = FXCollections.observableArrayList("Hohe Priorität", "Mittlere Priorität",
+                                                                                   "Geringe Priorität", "Keine Priorität");
         editNotepadPriorityComboBox.setItems(prioritaet);
-
-        Dao<Notepad, Integer> notepadDao = db.getNotepadDao(); //Testing
-        Notepad notepad = notepadDao.queryForId(8);
-
-        Dao<StudentNotepad, Integer> studentNotepad = db.getStudentNotepadDao(); //Testing
-        StudentNotepad studentNote = studentNotepad.queryForId(2);
-
-        this.notepad = studentNote.getNotepad();
-        this.notepad.setNotepadName(studentNote.getNotepad().getNotepadName());
-        this.notepad.setNotepadPriority(studentNote.getNotepad().getNotepadPriority());
-        this.notepad.setNotepadContent(studentNote.getNotepad().getNotepadContent());
-
-        editNotepadTextarea.setText(this.notepad.getNotepadContent());
-        editNotepadName.setText(this.notepad.getNotepadName());
-
-        if(this.notepad.getNotepadPriority().equals("Hoch")) {
-            editNotepadTextarea.setStyle("-fx-background-color: red");
-            editNotepadPriorityComboBox.getSelectionModel().select("Hoch");
-        }
-        else if(this.notepad.getNotepadPriority().equals("Mittel")) {
-            editNotepadTextarea.setStyle("-fx-background-color: yellow");
-            editNotepadPriorityComboBox.getSelectionModel().select("Mittel");
-        }
-        else if(this.notepad.getNotepadPriority().equals("Niedrig")) {
-            editNotepadTextarea.setStyle("-fx-background-color: green");
-            editNotepadPriorityComboBox.getSelectionModel().select("Niedrig");
-        }
-        else if(this.notepad.getNotepadPriority().equals("Neutral")) {
-            editNotepadTextarea.setStyle("-fx-background-color: grey");
-            editNotepadPriorityComboBox.getSelectionModel().select("Neutral");
-        }
     }
 
     public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
-        if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
+        if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == "Hohe Priorität") {
             editNotepadTextarea.setStyle("-fx-background-color: red");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
+        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == "Mittlere Priorität") {
             editNotepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Niedrig")) {
+        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == "niedrige Priorität") {
             editNotepadTextarea.setStyle("-fx-background-color: green");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
+        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == "Keine Priorität") {
             editNotepadTextarea.setStyle("-fx-background-color: grey");
         }
     }
@@ -114,40 +82,15 @@ public class EditNotepadController {
         }
         textContent = editNotepadTextarea.getText();
 
-        Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
+        Dao<Notepad, Integer> notepadDao = dbManager.getNotepadDao();
 
         this.notepad.setNotepadName(noteName);
         this.notepad.setNotepadPriority(priority);
         this.notepad.setNotepadContent(textContent);
+//        this.notepad.setNotepadObject(dbManager.getNotepadDao().getTableName());
 
         try {
             notepadDao.update(this.notepad);
-
-            if(this.objectType instanceof Student) {
-                StudentNotepad studentNotepad = new StudentNotepad();
-                studentNotepad.setStudent((Student) this.objectType);
-                studentNotepad.setNotepad(notepad);
-
-                Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-                studentNotepadDao.update(studentNotepad);
-            }
-            else if(this.objectType instanceof Groupage) {
-                GroupageNotepad groupageNotepad = new GroupageNotepad();
-                groupageNotepad.setGroupage((Groupage) this.objectType);
-                groupageNotepad.setNotepad(notepad);
-
-                Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-                groupageNotepadDao.update(groupageNotepad);
-            }
-            else if(this.objectType instanceof Group) {
-                GroupNotepad groupNotepad = new GroupNotepad();
-                groupNotepad.setGroup((Group) this.objectType);
-                groupNotepad.setNotepad(notepad);
-
-                Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-                groupNotepadDao.update(groupNotepad);
-            }
-
             InfoModal.show("Notiz" + editNotepadName.getText() + " wurde geändert!");
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
@@ -160,14 +103,10 @@ public class EditNotepadController {
         SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void setNotepad(Notepad notepad) { //Getting the given Notepad config
+    public void setNotepad(Notepad notepad) { //Function to edit Notepad form HomescreenController
         this.notepad = notepad;
         this.notepad.setNotepadName(notepad.getNotepadName());
         this.notepad.setNotepadPriority(notepad.getNotepadPriority());
         this.notepad.setNotepadContent(notepad.getNotepadContent());
-    }
-
-    public void setObject(Object object) {
-        this.objectType = object;
     }
 }

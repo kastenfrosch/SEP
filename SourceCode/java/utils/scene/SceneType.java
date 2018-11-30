@@ -25,9 +25,10 @@ public enum SceneType {
     TIMETABLE_WINDOW("/fxml/TimetableWindow.fxml","Stundenplan"),
     INVITE_CODE("/fxml/InviteCode.fxml", "Einwahlcodes"),
     PASSWORD_RESET("/fxml/PasswordResetForm.fxml","Passwort ändern"),
-    NOTESTAB_WINDOW("/fxml/NotesTabForm.fxml","Notizliste"),
-    NOTE_WINDOW("/fxml/NoteWindowForm.fxml","Notiz Fenster"),
-    TARDY("/fxml/TardyView.fxml", "Fehlzeiten");
+    CREATE_TERM_ORGANISATION("/fxml/CreateTermOrganisation.fxml","Semesterplan erstellen"),
+    EDIT_AND_CREATE_SEMPLAN("/fxml/Semesterplan.fxml","Semesterplan"),
+    TARDY_VIEW("/fxml/TardyView.fxml","Anwesenheitsplan");
+
 
 
     private String path, title;
