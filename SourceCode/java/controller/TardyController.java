@@ -100,12 +100,10 @@ public class TardyController {
         excusedCol.setEditable(true);
 
         tableView.getColumns().addAll(firstnameCol, lastnameCol, presentCol, timeCol, excusedCol);
-
-        refreshList();
     }
 
 
-    public void setArgs(CalendarEntry entry) {
+    public void setCalendarEntry(CalendarEntry entry) {
         this.calendarEntry = entry;
 
         this.titleText.setText(
