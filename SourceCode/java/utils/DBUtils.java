@@ -28,6 +28,9 @@ public class DBUtils {
         TableUtils.dropTable(conn, FavouriteStudent.class, true);
 	    TableUtils.dropTable(conn, InviteCode.class, true);
         TableUtils.dropTable(conn, Tardy.class, true);
+        TableUtils.dropTable(conn, GroupNotepad.class, true);
+        TableUtils.dropTable(conn, GroupageNotepad.class, true);
+        TableUtils.dropTable(conn, StudentNotepad.class, true);
         TableUtils.dropTable(conn, Notepad.class, true);
 	    TableUtils.dropTable(conn, CalendarEntry.class, true);
 	    TableUtils.dropTable(conn, Calendar.class, true);
@@ -52,6 +55,9 @@ public class DBUtils {
         TableUtils.createTable(conn, ChatMessage.class);
         TableUtils.createTable(conn, Tardy.class);
         TableUtils.createTable(conn, Notepad.class);
+        TableUtils.createTable(conn, GroupNotepad.class);
+        TableUtils.createTable(conn, GroupageNotepad.class);
+        TableUtils.createTable(conn, StudentNotepad.class);
         TableUtils.createTable(conn, InviteCode.class);
         TableUtils.createTable(conn, FavouriteSemester.class);
         TableUtils.createTable(conn, FavouriteGroup.class);
