@@ -105,7 +105,7 @@ public class CreateStudentController {
         }
         // making sure that mail adress is valid using the  validateMailAddress.
 
-        if (validateMailAddress(emailInput.toString()) || emailInput == null) {
+        if (!validateMailAddress(emailInput.getText())) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
