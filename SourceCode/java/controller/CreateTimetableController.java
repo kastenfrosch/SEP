@@ -108,6 +108,10 @@ public class CreateTimetableController {
         Semester semester;
 
         appendTextfields();
+
+                loadboxes();
+    }
+    public void loadboxes(){
         try {
 
             // creat an observableList with all groups
@@ -149,7 +153,6 @@ public class CreateTimetableController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-
     }
     public void LoadTimetable(){
 
@@ -289,7 +292,8 @@ public class CreateTimetableController {
 
     public void UpdateTimetable(){
 
-        UpdateMonday(mon);
+        UpdateMonday(mon,this.calendar);
+    //    Updatetest(mon,this.calendar);
     }
 // Create new Timtable
     public void setMonday(ArrayList<TextField> array, Calendar calendar) {
@@ -618,7 +622,7 @@ public class CreateTimetableController {
 
     }
 //Update Timetable with the infos of getDAY
-   public void UpdateMonday(ArrayList<TextField>array){
+   public void UpdateMonday(ArrayList<TextField>array,Calendar calendar){
 
         Iterator<TextField> i = array.iterator();
             int currentmonday =0;
@@ -634,6 +638,7 @@ public class CreateTimetableController {
                CalendarEntry e =CalendarDaoEntry.queryForMatching(monday).get(0);
                e.setDescription(t.getText());
                array.get(currentmonday).setText(e.getDescription());
+               System.out.print(currentmonday);
                CalendarDaoEntry.update(e);
                System.out.print("MONDAY" + hour);
 
@@ -647,9 +652,32 @@ public class CreateTimetableController {
            TextField l = i.next();
        }
    }
+    public void Updatetest(ArrayList<TextField>array,Calendar calendar){
 
+        Iterator<TextField> i = array.iterator();
+        for (int hour = 8; i.hasNext(); hour += 2) {
+            TextField t = i.next();
+            CalendarEntry wednesday = new CalendarEntry();
+            wednesday.setDayOfWeek(DayOfWeek.WEDNESDAY);
+            wednesday.setCalendar(calendar);
+            wednesday.setDescription(t.getText());
+            wednesday.setStartTime(hour);
+            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+            try {
+                CalendarDaoEntry.update(wednesday);
+                System.out.print("WEDNESDAY"+hour);
+
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                System.out.println("fuckml");
+                e.printStackTrace();
+
+            }
+        }
+
+    }
    public void Reload(){
-        initialize();
+        loadboxes();
    }
 
 
