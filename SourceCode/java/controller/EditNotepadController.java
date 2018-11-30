@@ -161,9 +161,9 @@ public class EditNotepadController {
 
     public void setNotepad(Notepad notepad) { //Getting the given Notepad config
         this.notepad = notepad;
-        this.notepad.setNotepadName(notepad.getNotepadName());
-        this.notepad.setNotepadPriority(notepad.getNotepadPriority());
-        this.notepad.setNotepadContent(notepad.getNotepadContent());
+        editNotepadName.setText(notepad.getNotepadName());
+        editNotepadPriorityComboBox.getSelectionModel().select(notepad.getNotepadPriority());
+        editNotepadTextarea.setText(notepad.getNotepadContent());
     }
 
     public void setObject(Object object) {

@@ -33,6 +33,15 @@ public class NoteWindowController {
     public Label nameLabel;
 
     public void initialize() {
+        if (priorityLabel.getText().equals("Hoch")) {
+            notepadTextarea.setStyle("-fx-background-color: red");
+        } else if (priorityLabel.getText().equals("Mittel")) {
+            notepadTextarea.setStyle("-fx-background-color: yellow");
+        } else if (priorityLabel.getText().equals("Niedrig")) {
+            notepadTextarea.setStyle("-fx-background-color: green");
+        } else if (priorityLabel.getText().equals("Neutral")) {
+            notepadTextarea.setStyle("-fx-background-color: grey");
+        }
         /*
         Dao<Notepad, Integer> notepadDao = db.getNotepadDao(); //Testing
         Notepad notepad = notepadDao.queryForId(8);
@@ -44,15 +53,6 @@ public class NoteWindowController {
         nameLabel.setText(studentNote.getNotepad().getNotepadName());
         priorityLabel.setText(studentNote.getNotepad().getNotepadPriority());
         */
-        if (priorityLabel.getText().equals("Hoch")) { //Setting Priority Color
-            notepadTextarea.setStyle("-fx-background-color: red");
-        } else if (priorityLabel.equals("Mittel")) {
-            notepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (priorityLabel.equals("Niedrig")) {
-            notepadTextarea.setStyle("-fx-background-color: green");
-        } else if (priorityLabel.equals("Neutral")) {
-            notepadTextarea.setStyle("-fx-background-color: grey");
-        }
     }
 
     public void closeButton(ActionEvent actionEvent) {

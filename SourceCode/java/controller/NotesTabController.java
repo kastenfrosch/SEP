@@ -98,9 +98,50 @@ public class NotesTabController {
     }
 
     public void editButton(ActionEvent actionEvent) {
-        if(notesListView.getSelectionModel().isEmpty()) {
-            InfoModal.show("Bitte wählen Sie die zu editierende Notiz aus.");
+        if (notesListView.getSelectionModel().isEmpty()) {
+            InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
+        }
+        SceneType sceneType = null;
+        SceneManager sm = SceneManager.getInstance();
+        if(this.objectType instanceof Student) {
+            Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
+            for (StudentNotepad s : studentNotepadDao) {
+                if (s.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
+                    this.notepad = s.getNotepad();
+                }
+            }
+            if (sceneType == null) {
+                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
+                        .setNotepad(this.notepad);
+            }
+        }
+        else if(this.objectType instanceof Group) {
+            Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
+            for(GroupNotepad g : groupNotepadDao) {
+                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
+                    this.notepad = g.getNotepad();
+                }
+            }
+            if(sceneType == null) {
+                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
+                        .setNotepad(this.notepad);
+            }
+        }
+        else if(this.objectType instanceof Groupage) {
+            Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
+            for(GroupageNotepad g : groupageNotepadDao) {
+                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
+                    this.notepad = g.getNotepad();
+                }
+            }
+            if(sceneType == null) {
+                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
+                        .setNotepad(this.notepad);
+            }
         }
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
@@ -163,11 +204,52 @@ public class NotesTabController {
     }
 
     public void showNoteButton(ActionEvent actionEvent) {
-        if(notesListView.getSelectionModel().isEmpty()) {
+        if (notesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
         }
-        SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
+        SceneType sceneType = null;
+        SceneManager sm = SceneManager.getInstance();
+        if(this.objectType instanceof Student) {
+            Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
+            for (StudentNotepad s : studentNotepadDao) {
+                if (s.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
+                    this.notepad = s.getNotepad();
+                }
+            }
+            if (sceneType == null) {
+                sceneType = SceneType.NOTE_WINDOW;
+                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
+                        .setNotepad(this.notepad);
+            }
+            }
+        else if(this.objectType instanceof Group) {
+            Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
+            for(GroupNotepad g : groupNotepadDao) {
+                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
+                    this.notepad = g.getNotepad();
+                }
+            }
+            if(sceneType == null) {
+                sceneType = SceneType.NOTE_WINDOW;
+                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
+                        .setNotepad(this.notepad);
+            }
+        }
+        else if(this.objectType instanceof Groupage) {
+            Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
+            for(GroupageNotepad g : groupageNotepadDao) {
+                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
+                    this.notepad = g.getNotepad();
+                }
+            }
+            if(sceneType == null) {
+                sceneType = SceneType.NOTE_WINDOW;
+                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
+                        .setNotepad(this.notepad);
+            }
+        }
+         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
     public void cancelButton(ActionEvent actionEvent) {
