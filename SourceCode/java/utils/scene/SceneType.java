@@ -26,7 +26,7 @@ public enum SceneType {
     INVITE_CODE("/fxml/InviteCode.fxml", "Einwahlcodes"),
     PASSWORD_RESET("/fxml/PasswordResetForm.fxml","Passwort ändern"),
     CREATE_TERM_ORGANISATION("/fxml/CreateTermOrganisation.fxml","Semesterplan erstellen"),
-    EDIT_AND_CREATE_SEMPLAN("/fxml/Semesterplan.fxml","Semesterplan"),
+    EDIT_AND_CREATE_SEMESTERPLAN("/fxml/Semesterplan.fxml","Semesterplan"),
     TARDY_VIEW("/fxml/TardyView.fxml","Anwesenheitsplan");
 
 
