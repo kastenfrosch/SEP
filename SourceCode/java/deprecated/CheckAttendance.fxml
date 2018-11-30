@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <SplitPane dividerPositions="0.37468671679197996" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
            minWidth="-Infinity" prefHeight="595.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CheckAttendance">
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="deprecated.CheckAttendance">
    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="593.0" prefWidth="260.0">
       <ComboBox id="comboBoxGroupage" fx:id="comboBoxGroupage" layoutX="147.0" layoutY="23.0" prefHeight="31.0"
                 prefWidth="134.0"/>

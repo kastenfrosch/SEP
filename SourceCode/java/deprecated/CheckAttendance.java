@@ -1,4 +1,4 @@
-package controller;
+package deprecated;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
