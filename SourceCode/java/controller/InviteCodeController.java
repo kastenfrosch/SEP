@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 
 import javafx.scene.input.ClipboardContent;
 import modal.ErrorModal;
+import modal.InfoModal;
 import models.InviteCode;
 import models.User;
 import utils.scene.SceneManager;
@@ -80,12 +81,16 @@ public class InviteCodeController {
 
     public void onClipboardBtnClicked(ActionEvent actionEvent) {
         // create a clipboard
+
         ClipboardContent codeContent = new ClipboardContent();
         Clipboard codeClip = Toolkit.getDefaultToolkit().getSystemClipboard();
         //get the selected section
-        StringSelection selection = new StringSelection(codeListView.getSelectionModel().getSelectedItem().toString());
-        codeClip.setContents(selection, selection);
-
+    try {
+    StringSelection selection = new StringSelection(codeListView.getSelectionModel().getSelectedItem().toString());
+    }catch(NullPointerException e){
+        InfoModal.show("Bitte wähle einen Code aus");
+        return;
+    }
 
     }
 }
