@@ -113,7 +113,12 @@ public class TimetableWindowController {
     public void initialize() {
 
         append();
-        Semester semester;
+
+    loadboxes();
+
+    }
+
+    public void loadboxes(){
         try {
 
 
@@ -155,8 +160,6 @@ public class TimetableWindowController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-
-
     }
     public void getMonday(ArrayList<Label> array,Calendar calendar){
 
@@ -320,7 +323,7 @@ public class TimetableWindowController {
     public void deleteCalendar(){
         CreateTimetableController ctc = new CreateTimetableController();
         ctc.CalendarComboBox(cbg);
-        initialize();
+        loadboxes();
     }
     public void append(){
         mon.add(m1);
@@ -360,6 +363,6 @@ public class TimetableWindowController {
 
     }
    public void Reload(){
-        initialize();
+        loadboxes();
    }
 }
