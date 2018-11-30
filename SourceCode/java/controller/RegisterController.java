@@ -83,7 +83,7 @@ public class RegisterController {
             InfoModal.show("FEHLER!", null, "Kein Nachnamen eingegeben!");
             return;
         }
-        if (validateMailAddress(emailInput.toString()) || emailInput == null) {
+        if (!validateMailAddress(emailInput.getText())) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
@@ -165,6 +165,7 @@ public class RegisterController {
         }
         return true;
     }
+
 
 
 }
