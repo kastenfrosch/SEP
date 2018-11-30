@@ -121,12 +121,6 @@ public class TardyController {
     private void refreshList() {
         try {
             DBManager db = DBManager.getInstance();
-            Dao<Tardy, Integer> dao = db.getTardyDao();
-            //TODO: remove before release, debug only
-            if (this.calendarEntry == null) {
-                Dao<CalendarEntry, Integer> sDao = db.getCalendarEntryDao();
-                this.calendarEntry = sDao.queryForId(1);
-            }
 
             ObservableList<Student> studentsInGroupage = FXCollections.observableArrayList();
             this.calendarEntry.
