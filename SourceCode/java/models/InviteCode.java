@@ -11,7 +11,7 @@ public class InviteCode {
 
 
     @DatabaseField(columnName = FIELD_USER_NAME, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "varchar references \"user\"(username)")
+            columnDefinition = "varchar references \"user\"(username) on delete cascade")
     private User usedBy;
 
     @DatabaseField(columnName = FIELD_CODE, canBeNull = false, id = true)

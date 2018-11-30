@@ -38,10 +38,12 @@ public class ChatWindowTabPaneTestController {
 
     private DBManager dbManager;
     private User currentUser;
+    private int lastId;
 
     {
         try {
             dbManager = DBManager.getInstance();
+            lastId = -1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,31 +86,40 @@ public class ChatWindowTabPaneTestController {
                 .getInstance()
                 .registerListener(PGNotificationHandler.NotificationChannel.CHAT, () -> {
 
-                    User receiver;
-                    List<ChatMessage> msgList = new ArrayList<>();
                     Dao<ChatMessage, Integer> msgDao = dbManager.getChatMessageDao();
+                    lastId = msgDao.queryForAll().get(msgDao.queryForAll().size()-1).getMessageId();
+
+                    //User receiver;
+                    List<ChatMessage> msgList = new ArrayList<>();
 
                     // query for all new messages to currentUser
                     PreparedQuery<ChatMessage> query =
                             msgDao
                                     .queryBuilder()
-                                    .orderBy(ChatMessage.FIELD_TIME, false)
-                                    .limit(1L)
+                                    // statement
                                     .where()
-                                    .in(ChatMessage.FIELD_FROM_USER_ID,
-                                            currentUser.getUsername())
+                                    .eq(ChatMessage.FIELD_MESSAGE_ID, lastId)
                                     .and()
-                                    .in(ChatMessage.FIELD_TO_USER_ID,
-                                            currentUser.getUsername())
+                                    .eq(ChatMessage.FIELD_TO_USER_ID, currentUser)
                                     .prepare();
 
                     // ... and adding it to the list
                     msgList.addAll(msgDao.query(query));
-                    ChatMessage msg = msgList.get(0);
-                    receiver = msg.getReceiver();
 
-                    if (currentUser.equals(receiver)) {
-                        Platform.runLater(() -> InfoModal.show("Neue Nachricht von " + receiver));
+                    // making sure it works for chat partner with no history
+                    if (msgList.size() > 0) {
+
+                        ChatMessage msg = msgList.get(0);
+                        User sender = msg.getSender();
+
+                        // pop up when someone sent a message to current user and tab is not focussed
+                        if (!tabPane.getSelectionModel().getSelectedItem().getText().contains(sender.getUsername())) {
+                            if (!currentUser.getUsername().equals(sender.getUsername())) {
+                                Platform.runLater(() ->
+                                        InfoModal.show("Neue Nachricht von " + sender)
+                                );
+                            }
+                        }
                     }
 
                     return null;

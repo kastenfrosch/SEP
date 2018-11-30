@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -52,36 +54,36 @@
                   <Font size="31.0" />
                </font>
             </Label>
-            <Label fx:id="m1" text="Label" GridPane.rowIndex="1" />
-            <Label fx:id="m2" text="Label" GridPane.rowIndex="2" />
-            <Label fx:id="m3" text="Label" GridPane.rowIndex="3" />
-            <Label fx:id="m4" text="Label" GridPane.rowIndex="4" />
-            <Label fx:id="m5" text="Label" GridPane.rowIndex="5" />
-            <Label fx:id="m6" text="Label" GridPane.rowIndex="6" />
-            <Label fx:id="di1" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="di2" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="di3" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="di4" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="di5" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label fx:id="di6" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label fx:id="mi1" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label fx:id="mi2" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label fx:id="mi3" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label fx:id="mi4" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label fx:id="mi5" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <Label fx:id="mi6" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <Label fx:id="do1" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Label fx:id="do2" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label fx:id="do3" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label fx:id="do4" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Label fx:id="do5" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <Label fx:id="do6" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <Label fx:id="f1" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label fx:id="f2" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Label fx:id="f3" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Label fx:id="f4" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Label fx:id="f5" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Label fx:id="f6" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <Label fx:id="m1" text="/" GridPane.rowIndex="1" />
+            <Label fx:id="m2" text="/" GridPane.rowIndex="2" />
+            <Label fx:id="m3" text="/" GridPane.rowIndex="3" />
+            <Label fx:id="m4" text="/" GridPane.rowIndex="4" />
+            <Label fx:id="m5" text="/" GridPane.rowIndex="5" />
+            <Label fx:id="m6" text="/" GridPane.rowIndex="6" />
+            <Label fx:id="di1" text="/" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="di2" text="/" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="di3" text="/" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="di4" text="/" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="di5" text="/" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="di6" text="/" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="mi1" text="/" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="mi2" text="/" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="mi3" text="/" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="mi4" text="/" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="mi5" text="/" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="mi6" text="/" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <Label fx:id="do1" text="/" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label fx:id="do2" text="/" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="do3" text="/" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label fx:id="do4" text="/" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="do5" text="/" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <Label fx:id="do6" text="/" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <Label fx:id="f1" text="/" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label fx:id="f2" text="/" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Label fx:id="f3" text="/" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Label fx:id="f4" text="/" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Label fx:id="f5" text="/" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Label fx:id="f6" text="/" GridPane.columnIndex="4" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <Label layoutX="27.0" layoutY="175.0" prefHeight="46.0" prefWidth="132.0" text="8:00-10:00">
@@ -114,5 +116,12 @@
             <Font size="23.0" />
          </font>
       </Label>
+      <ComboBox fx:id="cbs" layoutX="643.0" layoutY="613.0" prefWidth="150.0" />
+      <Button fx:id="load" layoutX="363.0" layoutY="582.0" mnemonicParsing="false" onAction="#LoadTimetable" text="Load" />
+      <ComboBox fx:id="cbk" layoutX="643.0" layoutY="582.0" prefWidth="150.0" />
+      <ComboBox fx:id="cbg" layoutX="159.0" layoutY="597.0" prefWidth="150.0" />
+      <Label layoutX="74.0" layoutY="603.0" text="Calendar :" />
+      <Button fx:id="deletecalendar" layoutX="357.0" layoutY="624.0" mnemonicParsing="false" onAction="#deleteCalendar" prefHeight="31.0" prefWidth="66.0" text="Delete" />
+      <Button fx:id="load" mnemonicParsing="false" onAction="#Reload" text="aktuallisieren" />
    </children>
 </AnchorPane>

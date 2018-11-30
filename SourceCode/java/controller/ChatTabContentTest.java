@@ -5,7 +5,10 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import connection.DBManager;
 import connection.PGNotificationHandler;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ChatTabContentTest                                                                                         {
+public class ChatTabContentTest {
 
     private User currentUser;
     private User chatPartner;
@@ -63,8 +66,22 @@ public class ChatTabContentTest                                                 
     }
 
     public void onSendButtonClicked(ActionEvent actionEvent) {
-        // send a message
+        // send a message, see below
         sendMessage();
+    }
+
+    public void onTabClickedListener() {
+
+        // return tab text to normal after clicking on tab with new messages
+        currentTab.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                if (currentTab.isSelected()) {
+                    Platform.runLater(() -> currentTab.setText("Chat mit " + chatPartner));
+                }
+            }
+        });
+
     }
 
     public void onKeyPressed(KeyEvent keyEvent) {
@@ -89,10 +106,12 @@ public class ChatTabContentTest                                                 
         this.chatPartner = chatPartner;
         this.currentTab = currentTab;
 
-        registerListener();
+        // initializing listener
+        registerChatListener();
+        onTabClickedListener();
     }
 
-    public void registerListener() {
+    public void registerChatListener() {
         // listening for new messages
         PGNotificationHandler
                 .getInstance()
@@ -121,19 +140,20 @@ public class ChatTabContentTest                                                 
 
                     // ... and adding it to the list
                     msgList.addAll(msgDao.query(query));
-                    ChatMessage msg = msgList.get(0);
-                    int count = 0;
 
+
+                    ChatMessage msg = msgList.get(0);
+
+                    // formatting history and append message to it
                     history += msg.getSender() + " (" + TimeUtils.toSimpleString(msg.getLocalDateTime()) + "):\r\n";
                     history += msg.getContent() + "\r\n";
 
-                    count += 1;
-
+                    // if chat tab is not focused, get notification in tab header
                     TabPane tabPane = (TabPane) anchorpaneParent.getParent().getParent();
                     SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 
                     if (selectionModel.getSelectedItem() != currentTab) {
-                        currentTab.setText("(" + count + ")" + currentTab.getText());
+                        Platform.runLater(() -> currentTab.setText("(Neue Nachricht) " + "Chat mit " + chatPartner));
                     }
 
                     // pasting the string into the upper box

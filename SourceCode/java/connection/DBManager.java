@@ -29,6 +29,9 @@ public class DBManager {
     private Dao<FavouriteSemester, Integer> favouriteSemesterDao;
     private Dao<FavouriteStudent, Integer> favouriteStudentDao;
     private Dao<CalendarExtraInfo, Integer> calendarExtraInfoDao;
+    private Dao<StudentNotepad, Integer> studentNotepadDao;
+    private Dao<GroupageNotepad, Integer> groupageNotepadDao;
+    private Dao<GroupNotepad, Integer> groupNotepadDao;
 
     private User loggedInUser = null;
 
@@ -63,6 +66,9 @@ public class DBManager {
         this.favouriteSemesterDao = DaoManager.createDao(conn, FavouriteSemester.class);
         this.favouriteStudentDao = DaoManager.createDao(conn, FavouriteStudent.class);
         this.calendarExtraInfoDao = DaoManager.createDao(conn, CalendarExtraInfo.class);
+        this.studentNotepadDao = DaoManager.createDao(conn, StudentNotepad.class);
+        this.groupageNotepadDao = DaoManager.createDao(conn, GroupageNotepad.class);
+        this.groupNotepadDao = DaoManager.createDao(conn, GroupNotepad.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -101,14 +107,17 @@ public class DBManager {
         return calendarEntryDao;
     }
 
-    public Dao<Notepad, Integer> getNotepadDao() {return notepadDao;}
+    public Dao<Notepad, Integer> getNotepadDao() {
+        return notepadDao;
+    }
 
     public Dao<Tardy, Integer> getTardyDao() {
         return tardyDao;
     }
 
-    public Dao<InviteCode, String> getInviteCodeDao(){return inviteCodeDao;}
-
+    public Dao<InviteCode, String> getInviteCodeDao() {
+        return inviteCodeDao;
+    }
 
     public Dao<FavouriteGroup, Integer> getFavouriteGroupDao() {
         return favouriteGroupDao;
@@ -128,6 +137,18 @@ public class DBManager {
 
     public Dao<CalendarExtraInfo, Integer> getCalendarExtraInfoDao() {
         return calendarExtraInfoDao;
+    }
+
+    public Dao<StudentNotepad, Integer> getStudentNotepadDao() {
+        return studentNotepadDao;
+    }
+
+    public Dao<GroupageNotepad, Integer> getGroupageNotepadDao() {
+        return groupageNotepadDao;
+    }
+
+    public Dao<GroupNotepad, Integer> getGroupNotepadDao() {
+        return groupNotepadDao;
     }
 
     public void setLoggedInUser(User user) {

@@ -1,5 +1,6 @@
 package utils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,5 +20,9 @@ public class TimeUtils {
             return "0000-00-00";
         }
         return ldt.format(simpleDateDtf);
+    }
+
+    public static LocalDate localDateFromString(String str) {
+        return LocalDate.from(simpleDateDtf.parse(str));
     }
 }
