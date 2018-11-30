@@ -114,6 +114,16 @@ public class CheckAttendance {
         comboBoxStudent6.setItems(students);
         comboBoxStudent7.setItems(students);
 
+        comboBoxGroupage.getSelectionModel().select(0);
+        comboBoxGroup.getSelectionModel().select(0);
+        comboBoxStudent1.getSelectionModel().select(0);
+        comboBoxStudent2.getSelectionModel().select(0);
+        comboBoxStudent3.getSelectionModel().select(0);
+        comboBoxStudent4.getSelectionModel().select(0);
+        comboBoxStudent5.getSelectionModel().select(0);
+        comboBoxStudent6.getSelectionModel().select(0);
+        comboBoxStudent7.getSelectionModel().select(0);
+
 
 
         ObservableList<String> attendanceStatus = FXCollections.observableArrayList();

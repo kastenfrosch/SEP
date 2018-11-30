@@ -53,8 +53,7 @@ public class EditNotepadController {
 
         Dao<StudentNotepad, Integer> studentNotepad = db.getStudentNotepadDao(); //Testing
         StudentNotepad studentNote = studentNotepad.queryForId(2);
-
-        this.notepad = studentNote.getNotepad();
+        /*
         this.notepad.setNotepadName(studentNote.getNotepad().getNotepadName());
         this.notepad.setNotepadPriority(studentNote.getNotepad().getNotepadPriority());
         this.notepad.setNotepadContent(studentNote.getNotepad().getNotepadContent());
@@ -77,7 +76,7 @@ public class EditNotepadController {
         else if(this.notepad.getNotepadPriority().equals("Neutral")) {
             editNotepadTextarea.setStyle("-fx-background-color: grey");
             editNotepadPriorityComboBox.getSelectionModel().select("Neutral");
-        }
+        } */
     }
 
     public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
