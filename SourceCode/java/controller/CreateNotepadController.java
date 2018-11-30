@@ -9,16 +9,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import modal.ErrorModal;
 import modal.InfoModal;
-import models.User;
+import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
-import models.Notepad;
 import java.sql.SQLException;
 
     //todo: (600x400) Link zu Student Gruppe Goupage sodass die Notiz quasi dort eingeordnet ist; Tab mit Notizliste zur zugehoerigen Entitaet
     public class CreateNotepadController {
 
         private DBManager db;
+        private Object objectType;
 
         {
             try {
@@ -43,22 +43,22 @@ import java.sql.SQLException;
 
         @FXML
         public void initialize() { //initializing ComboBox
-            ObservableList<String> prioritaet = FXCollections.observableArrayList("Hohe Priorität", "Mittlere Priorität",
-                                                                                        "Geringe Priorität", "Keine Priorität");
+            ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
+                                                                                        "Niedrig", "Neutral");
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
-            notepadTextarea.setStyle("-fx-background-color: red");
+            notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Hoch"
         }
 
         public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
 
-            if (priorityComboBox.getSelectionModel().getSelectedItem() == "Hohe Priorität") {
+            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
                 notepadTextarea.setStyle("-fx-background-color: red");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem() == "Mittlere Priorität") {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
                 notepadTextarea.setStyle("-fx-background-color: yellow");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem() == "niedrige Priorität") {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Niedrig")) {
                 notepadTextarea.setStyle("-fx-background-color: green");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem() == "Keine Priorität") {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
                 notepadTextarea.setStyle("-fx-background-color: grey");
             }
         }
@@ -88,25 +88,51 @@ import java.sql.SQLException;
 
             try {
                 Notepad notepad = new Notepad();
-                Dao<User, String> user = db.getUserDao();
-                try {
-                    User tester = user.queryForId("besttutor");
-                    notepad.setUser(tester);
-                } catch (
-                        SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+
+                Dao<User, String> user = db.getUserDao(); //Testing
+                User tester = user.queryForId("besttutor");
+                notepad.setUser(tester);
 
                 notepad.setNotepadContent(textContent);
                 notepad.setNotepadPriority(priority);
                 notepad.setNotepadName(noteName);
-                notepad.setNotepadObject(db.getNotepadDao().getTableName());
-                //notepad.setUser(db.getLoggedInUser());
+             //   notepad.setUser(db.getLoggedInUser());
 
                 Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
-
                 notepadDao.create(notepad);
+
+                Dao<Student, Integer> testStudent = db.getStudentDao(); //Testing for StudentNote
+                Student student = testStudent.queryForId(1);
+                this.objectType = student;
+
+                if(this.objectType instanceof Student) {
+                    StudentNotepad studentNotepad = new StudentNotepad();
+                    studentNotepad.setStudent((Student) this.objectType);
+                    studentNotepad.setNotepad(notepad); //Creating StudentNotepad
+                   // studentNotepad.setUser(db.getLoggedInUser());
+
+                    Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
+                    studentNotepadDao.create(studentNotepad);
+                }
+                else if(this.objectType instanceof Groupage) {
+                    GroupageNotepad groupageNotepad = new GroupageNotepad();
+                    groupageNotepad.setGroupage((Groupage) this.objectType);
+                    groupageNotepad.setNotepad(notepad);
+                    //groupageNotepad.setUser(db.getLoggedInUser());
+
+                    Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
+                    groupageNotepadDao.create(groupageNotepad);
+                }
+                else if(this.objectType instanceof Group) {
+                    GroupNotepad groupNotepad = new GroupNotepad();
+                    groupNotepad.setGroup((Group) this.objectType);
+                    groupNotepad.setNotepad(notepad);
+                    //groupNotepad.setUser(db.getLoggedInUser());
+
+                    Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
+                    groupNotepadDao.create(groupNotepad);
+                }
+
                 InfoModal.show("Notiz \"" + noteName + "\" erstellt!");
             } catch (java.sql.SQLException e) {
                 ErrorModal.show("Die Notiz konnte nicht erstellt werden: " + e.getMessage());
@@ -119,4 +145,8 @@ import java.sql.SQLException;
         public void cancelButton(ActionEvent actionEvent) { //When Cancel Button is pressed
             SceneManager.getInstance().closeWindow(SceneType.CREATE_NOTEPAD_WINDOW);
         }
+
+        public void setObject(Object object) {
+            this.objectType = object;
+        } //Getting Object info (Student, Group or Groupage)
     }

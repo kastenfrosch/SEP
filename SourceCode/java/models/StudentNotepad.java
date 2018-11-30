@@ -21,6 +21,7 @@ public class StudentNotepad {
             columnDefinition = "integer not null references student(student_id)", uniqueCombo = true)
     private Student student;
 
+
     public Notepad getNotepad() {
         return notepad;
     }

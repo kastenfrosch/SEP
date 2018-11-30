@@ -38,7 +38,4 @@ public class GroupageNotepad {
         this.groupage = groupage;
     }
 
-    public int getId() {
-        return id;
-    }
 }

@@ -22,7 +22,24 @@ public class GroupNotepad {
             columnDefinition = "integer not null references \"group\"(group_id)", uniqueCombo = true)
     private Group group;
 
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Notepad getNotepad() {
+        return notepad;
+    }
+
+    public void setNotepad(Notepad notepad) {
+        this.notepad = notepad;
+    }
+
     public int getId() {
         return id;
     }
+
 }
