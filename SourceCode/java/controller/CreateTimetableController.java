@@ -126,20 +126,6 @@ public class CreateTimetableController {
             e.printStackTrace();
         }
 
-        try {
-
-            // creat an observableList with all groups
-            ObservableList<Groupage> GroupageList = FXCollections.observableArrayList();
-            Dao<Groupage, Integer> GroupageDao = db.getGroupageDao();
-            GroupageList.addAll(GroupageDao.queryForAll());
-
-            //set semester combobox with the semester from the observableList
-            cbk.setItems(GroupageList);
-
-        } catch (java.sql.SQLException e) {
-            ErrorModal.show(e.getMessage());
-            e.printStackTrace();
-        }
 
         try {
 
@@ -153,6 +139,25 @@ public class CreateTimetableController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
+    }
+    public void getGroupageForSemester(){
+
+        Groupage group = new Groupage();
+        group.setSemester(cbs.getSelectionModel().getSelectedItem());
+try{
+        // creat an observableList with all groups
+        ObservableList<Groupage> GroupageList = FXCollections.observableArrayList();
+        Dao<Groupage, Integer> GroupageDao = db.getGroupageDao();
+        GroupageList.addAll(GroupageDao.queryForMatching(group));
+        cbk.setItems(GroupageList);
+
+} catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //set semester combobox with the semester from the observableList
+
+
     }
     public void LoadTimetable(){
 
