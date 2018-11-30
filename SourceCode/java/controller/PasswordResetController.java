@@ -40,7 +40,8 @@ public class PasswordResetController {
     }
 
     public void onSaveBtnClicked(ActionEvent event) {
-        if (!(newPassword.getText().equals(newPasswordTwo.getText()))) {
+      //check if password fields a equal and not blank
+        if ((!(newPassword.getText().equals(newPasswordTwo.getText())))||newPassword.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Passwörter sind nicht gleich!");
             return;
         }
