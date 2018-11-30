@@ -2,6 +2,7 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,20 +63,20 @@ public class NotesTabController {
         this.objectType = student;
 
         if(this.objectType instanceof Student) {
-                List<Notepad> studentNotes = new ArrayList<>();
-                for(StudentNotepad n : db.getStudentNotepadDao().queryForAll()) {
-                    if(n.getNotepad().getUser() == db.getLoggedInUser()) {
-                        studentNotes.add(n.getNotepad());
-                    }
+            List<Notepad> studentNotes = new ArrayList<>();
+            for (StudentNotepad n : db.getStudentNotepadDao().queryForAll()) {
+                if (n.getNotepad().getUser().equals(db.getLoggedInUser())) {
+                    studentNotes.add(n.getNotepad());
                 }
                 ObservableList<Notepad> list = FXCollections.observableArrayList();
                 list.addAll(studentNotes);
                 notesListView.setItems(list);
+            }
         }
         else if(this.objectType instanceof Group) {
                 List<Notepad> groupNotes = new ArrayList<>();
                 for(GroupNotepad n : db.getGroupNotepadDao().queryForAll()) {
-                    if(n.getNotepad().getUser() == db.getLoggedInUser()) {
+                    if(n.getNotepad().getUser().equals(db.getLoggedInUser())) {
                         groupNotes.add(n.getNotepad());
                     }
                 }
@@ -86,7 +87,7 @@ public class NotesTabController {
         else if(this.objectType instanceof Groupage) {
                 List<Notepad> groupageNotes = new ArrayList<>();
                 for(GroupageNotepad n : db.getGroupageNotepadDao().queryForAll()) {
-                    if(n.getNotepad().getUser() == db.getLoggedInUser()) {
+                    if(n.getNotepad().getUser().equals(db.getLoggedInUser())) {
                         groupageNotes.add(n.getNotepad());
                     }
                 }
@@ -165,6 +166,7 @@ public class NotesTabController {
     public void showNoteButton(ActionEvent actionEvent) {
         if(notesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
+            return;
         }
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }

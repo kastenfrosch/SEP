@@ -1,6 +1,5 @@
 package controller;
 
-import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.control.TextArea;
 import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
-
 import java.sql.SQLException;
 
 public class NoteWindowController {
@@ -34,7 +32,8 @@ public class NoteWindowController {
     @FXML
     public Label nameLabel;
 
-    public void initialize() throws SQLException {
+    public void initialize() {
+        /*
         Dao<Notepad, Integer> notepadDao = db.getNotepadDao(); //Testing
         Notepad notepad = notepadDao.queryForId(8);
 
@@ -44,14 +43,14 @@ public class NoteWindowController {
         notepadTextarea.setText(studentNote.getNotepad().getNotepadContent());
         nameLabel.setText(studentNote.getNotepad().getNotepadName());
         priorityLabel.setText(studentNote.getNotepad().getNotepadPriority());
-
-        if (studentNote.getNotepad().getNotepadPriority().equals("Hoch")) { //Setting Priority Color
+        */
+        if (priorityLabel.getText().equals("Hoch")) { //Setting Priority Color
             notepadTextarea.setStyle("-fx-background-color: red");
-        } else if (studentNote.getNotepad().getNotepadPriority().equals("Mittel")) {
+        } else if (priorityLabel.equals("Mittel")) {
             notepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (studentNote.getNotepad().getNotepadPriority().equals("Niedrig")) {
+        } else if (priorityLabel.equals("Niedrig")) {
             notepadTextarea.setStyle("-fx-background-color: green");
-        } else if (studentNote.getNotepad().getNotepadPriority().equals("Neutral")) {
+        } else if (priorityLabel.equals("Neutral")) {
             notepadTextarea.setStyle("-fx-background-color: grey");
         }
     }
