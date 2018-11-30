@@ -78,6 +78,8 @@ public class CreateTermOrganisationController {
     @FXML
     public Button btnShow;
 
+    private Dao<CalendarExtraInfo, Integer> calendarExtraInfoDao;
+
     private DBManager db;
 
     {
@@ -155,6 +157,8 @@ public class CreateTermOrganisationController {
 
         calendarExtraInfoIntegerCellEditEvent.getTableView().getItems().get(calendarExtraInfoIntegerCellEditEvent.getTablePosition().getRow()).setCalendarWeek(calendarExtraInfoIntegerCellEditEvent.getNewValue());
         calendarExtraInfoIntegerCellEditEvent.getTableView().getItems().get(calendarExtraInfoIntegerCellEditEvent.getTablePosition().getRow()).setMeetingNo(calendarExtraInfoIntegerCellEditEvent.getNewValue());
+
+
     }
 
     @FXML
