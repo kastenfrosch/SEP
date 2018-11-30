@@ -242,21 +242,6 @@ public class DBUtils {
         inviteCodeDao.create(i1);
 
 
-        Tardy t1 = new Tardy();
-        t1.setStudent(s1);
-        t1.setTimeMissed(15);
-        t1.setDateMissed(Timestamp.valueOf(LocalDateTime.now()));
-
-        Tardy t2 = new Tardy();
-        t2.setStudent(s1);
-        t2.setTimeMissed(60);
-        t2.setDateMissed(Timestamp.valueOf(LocalDateTime.now()));
-
-        Dao<Tardy, Integer> tardyDao = manager.getTardyDao();
-
-        tardyDao.create(t1);
-        tardyDao.create(t2);
-
         ChatMessage cm1 = new ChatMessage();
         cm1.setContent("Standard testnachricht\n");
         cm1.setSender(u1);
@@ -276,6 +261,7 @@ public class DBUtils {
         Calendar c = new Calendar();
         c.setCalendarType(Calendar.CalendarType.WEEK);
         c.setSemester(SS19);
+        c.setGroupage(one);
 
         Dao<Calendar, Integer> calendarDao = manager.getCalendarDao();
         calendarDao.create(c);
@@ -287,12 +273,29 @@ public class DBUtils {
         ce.setDescription("TestEintrag");
         ce.setStartTime(LocalDateTime.of(2018, 11, 29, 12, 0));
 
+
         Dao<CalendarEntry, Integer> ceDao = manager.getCalendarEntryDao();
         ceDao.create(ce);
 
         InviteCode code = new InviteCode();
         Dao<InviteCode, String> inviteDao = manager.getInviteCodeDao();
         inviteDao.create(code);
+
+
+        Tardy t1 = new Tardy();
+        t1.setStudent(s1);
+        t1.setTimeMissed(15);
+        t1.setDateMissed(ce);
+
+        Tardy t2 = new Tardy();
+        t2.setStudent(s1);
+        t2.setTimeMissed(60);
+        t2.setDateMissed(ce);
+
+        Dao<Tardy, Integer> tardyDao = manager.getTardyDao();
+
+        tardyDao.create(t1);
+        tardyDao.create(t2);
 
     }
 }
