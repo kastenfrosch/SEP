@@ -25,7 +25,7 @@ public interface INotepadBridge {
             ((StudentNotepad) bridge).setStudent((Student) entity);
             bridge.setNotepad(notepad);
         } else {
-            throw new IllegalArgumentException("Unhandeled INotepadEntity: " + entity.getClass().toString());
+            throw new IllegalArgumentException("Unhandeled INotepadEntity: " + entity);
         }
 
         Dao dao = DaoManager.lookupDao(DBManager.getInstance().getCalendarDao().getConnectionSource(), bridge.getClass());
