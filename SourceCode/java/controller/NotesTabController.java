@@ -2,7 +2,6 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -165,6 +164,8 @@ public class NotesTabController {
                         if(notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad().getNotepadName())) {
                             studentNotepadDao.delete(n);
                             notepadDao.delete(n.getNotepad());
+                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                                    <NotesTabController>getController().notesListView.getItems().remove(n.getNotepad().getNotepadName());
                         }
                     }
                 }
