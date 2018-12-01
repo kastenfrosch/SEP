@@ -29,7 +29,8 @@ public enum SceneType {
     PASSWORD_RESET("/fxml/PasswordResetForm.fxml","Passwort ändern"),
     CREATE_TERM_ORGANISATION("/fxml/CreateTermOrganisation.fxml","Semesterplan erstellen"),
     EDIT_AND_CREATE_SEMESTERPLAN("/fxml/Semesterplan.fxml","Semesterplan"),
-    TARDY_VIEW("/fxml/TardyView.fxml","Anwesenheitsplan");
+    TARDY_VIEW("/fxml/TardyView.fxml","Anwesenheitsplan"),
+    WEEK_CALENDAR("/fxml/WeekCalendarView.fxml", "Wochenplan");
 
 
 
