@@ -47,11 +47,6 @@ public class ChatWindowTabPaneTestController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            currentUser = dbManager.getUserDao().queryForId("besttutor");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
