@@ -129,6 +129,8 @@ public class EditNotepadController {
 
                 Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
                 studentNotepadDao.update(studentNotepad);
+                SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                        <NotesTabController>getController().notesListView.getItems().add(this.notepad.getNotepadName());
             }
             else if(this.objectType instanceof Groupage) {
                 GroupageNotepad groupageNotepad = new GroupageNotepad();
