@@ -69,6 +69,10 @@ public class DBManager {
         this.studentNotepadDao = DaoManager.createDao(conn, StudentNotepad.class);
         this.groupageNotepadDao = DaoManager.createDao(conn, GroupageNotepad.class);
         this.groupNotepadDao = DaoManager.createDao(conn, GroupNotepad.class);
+
+        //putting this here so y'all don't drown in errors
+        //TODO: REMOVE BEFORE RELEASE!
+        this.loggedInUser = userDao.queryForId("besttutor");
     }
 
     public Dao<Semester, String> getSemesterDao() {
