@@ -8,9 +8,11 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @DatabaseTable(tableName=Groupage.TABLE_GROUPAGE)
-public class Groupage {
+public class Groupage implements INotepadEntity {
     public static final String FIELD_GROUPAGE_ID = "groupage_id";
     public static final String TABLE_GROUPAGE = "groupage";
     public static final String FIELD_GROUPAGE_DESCRIPTION = "description";
@@ -29,6 +31,9 @@ public class Groupage {
 
     @ForeignCollectionField
     private ForeignCollection<Group> groups;
+
+    @ForeignCollectionField
+    private ForeignCollection<GroupageNotepad> notepads;
 
 
     public Groupage() {}
@@ -60,6 +65,10 @@ public class Groupage {
 
     public void setSemester(Semester semester) {
         this.semester = semester;
+    }
+
+    public List<INotepadBridge> getNotepads() {
+        return new LinkedList<>(notepads);
     }
 
     @Override

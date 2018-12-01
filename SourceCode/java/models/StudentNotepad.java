@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = StudentNotepad.TABLE_STUDENT_NOTEPAD)
-public class StudentNotepad {
+public class StudentNotepad implements INotepadBridge {
     public static final String TABLE_STUDENT_NOTEPAD = "notepad_student";
     public static final String FIELD_NOTEPAD_ID = "notepad_id";
     public static final String FIELD_USERNAME = "username";
@@ -14,11 +14,11 @@ public class StudentNotepad {
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references notepad(notepad_id)", uniqueCombo = true)
+            columnDefinition = "integer not null references notepad(notepad_id)")
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references student(student_id)", uniqueCombo = true)
+            columnDefinition = "integer not null references student(student_id)")
     private Student student;
 
 
