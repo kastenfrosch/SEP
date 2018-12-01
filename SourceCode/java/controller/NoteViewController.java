@@ -156,8 +156,10 @@ public class NoteViewController {
                 return;
             }
             notepadDao.delete(tableView.getSelectionModel().getSelectedItem());
+            tableView.refresh();
         } catch(SQLException ex) {
-            ErrorModal.show("Der Eintrag konnte nicht gelöscht werden.");
+            ErrorModal.show("Der Eintrag konnte nicht gelöscht werden: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
