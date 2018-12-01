@@ -23,14 +23,14 @@ public class Tardy {
     private int id;
 
     @DatabaseField(columnName = FIELD_STUDENT, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references student(student_id)")
+            columnDefinition = "integer not null references student(student_id) on delete cascade")
     private Student student;
 
     @DatabaseField(columnName = FIELD_TIME_MISSED, canBeNull = false)
     private int timeMissed;
 
     @DatabaseField(columnName = FIELD_DATE_MISSED, canBeNull = false, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references calendar_entry(entry_id)")
+            columnDefinition = "integer not null references calendar_entry(entry_id) on delete cascade")
     private CalendarEntry dateMissed;
 
     @DatabaseField(columnName = FIELD_EXCUSED, canBeNull = false, defaultValue = "false")
