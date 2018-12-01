@@ -14,7 +14,6 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
 
-    //todo: (600x400) Link zu Student Gruppe Goupage sodass die Notiz quasi dort eingeordnet ist; Tab mit Notizliste zur zugehoerigen Entitaet
     public class CreateNotepadController {
 
         private DBManager db;
@@ -61,6 +60,9 @@ import java.sql.SQLException;
             } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
                 notepadTextarea.setStyle("-fx-background-color: grey");
             }
+            else {
+                return;
+            }
         }
 
         public void saveButton(ActionEvent actionEvent) { //Saving notepad
@@ -91,12 +93,12 @@ import java.sql.SQLException;
 
                 Dao<User, String> user = db.getUserDao(); //Testing
                 User tester = user.queryForId("besttutor");
-                notepad.setUser(tester);
+            //    notepad.setUser(tester);
 
                 notepad.setNotepadContent(textContent);
                 notepad.setNotepadPriority(priority);
                 notepad.setNotepadName(noteName);
-             //   notepad.setUser(db.getLoggedInUser());
+                notepad.setUser(db.getLoggedInUser());
 
                 Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
                 notepadDao.create(notepad);
@@ -113,6 +115,8 @@ import java.sql.SQLException;
 
                     Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
                     studentNotepadDao.create(studentNotepad);
+                    SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                            <NotesTabController>getController().notesListView.getItems().add(studentNotepad.getNotepad().getNotepadName());
                 }
                 else if(this.objectType instanceof Groupage) {
                     GroupageNotepad groupageNotepad = new GroupageNotepad();
