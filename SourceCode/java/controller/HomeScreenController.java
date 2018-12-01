@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import modal.ConfirmationModal;
 import modal.InfoModal;
 import models.*;
@@ -22,7 +23,7 @@ import java.util.concurrent.Callable;
 
 public class HomeScreenController {
 
-    private boolean running = false;
+    private boolean isRunning = false;
     private DBManager dbm;
     private User user;
     private Node treeViewRoot;
@@ -102,8 +103,10 @@ public class HomeScreenController {
     @FXML
     void onLogoutButtonClicked(ActionEvent event) {
         try {
-            user.setLastItem(((Node) treeView.getSelectionModel().getSelectedItem()).getUniqueId());
-            // TODO lasttab as scenetype hurts
+            if (!treeView.getSelectionModel().isEmpty()) {
+                user.setLastItem(((Node) treeView.getSelectionModel().getSelectedItem()).getUniqueId());
+            }
+            user.setLastTab(tabPane.getSelectionModel().getSelectedItem().getId());
             dbm.getUserDao().update(user);
 
             ConnectionSource conn = dbm.getFavouriteSemesterDao().getConnectionSource();
@@ -146,17 +149,21 @@ public class HomeScreenController {
     @FXML
     public void initialize() {
         getData();
-        selectedTab = detailsTab;
+
         treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         treeView.getSelectionModel().selectedItemProperty().addListener((ov, oldNode, newNode) -> {
             selectedNode = (Node) newNode;
             showTabContent();
         });
+
+        selectedTab = detailsTab;
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
             showTabContent();
         });
+
         drawTreeView();
+
         Callable c = () -> {
             Platform.runLater(() -> {
                 getData();
@@ -165,6 +172,13 @@ public class HomeScreenController {
             return null;
         };
         PGNotificationHandler.getInstance().registerListener(PGNotificationHandler.NotificationChannel.DATA, c);
+
+//        Platform.runLater(() -> {
+//            Stage stage = (Stage)treeView.getScene().getWindow();
+//            stage.setWidth(915);
+//            stage.setHeight(640);
+//            stage.setResizable(false);
+//        });
     }
 
     void getData() {
@@ -186,40 +200,37 @@ public class HomeScreenController {
             SceneManager sm = SceneManager.getInstance();
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
-                case "notesTab" : sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+                case "notesTab" : sceneType = SceneType.NOTESTAB_WINDOW;
+                    sm.getLoaderForScene(sceneType).<NotesTabController>getController()
+                        .setObject(selectedNode.getValue());
                     break;
-                    // TODO complete precise naming needed
-                case "weekPlanTab" : ;
+                case "weekPlanTab" : sceneType = SceneType.TIMETABLE_WINDOW;
+//                    sm.getLoaderForScene(sceneType).<TimetableWindowController>getController()
+//                            .set(selectedNode.getSemester());
                     break;
-                case "semesterPlanTab" : ;
+                case "semesterPlanTab" : sceneType = SceneType.EDIT_AND_CREATE_SEMESTERPLAN;
+//                    sm.getLoaderForScene(sceneType).<SemesterplanController>getController()
+//                          .set(selectedNode.getSemester());
                     break;
                 default : ;
+                    if(selectedNode.getValue() instanceof Semester) {
+                        sceneType = SceneType.EDIT_SEMESTER;
+                        sm.getLoaderForScene(sceneType).<EditSemesterController>getController()
+                                .setSemester((Semester) selectedNode.getValue());
+                    } else if(selectedNode.getValue() instanceof Groupage) {
+                        sceneType = SceneType.EDIT_GROUPAGE;
+                        sm.getLoaderForScene(sceneType).<EditGroupageController>getController()
+                                .setGroupage((Groupage) selectedNode.getValue());
+                    } else if(selectedNode.getValue() instanceof Group) {
+                        sceneType = SceneType.EDIT_GROUP;
+                        sm.getLoaderForScene(sceneType).<EditGroupController>getController()
+                                .setGroup((Group) selectedNode.getValue());
+                    } else {
+                        sceneType = SceneType.EDIT_STUDENT;
+                        sm.getLoaderForScene(sceneType).<EditStudentController>getController()
+                                .setStudent((Student) selectedNode.getValue());
+                    }
                     break;
-            }
-            if(selectedNode.getValue() instanceof Semester) {
-                if (sceneType == null) {
-                    sceneType = SceneType.EDIT_SEMESTER;
-                    sm.getLoaderForScene(sceneType).<EditSemesterController>getController()
-                            .setSemester((Semester) selectedNode.getValue());
-                }
-            } else if(selectedNode.getValue() instanceof Groupage) {
-                if (sceneType == null) {
-                    sceneType = SceneType.EDIT_GROUPAGE;
-                    sm.getLoaderForScene(sceneType).<EditGroupageController>getController()
-                            .setGroupage((Groupage) selectedNode.getValue());
-                }
-            } else if(selectedNode.getValue() instanceof Group) {
-                if (sceneType == null) {
-                    sceneType = SceneType.EDIT_GROUP;
-                    sm.getLoaderForScene(sceneType).<EditGroupController>getController()
-                            .setGroup((Group) selectedNode.getValue());
-                }
-            } else {
-                if (sceneType == null) {
-                    sceneType = SceneType.EDIT_STUDENT;
-                    sm.getLoaderForScene(sceneType).<EditStudentController>getController()
-                            .setStudent((Student) selectedNode.getValue());
-                }
             }
             selectedTab.setContent(sm.getLoaderForScene(sceneType).getRoot());
         } else {
@@ -229,9 +240,8 @@ public class HomeScreenController {
     }
 
     void drawTreeView() {
-        ArrayList<Node> expandedNodes = null;
-        expandedNodes = getExpandedNodes();
         treeViewRoot = new Node();
+
         for (Semester sem : semesterList) {
             Node semesterNode = new Node(sem);
             treeViewRoot.getChildren().add(semesterNode);
@@ -254,22 +264,37 @@ public class HomeScreenController {
                 }
             }
         }
+
         treeView.setShowRoot(false);
         treeView.setRoot(treeViewRoot);
+
+        ArrayList<Node> expandedNodes = null;
+        expandedNodes = getExpandedNodes();
         if (expandedNodes != null) {
             treeViewRoot.expandChildren(expandedNodes);
         }
-        if (!running) {
+
+        if (!isRunning) {
             if (user != null) {
+
+                String lastTab = user.getLastTab();
+                for (Tab tab: tabPane.getTabs()) {
+                    if (tab.getId().equals(lastTab)) {
+                        tabPane.getSelectionModel().select(tab);
+                    }
+                }
+
                 selectedNode = treeViewRoot.getNode(user.getLastItem());
-                running = true;
+
+                isRunning = true;
             }
         }
+
         treeView.getSelectionModel().select(selectedNode);
     }
 
     ArrayList<Node> getExpandedNodes() {
-        if (running) {
+        if (isRunning) {
             return treeViewRoot.getExpandedChildren();
         } else {
             List<FavouriteSemester> favSemesterList = null;
