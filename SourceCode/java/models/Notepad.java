@@ -1,5 +1,6 @@
 package models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -9,7 +10,9 @@ public class Notepad {
     public static final String TABLE_NOTEPAD = "notepad";
     public static final String FIELD_NOTEPAD_ID = "notepad_id";
     public static final String FIELD_NOTEPAD_NAME = "notepad_name";
+    @Deprecated
     public static final String FIELD_NOTEPAD_PRIORITY = "notepad_priority";
+    public static final String FIELD_NOTEPAD_CLASSIFICATION = "notepad_classification";
     public static final String FIELD_NOTEPAD_CONTENT = "notepad_content";
     public static final String FIELD_USERNAME = User.FIELD_USERNAME;
 
@@ -21,6 +24,9 @@ public class Notepad {
 
     @DatabaseField(columnName = FIELD_NOTEPAD_PRIORITY)
     private String notepadPriority;
+
+    @DatabaseField(columnName = FIELD_NOTEPAD_CLASSIFICATION, dataType = DataType.ENUM_INTEGER)
+    private Classification classification;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_CONTENT)
     private String notepadContent;
@@ -35,7 +41,9 @@ public class Notepad {
     public String getNotepadName() {return notepadName;}
     public void setNotepadName(String notepadName) {this.notepadName = notepadName;}
 
+    @Deprecated
     public String getNotepadPriority() {return notepadPriority;}
+    @Deprecated
     public void setNotepadPriority(String notepadPriority) {this.notepadPriority = notepadPriority;}
 
     public String getNotepadContent() {return notepadContent;}
@@ -43,4 +51,25 @@ public class Notepad {
 
     public User getUser() {return user;}
     public void setUser(User user) {this.user = user;}
+
+    public Classification getClassification() {
+        return classification;
+    }
+
+    public void setClassification(Classification classification) {
+        this.classification = classification;
+    }
+
+    public enum Classification {
+        BAD("Schlecht"), MEDIUM("Mittel"), GOOD("Gut"), NEUTRAL("Keine Zuordnung");
+
+        private String classification;
+        Classification(String classification) {
+            this.classification = classification;
+        }
+
+        public String getClassification() {
+            return classification;
+        }
+    }
 }
