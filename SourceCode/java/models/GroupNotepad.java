@@ -15,11 +15,11 @@ public class GroupNotepad implements INotepadBridge {
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references notepad(notepad_id)")
+            columnDefinition = "integer not null references notepad(notepad_id) on delete cascade")
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_GROUP_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references \"group\"(group_id)")
+            columnDefinition = "integer not null references \"group\"(group_id) on delete cascade")
     private Group group;
 
     public Group getGroup() {

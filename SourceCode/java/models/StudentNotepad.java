@@ -14,11 +14,11 @@ public class StudentNotepad implements INotepadBridge {
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references notepad(notepad_id)")
+            columnDefinition = "integer not null references notepad(notepad_id) on delete cascade")
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references student(student_id)")
+            columnDefinition = "integer not null references student(student_id) on delete cascade")
     private Student student;
 
 

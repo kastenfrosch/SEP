@@ -15,11 +15,11 @@ public class GroupageNotepad implements INotepadBridge {
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references notepad(notepad_id)")
+            columnDefinition = "integer not null references notepad(notepad_id) on delete cascade")
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_GROUPAGE_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references groupage(groupage_id)")
+            columnDefinition = "integer not null references groupage(groupage_id) on delete cascade")
     private Groupage groupage;
 
     public Notepad getNotepad() {
