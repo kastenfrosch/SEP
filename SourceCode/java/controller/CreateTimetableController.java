@@ -74,7 +74,7 @@ public class CreateTimetableController {
     public TextField f6;
     public Calendar calendar;
     public int retryCreate =0;
-
+    public Semester semester;
     private Groupage groupage;
 
 
@@ -800,7 +800,11 @@ try{
         loadboxes();
    }
 
-
-
+   public void setSemester(Semester semester){
+    this.semester = semester;
     }
 
+    public Semester getSemester(){
+        return this.semester;
+    }
+}
