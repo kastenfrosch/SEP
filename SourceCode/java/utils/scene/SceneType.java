@@ -30,7 +30,8 @@ public enum SceneType {
     CREATE_TERM_ORGANISATION("/fxml/CreateTermOrganisation.fxml","Semesterplan erstellen"),
     EDIT_AND_CREATE_SEMESTERPLAN("/fxml/Semesterplan.fxml","Semesterplan"),
     TARDY_VIEW("/fxml/TardyView.fxml","Anwesenheitsplan"),
-    WEEK_CALENDAR("/fxml/WeekCalendarView.fxml", "Wochenplan");
+    WEEK_CALENDAR("/fxml/WeekCalendarView.fxml", "Wochenplan"),
+    NOTEPAD_VIEW("/fxml/NoteView.fxml", "Notizen");
 
 
 
