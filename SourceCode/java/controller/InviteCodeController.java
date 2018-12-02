@@ -81,12 +81,12 @@ public class InviteCodeController {
 
     public void onClipboardBtnClicked(ActionEvent actionEvent) {
         // create a clipboard
-
         ClipboardContent codeContent = new ClipboardContent();
         Clipboard codeClip = Toolkit.getDefaultToolkit().getSystemClipboard();
         //get the selected section
     try {
     StringSelection selection = new StringSelection(codeListView.getSelectionModel().getSelectedItem().toString());
+    codeClip.setContents(selection, selection);
     }catch(NullPointerException e){
         InfoModal.show("Bitte wähle einen Code aus");
         return;

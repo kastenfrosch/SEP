@@ -92,7 +92,7 @@ public class HomeScreenController {
 
     @FXML
     void onChatButtonClicked(ActionEvent event) {
-        SceneManager.getInstance().showInNewWindow(SceneType.CHAT_WINDOW_TAB_PANE_TEST);
+        SceneManager.getInstance().showInNewWindow(SceneType.CHAT_WINDOW);
     }
 
     @FXML

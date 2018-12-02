@@ -87,7 +87,7 @@ public class EditStudentController {
             return;
         }
         // making sure that email is not empty & valid.
-        if (validateMailAddress(emailInput.toString()) || emailInput == null) {
+        if (validateMailAddress(emailInput.toString())==false) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
@@ -130,12 +130,12 @@ public class EditStudentController {
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
         try {
-            InternetAddress a = new InternetAddress(adr);
+            InternetAddress address = new InternetAddress(adr);
+            address.validate();
+            return true;
         } catch (AddressException e) {
             return false;
-        }
-        return true;
-    }
+        }}
 
 //Set the student
     public void setStudent(Student student) {

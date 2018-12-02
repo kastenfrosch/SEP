@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ChatTabContentTest {
+public class ChatTabController {
 
     private User currentUser;
     private User chatPartner;

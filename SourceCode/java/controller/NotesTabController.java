@@ -259,5 +259,11 @@ public class NotesTabController {
          SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
-    public void setObject(Object object) {this.objectType = object;} //Getting Object Type (Group, Groupage or Student)
+    public void setObject(Object object) {this.objectType = object;
+    try {
+        initialize();
+    } catch(SQLException ex) {
+        ErrorModal.show("Notizen konnten nicht geladen werden.");
+    }
+    } //Getting Object Type (Group, Groupage or Student)
 }

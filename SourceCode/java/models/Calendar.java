@@ -21,11 +21,11 @@ public class Calendar {
     private CalendarType calendarType;
 
     @DatabaseField(columnName = FIELD_SEMESTER_ID, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
-            columnDefinition = "varchar not null references \"semester\"(semester_id)")
+            columnDefinition = "varchar not null references \"semester\"(semester_id) on delete cascade")
     private Semester semester;
 
     @DatabaseField(columnName = FIELD_GROUPAGE_ID, foreign = true, foreignAutoRefresh = true, uniqueCombo = true,
-            columnDefinition = "integer references groupage(groupage_id)")
+            columnDefinition = "integer references groupage(groupage_id) on delete cascade")
     private Groupage groupage;
 
     @ForeignCollectionField(eager = true)
@@ -67,5 +67,19 @@ public class Calendar {
 
     public void setGroupage(Groupage groupage) {
         this.groupage = groupage;
+    }
+
+    @Override
+    public String toString() {
+        return this.calendarType.toString() + " " + this.getSemester().getId();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Calendar)) {
+            return false;
+        }
+
+        return ((Calendar) other).getCalendarId() == this.calendarId;
     }
 }

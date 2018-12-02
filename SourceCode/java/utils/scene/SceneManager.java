@@ -117,7 +117,7 @@ public class SceneManager {
                 }
             }
         }
-        stage.showAndWait();
+        stage.show();
     }
 
     public void showInNewWindow(SceneType sceneType) {

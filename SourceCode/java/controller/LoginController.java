@@ -102,7 +102,8 @@ public class LoginController {
             }
 
             dbManager.setLoggedInUser(user);
-            SceneManager.getInstance().switchTo(SceneType.HOME);
+            SceneManager.getInstance().showInNewWindow(SceneType.HOME);
+            SceneManager.getInstance().closeWindow(SceneType.LOGIN);
         } else {
             ErrorModal.show("Invalid User / Password!");
         }
