@@ -14,7 +14,6 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
 
-    //todo: (600x400) Link zu Student Gruppe Goupage sodass die Notiz quasi dort eingeordnet ist; Tab mit Notizliste zur zugehoerigen Entitaet
     public class CreateNotepadController {
 
         private DBManager db;
@@ -42,24 +41,28 @@ import java.sql.SQLException;
         public Button cancelButton;
 
         @FXML
-        public void initialize() { //initializing ComboBox
-            ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
-                                                                                        "Niedrig", "Neutral");
+        public void initialize() {
+            //initializing ComboBox
+            ObservableList<String> prioritaet = FXCollections.observableArrayList("Gut", "Mittel",
+                                                                                        "Schlecht", "Ohne Zuordnung");
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
-            notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Hoch"
+            notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Gut"
         }
 
-        public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
-
-            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
+        public void setPriority(ActionEvent actionEvent) {
+            //Setting Colors in relation to the chosen priority
+            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
                 notepadTextarea.setStyle("-fx-background-color: red");
             } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
                 notepadTextarea.setStyle("-fx-background-color: yellow");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Niedrig")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
                 notepadTextarea.setStyle("-fx-background-color: green");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
                 notepadTextarea.setStyle("-fx-background-color: grey");
+            }
+            else {
+                return;
             }
         }
 
@@ -89,48 +92,44 @@ import java.sql.SQLException;
             try {
                 Notepad notepad = new Notepad();
 
-                Dao<User, String> user = db.getUserDao(); //Testing
-                User tester = user.queryForId("besttutor");
-                notepad.setUser(tester);
-
                 notepad.setNotepadContent(textContent);
                 notepad.setNotepadPriority(priority);
                 notepad.setNotepadName(noteName);
-             //   notepad.setUser(db.getLoggedInUser());
+                notepad.setUser(db.getLoggedInUser());
 
                 Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
                 notepadDao.create(notepad);
 
-                Dao<Student, Integer> testStudent = db.getStudentDao(); //Testing for StudentNote
-                Student student = testStudent.queryForId(1);
-                this.objectType = student;
-
                 if(this.objectType instanceof Student) {
+                    //Creating Notepad DB + ObjectNotepad DB
                     StudentNotepad studentNotepad = new StudentNotepad();
                     studentNotepad.setStudent((Student) this.objectType);
-                    studentNotepad.setNotepad(notepad); //Creating StudentNotepad
-                   // studentNotepad.setUser(db.getLoggedInUser());
-
+                    studentNotepad.setNotepad(notepad);
                     Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
                     studentNotepadDao.create(studentNotepad);
+                    //Refreshing NotesTab & adding created Notepad
+                    SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                            <NotesTabController>getController().notesListView.getItems().add(studentNotepad.getNotepad());
                 }
                 else if(this.objectType instanceof Groupage) {
                     GroupageNotepad groupageNotepad = new GroupageNotepad();
                     groupageNotepad.setGroupage((Groupage) this.objectType);
                     groupageNotepad.setNotepad(notepad);
-                    //groupageNotepad.setUser(db.getLoggedInUser());
 
                     Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
                     groupageNotepadDao.create(groupageNotepad);
+                    SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                            <NotesTabController>getController().notesListView.getItems().add(groupageNotepad.getNotepad());
                 }
                 else if(this.objectType instanceof Group) {
                     GroupNotepad groupNotepad = new GroupNotepad();
                     groupNotepad.setGroup((Group) this.objectType);
                     groupNotepad.setNotepad(notepad);
-                    //groupNotepad.setUser(db.getLoggedInUser());
 
                     Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
                     groupNotepadDao.create(groupNotepad);
+                    SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                            <NotesTabController>getController().notesListView.getItems().add(groupNotepad.getNotepad());
                 }
 
                 InfoModal.show("Notiz \"" + noteName + "\" erstellt!");

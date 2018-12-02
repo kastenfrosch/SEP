@@ -11,6 +11,7 @@ import utils.TimeUtils;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.TimeZone;
@@ -29,7 +30,7 @@ public class CalendarEntry {
     private int entryId;
 
     @DatabaseField(columnName = FIELD_CALENDAR_ID, canBeNull = false, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references calendar(calendar_id)")
+            columnDefinition = "integer not null references calendar(calendar_id) on delete cascade")
     private Calendar calendar;
 
     @DatabaseField(columnName = FIELD_DESCRIPTION, canBeNull = false)

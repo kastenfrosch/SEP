@@ -1,0 +1,19 @@
+title Login
+
+Benutzer->Anwendung: Logindaten
+Anwendung->Datenbank: Hash, Salt für Logindaten abfragen
+alt Benutzer existiert
+Datenbank->Anwendung: Hash, Salt
+else Benutzer existiert nicht
+Datenbank->Anwendung: empty
+end
+note right of Anwendung: Logindaten überprüfen
+alt Logindaten korrekt
+par
+Anwendung->Benutzer: Homescreen öffnen
+else
+Anwendung->Datenbank: Neuer Hash, Salt
+end
+else Logindaten inkorrekt
+Anwendung->Benutzer: Fehlermeldung anzeigen
+end
