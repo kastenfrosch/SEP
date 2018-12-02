@@ -40,27 +40,9 @@ public class EditStudentController {
     @FXML
     private TextField firstnameInput;
     @FXML
-    private AnchorPane anchorPane;
-
-
-    @FXML
-    private Button DeletStudent;
-
-    @FXML
     private TextField lastnameInput;
-
-    @FXML
-    private Button StudentCancel;
-
-    @FXML
-    private Text statusText;
-
-    @FXML
-    private Button StudentCreate;
-
     @FXML
     private TextField matNoInput;
-
     @FXML
     private TextField emailInput;
     @FXML
@@ -83,8 +65,6 @@ public class EditStudentController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-
-
     }
 
     @FXML
@@ -132,39 +112,21 @@ public class EditStudentController {
             studentDao.update(student);
             //notification of the successful change
             if (this.student.getId() != 0) {
-                InfoModal.show("Der Student \"" + firstnameInput.getText() +" "+ lastnameInput.getText()+ "\" wurde bearbeitet!");}
+                InfoModal.show("Der Student \"" + firstnameInput.getText() +" "+ lastnameInput.getText()+ "\" wurde bearbeitet!");
+                SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                        <HomeScreenController>getController().setSelectedNode(student);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //back to homeview
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_STUDENT);
     }
 
     @FXML
-    //back to homeview
     public void onCancelBTNClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_STUDENT);
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
     }
 
-    @FXML
-    public void onDeleteBTNClicked(ActionEvent event) {
-        //check if sure
-        boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
-        if(!confirm){
-            return;
-        }
-
-        Dao<Student, Integer> studentDao = dbManager.getStudentDao();
-        try {
-            // delete the student
-            studentDao.delete(student);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //back to homwview
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_STUDENT);
-
-    }
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
         try {
@@ -187,9 +149,4 @@ public class EditStudentController {
 
     public void addToGroup(ActionEvent event) {
     }
-
-    public void addToSemester(ActionEvent event) {
-    }
-
-
 }
