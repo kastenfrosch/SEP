@@ -83,7 +83,7 @@ public class RegisterController {
             InfoModal.show("FEHLER!", null, "Kein Nachnamen eingegeben!");
             return;
         }
-        if (!validateMailAddress(emailInput.getText())) {
+        if (validateMailAddress(emailInput.getText())==false) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
@@ -144,7 +144,8 @@ public class RegisterController {
         try {
             userDao.create(user);
             codeDao.update(checkCode);
-
+            InfoModal.show("Der User "+ user.getUsername().toString()+ " wurde erstellt");
+            SceneManager.getInstance().closeWindow(SceneType.REGISTER);
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
@@ -159,13 +160,14 @@ public class RegisterController {
 
     private boolean validateMailAddress(String adr) {
         try {
-            new InternetAddress(adr);
+            InternetAddress address = new InternetAddress(adr);
+            address.validate();
+            return true;
         } catch (AddressException e) {
             return false;
-        }
-        return true;
+        }}
     }
 
 
 
-}
+
