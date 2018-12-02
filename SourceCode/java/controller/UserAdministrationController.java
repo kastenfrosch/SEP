@@ -80,7 +80,7 @@ public class UserAdministrationController {
             //delete the userDao from the database
             userDao.delete(user);
             InfoModal.show("User " + user.getUsername() + " wurde gelöscht.");
-            SceneManager.getInstance().switchTo(SceneType.HOME);
+            listView.getItems().remove(user);
         } catch (SQLException e) {
             ErrorModal.show("Der User konnte nicht gelöscht werden.");
         }
