@@ -64,6 +64,8 @@ public class PasswordResetController {
 
             try {
                 userDao.update(user);
+                InfoModal.show("Das Passwort wurde geändert ");
+                SceneManager.getInstance().closeWindow(SceneType.PASSWORD_RESET);
             } catch (SQLException ex) {
                 ErrorModal.show("Passwort konnte nicht neu gesetzt werden.");
             }
