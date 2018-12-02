@@ -68,4 +68,18 @@ public class Calendar {
     public void setGroupage(Groupage groupage) {
         this.groupage = groupage;
     }
+
+    @Override
+    public String toString() {
+        return this.calendarType.toString() + " " + this.getSemester().getId();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Calendar)) {
+            return false;
+        }
+
+        return ((Calendar) other).getCalendarId() == this.calendarId;
+    }
 }
