@@ -219,6 +219,7 @@ public class HomeScreenController {
                     {
                         Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
                         selectedTab.setContent(selectNotification);
+                        return;
                     }
                     break;
                 case "semesterPlanTab":
@@ -231,6 +232,7 @@ public class HomeScreenController {
                     {
                         Text selectNotification = new Text("Bitte wählen Sie ein Semester links aus der Baumstruktur.");
                         selectedTab.setContent(selectNotification);
+                        return;
                     }
                     break;
                 default:
