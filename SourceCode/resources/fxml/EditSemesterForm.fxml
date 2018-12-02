@@ -11,17 +11,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="312.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditSemesterController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditSemesterController">
    <children>
-      <Text id="headerId" fx:id="titleText" layoutX="98.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester bearbeiten" wrappingWidth="206.90380859375">
+      <Text id="headerId" fx:id="titleText" layoutX="191.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester bearbeiten" wrappingWidth="218.90380859375">
          <font>
-            <Font size="21.0" />
+            <Font size="24.0" />
          </font>
       </Text>
-      <Button id="btnSave" fx:id="saveBtn" layoutX="317.0" layoutY="273.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" text="Speichern" />
-      <Button id="btnDelete" fx:id="deleteBtn" layoutX="170.0" layoutY="273.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Löschen" />
-      <Button id="btnCancel" fx:id="cancelBtn" layoutX="14.0" layoutY="273.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" text="Abbrechen" />
-      <Label layoutX="14.0" layoutY="160.0" text="Beschreibung:" />
-      <TextField fx:id="semesterDescriptionInput" layoutX="101.0" layoutY="156.0" prefHeight="25.0" prefWidth="199.0" />
+      <Button id="btnSave" fx:id="saveBtn" layoutX="517.0" layoutY="361.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" text="Speichern" />
+      <Button id="btnCancel" fx:id="cancelBtn" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" text="Verwerfen" />
+      <Label layoutX="14.0" layoutY="117.0" text="Beschreibung:" />
+      <TextField fx:id="semesterDescriptionInput" layoutX="191.0" layoutY="113.0" prefHeight="25.0" prefWidth="199.0" />
    </children>
 </AnchorPane>

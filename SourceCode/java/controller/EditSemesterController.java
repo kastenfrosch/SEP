@@ -35,8 +35,6 @@ public class EditSemesterController {
 	@FXML
 	public Button saveBtn;
 	@FXML
-	public Button deleteBtn;
-	@FXML
 	public TextField semesterDescriptionInput;
 	@FXML
 	public Button cancelBtn;
@@ -67,10 +65,8 @@ public class EditSemesterController {
 			// an existing semester has an id other than 0
 			if (this.semesterToEdit.getId() != null) {
 				InfoModal.show("Semester \"" + description + "\" wurde geändert!");
-
-				// close window
-				//SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
-
+				SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+						<HomeScreenController>getController().setSelectedNode(semesterToEdit);
 			} else {
 				ErrorModal.show("Semester konnte nicht geändert werden!");
 			}
@@ -79,41 +75,11 @@ public class EditSemesterController {
 			ErrorModal.show(e.getMessage());
 			e.printStackTrace();
 		}
-
-
-	}
-
-	public void onDeleteButtonClicked(ActionEvent actionEvent) {
-
-		// check if sure to delete
-		boolean confirmDelete = ConfirmationModal.show("Soll das Semester wirklich gelöscht werden?");
-
-		if (confirmDelete) {
-
-			// delete semester from database
-			try {
-				Dao<Semester, String> semesterDao = db.getSemesterDao();
-				semesterDao.delete(this.semesterToEdit);
-			} catch (java.sql.SQLException e) {
-				ErrorModal.show("Das Semester konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass dem Semester keine Klassen mehr zugeordnet sind.");
-			}
-
-			SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
-					<HomeScreenController>getController().setSelectedNode(null);
-			// close window
-			//SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
-
-		}
-
 	}
 
 	public void onCancelButtonClicked(ActionEvent actionEvent) {
-
 		SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
 				<HomeScreenController>getController().showTabContent();
-		// close semester editing window
-		//SceneManager.getInstance().closeWindow(SceneType.EDIT_SEMESTER);
-
 	}
 
 	public void setSemester(Semester semester) {

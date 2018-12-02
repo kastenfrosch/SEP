@@ -52,8 +52,6 @@ public class EditGroupController {
     public TextField groupnameInput;
     @FXML
     public ComboBox<Groupage> groupageComboBox;
-    @FXML
-    public Button deleteBtn;
 
     @FXML
     public void initialize() {
@@ -106,9 +104,8 @@ public class EditGroupController {
             // an existing group has an id other than 0
             if (this.groupToEdit.getId() != 0) {
                 InfoModal.show("Gruppe \"" + name + "\" wurde geändert!");
-
-                // close window
-                SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUP);
+                SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                        <HomeScreenController>getController().setSelectedNode(groupToEdit);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht geändert werden!");
@@ -121,32 +118,9 @@ public class EditGroupController {
 
     }
 
-    public void onDeleteButtonClicked(ActionEvent actionEvent) {
-
-        // check if sure to delete
-        boolean confirmDelete = ConfirmationModal.show("Soll die Gruppe wirklich gelöscht werden?");
-
-        if (confirmDelete) {
-
-            // delete group from database
-            try {
-                Dao<Group, Integer> groupDao = db.getGroupDao();
-                groupDao.delete(this.groupToEdit);
-            } catch (java.sql.SQLException e) {
-                ErrorModal.show("Die Gruppe konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass sich keine Studenten mehr in der Gruppe befinden.");
-            }
-
-            // close window
-            SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUP);
-
-        }
-
-    }
-
     public void onCancelButtonClicked(ActionEvent actionEvent) {
-
-        // close group editing window
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUP);
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
 
     }
 

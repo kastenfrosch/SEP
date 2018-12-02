@@ -1,6 +1,7 @@
 package controller;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedUpdate;
 import connection.DBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import modal.ErrorModal;
 import modal.InfoModal;
 import models.Calendar;
 import models.CalendarEntry;
@@ -32,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 import static javafx.scene.control.cell.TextFieldTableCell.*;
+import static utils.TimeUtils.localDateFromString;
 import static utils.TimeUtils.toSimpleString;
 
 //TODO: Alles in IntelliJ übertragen
@@ -46,7 +49,7 @@ import static utils.TimeUtils.toSimpleString;
 public class CreateTermOrganisationController {
 
     @FXML
-    public TableColumn<CalendarExtraInfo, CalendarEntry> colSEPdates;
+    public TableColumn<CalendarExtraInfo, LocalDate> colSEPdates;
     @FXML
     public TableColumn<CalendarExtraInfo, Integer> colCalendarWeek;
     @FXML
@@ -104,7 +107,7 @@ public class CreateTermOrganisationController {
                 FXCollections.observableArrayList(new CalendarExtraInfo(calendarEntry, "V-Kick-Off", "Einführungsveranstaltung", "Gruppenanmeldung", 41, 0));
 
         //Setting of Cell Value Factory
-        colSEPdates.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, CalendarEntry>("calendarEntry"));
+        colSEPdates.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, LocalDate>("calendarEntry"));
         colCalendarWeek.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, Integer>("calendarWeek"));
         colMeetingNo.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, Integer>("meetingNo"));
         colIteration.setCellValueFactory(new PropertyValueFactory<CalendarExtraInfo, String>("iterationInfo"));
@@ -118,17 +121,7 @@ public class CreateTermOrganisationController {
         tableViewTermOrganisation.setEditable(true);
 
         //StringConverter with different data types
-        colSEPdates.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<CalendarEntry>() {
-            @Override
-            public String toString(CalendarEntry calendarEntry) {
-                return null;
-            }
-
-            @Override
-            public CalendarEntry fromString(String s) {
-                return null;
-            }
-        }));
+//        colSEPdates.setCellFactory(TextFieldTableCell.forTableColumn(sepDatePicker.getConverter()));
         colCalendarWeek.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colMeetingNo.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colIteration.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -157,8 +150,13 @@ public class CreateTermOrganisationController {
 
         calendarExtraInfoIntegerCellEditEvent.getTableView().getItems().get(calendarExtraInfoIntegerCellEditEvent.getTablePosition().getRow()).setCalendarWeek(calendarExtraInfoIntegerCellEditEvent.getNewValue());
         calendarExtraInfoIntegerCellEditEvent.getTableView().getItems().get(calendarExtraInfoIntegerCellEditEvent.getTablePosition().getRow()).setMeetingNo(calendarExtraInfoIntegerCellEditEvent.getNewValue());
-
-
+        //Update in database
+//        try {
+//            calendarExtraInfoDao.update((PreparedUpdate<CalendarExtraInfo>) calendarExtraInfoIntegerCellEditEvent);
+//        } catch (SQLException e) {
+//            calendarExtraInfoIntegerCellEditEvent.consume();
+//            ErrorModal.show("Die Änderungen wurden nicht gepseichert!");
+//        }
     }
 
     @FXML
@@ -168,11 +166,17 @@ public class CreateTermOrganisationController {
         calendarExtraInfoStringCellEditEvent.getTableView().getItems().get(calendarExtraInfoStringCellEditEvent.getTablePosition().getRow()).setIterationInfo(calendarExtraInfoStringCellEditEvent.getNewValue());
         calendarExtraInfoStringCellEditEvent.getTableView().getItems().get(calendarExtraInfoStringCellEditEvent.getTablePosition().getRow()).setLectureInfo(calendarExtraInfoStringCellEditEvent.getNewValue());
         calendarExtraInfoStringCellEditEvent.getTableView().getItems().get(calendarExtraInfoStringCellEditEvent.getTablePosition().getRow()).setWorkphaseInfo(calendarExtraInfoStringCellEditEvent.getNewValue());
+            //Update in database
+//        try {
+//            calendarExtraInfoDao.update((PreparedUpdate<CalendarExtraInfo>) calendarExtraInfoStringCellEditEvent);
+//        } catch (SQLException e) {
+//            calendarExtraInfoStringCellEditEvent.consume();
+//            ErrorModal.show("Die Änderungen wurden nicht gespeichert!");
+//        }
+
     }
 
     public void onAddBtnClicked(ActionEvent event) {
-
-
         //TODO:If-Bedingungen erzeugen Error da es zu konflikten zwischen den Datentypen kommt
 //        if(txtKW.getText().isEmpty() == true || txtKW.getText() == null){
 //            InfoModal.show("Fehler", null, "Es wurde keine Kalenderwoche eingetragen!");
@@ -181,6 +185,7 @@ public class CreateTermOrganisationController {
 //            InfoModal.show("Fehler", null, "Es wurde keien Veranstaltungsnummer eingetragen!");
 //        }
         //Adding new Rows to the table where the first row is still fixed
+//        calendarEntry = calendarEntry.setStartTime(sepDatePicker.getValue();
         CalendarExtraInfo entry = new CalendarExtraInfo(calendarEntry ,txtIteration.getText(), txtLectureContent.getText(),txtWorkingPhase.getText(), Integer.parseInt(txtKW.getText()), Integer.parseInt(txtMeetingNo.getText()));
         ersteZeile.add(entry);
         tableViewTermOrganisation.setItems(ersteZeile);
@@ -190,23 +195,46 @@ public class CreateTermOrganisationController {
     }
 
     public void onSaveBtnClicked(ActionEvent event) throws SQLException {
+        //1. Methode
+ //       models.CalendarExtraInfo newTermOrganisation= new CalendarExtraInfo();
+////        CalendarExtraInfo sepDates = new CalendarExtraInfo();
+//
+//
+////        newTermOrganisation.setCalendarEntry(sepDates.getCalendarEntry());
+//        newTermOrganisation.setCalendarWeek(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getCalendarWeek());
+//        newTermOrganisation.setMeetingNo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getMeetingNo());
+//        newTermOrganisation.setIterationInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getIterationInfo());
+//        newTermOrganisation.setLectureInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getLectureInfo());
+//        newTermOrganisation.setWorkphaseInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getWorkphaseInfo());
+//
+//
+//        Dao<CalendarExtraInfo, Integer> calendarExtraInfoDao = db.getCalendarExtraInfoDao();
+//        calendarExtraInfoDao.update(newTermOrganisation);
+//
+//        InfoModal.show("Semesterplan wurde erstellt!");
 
-        models.CalendarExtraInfo newTermOrganisation= new CalendarExtraInfo();
-//        CalendarExtraInfo sepDates = new CalendarExtraInfo();
+        //2. Methode
+        CalendarExtraInfo c = new CalendarExtraInfo();
+//        CalendarEntry entry = new CalendarEntry();
+//        entry.setStartTime(LocalDateTime.now());
+//        c.setCalendarEntry(getCalendarEntries().get(1));
+        c.setCalendarWeek(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getCalendarWeek());
+        c.setMeetingNo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getMeetingNo());
+        c.setIterationInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getIterationInfo());
+        c.setLectureInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getLectureInfo());
+        c.setWorkphaseInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getWorkphaseInfo());
+
+        try {
+            calendarExtraInfoDao.create(c);
+            tableViewTermOrganisation.getItems().add(c);
+            tableViewTermOrganisation.getSelectionModel().select(c);
+            tableViewTermOrganisation.edit(tableViewTermOrganisation.getSelectionModel().getSelectedIndex(), tableViewTermOrganisation.getColumns().get(0));
+
+        } catch(SQLException e) {
+            ErrorModal.show("Die Änderungen wurden nicht gespeichert!");
+        }
 
 
-//        newTermOrganisation.setCalendarEntry(sepDates.getCalendarEntry());
-        newTermOrganisation.setCalendarWeek(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getCalendarWeek());
-        newTermOrganisation.setMeetingNo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getMeetingNo());
-        newTermOrganisation.setIterationInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getIterationInfo());
-        newTermOrganisation.setLectureInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getLectureInfo());
-        newTermOrganisation.setWorkphaseInfo(tableViewTermOrganisation.getSelectionModel().getSelectedItem().getWorkphaseInfo());
-
-
-        Dao<CalendarExtraInfo, Integer> calendarExtraInfoDao = db.getCalendarExtraInfoDao();
-        calendarExtraInfoDao.update(newTermOrganisation);
-
-        InfoModal.show("Semesterplan wurde erstellt!");
     }
     public void buttonShow(ActionEvent event) {
 
@@ -230,5 +258,19 @@ public class CreateTermOrganisationController {
         }
 
     }
+
+//    public ObservableList<CalendarEntry> getCalendarEntries(){
+//
+//        ObservableList<CalendarEntry> entries = FXCollections.observableArrayList();
+//
+//        entries.add(new CalendarEntry(localDateFromString("2018-10-08")));
+//        entries.add(new CalendarEntry(localDateFromString("2018-10-11")));
+//        entries.add(new CalendarEntry(localDateFromString("2018-10-15")));
+//        entries.add(new CalendarEntry(localDateFromString("2018-10-18")));
+//        entries.add(new CalendarEntry(localDateFromString("2018-10-22")));
+//
+//
+//        return entries;
+//    }
 }
 

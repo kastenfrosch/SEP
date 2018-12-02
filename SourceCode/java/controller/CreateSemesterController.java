@@ -142,8 +142,6 @@ public class CreateSemesterController {
 
                 SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
                         <HomeScreenController>getController().setSelectedNode(newSemester);
-                //close window
-                //SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
                 ErrorModal.show("Semester konnte nicht erstellt werden.");
@@ -183,7 +181,6 @@ public class CreateSemesterController {
 
                 SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
                         <HomeScreenController>getController().setSelectedNode(newSemester);
-                //SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
 
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
@@ -197,19 +194,11 @@ public class CreateSemesterController {
     public void addSemesterCancel(ActionEvent event) {
         SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
                 <HomeScreenController>getController().showTabContent();
-        //close window
-//        SceneManager.getInstance().closeWindow(SceneType.CREATE_SEMESTER);
     }
 
     public void chooseSemester(ActionEvent event) {
-
-
     }
 
     public void chooseYear(ActionEvent event) {
-    }
-
-    private void checkTextFieldInput(ActionEvent event) {
-
     }
 }

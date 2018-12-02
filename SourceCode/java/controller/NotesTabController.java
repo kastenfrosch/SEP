@@ -2,15 +2,12 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
+import javafx.util.Callback;
 import modal.ConfirmationModal;
 import modal.ErrorModal;
 import modal.InfoModal;
@@ -18,14 +15,11 @@ import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NotesTabController {
 
     private Object objectType;
     private DBManager db;
-    private Notepad notepad;
 
     {
         try {
@@ -36,7 +30,7 @@ public class NotesTabController {
     }
 
     @FXML
-    public ListView<String> notesListView;
+    public ListView<Notepad> notesListView;
     @FXML
     public Button editButton;
     @FXML
@@ -44,57 +38,96 @@ public class NotesTabController {
     @FXML
     public Button createButton;
     @FXML
-    public Button cancelButton;
-    @FXML
     public Button showNoteButton;
     @FXML
     public Label notesPaneLabel;
 
-    public void initialize() throws SQLException { //initializing listView
+    //todo: Aktualisierung wenn innerhalb eines Objects gewechselt wird (Bspw. Student 1 zu 2)
+    //todo: Löschfunktion korrigieren
 
+    public void initialize() {
         notesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        Dao<User, String> user = db.getUserDao(); //Testing
-        User tester = user.queryForId("besttutor");
-        db.setLoggedInUser(tester);
-
-        Dao<Student, Integer> testStudent = db.getStudentDao(); //Testing
-        Student student = testStudent.queryForId(1);
-        this.objectType = student;
-
-        if(this.objectType instanceof Student) {
-            List<String> studentNotes = new ArrayList<>();
-            for (StudentNotepad n : db.getStudentNotepadDao().queryForAll()) {
-                if (n.getNotepad().getUser().equals(db.getLoggedInUser())) {
-                    studentNotes.add(n.getNotepad().getNotepadName());
+        try {
+            if (this.objectType instanceof Student) {
+                ObservableList<Notepad> list = FXCollections.observableArrayList();
+                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                    if ((db.getLoggedInUser() == s.getNotepad().getUser()) && ((((Student) this.objectType).getId() == s.getStudent().getId()))) {
+                        list.add(s.getNotepad());
+                    }
                 }
-                ObservableList<String> list = FXCollections.observableArrayList();
-                list.addAll(studentNotes);
                 notesListView.setItems(list);
+                notesListView.getItems().clear(); //not needed if list is definitly empty
+                db.getStudentNotepadDao().queryForAll().stream()
+                        .map(StudentNotepad::getNotepad)
+                        .filter(n -> n.getUser().equals(db.getLoggedInUser()))
+                        .forEach(notesListView.getItems()::add);
             }
-        } /*
-        else if(this.objectType instanceof Group) {
-                List<Notepad> groupNotes = new ArrayList<>();
-                for(GroupNotepad n : db.getGroupNotepadDao().queryForAll()) {
-                    if(n.getNotepad().getUser().equals(db.getLoggedInUser())) {
-                        groupNotes.add(n.getNotepad());
+            else if (this.objectType instanceof Groupage) {
+                ObservableList<Notepad> list = FXCollections.observableArrayList();
+                for (GroupageNotepad s : db.getGroupageNotepadDao()) {
+                    if (db.getLoggedInUser() == s.getNotepad().getUser() && (((Groupage) this.objectType).getId() == s.getGroupage().getId())) {
+                        list.add(s.getNotepad());
                     }
                 }
-            ObservableList<Notepad> list = FXCollections.observableArrayList();
-            list.addAll(groupNotes);
-            notesListView.setItems(list);
+                notesListView.setItems(list);
+                notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
+                db.getGroupageNotepadDao().queryForAll().stream()
+                        .map(GroupageNotepad::getNotepad)
+                        .filter(n -> n.getUser().equals(db.getLoggedInUser()))
+                        .forEach(notesListView.getItems()::add);
+            }
+            else if (this.objectType instanceof Group) {
+                ObservableList<Notepad> list = FXCollections.observableArrayList();
+                for (GroupNotepad s : db.getGroupNotepadDao()) {
+                    if (db.getLoggedInUser() == s.getNotepad().getUser() && ((Group) this.objectType).getId() == s.getGroup().getId()) {
+                        list.add(s.getNotepad());
+                    }
+                }
+                notesListView.setItems(list);
+                notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
+                db.getGroupNotepadDao().queryForAll().stream()
+                        .map(GroupNotepad::getNotepad)
+                        .filter(n -> n.getUser().equals(db.getLoggedInUser()))
+                        .forEach(notesListView.getItems()::add);
+            }
+            notesListView.setCellFactory(new Callback<ListView<Notepad>, ListCell<Notepad>>() {
+                public ListCell<Notepad> call(ListView<Notepad> param) {
+                    return new ListCell<Notepad>() {
+                        @Override
+                        protected void updateItem(Notepad item, boolean empty) {
+                            super.updateItem(item, empty);
+
+                            String style = "";
+                            if (!empty && item != null) {
+                                setText(item.getNotepadName());
+
+                                // this switch could be rewritten using a Map<String, String>
+                                switch (item.getNotepadPriority()) {
+                                    case "Gut":
+                                        style = "-fx-background-color: red";
+                                        break;
+                                    case "Mittel":
+                                        style = "-fx-background-color: yellow";
+                                        break;
+                                    case "Schlecht":
+                                        style = "-fx-background-color: green";
+                                        break;
+                                    case "Ohne Zuordnung":
+                                        style = "-fx-background-color: grey";
+                                        break;
+                                }
+                            } else {
+                                setText("");
+                            }
+                            setStyle(style);
+                        }
+                    };
+                }
+            });
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        else if(this.objectType instanceof Groupage) {
-                List<Notepad> groupageNotes = new ArrayList<>();
-                for(GroupageNotepad n : db.getGroupageNotepadDao().queryForAll()) {
-                    if(n.getNotepad().getUser().equals(db.getLoggedInUser())) {
-                        groupageNotes.add(n.getNotepad());
-                    }
-                }
-            ObservableList<Notepad> list = FXCollections.observableArrayList();
-            list.addAll(groupageNotes);
-            notesListView.setItems(list);
-        } */
     }
 
     public void editButton(ActionEvent actionEvent) {
@@ -104,51 +137,18 @@ public class NotesTabController {
         }
         SceneType sceneType = null;
         SceneManager sm = SceneManager.getInstance();
-        if(this.objectType instanceof Student) {
-            Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-            for (StudentNotepad s : studentNotepadDao) {
-                if (s.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = s.getNotepad();
-                }
-            }
-            if (sceneType == null) {
-                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
-                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-        else if(this.objectType instanceof Group) {
-            Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-            for(GroupNotepad g : groupNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
-                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-        else if(this.objectType instanceof Groupage) {
-            Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-            for(GroupageNotepad g : groupageNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
-                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
-                        .setNotepad(this.notepad);
-            }
+        //Setting given Object & Notepad for EditNotepadWindow
+        if (sceneType == null) {
+            sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+            sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
+                    .setObject(this.objectType, notesListView.getSelectionModel().getSelectedItem());
         }
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void deleteButton(ActionEvent actionEvent) throws SQLException{
+    public void deleteButton(ActionEvent actionEvent) {
 
-        if(notesListView.getSelectionModel().isEmpty()) {
+        if (notesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie die zu löschende Notiz aus.");
             return;
         }
@@ -158,48 +158,53 @@ public class NotesTabController {
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
 
             try {
-                if(this.objectType instanceof Student) {
-
+                if (this.objectType instanceof Student) {
                     Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-                    for(StudentNotepad n : studentNotepadDao) {
-                        if(notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad().getNotepadName())) {
+                    for (StudentNotepad n : studentNotepadDao) {
+                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
                             studentNotepadDao.delete(n);
                             notepadDao.delete(n.getNotepad());
+                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                                    <NotesTabController>getController().initialize();
                         }
                     }
-                }
-             /*   else if(this.objectType instanceof Groupage) {
-                    this.notepad = notesListView.getSelectionModel().getSelectedItem();
-
-                    Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-                    for(GroupageNotepad n : groupageNotepadDao) {
-                        if(n.getNotepad() == this.notepad) {
-                            groupageNotepadDao.delete(n);
-                        }
-                    }
-                    notepadDao.delete(this.notepad);
-                }
-                else if(this.objectType instanceof Group) {
-                    this.notepad = notesListView.getSelectionModel().getSelectedItem();
-
+                } else if (this.objectType instanceof Group) {
                     Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-                    for(GroupNotepad n : groupNotepadDao) {
-                        if(n.getNotepad() == this.notepad) {
+                    for (GroupNotepad n : groupNotepadDao) {
+                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
                             groupNotepadDao.delete(n);
+                            notepadDao.delete(n.getNotepad());
+                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                                    <NotesTabController>getController().initialize();
                         }
                     }
-                    notepadDao.delete(this.notepad);
-                } */
+                } else if (this.objectType instanceof Groupage) {
+                    Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
+                    for (GroupageNotepad n : groupageNotepadDao) {
+                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
+                            groupageNotepadDao.delete(n);
+                            notepadDao.delete(n.getNotepad());
+                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                                    <NotesTabController>getController().initialize();
+                        }
+                    }
+                }
             } catch (SQLException e) {
                 ErrorModal.show("Fehler: Die Notiz konnte nicht geloescht werden.");
             }
-        }
-        else {
+        } else {
             return;
         }
     }
 
     public void createButton(ActionEvent actionEvent) {
+        SceneType sceneType = null;
+        SceneManager sm = SceneManager.getInstance();
+        if (sceneType == null) {
+            sceneType = SceneType.CREATE_NOTEPAD_WINDOW;
+            sm.getLoaderForScene(sceneType).<CreateNotepadController>getController()
+                    .setObject(this.objectType);
+        }
         SceneManager.getInstance().showInNewWindow(SceneType.CREATE_NOTEPAD_WINDOW);
     }
 
@@ -210,51 +215,17 @@ public class NotesTabController {
         }
         SceneType sceneType = null;
         SceneManager sm = SceneManager.getInstance();
-        if(this.objectType instanceof Student) {
-            Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-            for (StudentNotepad s : studentNotepadDao) {
-                if (s.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = s.getNotepad();
-                }
-            }
-            if (sceneType == null) {
-                sceneType = SceneType.NOTE_WINDOW;
-                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                        .setNotepad(this.notepad);
-            }
-            }
-        else if(this.objectType instanceof Group) {
-            Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-            for(GroupNotepad g : groupNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.NOTE_WINDOW;
-                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                        .setNotepad(this.notepad);
-            }
+        if (sceneType == null) {
+            sceneType = SceneType.NOTE_WINDOW;
+            sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
+                    .setNotepad(notesListView.getSelectionModel().getSelectedItem());
         }
-        else if(this.objectType instanceof Groupage) {
-            Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-            for(GroupageNotepad g : groupageNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.NOTE_WINDOW;
-                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
+        SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
-    public void cancelButton(ActionEvent actionEvent) {
-        SceneManager.getInstance().closeWindow(SceneType.NOTESTAB_WINDOW);
+    public void setObject(Object object) {
+        //Getting Object Type (Group, Groupage or Student)
+        this.objectType = object;
+        initialize();
     }
-
-    public void setObject(Object object) {this.objectType = object;} //Getting Object Type (Group, Groupage or Student)
 }
