@@ -43,13 +43,15 @@ public class EditNotepadController {
     @FXML
     public Button editNotepadCancelButton;
 
-    public void initialize() throws SQLException { //Initializing ComboBox
+    public void initialize() {
+        //Initializing ComboBox
         ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
                                                                                    "Niedrig", "Neutral");
         editNotepadPriorityComboBox.setItems(prioritaet);
     }
 
-    public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
+    public void setPriority(ActionEvent actionEvent) {
+        //Setting Colors in relation to the chosen priority
         if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
             editNotepadTextarea.setStyle("-fx-background-color: red");
         } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
@@ -85,8 +87,9 @@ public class EditNotepadController {
 
         Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
 
+        //Saving the Notepad which is to be edited
         Notepad ersatz = this.notepad;
-
+        //Saving the notepad after editing
         this.notepad.setNotepadName(noteName);
         this.notepad.setNotepadPriority(priority);
         this.notepad.setNotepadContent(textContent);
@@ -118,8 +121,10 @@ public class EditNotepadController {
                 Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
                 groupNotepadDao.update(groupNotepad);
             }
+            //Adding the edited Notepad to the List in NotesTab
             SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
                     <NotesTabController>getController().notesListView.getItems().add(this.notepad.getNotepadName());
+            //Removing the Notepad which was to be edited in the List in NotesTab
             SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
                     <NotesTabController>getController().notesListView.getItems().remove(ersatz.getNotepadName());
 
@@ -139,10 +144,11 @@ public class EditNotepadController {
         this.objectType = object;
         this.notepad = notepad;
 
+        //preconfig of items depending on given Notepad
         editNotepadName.setText(notepad.getNotepadName());
         editNotepadPriorityComboBox.getSelectionModel().select(notepad.getNotepadPriority());
         editNotepadTextarea.setText(notepad.getNotepadContent());
-        //Setting Color
+        //Setting Colors
         if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
             editNotepadTextarea.setStyle("-fx-background-color: red");
         }
