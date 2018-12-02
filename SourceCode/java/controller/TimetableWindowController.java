@@ -21,10 +21,7 @@ import java.util.Iterator;
 public class TimetableWindowController {
 
 
-    public ComboBox <Semester>cbs;
-    public ComboBox <Groupage>cbk;
     public ComboBox <Calendar>cbg;
-    public Button deletecalendar;
     ArrayList<Label> mon = new ArrayList<>();
     ArrayList<Label> di = new ArrayList<>();
     ArrayList<Label> mi = new ArrayList<>();
@@ -119,35 +116,6 @@ public class TimetableWindowController {
     }
 
     public void loadboxes(){
-        try {
-
-
-            ObservableList<Semester> SemesterList = FXCollections.observableArrayList();
-            Dao<Semester, String> SemesterDao = db.getSemesterDao();
-            SemesterList.addAll(SemesterDao.queryForAll());
-            cbs.setItems(SemesterList);
-
-        } catch (java.sql.SQLException e) {
-            ErrorModal.show(e.getMessage());
-            e.printStackTrace();
-        }
-
-        try {
-
-            // creat an observableList with all groups
-            ObservableList<Groupage> GroupageList = FXCollections.observableArrayList();
-            Dao<Groupage, Integer> GroupageDao = db.getGroupageDao();
-            GroupageList.addAll(GroupageDao.queryForAll());
-
-            //set semester combobox with the semester from the observableList
-            cbk.setItems(GroupageList);
-
-        } catch (java.sql.SQLException e) {
-            ErrorModal.show(e.getMessage());
-            e.printStackTrace();
-        }
-
-
         try {
 
 

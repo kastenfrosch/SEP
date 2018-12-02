@@ -114,10 +114,10 @@ public class CreateGroupController {
             // check if group has been created
             // an existing group has an id other than 0
             if (newGroup.getId() != 0) {
-                InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
+//                InfoModal.show("Die Gruppe \"" + name + "\" wurde erstellt!");
 
-                // close window
-                SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUP);
+                SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                        <HomeScreenController>getController().setSelectedNode(newGroup);
 
             } else {
                 ErrorModal.show("Gruppe konnte nicht erstellt werden!");
@@ -131,9 +131,8 @@ public class CreateGroupController {
     }
 
     public void onCancelButtonClicked(ActionEvent actionEvent) {
-
-        // close group creation window
-        SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUP);
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
 
     }
 

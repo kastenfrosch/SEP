@@ -12,24 +12,16 @@
 
 <AnchorPane id="anchorPane" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateSemesterController">
    <children>
-      <Text id="txtCreateTerm" fx:id="txtCreateTerm" layoutX="155.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester erstellen">
+      <Text id="txtCreateTerm" fx:id="txtCreateTerm" layoutX="204.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semester erstellen">
          <font>
-            <Font size="36.0" />
+            <Font size="24.0" />
          </font>
       </Text>
       <Button id="btnCancel" fx:id="btnCancel" layoutX="14.0" layoutY="362.0" mnemonicParsing="false" onAction="#addSemesterCancel" text="Abbrechen" />
       <Button id="btnCreate" fx:id="btnCreate" layoutX="517.0" layoutY="362.0" mnemonicParsing="false" onAction="#addSemesterCreate" text="Speichern" />
-      <Label id="lblTerm" fx:id="lblTerm" layoutX="117.0" layoutY="142.0" text="Semester:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label id="lblYear" fx:id="lblYear" layoutX="159.0" layoutY="187.0" text="Jahr:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox id="comboTerm" fx:id="comboTerm" layoutX="226.0" layoutY="143.0" onAction="#chooseSemester" promptText="Wähle Semester aus" />
-      <ComboBox id="comboYear" fx:id="comboYear" layoutX="226.0" layoutY="188.0" onAction="#chooseYear" prefHeight="25.0" prefWidth="149.0" promptText="Wähle Jahr aus" />
+      <Label id="lblTerm" fx:id="lblTerm" layoutX="25.0" layoutY="98.0" text="Semester:" />
+      <Label id="lblYear" fx:id="lblYear" layoutX="25.0" layoutY="147.0" text="Jahr:" />
+      <ComboBox id="comboTerm" fx:id="comboTerm" layoutX="204.0" layoutY="94.0" onAction="#chooseSemester" promptText="Wähle Semester aus" />
+      <ComboBox id="comboYear" fx:id="comboYear" layoutX="204.0" layoutY="143.0" onAction="#chooseYear" prefHeight="25.0" prefWidth="149.0" promptText="Wähle Jahr aus" />
    </children>
 </AnchorPane>

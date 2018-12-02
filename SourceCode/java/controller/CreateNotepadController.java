@@ -41,7 +41,8 @@ import java.sql.SQLException;
         public Button cancelButton;
 
         @FXML
-        public void initialize() { //initializing ComboBox
+        public void initialize() {
+            //initializing ComboBox
             ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
                                                                                         "Niedrig", "Neutral");
             priorityComboBox.setItems(prioritaet);
@@ -49,8 +50,8 @@ import java.sql.SQLException;
             notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Hoch"
         }
 
-        public void setPriority(ActionEvent actionEvent) { //Setting Colors in relation to the chosen priority
-
+        public void setPriority(ActionEvent actionEvent) {
+            //Setting Colors in relation to the chosen priority
             if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
                 notepadTextarea.setStyle("-fx-background-color: red");
             } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
@@ -100,12 +101,13 @@ import java.sql.SQLException;
                 notepadDao.create(notepad);
 
                 if(this.objectType instanceof Student) {
+                    //Creating Notepad DB + ObjectNotepad DB
                     StudentNotepad studentNotepad = new StudentNotepad();
                     studentNotepad.setStudent((Student) this.objectType);
-                    studentNotepad.setNotepad(notepad); //Creating StudentNotepad
-
+                    studentNotepad.setNotepad(notepad);
                     Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
                     studentNotepadDao.create(studentNotepad);
+                    //Refreshing NotesTab & adding created Notepad
                     SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
                             <NotesTabController>getController().notesListView.getItems().add(studentNotepad.getNotepad().getNotepadName());
                 }

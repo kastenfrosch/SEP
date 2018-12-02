@@ -15,12 +15,12 @@
             <Font size="35.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="561.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="löschen" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <Button layoutX="14.0" layoutY="561.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Löschen" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
       <Button fx:id="logoutButton" layoutX="535.0" layoutY="361.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" text="logout" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="82.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddSemesterButtonClicked" text="neues Semester" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="192.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupageButtonClicked" text="neue Klasse" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="285.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupButtonClicked" text="neue Gruppe" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="389.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddStudentButtonClicked" text="neuer Student" AnchorPane.bottomAnchor="14.0" />
+      <Button layoutX="82.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddSemesterButtonClicked" text="Neues Semester" AnchorPane.bottomAnchor="14.0" />
+      <Button layoutX="192.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupageButtonClicked" text="Neue Klasse" AnchorPane.bottomAnchor="14.0" />
+      <Button layoutX="285.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupButtonClicked" text="Neue Gruppe" AnchorPane.bottomAnchor="14.0" />
+      <Button layoutX="389.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddStudentButtonClicked" text="Neuer Student" AnchorPane.bottomAnchor="14.0" />
       <TabPane fx:id="tabPane" layoutX="285.0" layoutY="120.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="detailsTab" closable="false" text="Details">
