@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import modal.ConfirmationModal;
 import modal.InfoModal;
 import models.*;
@@ -211,14 +210,28 @@ public class HomeScreenController {
                             .setObject(selectedNode.getValue());
                     break;
                 case "weekPlanTab":
-                    sceneType = SceneType.TIMETABLE_WINDOW;
-//                    sm.getLoaderForScene(sceneType).<TimetableWindowController>getController()
-//                            .set(selectedNode.getSemester());
+                    if(selectedNode.getValue() instanceof Groupage) {
+                        sceneType = SceneType.WEEK_CALENDAR;
+                        sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
+                                .setGroupage((Groupage) selectedNode.getValue());
+                    }
+                    else
+                    {
+                        Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
+                        selectedTab.setContent(selectNotification);
+                    }
                     break;
                 case "semesterPlanTab":
-                    sceneType = SceneType.EDIT_AND_CREATE_SEMESTERPLAN;
-//                    sm.getLoaderForScene(sceneType).<SemesterplanController>getController()
-//                          .set(selectedNode.getSemester());
+                    if(selectedNode.getValue() instanceof Semester) {
+                        sceneType = SceneType.EDIT_AND_CREATE_SEMESTERPLAN;
+                        sm.getLoaderForScene(sceneType).<SemesterplanController>getController()
+                                .setSemester((Semester) selectedNode.getValue());
+                    }
+                    else
+                    {
+                        Text selectNotification = new Text("Bitte wählen Sie ein Semester links aus der Baumstruktur.");
+                        selectedTab.setContent(selectNotification);
+                    }
                     break;
                 default:
                     if (selectedNode.getValue() instanceof Semester) {
@@ -439,7 +452,7 @@ class Node extends TreeItem<Object> {
 
     void deleteNode() {
         deleteAllChildren();
-        deleteCorresbondingDBObject();
+        deleteCorrespondingDBObject();
     }
 
     void deleteAllChildren() {
@@ -448,7 +461,7 @@ class Node extends TreeItem<Object> {
         }
     }
 
-    void deleteCorresbondingDBObject() {
+    void deleteCorrespondingDBObject() {
         try {
             if (getValue() instanceof Semester) {
                 DBManager.getInstance().getSemesterDao().delete((Semester) getValue());
