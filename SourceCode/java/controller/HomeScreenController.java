@@ -117,17 +117,17 @@ public class HomeScreenController {
 
             ArrayList<Node> expandedNodes = getExpandedNodes();
             for (Node tmp : expandedNodes) {
-                if(tmp.getValue()instanceof Semester) {
+                if (tmp.getValue() instanceof Semester) {
                     FavouriteSemester fav = new FavouriteSemester();
                     fav.setUser(user);
                     fav.setSemester((Semester) tmp.getValue());
                     dbm.getFavouriteSemesterDao().createIfNotExists(fav);
-                } else if(tmp.getValue()instanceof Groupage) {
+                } else if (tmp.getValue() instanceof Groupage) {
                     FavouriteGroupage fav = new FavouriteGroupage();
                     fav.setUser(user);
                     fav.setGroupage((Groupage) tmp.getValue());
                     dbm.getFavouriteGroupageDao().createIfNotExists(fav);
-                } else if(tmp.getValue()instanceof Group) {
+                } else if (tmp.getValue() instanceof Group) {
                     FavouriteGroup fav = new FavouriteGroup();
                     fav.setUser(user);
                     fav.setGroup((Group) tmp.getValue());
@@ -186,8 +186,8 @@ public class HomeScreenController {
             dbm = DBManager.getInstance();
             semesterList = dbm.getSemesterDao().queryForAll();
             groupageList = dbm.getGroupageDao().queryForAll();
-            groupList    = dbm.getGroupDao().queryForAll();
-            studentList  = dbm.getStudentDao().queryForAll();
+            groupList = dbm.getGroupDao().queryForAll();
+            studentList = dbm.getStudentDao().queryForAll();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -200,28 +200,36 @@ public class HomeScreenController {
             SceneManager sm = SceneManager.getInstance();
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
-                case "notesTab" : sceneType = SceneType.NOTESTAB_WINDOW;
+                case "notesTab":
+                    sceneType = SceneType.NOTESTAB_WINDOW;
+                    if (selectedNode.getValue() instanceof Semester) {
+                        Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
+                        selectedTab.setContent(selectNotification);
+                        return;
+                    }
                     sm.getLoaderForScene(sceneType).<NotesTabController>getController()
-                        .setObject(selectedNode.getValue());
+                            .setObject(selectedNode.getValue());
                     break;
-                case "weekPlanTab" : sceneType = SceneType.TIMETABLE_WINDOW;
+                case "weekPlanTab":
+                    sceneType = SceneType.TIMETABLE_WINDOW;
 //                    sm.getLoaderForScene(sceneType).<TimetableWindowController>getController()
 //                            .set(selectedNode.getSemester());
                     break;
-                case "semesterPlanTab" : sceneType = SceneType.EDIT_AND_CREATE_SEMESTERPLAN;
+                case "semesterPlanTab":
+                    sceneType = SceneType.EDIT_AND_CREATE_SEMESTERPLAN;
 //                    sm.getLoaderForScene(sceneType).<SemesterplanController>getController()
 //                          .set(selectedNode.getSemester());
                     break;
-                default : ;
-                    if(selectedNode.getValue() instanceof Semester) {
+                default:
+                    if (selectedNode.getValue() instanceof Semester) {
                         sceneType = SceneType.EDIT_SEMESTER;
                         sm.getLoaderForScene(sceneType).<EditSemesterController>getController()
                                 .setSemester((Semester) selectedNode.getValue());
-                    } else if(selectedNode.getValue() instanceof Groupage) {
+                    } else if (selectedNode.getValue() instanceof Groupage) {
                         sceneType = SceneType.EDIT_GROUPAGE;
                         sm.getLoaderForScene(sceneType).<EditGroupageController>getController()
                                 .setGroupage((Groupage) selectedNode.getValue());
-                    } else if(selectedNode.getValue() instanceof Group) {
+                    } else if (selectedNode.getValue() instanceof Group) {
                         sceneType = SceneType.EDIT_GROUP;
                         sm.getLoaderForScene(sceneType).<EditGroupController>getController()
                                 .setGroup((Group) selectedNode.getValue());
@@ -278,7 +286,7 @@ public class HomeScreenController {
             if (user != null) {
 
                 String lastTab = user.getLastTab();
-                for (Tab tab: tabPane.getTabs()) {
+                for (Tab tab : tabPane.getTabs()) {
                     if (tab.getId().equals(lastTab)) {
                         tabPane.getSelectionModel().select(tab);
                     }
@@ -306,8 +314,8 @@ public class HomeScreenController {
         } else {
             List<FavouriteSemester> favSemesterList = null;
             List<FavouriteGroupage> favGroupageList = null;
-            List<FavouriteGroup>    favGroupList    = null;
-            List<FavouriteStudent>  favStudentList  = null;
+            List<FavouriteGroup> favGroupList = null;
+            List<FavouriteStudent> favStudentList = null;
             ArrayList<Node> favNodes = new ArrayList<>();
             if (user != null) {
                 try {
@@ -343,7 +351,8 @@ public class HomeScreenController {
 
 class Node extends TreeItem<Object> {
 
-    Node() {}
+    Node() {
+    }
 
     Node(Object obj) {
         super(obj);
@@ -398,9 +407,9 @@ class Node extends TreeItem<Object> {
     }
 
     Node getNode(String uniqueId) {
-        for (TreeItem treeItem: this.getChildren()) {
+        for (TreeItem treeItem : this.getChildren()) {
             Node child = (Node) treeItem;
-            Node result =  getNode(child, uniqueId);
+            Node result = getNode(child, uniqueId);
             if (result != null) {
                 return result;
             }
@@ -417,11 +426,11 @@ class Node extends TreeItem<Object> {
     }
 
     Semester getSemester() {
-        if(getValue() instanceof Semester) {
+        if (getValue() instanceof Semester) {
             return (Semester) getValue();
-        } else if(getValue()  instanceof Groupage) {
+        } else if (getValue() instanceof Groupage) {
             return ((Groupage) getValue()).getSemester();
-        } else if(getValue() instanceof Group) {
+        } else if (getValue() instanceof Group) {
             return ((Group) getValue()).getGroupage().getSemester();
         } else {
             return ((Student) getValue()).getGroup().getGroupage().getSemester();
