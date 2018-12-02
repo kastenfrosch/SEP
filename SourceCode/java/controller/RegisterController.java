@@ -144,7 +144,8 @@ public class RegisterController {
         try {
             userDao.create(user);
             codeDao.update(checkCode);
-
+            InfoModal.show("Der User "+ user.getUsername().toString()+ " wurde erstellt");
+            SceneManager.getInstance().closeWindow(SceneType.REGISTER);
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
