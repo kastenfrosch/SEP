@@ -105,7 +105,7 @@ public class CreateStudentController {
         }
         // making sure that mail adress is valid using the  validateMailAddress.
 
-        if (!validateMailAddress(emailInput.getText())) {
+        if (validateMailAddress(emailInput.getText())==false) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
@@ -143,12 +143,12 @@ public class CreateStudentController {
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
         try {
-            new InternetAddress(adr);
+            InternetAddress address = new InternetAddress(adr);
+            address.validate();
+            return true;
         } catch (AddressException e) {
             return false;
-        }
-        return true;
-    }
+        }}
 
     @FXML
     //back to homeview
