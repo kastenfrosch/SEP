@@ -1,0 +1,14 @@
+title Tardy
+
+#this is here so Benutzer is first in the graphic
+participant Benutzer
+
+Anwendung->Datenbank: Anwesenheitsdaten für Klasse, Gruppe anfordern
+Datenbank->Anwendung: Anwesenheitsdaten senden
+Anwendung->Benutzer: Anwesenheit anzeigen
+loop Fenster offen
+opt
+Benutzer->Anwendung: Eintrag aktualisieren
+Anwendung->Datenbank: Eintrag aktualisieren
+Anwendung->Benutzer: Aktualisierten Eintrag anzeigen
+end
