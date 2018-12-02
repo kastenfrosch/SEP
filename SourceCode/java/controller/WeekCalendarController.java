@@ -141,7 +141,7 @@ public class WeekCalendarController {
             for (var i : entries) {
                 Entry<CalendarEntry> e = new Entry<>(i.getDescription());
                 e.setUserObject(i);
-                e.setInterval(i.getStartTimeAsLocalDateTime(), i.getEndTime());
+                e.setInterval(i.getStartTimeAsLocalDateTime(), (i.getEndTime() == null ? i.getStartTimeAsLocalDateTime().plusMinutes(1) : i.getEndTime()));
                 this.calendarView.getCalendars().get(0).addEntries(e);
             }
         } catch (SQLException ex) {
