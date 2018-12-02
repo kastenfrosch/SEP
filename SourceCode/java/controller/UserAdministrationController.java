@@ -57,17 +57,26 @@ public class UserAdministrationController {
     @FXML
     public void onEditBtnClicked(ActionEvent event) {
         //creating the user dao with the edit attributes
+        try{
         User selectedItem = listView.getSelectionModel().getSelectedItem();
         SceneManager.getInstance()
                 .getLoaderForScene(SceneType.EDIT_USER)
                 .<EditUserController>getController()
                 .setUser(selectedItem);
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_USER);
-    }
+    }catch(NullPointerException ex){
+            ErrorModal.show("Bitte wähle einen User aus.");
+        }
+
+        }
 
     @FXML
     public void onDeleteBtnClicked(ActionEvent event) {
         //check if user wants to delete the groupage
+        if(listView.getSelectionModel().getSelectedItem()==null){
+            ErrorModal.show("Bitte wähle einen User aus");
+            return;
+        }
         boolean confirm = ConfirmationModal.show("Soll der User wirklich gelöscht werden?");
         if (!confirm) {
             return;
