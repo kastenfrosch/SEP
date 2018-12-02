@@ -2,6 +2,7 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -97,50 +98,9 @@ public class NotesTabController {
     }
 
     public void editButton(ActionEvent actionEvent) {
-        if (notesListView.getSelectionModel().isEmpty()) {
-            InfoModal.show("Bitte wählen Sie eine Notiz aus.");
+        if(notesListView.getSelectionModel().isEmpty()) {
+            InfoModal.show("Bitte wählen Sie die zu editierende Notiz aus.");
             return;
-        }
-        SceneType sceneType = null;
-        SceneManager sm = SceneManager.getInstance();
-        if(this.objectType instanceof Student) {
-            Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-            for (StudentNotepad s : studentNotepadDao) {
-                if (s.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = s.getNotepad();
-                }
-            }
-            if (sceneType == null) {
-                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
-                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-        else if(this.objectType instanceof Group) {
-            Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-            for(GroupNotepad g : groupNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
-                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-        else if(this.objectType instanceof Groupage) {
-            Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-            for(GroupageNotepad g : groupageNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
-                sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
-                        .setNotepad(this.notepad);
-            }
         }
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
@@ -164,8 +124,6 @@ public class NotesTabController {
                         if(notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad().getNotepadName())) {
                             studentNotepadDao.delete(n);
                             notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().notesListView.getItems().remove(n.getNotepad().getNotepadName());
                         }
                     }
                 }
@@ -205,56 +163,15 @@ public class NotesTabController {
     }
 
     public void showNoteButton(ActionEvent actionEvent) {
-        if (notesListView.getSelectionModel().isEmpty()) {
+        if(notesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
         }
-        SceneType sceneType = null;
-        SceneManager sm = SceneManager.getInstance();
-        if(this.objectType instanceof Student) {
-            Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-            for (StudentNotepad s : studentNotepadDao) {
-                if (s.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = s.getNotepad();
-                }
-            }
-            if (sceneType == null) {
-                sceneType = SceneType.NOTE_WINDOW;
-                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                        .setNotepad(this.notepad);
-            }
-            }
-        else if(this.objectType instanceof Group) {
-            Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-            for(GroupNotepad g : groupNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.NOTE_WINDOW;
-                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-        else if(this.objectType instanceof Groupage) {
-            Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-            for(GroupageNotepad g : groupageNotepadDao) {
-                if(g.getNotepad().getNotepadName().equals(notesListView.getSelectionModel().getSelectedItem())) {
-                    this.notepad = g.getNotepad();
-                }
-            }
-            if(sceneType == null) {
-                sceneType = SceneType.NOTE_WINDOW;
-                sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                        .setNotepad(this.notepad);
-            }
-        }
-         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
+     //   SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
     public void cancelButton(ActionEvent actionEvent) {
-        SceneManager.getInstance().closeWindow(SceneType.NOTESTAB_WINDOW);
+       // SceneManager.getInstance().closeWindow(SceneType.NOTESTAB_WINDOW);
     }
 
     public void setObject(Object object) {this.objectType = object;} //Getting Object Type (Group, Groupage or Student)

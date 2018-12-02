@@ -67,28 +67,15 @@ public class SemesterplanController {
         lectureContentCol.setCellValueFactory(new PropertyValueFactory<>("lectureInfo"));
         workingPhaseCol.setCellValueFactory(new PropertyValueFactory<>("workphaseInfo"));
 
-
-        sepDatesCol.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<>() {
-            @Override
-            public String toString(LocalDate localDate) {
-                //TODO why is localDate null when a new Tardy is created
-                if(localDate == null) {
-                    return "";
-                }
-                return TimeUtils.toSimpleDateString(LocalDateTime.of(localDate, LocalTime.of(0, 0, 0)));
-            }
-
-            @Override
-            public LocalDate fromString(String s) {
-                return TimeUtils.localDateFromString(s);
-            }
-        }));
+        //TODO: sepDatesCol.setCellFactory()
+        sepDatesCol.setCellFactory(TextFieldTableCell.forTableColumn(sepDatePicker.getConverter()));
         cwCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         meetingNoCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         iterationCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lectureContentCol.setCellFactory(TextFieldTableCell.forTableColumn());
         workingPhaseCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        //TODO: sepDatesCol.setOnEditCommit()
         cwCol.setOnEditCommit(event -> {
             try {
                 CalendarExtraInfo table = semesterplan.getSelectionModel().getSelectedItem();
@@ -166,7 +153,8 @@ public class SemesterplanController {
         CalendarExtraInfo c = new CalendarExtraInfo();
         CalendarEntry calendarEntry = new CalendarEntry();
         calendarEntry.setStartTime(LocalDateTime.of(2018, 10,8,0,0));
-        //TODO: table.setCalendarEntry() hinzufügen
+
+        //TODO: table.setCalendarEntry() hinzufügen bzw. einen richtugen CalendarEntry
         c.setCalendarEntry(calendarEntry);
         c.setCalendarWeek(41);
         c.setMeetingNo(0);
