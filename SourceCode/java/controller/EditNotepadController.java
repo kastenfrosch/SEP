@@ -29,7 +29,7 @@ public class EditNotepadController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     public TextArea editNotepadTextarea;
     @FXML
@@ -45,20 +45,20 @@ public class EditNotepadController {
 
     public void initialize() {
         //Initializing ComboBox
-        ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
-                                                                                   "Niedrig", "Neutral");
+        ObservableList<String> prioritaet = FXCollections.observableArrayList("Gut", "Mittel",
+                "Schlecht", "Ohne Zuordnung");
         editNotepadPriorityComboBox.setItems(prioritaet);
     }
 
     public void setPriority(ActionEvent actionEvent) {
         //Setting Colors in relation to the chosen priority
-        if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
+        if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
             editNotepadTextarea.setStyle("-fx-background-color: red");
         } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
             editNotepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Niedrig")) {
+        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
             editNotepadTextarea.setStyle("-fx-background-color: green");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
+        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
             editNotepadTextarea.setStyle("-fx-background-color: grey");
         }
     }
@@ -123,10 +123,10 @@ public class EditNotepadController {
             }
             //Adding the edited Notepad to the List in NotesTab
             SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                    <NotesTabController>getController().notesListView.getItems().add(this.notepad.getNotepadName());
+                    <NotesTabController>getController().notesListView.getItems().add(this.notepad);
             //Removing the Notepad which was to be edited in the List in NotesTab
             SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                    <NotesTabController>getController().notesListView.getItems().remove(ersatz.getNotepadName());
+                    <NotesTabController>getController().notesListView.getItems().remove(ersatz);
 
             InfoModal.show("Notiz" + editNotepadName.getText() + " wurde geändert!");
         } catch (SQLException e) {
@@ -149,16 +149,16 @@ public class EditNotepadController {
         editNotepadPriorityComboBox.getSelectionModel().select(notepad.getNotepadPriority());
         editNotepadTextarea.setText(notepad.getNotepadContent());
         //Setting Colors
-        if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
+        if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
             editNotepadTextarea.setStyle("-fx-background-color: red");
         }
         else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
             editNotepadTextarea.setStyle("-fx-background-color: yellow");
         }
-        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Niedrig")) {
+        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
             editNotepadTextarea.setStyle("-fx-background-color: green");
         }
-        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
+        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
             editNotepadTextarea.setStyle("-fx-background-color: grey");
         }
     }

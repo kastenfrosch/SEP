@@ -43,22 +43,22 @@ import java.sql.SQLException;
         @FXML
         public void initialize() {
             //initializing ComboBox
-            ObservableList<String> prioritaet = FXCollections.observableArrayList("Hoch", "Mittel",
-                                                                                        "Niedrig", "Neutral");
+            ObservableList<String> prioritaet = FXCollections.observableArrayList("Gut", "Mittel",
+                                                                                        "Schlecht", "Ohne Zuordnung");
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
-            notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Hoch"
+            notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Gut"
         }
 
         public void setPriority(ActionEvent actionEvent) {
             //Setting Colors in relation to the chosen priority
-            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Hoch")) {
+            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
                 notepadTextarea.setStyle("-fx-background-color: red");
             } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
                 notepadTextarea.setStyle("-fx-background-color: yellow");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Niedrig")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
                 notepadTextarea.setStyle("-fx-background-color: green");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Neutral")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
                 notepadTextarea.setStyle("-fx-background-color: grey");
             }
             else {
@@ -109,7 +109,7 @@ import java.sql.SQLException;
                     studentNotepadDao.create(studentNotepad);
                     //Refreshing NotesTab & adding created Notepad
                     SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                            <NotesTabController>getController().notesListView.getItems().add(studentNotepad.getNotepad().getNotepadName());
+                            <NotesTabController>getController().notesListView.getItems().add(studentNotepad.getNotepad());
                 }
                 else if(this.objectType instanceof Groupage) {
                     GroupageNotepad groupageNotepad = new GroupageNotepad();
@@ -119,7 +119,7 @@ import java.sql.SQLException;
                     Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
                     groupageNotepadDao.create(groupageNotepad);
                     SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                            <NotesTabController>getController().notesListView.getItems().add(groupageNotepad.getNotepad().getNotepadName());
+                            <NotesTabController>getController().notesListView.getItems().add(groupageNotepad.getNotepad());
                 }
                 else if(this.objectType instanceof Group) {
                     GroupNotepad groupNotepad = new GroupNotepad();
@@ -129,7 +129,7 @@ import java.sql.SQLException;
                     Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
                     groupNotepadDao.create(groupNotepad);
                     SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                            <NotesTabController>getController().notesListView.getItems().add(groupNotepad.getNotepad().getNotepadName());
+                            <NotesTabController>getController().notesListView.getItems().add(groupNotepad.getNotepad());
                 }
 
                 InfoModal.show("Notiz \"" + noteName + "\" erstellt!");

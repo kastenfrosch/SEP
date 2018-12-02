@@ -45,7 +45,7 @@ public class NoteWindowController {
     }
 
     public void closeButton(ActionEvent actionEvent) {
-      //  SceneManager.getInstance().closeWindow(SceneType.NOTE_WINDOW);
+        SceneManager.getInstance().closeWindow(SceneType.NOTE_WINDOW);
     }
 
     public void setNotepad(Notepad notepad) { //Getting infos of opened Notepad
