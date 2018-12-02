@@ -58,6 +58,8 @@ public class ChatWindowController {
         // initialize userView
         try {
             // initializing an ObservableList which is filled with all the existing usernames except oneself
+
+            this.currentUser = DBManager.getInstance().getLoggedInUser();
             ObservableList<User> userList = FXCollections.observableArrayList();
             Dao<User, String> userDao = dbManager.getUserDao();
             userList.addAll(userDao.queryForAll());
