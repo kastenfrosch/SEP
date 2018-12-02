@@ -16,12 +16,13 @@
         <Pane prefHeight="96.0" prefWidth="1200.0">
             <children>
                 <Button id="btnAdd" fx:id="addButton" layoutX="1067.0" layoutY="33.0" mnemonicParsing="false" onAction="#onAddBtnClicked" text="Hinzufügen" />
-                <Button id="btnDelete" fx:id="deleteBtn" layoutX="983.0" layoutY="33.0" mnemonicParsing="false" onAction="#onDeleteBtnClicked" text="Löschen" />
+                <Button id="btnDelete" fx:id="deleteBtn" layoutX="983.0" layoutY="33.0" mnemonicParsing="false" onAction="#onDeleteBtnClicked" prefHeight="25.0" prefWidth="77.0" text="Löschen" />
                 <Text layoutX="460.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semesterplan">
                     <font>
                         <Font size="47.0" />
                     </font>
                 </Text>
+            <Button fx:id="tardyBtn" layoutX="892.0" layoutY="33.0" mnemonicParsing="false" onAction="#onTardyBtnClicked" prefHeight="25.0" prefWidth="85.0" text="Anwesenheit" />
             </children>
         </Pane>
         <TableView fx:id="semesterplan" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="1200.0">
