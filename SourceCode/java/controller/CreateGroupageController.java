@@ -65,7 +65,8 @@ public class CreateGroupageController {
     }
 
     public void addGroupageCancelButton(ActionEvent actionEvent) {
-        SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUPAGE);
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
     }
 
     public void addGroupageAddSafeButton(ActionEvent actionEvent) {
@@ -96,11 +97,12 @@ public class CreateGroupageController {
             groupageDao.create(groupage);
             InfoModal.show("Klasse \"" + name + "\" erstellt!");
 
+            SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                    <HomeScreenController>getController().setSelectedNode(groupage);
+
         } catch (java.sql.SQLException e) {
             ErrorModal.show("Die Klasse konnte nicht erstellt werden: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            SceneManager.getInstance().closeWindow(SceneType.CREATE_GROUPAGE);
         }
 
     }

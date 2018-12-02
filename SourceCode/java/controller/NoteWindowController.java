@@ -42,17 +42,6 @@ public class NoteWindowController {
         } else if (priorityLabel.getText().equals("Neutral")) {
             notepadTextarea.setStyle("-fx-background-color: grey");
         }
-        /*
-        Dao<Notepad, Integer> notepadDao = db.getNotepadDao(); //Testing
-        Notepad notepad = notepadDao.queryForId(8);
-
-        Dao<StudentNotepad, Integer> studentNotepad = db.getStudentNotepadDao(); //Testing
-        StudentNotepad studentNote = studentNotepad.queryForId(2);
-
-        notepadTextarea.setText(studentNote.getNotepad().getNotepadContent());
-        nameLabel.setText(studentNote.getNotepad().getNotepadName());
-        priorityLabel.setText(studentNote.getNotepad().getNotepadPriority());
-        */
     }
 
     public void closeButton(ActionEvent actionEvent) {

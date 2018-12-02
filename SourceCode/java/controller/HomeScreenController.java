@@ -67,12 +67,6 @@ public class HomeScreenController {
     }
 
     @FXML
-    void onAddSemesterButtonClicked(ActionEvent event) {
-        tabPane.getSelectionModel().select(detailsTab);
-        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_SEMESTER).getRoot());
-    }
-
-    @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
         tabPane.getSelectionModel().select(detailsTab);
         selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUPAGE).getRoot());
@@ -82,6 +76,12 @@ public class HomeScreenController {
     void onAddGroupButtonClicked(ActionEvent event) {
         tabPane.getSelectionModel().select(detailsTab);
         selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUP).getRoot());
+    }
+
+    @FXML
+    void onAddSemesterButtonClicked(ActionEvent event) {
+        tabPane.getSelectionModel().select(detailsTab);
+        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_SEMESTER).getRoot());
     }
 
     @FXML
@@ -148,7 +148,10 @@ public class HomeScreenController {
 
     @FXML
     public void initialize() {
+        selectedTab = detailsTab;
+
         getData();
+        drawTreeView();
 
         treeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         treeView.getSelectionModel().selectedItemProperty().addListener((ov, oldNode, newNode) -> {
@@ -156,13 +159,10 @@ public class HomeScreenController {
             showTabContent();
         });
 
-        selectedTab = detailsTab;
         tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             selectedTab = newTab;
             showTabContent();
         });
-
-        drawTreeView();
 
         Callable c = () -> {
             Platform.runLater(() -> {
@@ -240,6 +240,11 @@ public class HomeScreenController {
     }
 
     void drawTreeView() {
+        ArrayList<Node> expandedNodes = null;
+        expandedNodes = getExpandedNodes();
+
+        Node selectedNodeTmp = selectedNode;
+
         treeViewRoot = new Node();
 
         for (Semester sem : semesterList) {
@@ -265,11 +270,6 @@ public class HomeScreenController {
             }
         }
 
-        treeView.setShowRoot(false);
-        treeView.setRoot(treeViewRoot);
-
-        ArrayList<Node> expandedNodes = null;
-        expandedNodes = getExpandedNodes();
         if (expandedNodes != null) {
             treeViewRoot.expandChildren(expandedNodes);
         }
@@ -284,13 +284,20 @@ public class HomeScreenController {
                     }
                 }
 
-                selectedNode = treeViewRoot.getNode(user.getLastItem());
+                selectedNodeTmp = treeViewRoot.getNode(user.getLastItem());
 
                 isRunning = true;
             }
+        } else {
+            if (selectedNodeTmp != null) {
+                selectedNodeTmp = treeViewRoot.getNode(selectedNodeTmp.getUniqueId());
+            }
         }
 
-        treeView.getSelectionModel().select(selectedNode);
+        treeView.setShowRoot(false);
+        treeView.setRoot(treeViewRoot);
+
+        treeView.getSelectionModel().select(selectedNodeTmp);
     }
 
     ArrayList<Node> getExpandedNodes() {
@@ -330,7 +337,7 @@ public class HomeScreenController {
     }
 
     public void setSelectedNode(Object obj) {
-        treeView.getSelectionModel().select(new Node(obj));
+        selectedNode = new Node(obj);
     }
 }
 
@@ -372,6 +379,7 @@ class Node extends TreeItem<Object> {
             }
         }
     }
+
 
     String getUniqueId() {
         if (getValue() instanceof Semester) {

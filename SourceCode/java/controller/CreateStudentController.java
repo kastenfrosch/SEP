@@ -132,14 +132,12 @@ public class CreateStudentController {
             //notification that the student is now created
             if (student.getId() != 0) {
                 InfoModal.show("Der Student \"" + firstnameInput.getText() +" "+ lastnameInput.getText()+ "\" wurde erstellt!");}
-
+            SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                    <HomeScreenController>getController().setSelectedNode(student);
         } catch (java.sql.SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-        //back to homeview
-        SceneManager.getInstance().closeWindow(SceneType.CREATE_STUDENT);
-
     }
 
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
@@ -155,7 +153,8 @@ public class CreateStudentController {
     @FXML
     //back to homeview
     void onCancelBtnClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneType.CREATE_STUDENT);
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
     }
 
 
