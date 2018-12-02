@@ -45,9 +45,6 @@ public class EditGroupageController {
     private ComboBox<Semester> semesterComboBox;
 
     @FXML
-    private Button cancelButton;
-
-    @FXML
     private AnchorPane anchorPane;
 
     @FXML
@@ -90,10 +87,8 @@ public class EditGroupageController {
 
     @FXML
     public void onCancelBTNClicked(ActionEvent event) {
-        //back to homeview
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUPAGE);
-
-
+        SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                <HomeScreenController>getController().showTabContent();
     }
 
     @FXML
@@ -118,41 +113,15 @@ public class EditGroupageController {
             //update the groupage in the database
             groupageDao.update(groupage);
             if (this.groupage.getId() != 0) {
-                InfoModal.show("Klasse \"" + nameTextfield.getText() + "\" wurde geändert!");}
+                InfoModal.show("Klasse \"" + nameTextfield.getText() + "\" wurde geändert!");
+                SceneManager.getInstance().getLoaderForScene(SceneType.HOME).
+                        <HomeScreenController>getController().setSelectedNode(groupage);
+            }
 
         } catch (SQLException e) {
          ErrorModal.show(e.getMessage());
          e.printStackTrace();
         }
-        // back to homeview
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUPAGE);
-    }
-
-
-    public void onDeleteBTNClicked(ActionEvent event) {
-        //check if user wants to delete the groupage
-        boolean confirm = ConfirmationModal.show("Soll der Student wirklich gelöscht werden?");
-        if (!confirm) {
-            return;
-        }
-
-
-        Dao<Groupage, Integer> groupageDao = dbManager.getGroupageDao();
-        try {
-            //delete the groupage dao from the database
-            groupageDao.delete(groupage);
-        } catch (SQLException e) {
-            ErrorModal.show("Die Klasse konnte nicht gelöscht werden. Bitte stellen Sie sicher, dass keine Gruppen mehr dieser Klasse zugeordnet sind.");
-        }
-        //back to the homeview
-        SceneManager.getInstance().closeWindow(SceneType.EDIT_GROUPAGE);
-
-
-    }
-
-    @FXML
-    public void addToGroup(ActionEvent event) {
-
     }
 
     @FXML
