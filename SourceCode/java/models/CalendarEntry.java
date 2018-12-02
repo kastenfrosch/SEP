@@ -29,7 +29,7 @@ public class CalendarEntry {
     private int entryId;
 
     @DatabaseField(columnName = FIELD_CALENDAR_ID, canBeNull = false, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references calendar(calendar_id)")
+            columnDefinition = "integer not null references calendar(calendar_id) on delete cascade")
     private Calendar calendar;
 
     @DatabaseField(columnName = FIELD_DESCRIPTION, canBeNull = false)

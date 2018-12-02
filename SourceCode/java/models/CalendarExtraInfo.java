@@ -18,7 +18,7 @@ public class CalendarExtraInfo {
     private int id;
 
     @DatabaseField(columnName = FIELD_CALENDAR_ENTRY_ID, foreign = true, foreignAutoRefresh = true, unique = true,
-            columnDefinition = "integer not null references calendar_entry(entry_id)")
+            columnDefinition = "integer not null references calendar_entry(entry_id) on delete cascade")
     private CalendarEntry calendarEntry;
 
     @DatabaseField(columnName=FIELD_INFO_ITERATION)
