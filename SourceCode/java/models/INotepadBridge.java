@@ -16,10 +16,12 @@ public interface INotepadBridge {
         if (entity instanceof Groupage) {
             bridge = new GroupageNotepad();
             ((GroupageNotepad) bridge).setGroupage((Groupage) entity);
+            bridge.setNotepad(notepad);
 
         } else if (entity instanceof Group) {
             bridge = new GroupNotepad();
             ((GroupNotepad) bridge).setGroup((Group) entity);
+            bridge.setNotepad(notepad);
         } else if (entity instanceof Student) {
             bridge = new StudentNotepad();
             ((StudentNotepad) bridge).setStudent((Student) entity);
