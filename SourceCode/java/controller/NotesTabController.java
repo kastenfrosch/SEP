@@ -1,4 +1,4 @@
-/*package controller;
+package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
@@ -14,6 +14,7 @@ import modal.InfoModal;
 import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
+
 import java.sql.SQLException;
 
 public class NotesTabController {
@@ -51,7 +52,7 @@ public class NotesTabController {
             if (this.objectType instanceof Student) {
                 ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (StudentNotepad s : db.getStudentNotepadDao()) {
-                    if ((db.getLoggedInUser() == s.getNotepad().getUser()) && ((((Student) this.objectType).getId() == s.getStudent().getId()))) {
+                    if (((((Student) this.objectType).getId() == s.getStudent().getId()))) {
                         list.add(s.getNotepad());
                     }
                 }
@@ -61,13 +62,11 @@ public class NotesTabController {
                 notesListView.getItems().clear(); //not needed if list is definitly empty
                 db.getStudentNotepadDao().queryForMatching(suitingStudent).stream()
                         .map(StudentNotepad::getNotepad)
-                        .filter(n -> n.getUser().equals(db.getLoggedInUser()))
                         .forEach(notesListView.getItems()::add);
-            }
-            else if (this.objectType instanceof Groupage) {
+            } else if (this.objectType instanceof Groupage) {
                 ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (GroupageNotepad s : db.getGroupageNotepadDao()) {
-                    if (db.getLoggedInUser() == s.getNotepad().getUser() && (((Groupage) this.objectType).getId() == s.getGroupage().getId())) {
+                    if ((((Groupage) this.objectType).getId() == s.getGroupage().getId())) {
                         list.add(s.getNotepad());
                     }
                 }
@@ -77,13 +76,11 @@ public class NotesTabController {
                 notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
                 db.getGroupageNotepadDao().queryForMatching(suitingGroupage).stream()
                         .map(GroupageNotepad::getNotepad)
-                        .filter(n -> n.getUser().equals(db.getLoggedInUser()))
                         .forEach(notesListView.getItems()::add);
-            }
-            else if (this.objectType instanceof Group) {
+            } else if (this.objectType instanceof Group) {
                 ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (GroupNotepad s : db.getGroupNotepadDao()) {
-                    if (db.getLoggedInUser() == s.getNotepad().getUser() && ((Group) this.objectType).getId() == s.getGroup().getId()) {
+                    if (((Group) this.objectType).getId() == s.getGroup().getId()) {
                         list.add(s.getNotepad());
                     }
                 }
@@ -93,7 +90,6 @@ public class NotesTabController {
                 notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
                 db.getGroupNotepadDao().queryForMatching(suitingGroup).stream()
                         .map(GroupNotepad::getNotepad)
-                        .filter(n -> n.getUser().equals(db.getLoggedInUser()))
                         .forEach(notesListView.getItems()::add);
             }
             notesListView.setCellFactory(new Callback<ListView<Notepad>, ListCell<Notepad>>() {
@@ -173,8 +169,7 @@ public class NotesTabController {
                                     <NotesTabController>getController().initialize();
                         }
                     }
-                }
-                else if (this.objectType instanceof Group) {
+                } else if (this.objectType instanceof Group) {
                     Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
                     for (GroupNotepad n : groupNotepadDao) {
                         if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
@@ -184,8 +179,7 @@ public class NotesTabController {
                                     <NotesTabController>getController().initialize();
                         }
                     }
-                }
-                else if (this.objectType instanceof Groupage) {
+                } else if (this.objectType instanceof Groupage) {
                     Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
                     for (GroupageNotepad n : groupageNotepadDao) {
                         if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
@@ -235,4 +229,4 @@ public class NotesTabController {
         this.objectType = object;
         initialize();
     }
-}*/
+}
