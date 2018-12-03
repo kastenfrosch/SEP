@@ -5,13 +5,15 @@ import connection.DBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.*;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
+
 
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -22,11 +24,11 @@ public class TimetableWindowController {
 
 
     public ComboBox <Calendar>cbg;
-    ArrayList<Label> mon = new ArrayList<>();
-    ArrayList<Label> di = new ArrayList<>();
-    ArrayList<Label> mi = new ArrayList<>();
-    ArrayList<Label> don = new ArrayList<>();
-    ArrayList<Label> f = new ArrayList<>();
+   private ArrayList<Label> mon = new ArrayList<>();
+   private ArrayList<Label> di = new ArrayList<>();
+   private ArrayList<Label> mi = new ArrayList<>();
+   private ArrayList<Label> don = new ArrayList<>();
+   private ArrayList<Label> f = new ArrayList<>();
     @FXML
     public GridPane gridPane;
     public Label m1;
@@ -80,6 +82,11 @@ public class TimetableWindowController {
         }
     }
 
+
+
+
+
+    //Load Timetable
     public void LoadTimetable(){
 
         if (cbg.getSelectionModel().getSelectedItem() == null) {
@@ -107,14 +114,20 @@ public class TimetableWindowController {
 
 
     }
+
+
+    //
     public void initialize() {
 
-        append();
 
     loadboxes();
 
     }
 
+
+
+
+    //Load availbe timetable
     public void loadboxes(){
         try {
 
@@ -129,6 +142,8 @@ public class TimetableWindowController {
             e.printStackTrace();
         }
     }
+
+    //Show Timetable
     public void getMonday(ArrayList<Label> array,Calendar calendar){
 
         Iterator<Label> i = array.iterator();
@@ -143,9 +158,9 @@ public class TimetableWindowController {
             Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
             try {
 
-                    CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
-                    array.get(currentmonday).setText(e.getDescription());
-              //  }
+                CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
+                array.get(currentmonday).setText(e.getDescription());
+                //  }
 
                 System.out.print("MONDAY"+hour+"   ");
 
@@ -288,12 +303,27 @@ public class TimetableWindowController {
 
 
     }
+
+
+
+    //Delete single Timetable
     public void deleteCalendar(){
+
         CreateTimetableController ctc = new CreateTimetableController();
+
         ctc.CalendarComboBox(cbg);
         loadboxes();
     }
-    public void append(){
+
+    public void OpenCreate(){
+        SceneManager.getInstance()
+                .getLoaderForScene(SceneType.CREATE_TIMETABLE)
+                .<CreateTimetableController>getController();
+        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_TIMETABLE);
+    }
+
+    //Append texfields to ArrayList<Textfield>
+    public int append(int test){
         mon.add(m1);
         mon.add(m2);
         mon.add(m3);
@@ -329,7 +359,13 @@ public class TimetableWindowController {
         f.add(f5);
         f.add(f6);
 
+        test = mon.size()+di.size()+mi.size()+don.size()+f.size();
+        System.out.print("-------------------------"+test+"-------------------------------"+"Must be 30 (timeslots)6*5(days)");
+      return test;
+
     }
+
+    //ReloadCombobox
    public void Reload(){
         loadboxes();
    }
