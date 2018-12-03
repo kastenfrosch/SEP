@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,11 +16,12 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Text;
 import javafx.util.converter.IntegerStringConverter;
 import modal.ErrorModal;
-import models.Calendar;
-import models.CalendarEntry;
-import models.CalendarExtraInfo;
-import models.Semester;
+import modal.InfoModal;
+import models.*;
 import utils.TimeUtils;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
+
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -37,10 +39,15 @@ public class SemesterplanController {
     public Button deleteBtn;
     @FXML
     public Text titleText;
+    @FXML
+    private Button tardyBtn;
+    @FXML
+    private ComboBox<Groupage> groupageComboBox;
 
     private Dao<CalendarExtraInfo, Integer> calendarExtraInfoDao;
     private Dao<CalendarEntry, Integer> calendarEntryDao;
     private Dao<Calendar, Integer> calendarDao;
+    private Dao<Groupage, Integer> groupageDao;
 
     private Semester semester;
     private Calendar calendar;
@@ -53,6 +60,7 @@ public class SemesterplanController {
             calendarExtraInfoDao = db.getCalendarExtraInfoDao();
             calendarEntryDao = db.getCalendarEntryDao();
             calendarDao = db.getCalendarDao();
+            groupageDao = db.getGroupageDao();
         } catch (SQLException e) {
             ErrorModal.show("Der Semesterplan konnten nicht geladen werden!");
             return;
@@ -164,6 +172,13 @@ public class SemesterplanController {
         lectureContentCol.setEditable(true);
         workingPhaseCol.setEditable(true);
 
+        sepDatesCol.setMinWidth(100);
+        sepDatesCol.setMaxWidth(100);
+        cwCol.setMinWidth(30);
+        cwCol.setMaxWidth(30);
+        meetingNoCol.setMinWidth(80);
+        meetingNoCol.setMaxWidth(80);
+
 
         semesterplan.getColumns().clear();
         semesterplan.getColumns().addAll(sepDatesCol, cwCol, meetingNoCol, iterationCol, lectureContentCol, workingPhaseCol);
@@ -242,11 +257,32 @@ public class SemesterplanController {
 
             this.semesterplan.setItems(extraInfo);
 
+            ObservableList<Groupage> groupagesInSemester = FXCollections.observableArrayList();
+
+            groupagesInSemester.addAll(groupageDao.queryForEq(Groupage.FIELD_SEMESTER_ID, this.semester.getId()));
+
+            this.groupageComboBox.setItems(groupagesInSemester);
+
 
         } catch (SQLException ex) {
             ErrorModal.show("Der Semesterplan konnte nicht geladen werden!");
         }
+    }
 
+    public void onTardyBtnClicked(ActionEvent event) {
+        CalendarExtraInfo selectedItem = semesterplan.getSelectionModel().getSelectedItem();
+        if(selectedItem == null) {
+            InfoModal.show("Bitte wählen Sie ein Element aus.");
+            return;
+        }
+        if(this.groupageComboBox.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("Bitte wählen Sie eine Klasse aus.");
+            return;
+        }
 
+        SceneManager.getInstance().getLoaderForScene(SceneType.TARDY_VIEW)
+                .<TardyController>getController()
+                .setArgs(selectedItem.getCalendarEntry(), groupageComboBox.getSelectionModel().getSelectedItem());
+        SceneManager.getInstance().showInNewWindow(SceneType.TARDY_VIEW);
     }
 }
