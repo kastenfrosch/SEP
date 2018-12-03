@@ -4,14 +4,12 @@ import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.*;
-import org.w3c.dom.Text;
+
 
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -23,20 +21,14 @@ public class CreateTimetableController {
 
     public ComboBox<Semester> cbs;
     public ComboBox <Groupage>cbk;
-    public Button loadtimetable;
     public ComboBox <Calendar>cbg;
 
-    ArrayList<TextField> mon = new ArrayList<TextField>();
-    ArrayList<TextField> di = new ArrayList<TextField>();
-    ArrayList<TextField> mi = new ArrayList<TextField>();
-    ArrayList<TextField> don = new ArrayList<TextField>();
-    ArrayList<TextField> f = new ArrayList<TextField>();
+    private ArrayList<TextField> mon = new ArrayList<>();
+    private ArrayList<TextField> di = new ArrayList<>();
+    private ArrayList<TextField> mi = new ArrayList<>();
+    private ArrayList<TextField> don = new ArrayList<>();
+    private ArrayList<TextField> f = new ArrayList<>();
 
-    ArrayList<Label> monl = new ArrayList<Label>();
-    ArrayList<Label> dil = new ArrayList<Label>();
-    ArrayList<Label> mil = new ArrayList<Label>();
-    ArrayList<Label> donl = new ArrayList<Label>();
-    ArrayList<Label> fl = new ArrayList<Label>();
 
     public TextField m1;
     public TextField m2;
@@ -73,7 +65,6 @@ public class CreateTimetableController {
     public TextField f5;
     public TextField f6;
     public Calendar calendar;
-    public int retryCreate =0;
     public Semester semester;
     private Groupage groupage;
 
@@ -95,7 +86,6 @@ public class CreateTimetableController {
         Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
         Dao<CalendarEntry, Integer> CalendarEntryDao = db.getCalendarEntryDao();
 
-
         try {
             Calendar cal =CalendarDao.queryForId(calendarComboBox.getSelectionModel().getSelectedItem().getCalendarId());
             CalendarEntryDao.delete(cal.getCalendarEntries());
@@ -113,6 +103,7 @@ public class CreateTimetableController {
         loadboxes();
     }
 
+    //Load avaible timetable
     public void loadboxes(){
         try {
 
@@ -143,6 +134,7 @@ public class CreateTimetableController {
         }
     }
 
+    // Get the Groupages for the selected semester
     public void getGroupageForSemester(){
 
         Groupage group = new Groupage();
@@ -163,6 +155,7 @@ public class CreateTimetableController {
 
     }
 
+    // Load Timetable into the textfields
     public void LoadTimetable(){
 
         Calendar calendar;
@@ -185,53 +178,36 @@ public class CreateTimetableController {
 
     }
 
-//    public void deleteEntries(){
-//        //Löschen Aller Calendar für Testzwcke
-//        /////////////////////////////////////////////////////////////////////////7
-//        CalendarEntry entry = new CalendarEntry();
-//        Dao<CalendarEntry, Integer> CalendarEntryDao = db.getCalendarEntryDao();
-//
-//        try {
-//            CalendarEntryDao.delete(CalendarEntryDao.queryForAll());
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//
-//
-//        Calendar calendar = new Calendar();
-//        Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
-//
-//        try {
-//            CalendarDao.delete(CalendarDao.queryForAll());
-//        } catch (SQLException e1) {
-//            e1.printStackTrace();
-//        }
-////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//
-////löschen eines einzigen calendars
-//        ////////////////////////////////////////////////////
-////        CalendarEntry calendarEntry2 = new CalendarEntry();
-////        Calendar calendar2 = new Calendar();
-////        Dao<Calendar, Integer> CalendarDao2 = db.getCalendarDao();
-////        Dao<CalendarEntry, Integer> CalendarEntryDao2 = db.getCalendarEntryDao();
-////
-////
-////        try {
-////            Calendar cal =CalendarDao2.queryForId(9);   // hier muss später dass von der comboBox ausgewählt hin (CalendarName)
-////            calendarEntry2.setCalendar(cal);
-////            CalendarEntryDao.delete(calendarEntry2);
-////            CalendarDao2.delete(cal);
-////        } catch (SQLException e) {
-////            e.printStackTrace();
-////        }
-//////////////////////////////////////////////////////
-//
-//    }
 
+    //Delete ALL Calendar and Calendar Entries (ONLY FOR TEST)
+    public void deleteEntries(){
+        //Löschen Aller Calendar für Testzwcke
+        /////////////////////////////////////////////////////////////////////////7
+        CalendarEntry entry = new CalendarEntry();
+        Dao<CalendarEntry, Integer> CalendarEntryDao = db.getCalendarEntryDao();
+
+        try {
+            CalendarEntryDao.delete(CalendarEntryDao.queryForAll());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+        Calendar calendar = new Calendar();
+        Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
+
+        try {
+            CalendarDao.delete(CalendarDao.queryForAll());
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+    }
+
+    //Create
     public void CreateTimetable() {
 
         Calendar calendar = new Calendar();
@@ -312,6 +288,7 @@ public class CreateTimetableController {
 
     }
 
+    //Save Timetable
     public void UpdateTimetable(){
 
         UpdateMonday(mon,this.calendar);
@@ -326,15 +303,16 @@ public class CreateTimetableController {
     // Create new Timtable
     public void setMonday(ArrayList<TextField> array, Calendar calendar) {
 
-
-
         Iterator<TextField> i = array.iterator();
+        int currentmonday=0;
+        //for(TextField textfield : array)
         for (int hour = 8; i.hasNext(); hour += 2) {
             TextField t = i.next();
             CalendarEntry monday = new CalendarEntry();
             monday.setDayOfWeek(DayOfWeek.MONDAY);
             monday.setCalendar(calendar);
             monday.setDescription(t.getText());
+           // monday.setDescription(array.get(currentmonday).getText());
             monday.setStartTime(hour);
             Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
             try {
@@ -349,6 +327,7 @@ public class CreateTimetableController {
                 e.printStackTrace();
 
             }
+
         }
 
 
@@ -371,8 +350,6 @@ public class CreateTimetableController {
                 System.out.print("TUESDAY"+hour);
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
@@ -649,6 +626,7 @@ public class CreateTimetableController {
         currentFriday=0;
 
     }
+
     //Update Timetable with the infos of getDAY
     public void UpdateMonday(ArrayList<TextField>array,Calendar calendar){
 
@@ -793,6 +771,7 @@ public class CreateTimetableController {
 
     }
 
+    //Clean Textfields
     public void Reload(){
         loadboxes();
         CleanTextfields(mon);
@@ -801,7 +780,7 @@ public class CreateTimetableController {
         CleanTextfields(don);
         CleanTextfields(f);
     }
-
+    //Sub class
     public void CleanTextfields(ArrayList<TextField> array){
         for(TextField t :array ){
           t.setText("");
@@ -820,11 +799,20 @@ public class CreateTimetableController {
         }
     }
 
+
+    //This is the part where we can initialize the Semester and Groupage from the HomeScreen
     public void setSemester(Semester semester){
         this.semester = semester;
     }
 
     public Semester getSemester(){
         return this.semester;
+    }
+
+    public void SetGroupage(Groupage groupage){
+        this.groupage = groupage;
+    }
+    public Groupage getGroupage(){
+        return this.groupage;
     }
 }

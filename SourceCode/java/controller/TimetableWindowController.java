@@ -5,13 +5,14 @@ import connection.DBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.*;
+
+
 
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -22,11 +23,11 @@ public class TimetableWindowController {
 
 
     public ComboBox <Calendar>cbg;
-    ArrayList<Label> mon = new ArrayList<>();
-    ArrayList<Label> di = new ArrayList<>();
-    ArrayList<Label> mi = new ArrayList<>();
-    ArrayList<Label> don = new ArrayList<>();
-    ArrayList<Label> f = new ArrayList<>();
+   private ArrayList<Label> mon = new ArrayList<>();
+   private ArrayList<Label> di = new ArrayList<>();
+   private ArrayList<Label> mi = new ArrayList<>();
+   private ArrayList<Label> don = new ArrayList<>();
+   private ArrayList<Label> f = new ArrayList<>();
     @FXML
     public GridPane gridPane;
     public Label m1;
@@ -80,6 +81,11 @@ public class TimetableWindowController {
         }
     }
 
+
+
+
+
+    //Load Timetable
     public void LoadTimetable(){
 
         if (cbg.getSelectionModel().getSelectedItem() == null) {
@@ -99,22 +105,27 @@ public class TimetableWindowController {
         }
 
 
-        getMonday(mon,this.calendar);
-        getTuesday(di,this.calendar);
-        getWednesday(mi,this.calendar);
-        getThursday(don,this.calendar);
-        getFriday(f,this.calendar);
+        int test =0;
+
+        getMonday(mon,this.calendar,test);
+        getTuesday(di,this.calendar,test);
+        getWednesday(mi,this.calendar,test);
+        getThursday(don,this.calendar,test);
+        getFriday(f,this.calendar,test);
+
 
 
     }
+
+    //
     public void initialize() {
 
-        append();
 
     loadboxes();
 
     }
 
+    //Load availbe timetable
     public void loadboxes(){
         try {
 
@@ -129,7 +140,8 @@ public class TimetableWindowController {
             e.printStackTrace();
         }
     }
-    public void getMonday(ArrayList<Label> array,Calendar calendar){
+    //Show Timetable
+    public int getMonday(ArrayList<Label> array,Calendar calendar,int test){
 
         Iterator<Label> i = array.iterator();
         int currentmonday = 0;
@@ -157,11 +169,16 @@ public class TimetableWindowController {
             }
             currentmonday++;
             Label l = i.next();
+
+
+
+
         }
-
-
+        test=currentmonday;
+        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
+        return test;
     }
-    public void getTuesday(ArrayList<Label> array,Calendar calendar){
+    public int getTuesday(ArrayList<Label> array,Calendar calendar,int test){
 
         Iterator<Label> i = array.iterator();
         int currentTuesday = 0;
@@ -181,18 +198,17 @@ public class TimetableWindowController {
                 System.out.print("Tuesday"+hour);
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
             currentTuesday++;
             Label l = i.next();
         }
-
-
+        test = currentTuesday;
+        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
+        return test;
     }
-    public void getWednesday(ArrayList<Label> array,Calendar calendar){
+    public int getWednesday(ArrayList<Label> array,Calendar calendar,int test){
 
         Iterator<Label> i = array.iterator();
         int currentwednesday = 0;
@@ -213,18 +229,18 @@ public class TimetableWindowController {
                 System.out.print("Wednesday"+hour);
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
             currentwednesday++;
             Label l = i.next();
         }
-
+        test = currentwednesday;
+        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
+        return currentwednesday;
 
     }
-    public void getThursday(ArrayList<Label> array,Calendar calendar){
+    public int getThursday(ArrayList<Label> array,Calendar calendar,int test){
 
         Iterator<Label> i = array.iterator();
         int currentThursday = 0;
@@ -244,8 +260,6 @@ public class TimetableWindowController {
                 System.out.print("Thursday"+hour);
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
@@ -253,9 +267,12 @@ public class TimetableWindowController {
             Label l = i.next();
         }
 
+        test = currentThursday;
+        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
+        return test;
 
     }
-    public void getFriday(ArrayList<Label> array,Calendar calendar){
+    public int getFriday(ArrayList<Label> array,Calendar calendar,int test){
 
         Iterator<Label> i = array.iterator();
         int currentFriday = 0;
@@ -275,8 +292,6 @@ public class TimetableWindowController {
                 System.out.print("Friday"+hour);
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
@@ -284,16 +299,24 @@ public class TimetableWindowController {
             Label l = i.next();
         }
 
+        test = currentFriday;
+        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
+        return test;
 
 
 
     }
+    //Delete single Timetable
     public void deleteCalendar(){
+
         CreateTimetableController ctc = new CreateTimetableController();
+
         ctc.CalendarComboBox(cbg);
         loadboxes();
     }
-    public void append(){
+
+    //Append texfields to ArrayList<Textfield>
+    public int append(int test){
         mon.add(m1);
         mon.add(m2);
         mon.add(m3);
@@ -329,7 +352,13 @@ public class TimetableWindowController {
         f.add(f5);
         f.add(f6);
 
+        test = mon.size()+di.size()+mi.size()+don.size()+f.size();
+        System.out.print("-------------------------"+test+"-------------------------------"+"Must be 30 (timeslots)6*5(days)");
+      return test;
+
     }
+
+    //ReloadCombobox
    public void Reload(){
         loadboxes();
    }
