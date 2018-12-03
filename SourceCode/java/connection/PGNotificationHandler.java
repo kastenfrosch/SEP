@@ -28,7 +28,7 @@ public class PGNotificationHandler implements PGNotificationListener {
         PGDataSource dataSource = new PGDataSource();
         dataSource.setHost("hakurei.trashprojects.moe");
         dataSource.setPort(5432);
-        dataSource.setDatabase("sep");
+        dataSource.setDatabase("sep2");
         dataSource.setUser("sep");
         dataSource.setPassword("ayy1mao");
 
