@@ -84,5 +84,7 @@
       <Label layoutX="19.0" layoutY="327.0" text="Stundenplan auswählen" />
       <Button layoutX="572.0" mnemonicParsing="false" onAction="#Reload" prefHeight="31.0" prefWidth="24.0" text="R" />
       <Button fx:id="deletecalendar" layoutX="263.0" layoutY="353.0" mnemonicParsing="false" onAction="#deleteCalendar" text="Löschen" />
+      <Button layoutX="429.0" layoutY="353.0" mnemonicParsing="false" onAction="#OpenCreate" text="bearbeiten" />
+      <Label layoutX="371.0" layoutY="322.0" prefHeight="31.0" prefWidth="208.0" text="Stundenplan Erstellen/Editieren" />
    </children>
 </AnchorPane>
