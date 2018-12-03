@@ -14,7 +14,6 @@ public class Notepad {
     public static final String FIELD_NOTEPAD_PRIORITY = "notepad_priority";
     public static final String FIELD_NOTEPAD_CLASSIFICATION = "notepad_classification";
     public static final String FIELD_NOTEPAD_CONTENT = "notepad_content";
-    public static final String FIELD_USERNAME = User.FIELD_USERNAME;
 
     @DatabaseField(generatedId = true, columnName = FIELD_NOTEPAD_ID)
     private int notepadId;
@@ -30,10 +29,6 @@ public class Notepad {
 
     @DatabaseField(columnName = FIELD_NOTEPAD_CONTENT)
     private String notepadContent;
-
-    @DatabaseField(columnName = FIELD_USERNAME, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "varchar not null references \"user\"(username)")
-    private User user;
 
     public int getNotepadId() {
         return notepadId;
@@ -67,14 +62,6 @@ public class Notepad {
 
     public void setNotepadContent(String notepadContent) {
         this.notepadContent = notepadContent;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Classification getClassification() {
