@@ -233,14 +233,18 @@ public class HomeScreenController {
                     }
                     break;
                 case "weekPlanTab":
-                    if (selectedNode.getValue() instanceof Groupage) {
-                        sceneType = SceneType.WEEK_CALENDAR;
-                        sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
-                                .setGroupage((Groupage) selectedNode.getValue());
+                    if(System.getProperty("sep.alt") != null) {
+                        if (selectedNode.getValue() instanceof Groupage) {
+                            sceneType = SceneType.WEEK_CALENDAR;
+                            sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
+                                    .setGroupage((Groupage) selectedNode.getValue());
+                        } else {
+                            Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
+                            selectedTab.setContent(selectNotification);
+                            return;
+                        }
                     } else {
-                        Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
-                        selectedTab.setContent(selectNotification);
-                        return;
+                        sceneType = SceneType.TIMETABLE_WINDOW;
                     }
                     break;
                 case "semesterPlanTab":
