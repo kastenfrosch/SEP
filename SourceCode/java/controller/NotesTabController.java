@@ -42,7 +42,6 @@ public class NotesTabController {
     @FXML
     public Label notesPaneLabel;
 
-    //todo: Aktualisierung wenn innerhalb eines Objects gewechselt wird (Bspw. Student 1 zu 2), Fehler liegt im Stream Filter (?)
     //todo: Löschfunktion korrigieren
 
     public void initialize() {
@@ -56,9 +55,11 @@ public class NotesTabController {
                         list.add(s.getNotepad());
                     }
                 }
+                StudentNotepad suitingStudent = new StudentNotepad();
+                suitingStudent.setStudent((Student) this.objectType);
                 notesListView.setItems(list);
                 notesListView.getItems().clear(); //not needed if list is definitly empty
-                db.getStudentNotepadDao().queryForAll().stream()
+                db.getStudentNotepadDao().queryForMatching(suitingStudent).stream()
                         .map(StudentNotepad::getNotepad)
                         .filter(n -> n.getUser().equals(db.getLoggedInUser()))
                         .forEach(notesListView.getItems()::add);
@@ -70,9 +71,11 @@ public class NotesTabController {
                         list.add(s.getNotepad());
                     }
                 }
+                GroupageNotepad suitingGroupage = new GroupageNotepad();
+                suitingGroupage.setGroupage((Groupage) this.objectType);
                 notesListView.setItems(list);
                 notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
-                db.getGroupageNotepadDao().queryForAll().stream()
+                db.getGroupageNotepadDao().queryForMatching(suitingGroupage).stream()
                         .map(GroupageNotepad::getNotepad)
                         .filter(n -> n.getUser().equals(db.getLoggedInUser()))
                         .forEach(notesListView.getItems()::add);
@@ -84,9 +87,11 @@ public class NotesTabController {
                         list.add(s.getNotepad());
                     }
                 }
+                GroupNotepad suitingGroup = new GroupNotepad();
+                suitingGroup.setGroup((Group) this.objectType);
                 notesListView.setItems(list);
                 notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
-                db.getGroupNotepadDao().queryForAll().stream()
+                db.getGroupNotepadDao().queryForMatching(suitingGroup).stream()
                         .map(GroupNotepad::getNotepad)
                         .filter(n -> n.getUser().equals(db.getLoggedInUser()))
                         .forEach(notesListView.getItems()::add);
