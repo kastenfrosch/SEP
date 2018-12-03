@@ -48,6 +48,7 @@ import java.sql.SQLException;
             priorityComboBox.setItems(prioritaet);
             priorityComboBox.getSelectionModel().select(0);
             notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Gut"
+            notepadTextarea.setText(null);
         }
 
         public void setPriority(ActionEvent actionEvent) {
@@ -147,5 +148,10 @@ import java.sql.SQLException;
 
         public void setObject(Object object) {
             this.objectType = object;
+            initialize();
         } //Getting Object info (Student, Group or Groupage)
+
+        public Object getObject() {
+            return this.objectType;
+        }
     }

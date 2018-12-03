@@ -42,7 +42,7 @@ public class NotesTabController {
     @FXML
     public Label notesPaneLabel;
 
-    //todo: Aktualisierung wenn innerhalb eines Objects gewechselt wird (Bspw. Student 1 zu 2)
+    //todo: Aktualisierung wenn innerhalb eines Objects gewechselt wird (Bspw. Student 1 zu 2), Fehler liegt im Stream Filter (?)
     //todo: Löschfunktion korrigieren
 
     public void initialize() {
@@ -168,7 +168,8 @@ public class NotesTabController {
                                     <NotesTabController>getController().initialize();
                         }
                     }
-                } else if (this.objectType instanceof Group) {
+                }
+                else if (this.objectType instanceof Group) {
                     Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
                     for (GroupNotepad n : groupNotepadDao) {
                         if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
@@ -178,7 +179,8 @@ public class NotesTabController {
                                     <NotesTabController>getController().initialize();
                         }
                     }
-                } else if (this.objectType instanceof Groupage) {
+                }
+                else if (this.objectType instanceof Groupage) {
                     Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
                     for (GroupageNotepad n : groupageNotepadDao) {
                         if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
