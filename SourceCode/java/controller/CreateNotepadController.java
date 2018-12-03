@@ -1,4 +1,4 @@
-package controller;
+/*package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
@@ -149,3 +149,4 @@ import java.sql.SQLException;
             this.objectType = object;
         } //Getting Object info (Student, Group or Groupage)
     }
+*/
