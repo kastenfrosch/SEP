@@ -212,24 +212,39 @@ public class HomeScreenController {
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
                 case "notesTab":
-                    sceneType = SceneType.NOTEPAD_VIEW;
-                    if (selectedNode.getValue() instanceof Semester) {
-                        Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
-                        selectedTab.setContent(selectNotification);
-                        return;
+                    if(System.getProperty("sep.alt") != null) {
+                        sceneType = SceneType.NOTEPAD_VIEW;
+                        if (selectedNode.getValue() instanceof Semester) {
+                            Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
+                            selectedTab.setContent(selectNotification);
+                            return;
+                        }
+                        sm.getLoaderForScene(sceneType).<NoteViewController>getController()
+                                .setEntity((INotepadEntity) selectedNode.getValue());
+                    } else {
+                        sceneType = SceneType.NOTESTAB_WINDOW;
+                        if(selectedNode.getValue() instanceof Semester) {
+                            Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
+                            selectedTab.setContent(selectNotification);
+                            return;
+                        }
+                        sm.getLoaderForScene(sceneType).<NotesTabController>getController()
+                                .setObject(selectedNode.getValue());
                     }
-                    sm.getLoaderForScene(sceneType).<NoteViewController>getController()
-                            .setEntity((INotepadEntity) selectedNode.getValue());
                     break;
                 case "weekPlanTab":
-                    if (selectedNode.getValue() instanceof Groupage) {
-                        sceneType = SceneType.WEEK_CALENDAR;
-                        sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
-                                .setGroupage((Groupage) selectedNode.getValue());
+                    if(System.getProperty("sep.alt") != null) {
+                        if (selectedNode.getValue() instanceof Groupage) {
+                            sceneType = SceneType.WEEK_CALENDAR;
+                            sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
+                                    .setGroupage((Groupage) selectedNode.getValue());
+                        } else {
+                            Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
+                            selectedTab.setContent(selectNotification);
+                            return;
+                        }
                     } else {
-                        Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
-                        selectedTab.setContent(selectNotification);
-                        return;
+                        sceneType = SceneType.TIMETABLE_WINDOW;
                     }
                     break;
                 case "semesterPlanTab":
