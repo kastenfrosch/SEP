@@ -106,17 +106,15 @@ public class TimetableWindowController {
         }
 
 
-        int test =0;
-
-        getMonday(mon,this.calendar,test);
-        getTuesday(di,this.calendar,test);
-        getWednesday(mi,this.calendar,test);
-        getThursday(don,this.calendar,test);
-        getFriday(f,this.calendar,test);
-
+        getMonday(mon,this.calendar);
+        getTuesday(di,this.calendar);
+        getWednesday(mi,this.calendar);
+        getThursday(don,this.calendar);
+        getFriday(f,this.calendar);
 
 
     }
+
 
     //
     public void initialize() {
@@ -146,7 +144,7 @@ public class TimetableWindowController {
     }
 
     //Show Timetable
-    public int getMonday(ArrayList<Label> array,Calendar calendar,int test){
+    public void getMonday(ArrayList<Label> array,Calendar calendar){
 
         Iterator<Label> i = array.iterator();
         int currentmonday = 0;
@@ -160,9 +158,9 @@ public class TimetableWindowController {
             Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
             try {
 
-                    CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
-                    array.get(currentmonday).setText(e.getDescription());
-              //  }
+                CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
+                array.get(currentmonday).setText(e.getDescription());
+                //  }
 
                 System.out.print("MONDAY"+hour+"   ");
 
@@ -174,16 +172,11 @@ public class TimetableWindowController {
             }
             currentmonday++;
             Label l = i.next();
-
-
-
-
         }
-        test=currentmonday;
-        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
-        return test;
+
+
     }
-    public int getTuesday(ArrayList<Label> array,Calendar calendar,int test){
+    public void getTuesday(ArrayList<Label> array,Calendar calendar){
 
         Iterator<Label> i = array.iterator();
         int currentTuesday = 0;
@@ -203,17 +196,18 @@ public class TimetableWindowController {
                 System.out.print("Tuesday"+hour);
 
             } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
             currentTuesday++;
             Label l = i.next();
         }
-        test = currentTuesday;
-        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
-        return test;
+
+
     }
-    public int getWednesday(ArrayList<Label> array,Calendar calendar,int test){
+    public void getWednesday(ArrayList<Label> array,Calendar calendar){
 
         Iterator<Label> i = array.iterator();
         int currentwednesday = 0;
@@ -234,18 +228,18 @@ public class TimetableWindowController {
                 System.out.print("Wednesday"+hour);
 
             } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
             currentwednesday++;
             Label l = i.next();
         }
-        test = currentwednesday;
-        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
-        return currentwednesday;
+
 
     }
-    public int getThursday(ArrayList<Label> array,Calendar calendar,int test){
+    public void getThursday(ArrayList<Label> array,Calendar calendar){
 
         Iterator<Label> i = array.iterator();
         int currentThursday = 0;
@@ -265,6 +259,8 @@ public class TimetableWindowController {
                 System.out.print("Thursday"+hour);
 
             } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
@@ -272,12 +268,9 @@ public class TimetableWindowController {
             Label l = i.next();
         }
 
-        test = currentThursday;
-        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
-        return test;
 
     }
-    public int getFriday(ArrayList<Label> array,Calendar calendar,int test){
+    public void getFriday(ArrayList<Label> array,Calendar calendar){
 
         Iterator<Label> i = array.iterator();
         int currentFriday = 0;
@@ -297,6 +290,8 @@ public class TimetableWindowController {
                 System.out.print("Friday"+hour);
 
             } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
@@ -304,13 +299,13 @@ public class TimetableWindowController {
             Label l = i.next();
         }
 
-        test = currentFriday;
-        System.out.println("---------Expected RESULT=6(timeslots)------------RESULT= "+test+"-------------------------------");
-        return test;
 
 
 
     }
+
+
+
     //Delete single Timetable
     public void deleteCalendar(){
 
