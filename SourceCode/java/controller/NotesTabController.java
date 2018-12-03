@@ -42,8 +42,6 @@ public class NotesTabController {
     @FXML
     public Label notesPaneLabel;
 
-    //todo: Löschfunktion korrigieren
-
     public void initialize() {
         notesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -165,39 +163,52 @@ public class NotesTabController {
             try {
                 if (this.objectType instanceof Student) {
                     Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-                    for (StudentNotepad n : studentNotepadDao) {
-                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
-                            studentNotepadDao.delete(n);
-                            notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().initialize();
+                    StudentNotepad stdNotepad = new StudentNotepad();
+                    Notepad notepad = notesListView.getSelectionModel().getSelectedItem();
+
+                    for(StudentNotepad s : studentNotepadDao) {
+                        if(s.getNotepad().getNotepadId() == notesListView.getSelectionModel().getSelectedItem().getNotepadId()) {
+                            stdNotepad = s;
                         }
                     }
+                    studentNotepadDao.delete(stdNotepad);
+                    notepadDao.delete(notepad);
+                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                                    <NotesTabController>getController().initialize();
                 }
                 else if (this.objectType instanceof Group) {
                     Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-                    for (GroupNotepad n : groupNotepadDao) {
-                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
-                            groupNotepadDao.delete(n);
-                            notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().initialize();
+                    GroupNotepad grpNotepad = new GroupNotepad();
+                    Notepad notepad = notesListView.getSelectionModel().getSelectedItem();
+
+                    for(GroupNotepad g : groupNotepadDao) {
+                        if(g.getNotepad().getNotepadId() == notesListView.getSelectionModel().getSelectedItem().getNotepadId()) {
+                            grpNotepad = g;
                         }
                     }
+                    groupNotepadDao.delete(grpNotepad);
+                    notepadDao.delete(notepad);
+                    SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                            <NotesTabController>getController().initialize();
                 }
                 else if (this.objectType instanceof Groupage) {
                     Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-                    for (GroupageNotepad n : groupageNotepadDao) {
-                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
-                            groupageNotepadDao.delete(n);
-                            notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().initialize();
+                    GroupageNotepad grpgNotepad = new GroupageNotepad();
+                    Notepad notepad = notesListView.getSelectionModel().getSelectedItem();
+
+                    for(GroupageNotepad g : groupageNotepadDao) {
+                        if(g.getNotepad().getNotepadId() == notesListView.getSelectionModel().getSelectedItem().getNotepadId()) {
+                            grpgNotepad = g;
                         }
                     }
+                    groupageNotepadDao.delete(grpgNotepad);
+                    notepadDao.delete(notepad);
+                    SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
+                            <NotesTabController>getController().initialize();
                 }
             } catch (SQLException e) {
                 ErrorModal.show("Fehler: Die Notiz konnte nicht geloescht werden.");
+                e.printStackTrace();
             }
         } else {
             return;
