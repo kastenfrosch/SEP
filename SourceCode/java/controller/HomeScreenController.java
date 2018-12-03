@@ -7,6 +7,7 @@ import connection.PGNotificationHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -69,13 +70,19 @@ public class HomeScreenController {
     @FXML
     void onAddGroupageButtonClicked(ActionEvent event) {
         tabPane.getSelectionModel().select(detailsTab);
-        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUPAGE).getRoot());
+        FXMLLoader l = SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUPAGE);
+        CreateGroupageController ctrl = l.getController();
+        ctrl.initialize();
+        selectedTab.setContent(l.getRoot());
     }
 
     @FXML
     void onAddGroupButtonClicked(ActionEvent event) {
         tabPane.getSelectionModel().select(detailsTab);
-        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUP).getRoot());
+
+        FXMLLoader l = SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_GROUP);
+        ((CreateGroupController) l.getController()).initialize();
+        selectedTab.setContent(l.getRoot());
     }
 
     @FXML
@@ -87,7 +94,9 @@ public class HomeScreenController {
     @FXML
     void onAddStudentButtonClicked(ActionEvent event) {
         tabPane.getSelectionModel().select(detailsTab);
-        selectedTab.setContent(SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_STUDENT).getRoot());
+        FXMLLoader l = SceneManager.getInstance().getLoaderForScene(SceneType.CREATE_STUDENT);
+        ((CreateStudentController) l.getController()).initialize();
+        selectedTab.setContent(l.getRoot());
     }
 
     @FXML
@@ -211,26 +220,22 @@ public class HomeScreenController {
                             .setEntity((INotepadEntity) selectedNode.getValue());
                     break;
                 case "weekPlanTab":
-                    if(selectedNode.getValue() instanceof Groupage) {
+                    if (selectedNode.getValue() instanceof Groupage) {
                         sceneType = SceneType.WEEK_CALENDAR;
                         sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
                                 .setGroupage((Groupage) selectedNode.getValue());
-                    }
-                    else
-                    {
+                    } else {
                         Text selectNotification = new Text("Bitte wählen Sie eine Klasse links aus der Baumstruktur.");
                         selectedTab.setContent(selectNotification);
                         return;
                     }
                     break;
                 case "semesterPlanTab":
-                    if(selectedNode.getValue() instanceof Semester) {
+                    if (selectedNode.getValue() instanceof Semester) {
                         sceneType = SceneType.EDIT_AND_CREATE_SEMESTERPLAN;
                         sm.getLoaderForScene(sceneType).<SemesterplanController>getController()
                                 .setSemester((Semester) selectedNode.getValue());
-                    }
-                    else
-                    {
+                    } else {
                         Text selectNotification = new Text("Bitte wählen Sie ein Semester links aus der Baumstruktur.");
                         selectedTab.setContent(selectNotification);
                         return;
