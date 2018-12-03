@@ -35,22 +35,47 @@ public class Notepad {
             columnDefinition = "varchar not null references \"user\"(username)")
     private User user;
 
-    public int getNotepadId() {return notepadId;}
-    public void setNotepadId(int notepadId) {this.notepadId = notepadId;}
+    public int getNotepadId() {
+        return notepadId;
+    }
 
-    public String getNotepadName() {return notepadName;}
-    public void setNotepadName(String notepadName) {this.notepadName = notepadName;}
+    public void setNotepadId(int notepadId) {
+        this.notepadId = notepadId;
+    }
+
+    public String getNotepadName() {
+        return notepadName;
+    }
+
+    public void setNotepadName(String notepadName) {
+        this.notepadName = notepadName;
+    }
 
     @Deprecated
-    public String getNotepadPriority() {return notepadPriority;}
+    public String getNotepadPriority() {
+        return notepadPriority;
+    }
+
     @Deprecated
-    public void setNotepadPriority(String notepadPriority) {this.notepadPriority = notepadPriority;}
+    public void setNotepadPriority(String notepadPriority) {
+        this.notepadPriority = notepadPriority;
+    }
 
-    public String getNotepadContent() {return notepadContent;}
-    public void setNotepadContent(String notepadContent) {this.notepadContent = notepadContent;}
+    public String getNotepadContent() {
+        return notepadContent;
+    }
 
-    public User getUser() {return user;}
-    public void setUser(User user) {this.user = user;}
+    public void setNotepadContent(String notepadContent) {
+        this.notepadContent = notepadContent;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Classification getClassification() {
         return classification;
@@ -64,12 +89,31 @@ public class Notepad {
         BAD("Schlecht"), MEDIUM("Mittel"), GOOD("Gut"), NEUTRAL("Keine Zuordnung");
 
         private String classification;
+
         Classification(String classification) {
             this.classification = classification;
         }
 
-        public String getClassification() {
-            return classification;
+        public static Classification get(String s) {
+            if (s.equalsIgnoreCase("schlecht")) {
+                return BAD;
+            } else if (s.equalsIgnoreCase("mittel")) {
+                return MEDIUM;
+            } else if(s.equalsIgnoreCase("gut")) {
+                return GOOD;
+            }
+            else if(s.equalsIgnoreCase("keine zuordnung"))
+            {
+                return NEUTRAL;
+            } else
+            {
+                return null;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return this.classification;
         }
     }
 }
