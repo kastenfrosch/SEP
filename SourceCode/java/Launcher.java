@@ -7,6 +7,9 @@ public class Launcher {
      * */
 
     public static void main(String[] args) {
+        for(String s : args) {
+            System.setProperty(s, "");
+        }
         SEP.main(args);
     }
 }
