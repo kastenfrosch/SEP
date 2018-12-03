@@ -158,8 +158,10 @@ public class NotesTabController {
         if (delete) {
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
 
+
             try {
-                if (this.objectType instanceof Student) {
+                //ist egal, wird automatisch mitgelöscht
+                /*if (this.objectType instanceof Student) {
                     Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
                     for (StudentNotepad n : studentNotepadDao) {
                         if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
@@ -189,7 +191,8 @@ public class NotesTabController {
                                     <NotesTabController>getController().initialize();
                         }
                     }
-                }
+                }*/
+                notepadDao.delete(notesListView.getSelectionModel().getSelectedItem());
             } catch (SQLException e) {
                 ErrorModal.show("Fehler: Die Notiz konnte nicht geloescht werden.");
             }
