@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1295.0" y="2920.0">controller.TardyController</node>
+    <node x="1614.0" y="2920.0">models.InviteCode</node>
+    <node x="1225.0" y="2198.0">models.Notepad</node>
+    <node x="0.0" y="2920.0">controller.WeekCalendarController</node>
+    <node x="2072.0" y="2322.0">models.StudentNotepad</node>
+    <node x="2472.0" y="2581.0">utils.HashUtils</node>
+    <node x="1471.0" y="2581.0">models.ChatMessage</node>
+    <node x="701.0" y="2920.0">controller.NoteWindowController</node>
+    <node x="3465.0" y="2920.0">models.FavouriteStudent</node>
+    <node x="409.0" y="0.0">controller.TimetableWindowController</node>
+    <node x="2892.0" y="1704.0">utils.scene.SceneManager</node>
+    <node x="2035.0" y="2198.0">models.INotepadBridge</node>
+    <node x="259.0" y="3194.0">utils.DBUtils</node>
+    <node x="976.0" y="2920.0">controller.UserAdministrationController</node>
+    <node x="585.0" y="2198.0">controller.EditStudentController</node>
+    <node x="0.0" y="1704.0">controller.SemesterplanController</node>
+    <node x="3197.0" y="2920.0">models.FavouriteSemester</node>
+    <node x="2565.0" y="2920.0">controller.InviteCodeController</node>
+    <node x="2152.0" y="1704.0">controller.EditNotepadController</node>
+    <node x="1806.0" y="1704.0">controller.EditGroupageController</node>
+    <node x="364.0" y="2920.0">controller.EditSemesterController</node>
+    <node x="1862.0" y="2920.0">connection.PGNotificationHandler</node>
+    <node x="3016.0" y="2198.0">controller.EditUserController</node>
+    <node x="2923.0" y="2920.0">models.FavouriteGroupage</node>
+    <node x="1746.0" y="2581.0">controller.CreateGroupageController</node>
+    <node x="319.0" y="2198.0">models.Person</node>
+    <node x="402.0" y="1704.0">models.User</node>
+    <node x="2344.0" y="2322.0">models.GroupageNotepad</node>
+    <node x="2015.0" y="3194.0">Launcher</node>
+    <node x="2651.0" y="2198.0">models.Calendar</node>
+    <node x="420.0" y="2581.0">controller.ChatWindowController</node>
+    <node x="601.0" y="3194.0">utils.TimeUtils</node>
+    <node x="1930.0" y="0.0">connection.DBManager</node>
+    <node x="1801.0" y="3194.0">SEP</node>
+    <node x="0.0" y="2198.0">controller.RegisterController</node>
+    <node x="1490.0" y="1704.0">controller.CreateSemesterController</node>
+    <node x="1455.0" y="0.0">controller.CreateTermOrganisationController</node>
+    <node x="3021.0" y="101.0">models.Student</node>
+    <node x="1812.0" y="2322.0">models.GroupNotepad</node>
+    <node x="938.0" y="3194.0">modal.ConfirmationModal</node>
+    <node x="2153.0" y="2581.0">controller.CreateStudentController</node>
+    <node x="778.0" y="0.0">utils.scene.SceneType</node>
+    <node x="3069.0" y="0.0">models.INotepadEntity</node>
+    <node x="0.0" y="2581.0">controller.Node</node>
+    <node x="3359.0" y="123.0">models.Group</node>
+    <node x="1140.0" y="1704.0">models.CalendarEntry</node>
+    <node x="1239.0" y="3194.0">modal.InfoModal</node>
+    <node x="3443.0" y="2581.0">models.Semester</node>
+    <node x="2941.5" y="2581.0">utils.scene.SceneInfo</node>
+    <node x="1556.0" y="2198.0">models.Tardy</node>
+    <node x="3108.0" y="2749.0">utils.scene.TabInfo</node>
+    <node x="3359.0" y="2198.0">controller.CreateNotepadController</node>
+    <node x="697.0" y="1704.0">models.CalendarExtraInfo</node>
+    <node x="1052.0" y="0.0">controller.HomeScreenController</node>
+    <node x="2672.0" y="123.0">models.Groupage</node>
+    <node x="1520.0" y="3194.0">modal.ErrorModal</node>
+    <node x="2246.0" y="2920.0">controller.PasswordResetController</node>
+    <node x="0.0" y="0.0">controller.CreateTimetableController</node>
+    <node x="792.0" y="2581.0">controller.CreateGroupController</node>
+    <node x="2774.0" y="2760.0">utils.scene.WindowInfo</node>
+    <node x="0.0" y="3194.0">models.FavouriteGroup</node>
+    <node x="3241.0" y="1704.0">controller.NotesTabController</node>
+    <node x="909.0" y="2198.0">controller.NoteViewController</node>
+    <node x="1146.0" y="2581.0">controller.LoginController</node>
+    <node x="2538.0" y="1704.0">controller.EditGroupController</node>
+    <node x="2332.0" y="0.0">controller.ChatTabController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="models.GroupNotepad" target="models.INotepadBridge">
+      <point x="0.0" y="-92.0" />
+      <point x="1932.0" y="2297.0" />
+      <point x="2089.3333333333335" y="2297.0" />
+      <point x="-108.66666666666652" y="37.0" />
+    </edge>
+    <edge source="models.Groupage" target="models.INotepadEntity">
+      <point x="0.0" y="-170.0" />
+      <point x="2836.5" y="76.0" />
+      <point x="3106.0" y="76.0" />
+      <point x="-74.0" y="25.5" />
+    </edge>
+    <edge source="utils.scene.WindowInfo" target="utils.scene.SceneInfo">
+      <point x="0.0" y="-37.0" />
+      <point x="2931.0" y="2724.0" />
+      <point x="3016.75" y="2724.0" />
+      <point x="-75.25" y="59.0" />
+    </edge>
+    <edge source="utils.scene.TabInfo" target="utils.scene.SceneInfo">
+      <point x="0.0" y="-48.0" />
+      <point x="3253.0" y="2724.0" />
+      <point x="3167.25" y="2724.0" />
+      <point x="75.25" y="59.0" />
+    </edge>
+    <edge source="models.StudentNotepad" target="models.INotepadBridge">
+      <point x="0.0" y="-92.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="models.Group" target="models.INotepadEntity">
+      <point x="0.0" y="-170.0" />
+      <point x="3514.0" y="76.0" />
+      <point x="3254.0" y="76.0" />
+      <point x="74.0" y="25.5" />
+    </edge>
+    <edge source="models.Student" target="models.INotepadEntity">
+      <point x="0.0" y="-192.0" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="models.GroupageNotepad" target="models.INotepadBridge">
+      <point x="0.0" y="-92.0" />
+      <point x="2475.0" y="2297.0" />
+      <point x="2306.6666666666665" y="2297.0" />
+      <point x="108.66666666666652" y="37.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.20000000000000004" x="2382.1514236333496" y="2293.972672153532" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
