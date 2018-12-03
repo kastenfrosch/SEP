@@ -312,7 +312,7 @@ public class CreateTimetableController {
             monday.setDayOfWeek(DayOfWeek.MONDAY);
             monday.setCalendar(calendar);
             monday.setDescription(t.getText());
-           // monday.setDescription(array.get(currentmonday).getText());
+            // monday.setDescription(array.get(currentmonday).getText());
             monday.setStartTime(hour);
             Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
             try {
@@ -783,7 +783,7 @@ public class CreateTimetableController {
     //Sub class
     public void CleanTextfields(ArrayList<TextField> array){
         for(TextField t :array ){
-          t.setText("");
+            t.setText("");
         }
         for(TextField t :array ){
             t.setText("");
