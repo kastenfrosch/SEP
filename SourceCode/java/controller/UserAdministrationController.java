@@ -85,6 +85,11 @@ public class UserAdministrationController {
         Dao<User, String> userDao = db.getUserDao();
         user = listView.getSelectionModel().getSelectedItem();
 
+        if(db.getLoggedInUser().equals(user)) {
+            ErrorModal.show("Du kannst dich nicht selbst löschen!");
+            return;
+        }
+
         try {
             //delete the userDao from the database
             userDao.delete(user);
