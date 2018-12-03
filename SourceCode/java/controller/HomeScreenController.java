@@ -7,6 +7,7 @@ import connection.PGNotificationHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import modal.ConfirmationModal;
@@ -200,14 +201,14 @@ public class HomeScreenController {
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
                 case "notesTab":
-                    sceneType = SceneType.NOTESTAB_WINDOW;
+                    sceneType = SceneType.NOTEPAD_VIEW;
                     if (selectedNode.getValue() instanceof Semester) {
                         Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
                         selectedTab.setContent(selectNotification);
                         return;
                     }
-                    sm.getLoaderForScene(sceneType).<NotesTabController>getController()
-                            .setObject(selectedNode.getValue());
+                    sm.getLoaderForScene(sceneType).<NoteViewController>getController()
+                            .setEntity((INotepadEntity) selectedNode.getValue());
                     break;
                 case "weekPlanTab":
                     if(selectedNode.getValue() instanceof Groupage) {
@@ -255,6 +256,9 @@ public class HomeScreenController {
                     }
                     break;
             }
+            //TODO: temp fix
+            Parent p = sm.getLoaderForScene(sceneType).getRoot();
+            p.maxWidth(980);
             selectedTab.setContent(sm.getLoaderForScene(sceneType).getRoot());
         } else {
             Text selectNotification = new Text("Bitte wählen Sie ein Element links aus der Baumstruktur.");
