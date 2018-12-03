@@ -85,6 +85,9 @@ public class CalendarEntry {
     }
 
     public LocalDateTime getEndTime() {
+        if(endTime == null) {
+            return null;
+        }
         return endTime.toLocalDateTime();
     }
 

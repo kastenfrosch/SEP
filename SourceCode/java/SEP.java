@@ -17,7 +17,7 @@ public class SEP extends Application {
 
         //set primary stage for SceneManager
         SceneManager.getInstance(stage);
-        SceneManager.getInstance().switchTo(SceneType.EDIT_AND_CREATE_SEMESTERPLAN);
+        SceneManager.getInstance().switchTo(SceneType.LOGIN);
         stage.show();
     }
 }

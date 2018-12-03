@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.uni-due.git</groupId>
     <artifactId>SEP_Gruppe_E</artifactId>
-    <version>Iteration-1.0</version>
+    <version>Iteration-1.6.1</version>
     <packaging>jar</packaging>
     <properties>
         <src.dir>SourceCode/java</src.dir>
@@ -75,6 +75,21 @@
             </plugin>
         </plugins>
     </build>
+    <!-- required for calendarfx -->
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -113,7 +128,10 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.2.11</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.calendarfx</groupId>
+            <artifactId>view</artifactId>
+            <version>11.5.0</version>
+        </dependency>
     </dependencies>
 </project>

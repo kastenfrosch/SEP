@@ -43,7 +43,7 @@ public class DBManager {
     }
 
     private DBManager() throws SQLException {
-        String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep";
+        String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep2";
         JdbcConnectionSource conn = new JdbcConnectionSource(databaseUrl);
         conn.setUsername("sep");
         conn.setPassword("ayy1mao");

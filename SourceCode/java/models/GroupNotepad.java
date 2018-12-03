@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = GroupNotepad.TABLE_GROUP_NOTEPAD
 )
-public class GroupNotepad {
+public class GroupNotepad implements INotepadBridge {
     public static final String TABLE_GROUP_NOTEPAD = "notepad_group";
     public static final String FIELD_COMBO_ID = "combo_id";
     public static final String FIELD_NOTEPAD_ID = "notepad_id";
@@ -15,11 +15,11 @@ public class GroupNotepad {
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references notepad(notepad_id)", uniqueCombo = true)
+            columnDefinition = "integer not null references notepad(notepad_id) on delete cascade")
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_GROUP_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references \"group\"(group_id)", uniqueCombo = true)
+            columnDefinition = "integer not null references \"group\"(group_id) on delete cascade")
     private Group group;
 
     public Group getGroup() {

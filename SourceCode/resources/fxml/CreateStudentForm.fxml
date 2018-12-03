@@ -20,12 +20,12 @@
       <TextField fx:id="firstnameInput" layoutX="211.0" layoutY="133.0" AnchorPane.leftAnchor="211.0" />
       <TextField fx:id="lastnameInput" layoutX="211.0" layoutY="188.0" AnchorPane.leftAnchor="211.0" AnchorPane.topAnchor="188.0" />
       <TextField fx:id="emailInput" layoutX="211.0" layoutY="244.0" AnchorPane.leftAnchor="211.0" />
-      <Label layoutX="14.0" layoutY="72.0" prefHeight="27.0" prefWidth="103.0" text="Mat Nr:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="483.0" />
-      <Label layoutX="14.0" layoutY="132.0" prefHeight="27.0" prefWidth="103.0" text="Vorname: " AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="483.0" />
+      <Label layoutX="14.0" layoutY="72.0" prefHeight="27.0" prefWidth="103.0" text="Mat Nr:" AnchorPane.leftAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="132.0" prefHeight="27.0" prefWidth="103.0" text="Vorname: " AnchorPane.leftAnchor="14.0" />
       <Label layoutX="14.0" layoutY="190.0" prefHeight="27.0" prefWidth="103.0" text="Nachname: " AnchorPane.leftAnchor="14.0" />
-      <Label layoutX="14.0" layoutY="243.0" prefHeight="27.0" prefWidth="103.0" text="Email: " AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="483.0" />
+      <Label layoutX="14.0" layoutY="243.0" prefHeight="27.0" prefWidth="103.0" text="Email: " AnchorPane.leftAnchor="14.0" />
       <Text fx:id="statusText" layoutX="189.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="224.0" />
       <ComboBox fx:id="groupComboBox" layoutX="211.0" layoutY="303.0" prefWidth="150.0" />
-      <Label layoutX="14.0" layoutY="302.0" prefHeight="27.0" prefWidth="103.0" text="Gruppe:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="483.0" />
+      <Label layoutX="14.0" layoutY="302.0" prefHeight="27.0" prefWidth="103.0" text="Gruppe:" AnchorPane.leftAnchor="14.0" />
    </children>
 </AnchorPane>
