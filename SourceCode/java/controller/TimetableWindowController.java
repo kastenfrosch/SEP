@@ -11,7 +11,8 @@ import javafx.scene.layout.GridPane;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.*;
-
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 
 import java.sql.SQLException;
@@ -125,6 +126,9 @@ public class TimetableWindowController {
 
     }
 
+
+
+
     //Load availbe timetable
     public void loadboxes(){
         try {
@@ -140,6 +144,7 @@ public class TimetableWindowController {
             e.printStackTrace();
         }
     }
+
     //Show Timetable
     public int getMonday(ArrayList<Label> array,Calendar calendar,int test){
 
@@ -313,6 +318,13 @@ public class TimetableWindowController {
 
         ctc.CalendarComboBox(cbg);
         loadboxes();
+    }
+
+    public void OpenCreate(){
+        SceneManager.getInstance()
+                .getLoaderForScene(SceneType.CREATE_TIMETABLE)
+                .<CreateTimetableController>getController();
+        SceneManager.getInstance().showInNewWindow(SceneType.CREATE_TIMETABLE);
     }
 
     //Append texfields to ArrayList<Textfield>
