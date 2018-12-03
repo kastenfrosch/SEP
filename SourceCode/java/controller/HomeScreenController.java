@@ -153,6 +153,8 @@ public class HomeScreenController {
             e.printStackTrace();
         }
         SceneManager.getInstance().closeWindow(SceneType.HOME);
+        //TODO: temp fix, window doesn't closee
+        Platform.exit();
     }
 
     @FXML
