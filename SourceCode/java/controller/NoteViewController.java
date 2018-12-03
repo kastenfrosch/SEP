@@ -176,7 +176,6 @@ public class NoteViewController {
         Notepad n = new Notepad();
         n.setNotepadName("Neues Notepad");
         n.setNotepadContent("");
-        n.setUser(loggedInUser);
         n.setClassification(Notepad.Classification.NEUTRAL);
 
         try {
