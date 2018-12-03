@@ -59,8 +59,8 @@ public class PasswordResetController {
 
             byte[] hexNewPass = HashUtils.hash(newPass, newSalt);
 
-            user.setPasswordHash(HashUtils.toHex(hexNewPass));
             user.setSalt(HashUtils.toHex(newSalt));
+            user.setPasswordHash(HashUtils.toHex(hexNewPass));
 
             try {
                 userDao.update(user);
