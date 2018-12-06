@@ -41,9 +41,7 @@ public class NotesTabController {
     public Button showNoteButton;
     @FXML
     public Label notesPaneLabel;
-
-    //todo: Löschfunktion korrigieren
-
+    
     public void initialize() {
         notesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -105,13 +103,13 @@ public class NotesTabController {
                                 // this switch could be rewritten using a Map<String, String>
                                 switch (item.getNotepadPriority()) {
                                     case "Gut":
-                                        style = "-fx-background-color: red";
+                                        style = "-fx-background-color: green";
                                         break;
                                     case "Mittel":
                                         style = "-fx-background-color: yellow";
                                         break;
                                     case "Schlecht":
-                                        style = "-fx-background-color: green";
+                                        style = "-fx-background-color: red";
                                         break;
                                     case "Ohne Zuordnung":
                                         style = "-fx-background-color: grey";
@@ -157,41 +155,9 @@ public class NotesTabController {
         if (delete) {
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
 
-
             try {
-                //ist egal, wird automatisch mitgelöscht
-                /*if (this.objectType instanceof Student) {
-                    Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
-                    for (StudentNotepad n : studentNotepadDao) {
-                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
-                            studentNotepadDao.delete(n);
-                            notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().initialize();
-                        }
-                    }
-                } else if (this.objectType instanceof Group) {
-                    Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
-                    for (GroupNotepad n : groupNotepadDao) {
-                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
-                            groupNotepadDao.delete(n);
-                            notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().initialize();
-                        }
-                    }
-                } else if (this.objectType instanceof Groupage) {
-                    Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
-                    for (GroupageNotepad n : groupageNotepadDao) {
-                        if (notesListView.getSelectionModel().getSelectedItem().equals(n.getNotepad())) {
-                            groupageNotepadDao.delete(n);
-                            notepadDao.delete(n.getNotepad());
-                            SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
-                                    <NotesTabController>getController().initialize();
-                        }
-                    }
-                }*/
                 notepadDao.delete(notesListView.getSelectionModel().getSelectedItem());
+                this.notesListView.getItems().remove(notesListView.getSelectionModel().getSelectedItem());
             } catch (SQLException e) {
                 ErrorModal.show("Fehler: Die Notiz konnte nicht geloescht werden.");
             }

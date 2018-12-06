@@ -48,22 +48,26 @@ public class CreateNotepadController {
                 "Schlecht", "Ohne Zuordnung");
         priorityComboBox.setItems(prioritaet);
         priorityComboBox.getSelectionModel().select(0);
-        notepadTextarea.setStyle("-fx-background-color: red"); //Since first item of ComboBox is "Gut"
+        notepadTextarea.setStyle("-fx-background-color: green"); //Since first item of ComboBox is "Gut"
         notepadTextarea.setText(null);
     }
 
     public void setPriority(ActionEvent actionEvent) {
         //Setting Colors in relation to the chosen priority
-        if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
-            notepadTextarea.setStyle("-fx-background-color: red");
-        } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
-            notepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
-            notepadTextarea.setStyle("-fx-background-color: green");
-        } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
-            notepadTextarea.setStyle("-fx-background-color: grey");
-        } else {
-            return;
+        try {
+            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
+                notepadTextarea.setStyle("-fx-background-color: green");
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
+                notepadTextarea.setStyle("-fx-background-color: yellow");
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
+                notepadTextarea.setStyle("-fx-background-color: red");
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
+                notepadTextarea.setStyle("-fx-background-color: grey");
+            } else {
+                return;
+            }
+        } catch(NullPointerException e) {
+
         }
     }
 
