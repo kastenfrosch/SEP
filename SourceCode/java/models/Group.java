@@ -6,8 +6,11 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @DatabaseTable(tableName = Group.TABLE_GROUP)
-public class Group {
+public class Group implements INotepadEntity {
     public static final String TABLE_GROUP = "group";
     public static final String FIELD_GROUP_ID = "group_id";
     public static final String FIELD_GROUP_NAME = "name";
@@ -26,6 +29,9 @@ public class Group {
 
     @ForeignCollectionField
     private ForeignCollection<Student> students;
+
+    @ForeignCollectionField
+    private ForeignCollection<GroupNotepad> notepads;
 
     public Group() {}
 
@@ -56,6 +62,10 @@ public class Group {
 
     public ForeignCollection<Student> getStudents() {
         return students;
+    }
+
+    public List<INotepadBridge> getNotepads() {
+        return new LinkedList<>(notepads);
     }
 
     @Override

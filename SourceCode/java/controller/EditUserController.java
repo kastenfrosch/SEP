@@ -57,7 +57,7 @@ public class EditUserController {
             return;
         }
         // making sure that email is not empty & valid.
-        if (validateMailAddress(emailTextfield.toString()) || emailTextfield.getText().isBlank()) {
+        if (validateMailAddress(emailTextfield.getText())==false) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
@@ -106,12 +106,12 @@ public class EditUserController {
     //Validate the Mail Address by using the javaax.mail InternetAddress object.
     private boolean validateMailAddress(String adr) {
         try {
-            new InternetAddress(adr);
+            InternetAddress address = new InternetAddress(adr);
+            address.validate();
+            return true;
         } catch (AddressException e) {
             return false;
-        }
-        return true;
-    }
+        }}
 
     public void setUser(User user) {
         this.user = user;

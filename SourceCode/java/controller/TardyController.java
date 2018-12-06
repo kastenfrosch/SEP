@@ -15,6 +15,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import modal.ErrorModal;
 import models.CalendarEntry;
+import models.Groupage;
 import models.Student;
 import models.Tardy;
 
@@ -28,6 +29,8 @@ public class TardyController {
     private TableView<Tardy> tableView;
 
     private CalendarEntry calendarEntry;
+    private Groupage groupage;
+
     private Dao<Tardy, Integer> tardyDao;
 
     @FXML
@@ -103,13 +106,13 @@ public class TardyController {
     }
 
 
-    public void setCalendarEntry(CalendarEntry entry) {
+    public void setArgs(CalendarEntry entry, Groupage groupage) {
         this.calendarEntry = entry;
-
+        this.groupage = groupage;
         this.titleText.setText(
                 String.format(
                         this.titleText.getText(),
-                        calendarEntry.getCalendar().getGroupage().getDescription()
+                        groupage.getDescription()
                 )
         );
 
@@ -121,9 +124,7 @@ public class TardyController {
             DBManager db = DBManager.getInstance();
 
             ObservableList<Student> studentsInGroupage = FXCollections.observableArrayList();
-            this.calendarEntry.
-                    getCalendar().
-                    getGroupage().
+            this.groupage.
                     getGroups().
                     forEach(group -> {
                         studentsInGroupage.addAll(group.getStudents());

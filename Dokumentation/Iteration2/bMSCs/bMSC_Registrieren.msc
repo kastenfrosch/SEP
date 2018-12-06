@@ -1,0 +1,16 @@
+title Registrieren
+
+Benutzer->Anwendung: Registrieren
+Anwendung->Benutzer: Registrierungsfenster
+Benutzer->Anwendung: Eingabe der Daten
+Anwendung->Datenbank: Übergabe an die Datenbank
+alt Einwahlcode existiert 
+note right of Datenbank:Speichern des Benutzers
+Datenbank->Anwendung: Bestätigung über Registrierung
+else Einwahlcode existiert nicht
+Datenbank->Anwendung: Einwahlcode existiert nicht
+end
+Anwendung->Benutzer: Status anzeigen
+
+
+
