@@ -71,7 +71,7 @@ public class Calendar {
 
     @Override
     public String toString() {
-        String str = this.calendarType.toString() + " " + this.semester.getId();
+        String str = this.semester.getId();
         return this.calendarType == CalendarType.WEEK ? str + " " + this.groupage.getDescription() : str;
     }
 
