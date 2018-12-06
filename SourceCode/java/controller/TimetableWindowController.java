@@ -133,7 +133,7 @@ public class TimetableWindowController {
             ObservableList<Calendar> CalendarList = FXCollections.observableArrayList();
             Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
 
-            CalendarList.addAll(CalendarDao.queryForMatching(cal));
+            CalendarList.addAll(CalendarDao.queryForEq(Calendar.FIELD_CALENDAR_TYPE, Calendar.CalendarType.WEEK));
             cbg.setItems(CalendarList);
 
         } catch (java.sql.SQLException e) {
