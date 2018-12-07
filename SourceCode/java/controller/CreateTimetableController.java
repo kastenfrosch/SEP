@@ -20,8 +20,8 @@ import java.util.Iterator;
 public class CreateTimetableController {
 
     public ComboBox<Semester> cbs;
-    public ComboBox <Groupage>cbk;
-    public ComboBox <Calendar>cbg;
+    public ComboBox<Groupage> cbk;
+    public ComboBox<Calendar> cbg;
 
     private ArrayList<TextField> mon = new ArrayList<>();
     private ArrayList<TextField> di = new ArrayList<>();
@@ -67,6 +67,7 @@ public class CreateTimetableController {
     public Calendar calendar;
     public Semester semester;
     private Groupage groupage;
+    private int append = 0;
 
 
     private DBManager db;
@@ -79,34 +80,83 @@ public class CreateTimetableController {
         }
     }
 
-    //Delete TWC is using this method
-    public void CalendarComboBox(ComboBox<Calendar> calendarComboBox){
-        CalendarEntry calendarEntry = new CalendarEntry();
-        Calendar calendar = new Calendar();
-        Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
-        Dao<CalendarEntry, Integer> CalendarEntryDao = db.getCalendarEntryDao();
+    public void cbsOnAction(){
+        cbk.getItems().clear();
 
+        if (cbs.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("ACHTUNG!", null, "Kein Stundenplan Ausgewählt!");
+            return;
+        }
+        Groupage group = new Groupage();
+        group.setSemester(cbs.getSelectionModel().getSelectedItem());
         try {
-            Calendar cal =CalendarDao.queryForId(calendarComboBox.getSelectionModel().getSelectedItem().getCalendarId());
-            CalendarEntryDao.delete(cal.getCalendarEntries());
-            CalendarDao.delete(cal);
+            // creat an observableList with all groups
+            ObservableList<Groupage> GroupageList = FXCollections.observableArrayList();
+            Dao<Groupage, Integer> GroupageDao = db.getGroupageDao();
+            GroupageList.addAll(GroupageDao.queryForMatching(group));
+            cbk.setItems(GroupageList);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
+
+    public void appendTextfields() {
+        mon.add(m1);
+        mon.add(m2);
+        mon.add(m3);
+        mon.add(m4);
+        mon.add(m5);
+        mon.add(m6);
+        di.add(di1);
+        di.add(di2);
+        di.add(di3);
+        di.add(di4);
+        di.add(di5);
+        di.add(di6);
+        mi.add(mi1);
+        mi.add(mi2);
+        mi.add(mi3);
+        mi.add(mi4);
+        mi.add(mi5);
+        mi.add(mi6);
+        don.add(do1);
+        don.add(do2);
+        don.add(do3);
+        don.add(do4);
+        don.add(do5);
+        don.add(do6);
+        f.add(f1);
+        f.add(f2);
+        f.add(f3);
+        f.add(f4);
+        f.add(f5);
+        f.add(f6);
+    }
+
+    //Delete TWC is using this method
+
     //Append TextFields
     public void initialize() {
-        Semester semester;
+        //Append wird beim starten des Programms ausgefüht und für zu dem Fehler dass es dann 60 statt 30 elemnte sind
+        if (this.append == 0) {
+            appendTextfields();
 
-        appendTextfields();
+        }
+        this.append = 1;
+
 
         loadboxes();
     }
 
     //Load avaible timetable
-    public void loadboxes(){
-        try {
+    public void loadboxes() {
 
+        cbs.getItems().clear();
+        cbg.getItems().clear();
+
+        try {
             // creat an observableList with all groups
             ObservableList<Semester> SemesterList = FXCollections.observableArrayList();
             Dao<Semester, String> SemesterDao = db.getSemesterDao();
@@ -119,48 +169,34 @@ public class CreateTimetableController {
             e.printStackTrace();
         }
 
-
         try {
-
-
+            Calendar cal = new Calendar();
             ObservableList<Calendar> CalendarList = FXCollections.observableArrayList();
             Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
-            CalendarList.addAll(CalendarDao.queryForAll());
+            cal.setCalendarType(Calendar.CalendarType.WEEK);
+            CalendarList.addAll(CalendarDao.queryForEq(Calendar.FIELD_CALENDAR_TYPE, Calendar.CalendarType.WEEK));
             cbg.setItems(CalendarList);
 
         } catch (java.sql.SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
-    }
 
+    }
     // Get the Groupages for the selected semester
-    public void getGroupageForSemester(){
-
-        Groupage group = new Groupage();
-        group.setSemester(cbs.getSelectionModel().getSelectedItem());
-        try{
-            // creat an observableList with all groups
-            ObservableList<Groupage> GroupageList = FXCollections.observableArrayList();
-            Dao<Groupage, Integer> GroupageDao = db.getGroupageDao();
-            GroupageList.addAll(GroupageDao.queryForMatching(group));
-            cbk.setItems(GroupageList);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        //set semester combobox with the semester from the observableList
-
-
-    }
 
     // Load Timetable into the textfields
-    public void LoadTimetable(){
+    public void LoadTimetable() {
+
+
+        if (cbg.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("ACHTUNG!", null, "Kein Stundenplan Ausgewählt!");
+            return;
+        }
 
         Calendar calendar;
 
-        Dao<Calendar,Integer>calendarDao  = db.getCalendarDao();
+        Dao<Calendar, Integer> calendarDao = db.getCalendarDao();
 
         try {
             calendar = calendarDao.queryForId(cbg.getSelectionModel().getSelectedItem().getCalendarId());
@@ -169,18 +205,42 @@ public class CreateTimetableController {
             e.printStackTrace();
         }
 
+        getWeekPlan(mon, this.calendar, DayOfWeek.MONDAY);
+        getWeekPlan(di, this.calendar, DayOfWeek.TUESDAY);
+        getWeekPlan(mi, this.calendar, DayOfWeek.WEDNESDAY);
+        getWeekPlan(don, this.calendar, DayOfWeek.THURSDAY);
+        getWeekPlan(f, this.calendar, DayOfWeek.FRIDAY);
+        System.out.print("");
 
-        getMonday(mon,this.calendar);
-        getTuesday(di,this.calendar);
-        getWednesday(mi,this.calendar);
-        getThursday(don,this.calendar);
-        getFriday(f,this.calendar);
 
     }
 
 
+    public void DeleteWeekPlan(){
+
+        if (cbg.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("ACHTUNG!", null, "Kein Stundenplan Ausgewählt!");
+            return;
+        }
+
+        CalendarEntry calendarEntry = new CalendarEntry();
+        Calendar calendar = new Calendar();
+        Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
+        Dao<CalendarEntry, Integer> CalendarEntryDao = db.getCalendarEntryDao();
+        System.out.print("");
+        try {
+            Calendar cal = CalendarDao.queryForId(cbg.getSelectionModel().getSelectedItem().getCalendarId());
+            CalendarEntryDao.delete(cal.getCalendarEntries());
+            CalendarDao.delete(cal);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print("");
+        }
+
+    }
+
     //Delete ALL Calendar and Calendar Entries (ONLY FOR TEST)
-    public void deleteEntries(){
+    public void deleteEntries() {
         //Löschen Aller Calendar für Testzwcke
         /////////////////////////////////////////////////////////////////////////7
         CalendarEntry entry = new CalendarEntry();
@@ -191,9 +251,6 @@ public class CreateTimetableController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
 
 
         Calendar calendar = new Calendar();
@@ -209,7 +266,6 @@ public class CreateTimetableController {
 
     //Create
     public void CreateTimetable() {
-
         Calendar calendar = new Calendar();
         Semester semester;
         Groupage groupage;
@@ -224,33 +280,22 @@ public class CreateTimetableController {
             return;
         }
 
-        //IS CALENDAR ALREADY CREATED??
-
-
-
-
-
-        //Use  Groupage ans Semester id's from the Combo Boxes and set the Informations to this.calendar
-
-        Dao<Semester, String> SemesterDao = db.getSemesterDao();
+          Dao<Semester, String> SemesterDao = db.getSemesterDao();
         try {
             semester = SemesterDao.queryForId(cbs.getSelectionModel().getSelectedItem().toString());
             calendar.setSemester(semester);
             calendar.setCalendarType(Calendar.CalendarType.WEEK);
             System.out.print(semester.getDescription());
 
-            // System.out.print(semester.getDescription());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         Dao<Groupage, Integer> groupageDao = db.getGroupageDao();
 
         try {
             groupage = groupageDao.queryForId(cbk.getSelectionModel().getSelectedItem().getId());
             calendar.setGroupage(groupage);
-            System.out.print(groupage.getDescription());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -262,10 +307,9 @@ public class CreateTimetableController {
             CalendarDao.createIfNotExists(calendar);
 
 
-
             //CalendarDao.create(calendar);
 
-            if(calendar.getCalendarId()!=0){
+            if (calendar.getCalendarId() != 0) {
                 InfoModal.show("ACHTUNG!", null, "StundenPlan kontne  ertstellt werden!");
 
             }
@@ -277,502 +321,98 @@ public class CreateTimetableController {
             e.printStackTrace();
             return;
         }
+        setWeekPlan(mon, calendar, DayOfWeek.MONDAY);
+        setWeekPlan(di, calendar, DayOfWeek.TUESDAY);
+        setWeekPlan(mi, calendar, DayOfWeek.WEDNESDAY);
+        setWeekPlan(don, calendar, DayOfWeek.THURSDAY);
+        setWeekPlan(f, calendar, DayOfWeek.FRIDAY);
 
-        // String Calendarname = calendar.getSemester().getDescription()+calendar.getGroupage().getDescription();
 
-        setMonday(mon, calendar);
-        setTuesday(di, calendar);
-        setWednesday(mi, calendar);
-        setThursday(don, calendar);
-        setFriday(f, calendar);
-
+        cbk.getItems().clear();
+        cbs.getItems().clear();
+        loadboxes();
     }
 
     //Save Timetable
-    public void UpdateTimetable(){
+    public void UpdateTimetable() {
+        UpdateWeekPlan(mon, this.calendar, DayOfWeek.MONDAY);
+        UpdateWeekPlan(di, this.calendar, DayOfWeek.TUESDAY);
+        UpdateWeekPlan(mi, this.calendar, DayOfWeek.WEDNESDAY);
+        UpdateWeekPlan(don, this.calendar, DayOfWeek.THURSDAY);
+        UpdateWeekPlan(f, this.calendar, DayOfWeek.FRIDAY);
+    }
 
-        UpdateMonday(mon,this.calendar);
-        UpdateTuesday(di,this.calendar);
-        UpdateWednesday(mi,this.calendar);
-        UpdateThursday(don,this.calendar);
-        UpdateFriday(f,this.calendar);
+    public void setWeekPlan(ArrayList<TextField> array, Calendar calendar, DayOfWeek dayOfWeek) {
+
+        int hour = 8;
+        for (TextField textField : array) {
+            CalendarEntry mon = new CalendarEntry();
+            mon.setDayOfWeek(dayOfWeek);
+            mon.setStartTime(hour);
+            mon.setCalendar(calendar);
+            mon.setDescription(textField.getText());
+            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+            try {
+                CalendarDaoEntry.create(mon);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+            hour = hour + 2;
+        }
 
     }
 
+    //Load WeekPlan into Textfields.
+    public void getWeekPlan(ArrayList<TextField> array, Calendar calendar, DayOfWeek dayOfWeek) {
 
-    // Create new Timtable
-    public void setMonday(ArrayList<TextField> array, Calendar calendar) {
+        int hour = 8;
+        for (TextField textField : array) {
+            CalendarEntry mon = new CalendarEntry();
+            mon.setDayOfWeek(dayOfWeek);
+            mon.setStartTime(hour);
+            mon.setCalendar(calendar);
+            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
+            try {
+                CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
+                textField.setText(e.getDescription());
+            } catch (SQLException e) {
+                e.printStackTrace();
 
-        Iterator<TextField> i = array.iterator();
-        int currentmonday=0;
-        //for(TextField textfield : array)
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
+            }
+            hour = hour + 2;
+        }
+
+    }
+
+    //Update WeekPlan with the changes.
+    public void UpdateWeekPlan(ArrayList<TextField> array, Calendar calendar, DayOfWeek dayOfWeek) {
+
+
+        int hour = 8;
+        for (TextField textField : array) {
             CalendarEntry monday = new CalendarEntry();
-            monday.setDayOfWeek(DayOfWeek.MONDAY);
+            monday.setDayOfWeek(dayOfWeek);
             monday.setCalendar(calendar);
-            monday.setDescription(t.getText());
-            // monday.setDescription(array.get(currentmonday).getText());
             monday.setStartTime(hour);
             Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
             try {
-
-
-                CalendarDaoEntry.create(monday);
-                System.out.print("MONDAY" + hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-
-        }
-
-
-    }
-    public void setTuesday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry tuesday = new CalendarEntry();
-            tuesday.setDayOfWeek(DayOfWeek.TUESDAY);
-
-            tuesday.setCalendar(calendar);
-            tuesday.setDescription(t.getText());
-            tuesday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(tuesday);
-                System.out.print("TUESDAY"+hour);
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
-    public void setWednesday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry wednesday = new CalendarEntry();
-            wednesday.setDayOfWeek(DayOfWeek.WEDNESDAY);
-            wednesday.setCalendar(calendar);
-            wednesday.setDescription(t.getText());
-            wednesday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(wednesday);
-                System.out.print("WEDNESDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-        }
-    }
-    public void setThursday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry thursday = new CalendarEntry();
-            thursday.setDayOfWeek(DayOfWeek.THURSDAY);
-            thursday.setCalendar(calendar);
-            thursday.setDescription(t.getText());
-            thursday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(thursday);
-                System.out.print("THURSDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-
-        }
-
-
-    }
-    public void setFriday(ArrayList<TextField> array, Calendar calendar) {
-
-        Iterator<TextField> i = array.iterator();
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            TextField t = i.next();
-            CalendarEntry friday = new CalendarEntry();
-            friday.setDayOfWeek(DayOfWeek.FRIDAY);
-            friday.setCalendar(calendar);
-            friday.setDescription(t.getText());
-            friday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarDaoEntry.create(friday);
-                System.out.print("FRIDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-        }
-    }
-
-    public void appendTextfields() {
-        mon.add(m1);
-        mon.add(m2);
-        mon.add(m3);
-        mon.add(m4);
-        mon.add(m5);
-        mon.add(m6);
-
-        di.add(di1);
-        di.add(di2);
-        di.add(di3);
-        di.add(di4);
-        di.add(di5);
-        di.add(di6);
-
-        mi.add(mi1);
-        mi.add(mi2);
-        mi.add(mi3);
-        mi.add(mi4);
-        mi.add(mi5);
-        mi.add(mi6);
-
-        don.add(do1);
-        don.add(do2);
-        don.add(do3);
-        don.add(do4);
-        don.add(do5);
-        don.add(do6);
-
-        f.add(f1);
-        f.add(f2);
-        f.add(f3);
-        f.add(f4);
-        f.add(f5);
-        f.add(f6);
-
-    }
-    //Get Timetable infos
-    public void getMonday(ArrayList<TextField> array,Calendar calendar){
-
-        Iterator<TextField> i = array.iterator();
-        int currentmonday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry mon = new CalendarEntry();
-            mon.setDayOfWeek(DayOfWeek.MONDAY);
-            mon.setStartTime(hour);
-            mon.setCalendar(calendar);
-
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
-                array.get(currentmonday).setText(e.getDescription());
-
-                System.out.print("MONDAY"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentmonday++;
-            TextField l = i.next();
-        }
-
-
-    }
-    public void getTuesday(ArrayList<TextField> array,Calendar calendar){
-
-        Iterator<TextField> i = array.iterator();
-        int currentTuesday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry tues = new CalendarEntry();
-            tues.setDayOfWeek(DayOfWeek.TUESDAY);
-            tues.setStartTime(hour);
-            tues.setCalendar(calendar);
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(tues).get(0);
-                array.get(currentTuesday).setText(e.getDescription());
-
-
-                System.out.print("Tuesday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentTuesday++;
-            TextField l = i.next();
-        }
-
-        currentTuesday=0;
-    }
-    public void getWednesday(ArrayList<TextField> array,Calendar calendar){
-
-        Iterator<TextField> i = array.iterator();
-        int currentwednesday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry wed = new CalendarEntry();
-            wed.setDayOfWeek(DayOfWeek.WEDNESDAY);
-            wed.setStartTime(hour);
-            wed.setCalendar(calendar);
-
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(wed).get(0);
-                array.get(currentwednesday).setText(e.getDescription());
-
-
-                System.out.print("Wednesday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentwednesday++;
-            TextField l = i.next();
-        }
-
-        currentwednesday=0;
-    }
-    public void getThursday(ArrayList<TextField> array,Calendar calendar){
-
-        Iterator<TextField> i = array.iterator();
-        int currentThursday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry don = new CalendarEntry();
-            don.setDayOfWeek(DayOfWeek.THURSDAY);
-            don.setStartTime(hour);
-            don.setCalendar(calendar);
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(don).get(0);
-                array.get(currentThursday).setText(e.getDescription());
-
-
-                System.out.print("Thursday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentThursday++;
-            TextField l = i.next();
-        }
-
-        currentThursday=0;
-    }
-    public void getFriday(ArrayList<TextField> array,Calendar calendar){
-
-        Iterator<TextField> i = array.iterator();
-        int currentFriday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry f = new CalendarEntry();
-            f.setDayOfWeek(DayOfWeek.FRIDAY);
-            f.setStartTime(hour);
-            f.setCalendar(calendar);
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(f).get(0);
-                array.get(currentFriday).setText(e.getDescription());
-
-
-                System.out.print("Friday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentFriday++;
-            TextField l = i.next();
-        }
-
-        currentFriday=0;
-
-    }
-
-    //Update Timetable with the infos of getDAY
-    public void UpdateMonday(ArrayList<TextField>array,Calendar calendar){
-
-        int it = 0;
-        int zeit=8;
-        for(TextField textField : array){
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println(array.get(it).toString());
-            System.out.println("----------------------------------------------------------------------------");
-            CalendarEntry monday = new CalendarEntry();
-            monday.setDayOfWeek(DayOfWeek.MONDAY);
-            monday.setCalendar(calendar);
-            monday.setStartTime(zeit);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
                 CalendarEntry e = CalendarDaoEntry.queryForMatching(monday).get(0);
                 e.setDescription(textField.getText());
                 CalendarDaoEntry.update(e);
-                System.out.print("MONDAY" + zeit);
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
-            it++;
-            zeit = zeit+2;
+            hour = hour + 2;
         }
 
-
-
-
-
-
-    }
-    public void UpdateTuesday(ArrayList<TextField>array,Calendar calendar){
-
-        int hour=8;
-        for(TextField textField : array){
-            CalendarEntry tuesday = new CalendarEntry();
-            tuesday.setDayOfWeek(DayOfWeek.TUESDAY);
-            tuesday.setCalendar(calendar);
-            tuesday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e = CalendarDaoEntry.queryForMatching(tuesday).get(0);
-                e.setDescription(textField.getText());
-                CalendarDaoEntry.update(e);
-                System.out.print("TUESDAY" + hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            hour = hour+2;
-        }
-
-    }
-    public void UpdateWednesday(ArrayList<TextField>array,Calendar calendar){
-
-
-        int hour=8;
-        for(TextField textField : array){
-            CalendarEntry wednesday = new CalendarEntry();
-            wednesday.setDayOfWeek(DayOfWeek.WEDNESDAY);
-            wednesday.setCalendar(calendar);
-            wednesday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e = CalendarDaoEntry.queryForMatching(wednesday).get(0);
-                e.setDescription(textField.getText());
-                CalendarDaoEntry.update(e);
-                System.out.print("WEDNESDAY" + hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            hour = hour+2;
-        }
-    }
-    public void UpdateThursday(ArrayList<TextField>array,Calendar calendar){
-
-
-        int hour=8;
-        for(TextField textField : array){
-            CalendarEntry thursday = new CalendarEntry();
-            thursday.setDayOfWeek(DayOfWeek.THURSDAY);
-            thursday.setCalendar(calendar);
-            thursday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e = CalendarDaoEntry.queryForMatching(thursday).get(0);
-                e.setDescription(textField.getText());
-                CalendarDaoEntry.update(e);
-                System.out.print("THURSDAY" + hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            hour = hour+2;
-        }
-
-    }
-    public void UpdateFriday(ArrayList<TextField>array,Calendar calendar){
-
-
-        int hour=8;
-        for(TextField textField : array){
-            CalendarEntry friday = new CalendarEntry();
-            friday.setDayOfWeek(DayOfWeek.FRIDAY);
-            friday.setCalendar(calendar);
-            friday.setStartTime(hour);
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e = CalendarDaoEntry.queryForMatching(friday).get(0);
-                e.setDescription(textField.getText());
-                CalendarDaoEntry.update(e);
-                System.out.print("FRIDAY" + hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            hour = hour+2;
-        }
 
     }
 
     //Clean Textfields
-    public void Reload(){
+    public void Reload() {
         loadboxes();
         CleanTextfields(mon);
         CleanTextfields(di);
@@ -780,39 +420,26 @@ public class CreateTimetableController {
         CleanTextfields(don);
         CleanTextfields(f);
     }
+
     //Sub class
-    public void CleanTextfields(ArrayList<TextField> array){
-        for(TextField t :array ){
-            t.setText("");
-        }
-        for(TextField t :array ){
-            t.setText("");
-        }
-        for(TextField t :array ){
-            t.setText("");
-        }
-        for(TextField t :array ){
-            t.setText("");
-        }
-        for(TextField t :array ){
-            t.setText("");
-        }
-    }
+    public void CleanTextfields(ArrayList<TextField> array) {
 
-
-    //This is the part where we can initialize the Semester and Groupage from the HomeScreen
-    public void setSemester(Semester semester){
-        this.semester = semester;
-    }
-
-    public Semester getSemester(){
-        return this.semester;
-    }
-
-    public void SetGroupage(Groupage groupage){
-        this.groupage = groupage;
-    }
-    public Groupage getGroupage(){
-        return this.groupage;
+        for (TextField t : array) {
+            t.setText("");
+        }
+        for (TextField t : array) {
+            t.setText("");
+        }
+        for (TextField t : array) {
+            t.setText("");
+        }
+        for (TextField t : array) {
+            t.setText("");
+        }
+        for (TextField t : array) {
+            t.setText("");
+        }
     }
 }
+
+
