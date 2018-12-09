@@ -16,11 +16,11 @@ public class FavouriteGroup {
     private int id;
 
     @DatabaseField(columnName = FIELD_GROUP_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references \"group\"(group_id)")
+            columnDefinition = "integer not null references \"group\"(group_id) on delete cascade")
     private Group group;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "varchar not null references \"user\"(username)")
+            columnDefinition = "varchar not null references \"user\"(username) on delete cascade")
     private User user;
 
     public Group getGroup() {
