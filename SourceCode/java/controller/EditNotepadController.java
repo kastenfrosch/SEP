@@ -52,14 +52,18 @@ public class EditNotepadController {
 
     public void setPriority(ActionEvent actionEvent) {
         //Setting Colors in relation to the chosen priority
-        if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
-            editNotepadTextarea.setStyle("-fx-background-color: red");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
-            editNotepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
-            editNotepadTextarea.setStyle("-fx-background-color: green");
-        } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
-            editNotepadTextarea.setStyle("-fx-background-color: grey");
+        try {
+            if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
+                editNotepadTextarea.setStyle("-fx-background-color: green");
+            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
+                editNotepadTextarea.setStyle("-fx-background-color: yellow");
+            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
+                editNotepadTextarea.setStyle("-fx-background-color: red");
+            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
+                editNotepadTextarea.setStyle("-fx-background-color: grey");
+            }
+        } catch(NullPointerException e) {
+
         }
     }
 
@@ -150,13 +154,13 @@ public class EditNotepadController {
         editNotepadTextarea.setText(notepad.getNotepadContent());
         //Setting Colors
         if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
-            editNotepadTextarea.setStyle("-fx-background-color: red");
+            editNotepadTextarea.setStyle("-fx-background-color: green");
         }
         else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
             editNotepadTextarea.setStyle("-fx-background-color: yellow");
         }
         else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
-            editNotepadTextarea.setStyle("-fx-background-color: green");
+            editNotepadTextarea.setStyle("-fx-background-color: red");
         }
         else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
             editNotepadTextarea.setStyle("-fx-background-color: grey");

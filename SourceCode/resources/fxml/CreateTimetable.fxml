@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateTimetableController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="442.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateTimetableController">
    <children>
       <Label layoutX="3.0" layoutY="3.0" prefHeight="21.0" prefWidth="228.0" text="Stundenplan erstellen/bearbeiten" />
       <Label layoutX="20.0" layoutY="55.0" prefHeight="19.0" prefWidth="78.0" text="8:00-10:00" />
@@ -46,24 +46,27 @@
       <TextField fx:id="do6" layoutX="400.0" layoutY="240.0" prefHeight="20.0" prefWidth="85.0" />
       <TextField fx:id="f6" layoutX="500.0" layoutY="240.0" prefHeight="20.0" prefWidth="85.0" />
       <Separator layoutY="272.0" prefHeight="14.0" prefWidth="601.0" />
-      <Label layoutX="4.0" layoutY="288.0" text="Semester Auswählen" />
-      <ComboBox fx:id="cbs" layoutX="145.0" layoutY="285.0" prefHeight="31.0" prefWidth="137.0" />
-      <ComboBox fx:id="cbk" layoutX="145.0" layoutY="325.0" prefHeight="31.0" prefWidth="137.0" />
-      <Button layoutX="18.0" layoutY="325.0" mnemonicParsing="false" onAction="#getGroupageForSemester" text="Klassen laden" />
+      <Label layoutX="4.0" layoutY="290.0" text="Semester Auswählen" />
+      <ComboBox fx:id="cbs" layoutX="145.0" layoutY="285.0" onAction="#cbsOnAction" prefHeight="31.0" prefWidth="137.0" />
+      <ComboBox fx:id="cbk" layoutX="145.0" layoutY="334.0" prefHeight="31.0" prefWidth="137.0" />
       <Label layoutX="115.0" layoutY="25.0" text="Montag" />
       <Label layoutX="213.0" layoutY="25.0" text="Dienstag" />
       <Label layoutX="404.0" layoutY="25.0" text="Donnerstag" />
       <Label layoutX="311.0" layoutY="25.0" text="Mittwoch" />
       <Label layoutX="516.0" layoutY="25.0" text="Freitag" />
-      <Separator layoutX="275.0" layoutY="279.0" orientation="VERTICAL" prefHeight="121.0" prefWidth="30.0" />
-      <Button fx:id="create" layoutX="59.0" layoutY="365.0" mnemonicParsing="false" onAction="#CreateTimetable" text="Stundenplan erstellen" />
-      <Label layoutX="295.0" layoutY="288.0" text="Stundenplan auswählen" />
+      <Separator layoutX="275.0" layoutY="279.0" orientation="VERTICAL" prefHeight="163.0" prefWidth="30.0" />
+      <Button fx:id="create" layoutX="145.0" layoutY="381.0" mnemonicParsing="false" onAction="#CreateTimetable" prefHeight="31.0" prefWidth="137.0" text="Erstellen" />
+      <Label layoutX="295.0" layoutY="288.0" text="Wochenplan auswählen" />
       <ComboBox fx:id="cbg" layoutX="460.0" layoutY="285.0" prefHeight="31.0" prefWidth="137.0" />
       <Button fx:id="loadtimetable" layoutX="460.0" layoutY="325.0" mnemonicParsing="false" onAction="#LoadTimetable" prefHeight="31.0" prefWidth="137.0" text="laden" />
-      <Label layoutX="295.0" layoutY="328.0" text="Stundenplan Abbilden" />
+      <Label layoutX="295.0" layoutY="328.0" text="Wochenplan Abbilden" />
       <Label layoutX="294.0" layoutY="368.0" text="Änderungen speichern" />
       <Button layoutX="460.0" layoutY="365.0" mnemonicParsing="false" onAction="#UpdateTimetable" prefHeight="31.0" prefWidth="137.0" text="speichern" />
       <Button fx:id="reload" layoutX="570.0" mnemonicParsing="false" onAction="#Reload" prefHeight="10.0" prefWidth="30.0" text="R" />
       <Label layoutX="14.0" layoutY="245.0" text="18:00-20:00" />
+      <Label layoutX="14.0" layoutY="339.0" text="Klasse Auswählen" />
+      <Label layoutX="294.0" layoutY="407.0" text="Wochenplan löschen" />
+      <Button layoutX="460.0" layoutY="402.0" mnemonicParsing="false" onAction="#DeleteWeekPlan" prefHeight="31.0" prefWidth="137.0" text="löschen" />
+      <Label layoutX="47.0" layoutY="386.0" text="Wochenplan" />
    </children>
 </AnchorPane>

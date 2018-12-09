@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import modal.ConfirmationModal;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.*;
@@ -15,6 +16,7 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -24,11 +26,14 @@ public class TimetableWindowController {
 
 
     public ComboBox <Calendar>cbg;
-   private ArrayList<Label> mon = new ArrayList<>();
-   private ArrayList<Label> di = new ArrayList<>();
-   private ArrayList<Label> mi = new ArrayList<>();
-   private ArrayList<Label> don = new ArrayList<>();
-   private ArrayList<Label> f = new ArrayList<>();
+    private ArrayList<Label> mon = new ArrayList<>();
+    private ArrayList<Label> di = new ArrayList<>();
+    private ArrayList<Label> mi = new ArrayList<>();
+    private ArrayList<Label> don = new ArrayList<>();
+    private ArrayList<Label> f = new ArrayList<>();
+
+
+
     @FXML
     public GridPane gridPane;
     public Label m1;
@@ -70,10 +75,7 @@ public class TimetableWindowController {
     public Semester semester;
     public Groupage groupage;
 
-
-
     private DBManager db;
-
     {
         try {
             db = DBManager.getInstance();
@@ -81,10 +83,6 @@ public class TimetableWindowController {
             e.printStackTrace();
         }
     }
-
-
-
-
 
     //Load Timetable
     public void LoadTimetable(){
@@ -105,36 +103,37 @@ public class TimetableWindowController {
             e.printStackTrace();
         }
 
+//        getMonday(mon,this.calendar);
+//        getTuesday(di,this.calendar);
+//        getWednesday(mi,this.calendar);
+//        getThursday(don,this.calendar);
+//        getFriday(f,this.calendar);
 
-        getMonday(mon,this.calendar);
-        getTuesday(di,this.calendar);
-        getWednesday(mi,this.calendar);
-        getThursday(don,this.calendar);
-        getFriday(f,this.calendar);
-
+        getWeekPlan(mon,this.calendar,DayOfWeek.MONDAY);
+        getWeekPlan(di,this.calendar,DayOfWeek.TUESDAY);
+        getWeekPlan(mi,this.calendar,DayOfWeek.WEDNESDAY);
+        getWeekPlan(don,this.calendar,DayOfWeek.THURSDAY);
+        getWeekPlan(f,this.calendar,DayOfWeek.FRIDAY);
 
     }
-
 
     //
     public void initialize() {
-
-
-    loadboxes();
+        append();
+        loadboxes();
 
     }
-
-
-
 
     //Load availbe timetable
     public void loadboxes(){
         try {
 
-
+            Calendar cal = new Calendar();
+            cal.setCalendarType(Calendar.CalendarType.WEEK);
             ObservableList<Calendar> CalendarList = FXCollections.observableArrayList();
             Dao<Calendar, Integer> CalendarDao = db.getCalendarDao();
-            CalendarList.addAll(CalendarDao.queryForAll());
+
+            CalendarList.addAll(CalendarDao.queryForEq(Calendar.FIELD_CALENDAR_TYPE, Calendar.CalendarType.WEEK));
             cbg.setItems(CalendarList);
 
         } catch (java.sql.SQLException e) {
@@ -143,14 +142,13 @@ public class TimetableWindowController {
         }
     }
 
-    //Show Timetable
-    public void getMonday(ArrayList<Label> array,Calendar calendar){
-
+    public void getWeekPlan(ArrayList<Label>array,Calendar calendar,DayOfWeek dayOfWeek){
         Iterator<Label> i = array.iterator();
-        int currentmonday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
+        int currenttextfield = 0;
+        for(int hour = 8; i.hasNext(); hour += 2){
+
             CalendarEntry mon = new CalendarEntry();
-            mon.setDayOfWeek(DayOfWeek.MONDAY);
+            mon.setDayOfWeek(dayOfWeek);
             mon.setStartTime(hour);
             mon.setCalendar(calendar);
 
@@ -159,171 +157,32 @@ public class TimetableWindowController {
             try {
 
                 CalendarEntry e = CalendarDaoEntry.queryForMatching(mon).get(0);
-                array.get(currentmonday).setText(e.getDescription());
+                array.get(currenttextfield).setText(e.getDescription());
                 //  }
 
-                System.out.print("MONDAY"+hour+"   ");
+                System.out.print(dayOfWeek+" "+hour+"   ");
 
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
                 e.printStackTrace();
 
             }
-            currentmonday++;
+            currenttextfield++;
             Label l = i.next();
         }
-
-
     }
-    public void getTuesday(ArrayList<Label> array,Calendar calendar){
-
-        Iterator<Label> i = array.iterator();
-        int currentTuesday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry tues = new CalendarEntry();
-            tues.setDayOfWeek(DayOfWeek.TUESDAY);
-            tues.setStartTime(hour);
-            tues.setCalendar(calendar);
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(tues).get(0);
-                array.get(currentTuesday).setText(e.getDescription());
-
-
-                System.out.print("Tuesday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentTuesday++;
-            Label l = i.next();
-        }
-
-
-    }
-    public void getWednesday(ArrayList<Label> array,Calendar calendar){
-
-        Iterator<Label> i = array.iterator();
-        int currentwednesday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry wed = new CalendarEntry();
-            wed.setDayOfWeek(DayOfWeek.WEDNESDAY);
-            wed.setStartTime(hour);
-            wed.setCalendar(calendar);
-
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(wed).get(0);
-                array.get(currentwednesday).setText(e.getDescription());
-
-
-                System.out.print("Wednesday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentwednesday++;
-            Label l = i.next();
-        }
-
-
-    }
-    public void getThursday(ArrayList<Label> array,Calendar calendar){
-
-        Iterator<Label> i = array.iterator();
-        int currentThursday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry don = new CalendarEntry();
-            don.setDayOfWeek(DayOfWeek.THURSDAY);
-            don.setStartTime(hour);
-            don.setCalendar(calendar);
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(don).get(0);
-                array.get(currentThursday).setText(e.getDescription());
-
-
-                System.out.print("Thursday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentThursday++;
-            Label l = i.next();
-        }
-
-
-    }
-    public void getFriday(ArrayList<Label> array,Calendar calendar){
-
-        Iterator<Label> i = array.iterator();
-        int currentFriday = 0;
-        for (int hour = 8; i.hasNext(); hour += 2) {
-            CalendarEntry f = new CalendarEntry();
-            f.setDayOfWeek(DayOfWeek.FRIDAY);
-            f.setStartTime(hour);
-            f.setCalendar(calendar);
-
-            Dao<CalendarEntry, Integer> CalendarDaoEntry = db.getCalendarEntryDao();
-            try {
-
-                CalendarEntry e =CalendarDaoEntry.queryForMatching(f).get(0);
-                array.get(currentFriday).setText(e.getDescription());
-
-
-                System.out.print("Friday"+hour);
-
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                System.out.println("fuckml");
-                e.printStackTrace();
-
-            }
-            currentFriday++;
-            Label l = i.next();
-        }
-
-
-
-
-    }
-
-
 
     //Delete single Timetable
-    public void deleteCalendar(){
 
-        CreateTimetableController ctc = new CreateTimetableController();
-
-        ctc.CalendarComboBox(cbg);
-        loadboxes();
-    }
 
     public void OpenCreate(){
         SceneManager.getInstance()
                 .getLoaderForScene(SceneType.CREATE_TIMETABLE)
-                .<CreateTimetableController>getController();
+                .<CreateTimetableController>getController().initialize();
         SceneManager.getInstance().showInNewWindow(SceneType.CREATE_TIMETABLE);
     }
 
     //Append texfields to ArrayList<Textfield>
-    public int append(int test){
+    public void append(){
         mon.add(m1);
         mon.add(m2);
         mon.add(m3);
@@ -358,15 +217,13 @@ public class TimetableWindowController {
         f.add(f4);
         f.add(f5);
         f.add(f6);
-
-        test = mon.size()+di.size()+mi.size()+don.size()+f.size();
-        System.out.print("-------------------------"+test+"-------------------------------"+"Must be 30 (timeslots)6*5(days)");
-      return test;
-
+        System.out.print("--------------------------------------------------");
+        System.out.println("GRÖ?E  "+mon.size()+di.size()+mi.size()+don.size()+f.size());
+        System.out.print("--------------------------------------------------");
     }
 
     //ReloadCombobox
-   public void Reload(){
+    public void Reload(){
         loadboxes();
-   }
+    }
 }

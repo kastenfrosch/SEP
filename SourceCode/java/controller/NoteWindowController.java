@@ -1,6 +1,5 @@
 package controller;
 
-import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,19 +8,8 @@ import javafx.scene.control.TextArea;
 import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
-import java.sql.SQLException;
 
 public class NoteWindowController {
-
-    private DBManager db;
-
-    {
-        try {
-            db = DBManager.getInstance();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     public TextArea notepadTextarea;
@@ -33,14 +21,18 @@ public class NoteWindowController {
     public Label nameLabel;
 
     public void initialize() {
-        if (priorityLabel.getText().equals("Hoch")) {
-            notepadTextarea.setStyle("-fx-background-color: red");
+        if (priorityLabel.getText().equals("Gut")) {
+            notepadTextarea.setStyle("-fx-background-color: green");
+            priorityLabel.setText("Spezifikation: Gut");
         } else if (priorityLabel.getText().equals("Mittel")) {
             notepadTextarea.setStyle("-fx-background-color: yellow");
-        } else if (priorityLabel.getText().equals("Niedrig")) {
-            notepadTextarea.setStyle("-fx-background-color: green");
-        } else if (priorityLabel.getText().equals("Neutral")) {
+            priorityLabel.setText("Spezifikation: Mittel");
+        } else if (priorityLabel.getText().equals("Schlecht")) {
+            notepadTextarea.setStyle("-fx-background-color: red");
+            priorityLabel.setText("Spezifikation: Schlecht");
+        } else if (priorityLabel.getText().equals("Ohne Zuordnung")) {
             notepadTextarea.setStyle("-fx-background-color: grey");
+            priorityLabel.setText("Spezifikation: Ohne Zuordnung");
         }
     }
 
