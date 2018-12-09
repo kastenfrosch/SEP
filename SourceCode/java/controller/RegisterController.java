@@ -56,7 +56,6 @@ public class RegisterController {
 
     @FXML
     public void initialize() {
-        ArrayList<InviteCode> allCodes = new ArrayList<>();
 
 
         firstnameInput.clear();
@@ -83,7 +82,7 @@ public class RegisterController {
             InfoModal.show("FEHLER!", null, "Kein Nachnamen eingegeben!");
             return;
         }
-        if (validateMailAddress(emailInput.getText())==false) {
+        if (!validateMailAddress(emailInput.getText())) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
@@ -130,12 +129,12 @@ public class RegisterController {
         user.setPerson(person);
         checkCode.setUsedBy(user);
 
-        //convert the password in hex and use the salt to increase security
         byte[] salt = HashUtils.getRandomSalt();
         byte[] hashed = HashUtils.hash(passwordField.getText(), salt);
 
         String hexSalt = HashUtils.toHex(salt);
         String hexPass = HashUtils.toHex(hashed);
+
         user.setSalt(hexSalt);
         user.setPasswordHash(hexPass);
 
