@@ -57,7 +57,7 @@ public class EditUserController {
             return;
         }
         // making sure that email is not empty & valid.
-        if (validateMailAddress(emailTextfield.getText())==false) {
+        if (!validateMailAddress(emailTextfield.getText())) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
