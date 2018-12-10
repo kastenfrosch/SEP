@@ -47,43 +47,44 @@ public class NotesTabController {
 
         try {
             if (this.objectType instanceof Student) {
-                ObservableList<Notepad> list = FXCollections.observableArrayList();
-                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                // 2 ways on how to fill the ListView
+               /* ObservableList<Notepad> list = FXCollections.observableArrayList();
+                 for (StudentNotepad s : db.getStudentNotepadDao()) {
                     if (((((Student) this.objectType).getId() == s.getStudent().getId()))) {
                         list.add(s.getNotepad());
                     }
                 }
+                notesListView.setItems(list); */
                 StudentNotepad suitingStudent = new StudentNotepad();
                 suitingStudent.setStudent((Student) this.objectType);
-                notesListView.setItems(list);
                 notesListView.getItems().clear();
                 db.getStudentNotepadDao().queryForMatching(suitingStudent).stream()
                         .map(StudentNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
             } else if (this.objectType instanceof Groupage) {
-                ObservableList<Notepad> list = FXCollections.observableArrayList();
+               /* ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (GroupageNotepad s : db.getGroupageNotepadDao()) {
                     if ((((Groupage) this.objectType).getId() == s.getGroupage().getId())) {
                         list.add(s.getNotepad());
                     }
                 }
+                notesListView.setItems(list); */
                 GroupageNotepad suitingGroupage = new GroupageNotepad();
                 suitingGroupage.setGroupage((Groupage) this.objectType);
-                notesListView.setItems(list);
                 notesListView.getItems().clear();
                 db.getGroupageNotepadDao().queryForMatching(suitingGroupage).stream()
                         .map(GroupageNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
             } else if (this.objectType instanceof Group) {
-                ObservableList<Notepad> list = FXCollections.observableArrayList();
+              /*  ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (GroupNotepad s : db.getGroupNotepadDao()) {
                     if (((Group) this.objectType).getId() == s.getGroup().getId()) {
                         list.add(s.getNotepad());
                     }
                 }
+                notesListView.setItems(list); */
                 GroupNotepad suitingGroup = new GroupNotepad();
                 suitingGroup.setGroup((Group) this.objectType);
-                notesListView.setItems(list);
                 notesListView.getItems().clear();
                 db.getGroupNotepadDao().queryForMatching(suitingGroup).stream()
                         .map(GroupNotepad::getNotepad)
