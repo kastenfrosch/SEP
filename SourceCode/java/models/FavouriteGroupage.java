@@ -16,11 +16,11 @@ public class FavouriteGroupage {
     private int id;
 
     @DatabaseField(columnName = FIELD_GROUPAGE_ID, foreign = true, foreignAutoRefresh = true,
-    columnDefinition = "integer not null references groupage(groupage_id)")
+    columnDefinition = "integer not null references groupage(groupage_id) on delete cascade")
     private Groupage groupage;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-    columnDefinition = "varchar not null references \"user\"(username)")
+    columnDefinition = "varchar not null references \"user\"(username) on delete cascade")
     private User user;
 
     public Groupage getGroupage() {

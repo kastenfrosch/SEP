@@ -47,44 +47,45 @@ public class NotesTabController {
 
         try {
             if (this.objectType instanceof Student) {
-                ObservableList<Notepad> list = FXCollections.observableArrayList();
-                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                // 2 ways on how to fill the ListView
+               /* ObservableList<Notepad> list = FXCollections.observableArrayList();
+                 for (StudentNotepad s : db.getStudentNotepadDao()) {
                     if (((((Student) this.objectType).getId() == s.getStudent().getId()))) {
                         list.add(s.getNotepad());
                     }
                 }
+                notesListView.setItems(list); */
                 StudentNotepad suitingStudent = new StudentNotepad();
                 suitingStudent.setStudent((Student) this.objectType);
-                notesListView.setItems(list);
-                notesListView.getItems().clear(); //not needed if list is definitly empty
+                notesListView.getItems().clear();
                 db.getStudentNotepadDao().queryForMatching(suitingStudent).stream()
                         .map(StudentNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
             } else if (this.objectType instanceof Groupage) {
-                ObservableList<Notepad> list = FXCollections.observableArrayList();
+               /* ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (GroupageNotepad s : db.getGroupageNotepadDao()) {
                     if ((((Groupage) this.objectType).getId() == s.getGroupage().getId())) {
                         list.add(s.getNotepad());
                     }
                 }
+                notesListView.setItems(list); */
                 GroupageNotepad suitingGroupage = new GroupageNotepad();
                 suitingGroupage.setGroupage((Groupage) this.objectType);
-                notesListView.setItems(list);
-                notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
+                notesListView.getItems().clear();
                 db.getGroupageNotepadDao().queryForMatching(suitingGroupage).stream()
                         .map(GroupageNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
             } else if (this.objectType instanceof Group) {
-                ObservableList<Notepad> list = FXCollections.observableArrayList();
+              /*  ObservableList<Notepad> list = FXCollections.observableArrayList();
                 for (GroupNotepad s : db.getGroupNotepadDao()) {
                     if (((Group) this.objectType).getId() == s.getGroup().getId()) {
                         list.add(s.getNotepad());
                     }
                 }
+                notesListView.setItems(list); */
                 GroupNotepad suitingGroup = new GroupNotepad();
                 suitingGroup.setGroup((Group) this.objectType);
-                notesListView.setItems(list);
-                notesListView.getItems().clear(); // this is not necessary, if the list is guaranteed to be empty
+                notesListView.getItems().clear();
                 db.getGroupNotepadDao().queryForMatching(suitingGroup).stream()
                         .map(GroupNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
@@ -100,7 +101,6 @@ public class NotesTabController {
                             if (!empty && item != null) {
                                 setText(item.getNotepadName());
 
-                                // this switch could be rewritten using a Map<String, String>
                                 switch (item.getNotepadPriority()) {
                                     case "Gut":
                                         style = "-fx-background-color: green";
@@ -133,14 +133,12 @@ public class NotesTabController {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
         }
-        SceneType sceneType = null;
+        SceneType sceneType;
         SceneManager sm = SceneManager.getInstance();
         //Setting given Object & Notepad for EditNotepadWindow
-        if (sceneType == null) {
             sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
             sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
                     .setObject(this.objectType, notesListView.getSelectionModel().getSelectedItem());
-        }
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
@@ -167,13 +165,11 @@ public class NotesTabController {
     }
 
     public void createButton(ActionEvent actionEvent) {
-        SceneType sceneType = null;
+        SceneType sceneType;
         SceneManager sm = SceneManager.getInstance();
-        if (sceneType == null) {
             sceneType = SceneType.CREATE_NOTEPAD_WINDOW;
             sm.getLoaderForScene(sceneType).<CreateNotepadController>getController()
                     .setObject(this.objectType);
-        }
         SceneManager.getInstance().showInNewWindow(SceneType.CREATE_NOTEPAD_WINDOW);
     }
 
@@ -182,13 +178,11 @@ public class NotesTabController {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
         }
-        SceneType sceneType = null;
+        SceneType sceneType;
         SceneManager sm = SceneManager.getInstance();
-        if (sceneType == null) {
             sceneType = SceneType.NOTE_WINDOW;
             sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
                     .setNotepad(notesListView.getSelectionModel().getSelectedItem());
-        }
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 

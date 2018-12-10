@@ -15,11 +15,11 @@ public class FavouriteStudent {
     private int id;
 
     @DatabaseField(columnName = FIELD_STUDENT_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "integer not null references student(student_id)")
+            columnDefinition = "integer not null references student(student_id) on delete cascade")
     private Student student;
 
     @DatabaseField(columnName = FIELD_USER_ID, foreign = true, foreignAutoRefresh = true,
-            columnDefinition = "varchar not null references \"user\"(username)")
+            columnDefinition = "varchar not null references \"user\"(username) on delete cascade")
     private User user;
 
     public Student getStudent() {

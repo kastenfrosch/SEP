@@ -83,7 +83,6 @@ public class InviteCodeController {
 
     public void onClipboardBtnClicked(ActionEvent actionEvent) {
         // create a clipboard
-        ClipboardContent codeContent = new ClipboardContent();
         Clipboard codeClip = Toolkit.getDefaultToolkit().getSystemClipboard();
         //get the selected section
     try {
