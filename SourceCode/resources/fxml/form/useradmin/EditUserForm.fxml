@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.useradmin.EditUserController">
+   <children>
+      <Label layoutX="216.0" layoutY="14.0" text="User bearbeiten">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="107.0" layoutY="83.0" text="Vorname:" />
+      <Label layoutX="94.0" layoutY="134.0" text="Nachname:" />
+      <Label layoutX="93.0" layoutY="187.0" text="User Name:" />
+      <Label layoutX="137.0" layoutY="238.0" text="Email:" />
+      <Button fx:id="saveBtn" layoutX="469.0" layoutY="340.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
+      <Button fx:id="cancelBtn" layoutX="28.0" layoutY="340.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" text="Zurück" />
+      <Button fx:id="passwordReset" layoutX="223.0" layoutY="340.0" mnemonicParsing="false" onAction="#onPasswordResetClicked" text="Passwort ändern" />
+      <TextField fx:id="firstnameTextfield" layoutX="189.0" layoutY="77.0" />
+      <TextField fx:id="lastnameTextfield" layoutX="188.0" layoutY="128.0" />
+      <TextField fx:id="usernameTextfield" disable="true" layoutX="188.0" layoutY="181.0" />
+      <TextField fx:id="emailTextfield" layoutX="188.0" layoutY="232.0" />
+   </children>
+</AnchorPane>

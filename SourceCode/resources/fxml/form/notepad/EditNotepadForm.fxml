@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.notepad.EditNotepadController">
+   <children>
+      <TextArea fx:id="editNotepadTextarea" layoutX="70.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" promptText="Notiz" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0" />
+      <Label fx:id="editNotepadLabel" layoutX="170.0" layoutY="20.0" text="Notiz editieren" />
+      <TextField fx:id="editNotepadName" layoutX="70.0" layoutY="62.0" text="Bezeichnung" />
+      <ComboBox fx:id="editNotepadPriorityComboBox" layoutX="400.0" layoutY="100.0" onAction="#setPriority" prefWidth="150.0" promptText="Priorität" />
+      <Button fx:id="editNotepadSaveButton" layoutX="14.0" layoutY="340.0" mnemonicParsing="false" onAction="#editNotepadSave" text="Speichern" />
+      <Button fx:id="editNotepadCancelButton" layoutX="480.0" layoutY="340.0" mnemonicParsing="false" onAction="#editNotepadCancel" text="Abbrechen" />
+   </children>
+</AnchorPane>

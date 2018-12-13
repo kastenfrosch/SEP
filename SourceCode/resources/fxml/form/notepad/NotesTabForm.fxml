@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.notepad.NotesTabController">
+   <children>
+      <Button fx:id="editButton" layoutX="235.0" layoutY="350.0" mnemonicParsing="false" onAction="#editButton" text="Editieren" />
+      <Button fx:id="deleteButton" layoutX="350.0" layoutY="350.0" mnemonicParsing="false" onAction="#deleteButton" text="Löschen" />
+      <Button fx:id="createButton" layoutX="155.0" layoutY="350.0" mnemonicParsing="false" onAction="#createButton" text="Neu" />
+      <Button fx:id="showNoteButton" layoutX="35.0" layoutY="350.0" mnemonicParsing="false" onAction="#showNoteButton" text="Anzeigen" />
+      <Label fx:id="notesPaneLabel" layoutX="250.0" layoutY="20.0" text="Meine Notizen" />
+      <ListView fx:id="notesListView" layoutX="180.0" layoutY="80.0" prefHeight="230.0" prefWidth="230.0" />
+   </children>
+</AnchorPane>

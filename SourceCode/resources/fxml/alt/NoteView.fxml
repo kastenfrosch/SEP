@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.calendarfx.view.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.alt.NoteViewController">
+   <children>
+      <TableView fx:id="tableView" layoutX="8.0" layoutY="77.0" prefHeight="200.0" prefWidth="584.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy></TableView>
+      <Text fx:id="titleText" layoutX="213.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notizen für %s">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
+      <Button fx:id="newBtn" layoutX="503.0" layoutY="341.0" mnemonicParsing="false" onAction="#onNewBtnClicked" prefHeight="45.0" prefWidth="89.0" text="Neu" />
+      <Button fx:id="deleteBtn" layoutX="408.0" layoutY="341.0" mnemonicParsing="false" onAction="#onDeleteBtnClicked" prefHeight="45.0" prefWidth="89.0" text="Löschen" />
+   </children>
+</AnchorPane>
