@@ -30,7 +30,6 @@ public class SendMail {
         }
     }
 
-    User user = db.getLoggedInUser();
     @FXML
     private TextField targetAdressTextField;
     @FXML
@@ -100,16 +99,16 @@ public class SendMail {
 
     class GMailAuthenticator extends Authenticator {
         String user;
-        String pw;
+        String password;
         public GMailAuthenticator (String username, String password)
         {
             super();
             this.user = username;
-            this.pw = password;
+            this.password = password;
         }
         public PasswordAuthentication getPasswordAuthentication()
         {
-            return new PasswordAuthentication(user, pw);
+            return new PasswordAuthentication(user, password);
         }
     }
 }
