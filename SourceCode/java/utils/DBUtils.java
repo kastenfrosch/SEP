@@ -21,6 +21,7 @@ import java.util.Map;
 public class DBUtils {
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, NotepadHistory.class, true);
         TableUtils.dropTable(conn, CalendarExtraInfo.class, true);
         TableUtils.dropTable(conn, FavouriteSemester.class, true);
         TableUtils.dropTable(conn, FavouriteGroup.class, true);
@@ -64,6 +65,7 @@ public class DBUtils {
         TableUtils.createTable(conn, FavouriteGroupage.class);
         TableUtils.createTable(conn, FavouriteStudent.class);
         TableUtils.createTable(conn, CalendarExtraInfo.class);
+        TableUtils.createTable(conn, NotepadHistory.class);
     }
 
     public static void createTriggers() throws SQLException{
