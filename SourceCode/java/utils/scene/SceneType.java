@@ -30,6 +30,7 @@ public enum SceneType {
     TARDY_VIEW("/fxml/form/calendar/TardyView.fxml","Anwesenheitsplan"),
     WEEK_CALENDAR("/fxml/alt/WeekCalendarView.fxml", "Wochenplan"),
     SEND_MAIL("/fxml/SendMail.fxml","Email senden"),
+    RECEIVE_MAIL("/fxml/ReceiveMail.fxml","Email empfangen"),
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen");
 
 
