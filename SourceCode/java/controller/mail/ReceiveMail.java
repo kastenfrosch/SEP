@@ -1,6 +1,9 @@
 package controller.mail;
 
 import com.sun.mail.imap.protocol.MailboxInfo;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,13 +12,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import models.CalendarExtraInfo;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMultipart;
 
 public class ReceiveMail {
@@ -23,7 +29,7 @@ public class ReceiveMail {
     private static final String email_id = "MailForSEP@gmail.com";
     private static final String password = "changeme123!";
     @FXML
-    private TableView<MailboxInfo> mailTableView;
+    private TableView<Message> mailTableView;
     //set properties
 
 
@@ -42,10 +48,25 @@ public class ReceiveMail {
 
 
         //initialization of the tableview
-        TableColumn<MailboxInfo, String> subject = new TableColumn<>("Betreff:");
-        TableColumn<MailboxInfo, String> sender = new TableColumn<>("Absender:");
-        TableColumn<MailboxInfo, Date> date = new TableColumn<>("Datum:");
+        TableColumn<Message, String> subject = new TableColumn<>("Betreff:");
+        TableColumn<Message, Address> sender = new TableColumn<>("Absender:");
+        TableColumn<Message, Date> date = new TableColumn<>("Datum:");
 
+        subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
+        sender.setCellValueFactory(c -> {
+            try {
+                return new SimpleObjectProperty<>(c.getValue().getFrom()[0]);
+            } catch(MessagingException | IndexOutOfBoundsException ex) {
+                return null;
+            }
+        });
+        date.setCellValueFactory(c -> {
+            try {
+                return new SimpleObjectProperty<>(c.getValue().getSentDate());
+            } catch(MessagingException ex) {
+                return new SimpleObjectProperty<>(Date.from(Instant.EPOCH));
+            }
+        });
 
         try {
 
@@ -72,7 +93,6 @@ public class ReceiveMail {
             int messageCount = inbox.getMessageCount();
             System.out.println("Total Messages in INBOX: " + messageCount);
 
-
             for (int i = 0; i < messageCount; i++) {
                 System.out.println("Mail Subject:- " + inbox.getMessage(messageCount - i).getSubject());
                 System.out.println("-------------------------------------------------------------");
@@ -86,6 +106,7 @@ public class ReceiveMail {
 
             mailTableView.getColumns().addAll(date, subject, sender);
 
+            mailTableView.setItems(FXCollections.observableArrayList(inbox.getMessages()));
 
             inbox.close(true);
             store.close();
@@ -105,6 +126,7 @@ public class ReceiveMail {
 
     public void onRefreshBTNClicked(ActionEvent actionEvent) {
     }
+
     private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
         String result = "";
         int partCount = mimeMultipart.getCount();
