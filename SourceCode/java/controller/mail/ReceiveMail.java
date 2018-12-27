@@ -9,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import modal.InfoModal;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
@@ -33,13 +32,13 @@ public class ReceiveMail {
     private void initialize() {
 
         Properties properties = new Properties();
-        //You can use imap or imaps , *s -Secured
+        //set imap address, imaps = imap + secure
         properties.put("mail.store.protocol", "imaps");
-        //Host Address of Your Mail
+        //imap host of mail address
         properties.put("mail.imaps.host", "imap.gmail.com");
-        //Port number of your Mail Host
+        //imap port of mail address
         properties.put("mail.imaps.port", "993");
-
+        //set timeout
         properties.put("mail.imaps.timeout", "10000");
 
 
@@ -47,7 +46,7 @@ public class ReceiveMail {
         TableColumn<Message, String> subject = new TableColumn<>("Betreff:");
         TableColumn<Message, Address> sender = new TableColumn<>("Absender:");
         TableColumn<Message, Date> date = new TableColumn<>("Datum:");
-
+        //set table content
         subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
         sender.setCellValueFactory(c -> {
             try {
@@ -68,24 +67,23 @@ public class ReceiveMail {
 
             //create a session
             Session session = Session.getDefaultInstance(properties, null);
-            //SET the store for IMAPS
+            //SET the store for imaps
             Store store = session.getStore("imaps");
 
             System.out.println("Connection initiated......");
-            //Trying to connect IMAP server
+            //trying to connect iamp server
             store.connect(email_id, password);
             System.out.println("Connection is ready :)");
 
 
-            //Get inbox folder
+            //get inbox folder
             Folder inbox = store.getFolder("inbox");
-            //SET readonly format (*You can set read and write)
+            //set readonly format
             inbox.open(Folder.READ_ONLY);
 
+            // TODO: 2018-12-27 clear the prints
 
-            //Display email Details
-
-            //Inbox email count
+            //inbox email count
             int messageCount = inbox.getMessageCount();
             System.out.println("Total Messages in INBOX: " + messageCount);
 
@@ -99,18 +97,20 @@ public class ReceiveMail {
                 System.out.println("Mail Content:- " + inbox.getMessage(messageCount - i).getSentDate().toString());
                 System.out.println("****************************************************************************");
             }
-
+            //add all columns
             mailTableView.getColumns().addAll(date, subject, sender);
 
             mailTableView.setItems(FXCollections.observableArrayList(inbox.getMessages()));
 
+            //close inbox and store
             inbox.close(true);
             store.close();
-
+            //double click on mail to open the mail
             mailTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent t) {
                     if (t.getClickCount() == 2 && mailTableView.getSelectionModel().getSelectedCells() != null) {
+                        //select mail for readmail
                         ReadMail.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
                         SceneManager.getInstance().showInNewWindow(SceneType.READ_MAIL);
 
@@ -119,21 +119,17 @@ public class ReceiveMail {
             });
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
     public void onRefreshBTNClicked(ActionEvent actionEvent) {
         initialize();
     }
+
+
+    // TODO: 2018-12-27  rework the mimemultipart
 
     private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
         String result = "";
