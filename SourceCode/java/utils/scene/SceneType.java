@@ -29,8 +29,9 @@ public enum SceneType {
     EDIT_AND_CREATE_SEMESTERPLAN("/fxml/form/calendar/Semesterplan.fxml","Semesterplan"),
     TARDY_VIEW("/fxml/form/calendar/TardyView.fxml","Anwesenheitsplan"),
     WEEK_CALENDAR("/fxml/alt/WeekCalendarView.fxml", "Wochenplan"),
-    SEND_MAIL("/fxml/SendMail.fxml","Email senden"),
-    RECEIVE_MAIL("/fxml/ReceiveMail.fxml","Email empfangen"),
+    SEND_MAIL("/fxml/mail/SendMail.fxml","Email senden"),
+    RECEIVE_MAIL("/fxml/mail/ReceiveMail.fxml","Email empfangen"),
+    READ_MAIL("/fxml/mail/ReadMail.fxml","Email lesen"),
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen");
 
 

@@ -1,28 +1,24 @@
 package controller.mail;
 
-import com.sun.mail.imap.protocol.MailboxInfo;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import models.CalendarExtraInfo;
+import javafx.scene.input.MouseEvent;
+import modal.InfoModal;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
+import javax.mail.*;
+import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMultipart;
 
 public class ReceiveMail {
 
@@ -111,6 +107,18 @@ public class ReceiveMail {
             inbox.close(true);
             store.close();
 
+            mailTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent t) {
+                    if (t.getClickCount() == 2 && mailTableView.getSelectionModel().getSelectedCells() != null) {
+                        ReadMail.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
+                        InfoModal.show("Double Clicked"+ mailTableView.getSelectionModel().getSelectedItem());
+                        SceneManager.getInstance().showInNewWindow(SceneType.READ_MAIL);
+
+                    }
+                }
+            });
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,6 +133,7 @@ public class ReceiveMail {
     }
 
     public void onRefreshBTNClicked(ActionEvent actionEvent) {
+        initialize();
     }
 
     private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
@@ -145,4 +154,5 @@ public class ReceiveMail {
         }
         return result;
     }
+
 }

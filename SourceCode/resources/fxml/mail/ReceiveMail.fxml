@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane focusTraversable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.ReceiveMail">
+   <children>
+      <Button fx:id="refreshBTN" layoutX="418.0" layoutY="349.0" mnemonicParsing="false" onAction="#onRefreshBTNClicked" text="Refresh" />
+      <TableView fx:id="mailTableView" prefHeight="349.0" prefWidth="587.0" />
+   </children>
+</AnchorPane>
