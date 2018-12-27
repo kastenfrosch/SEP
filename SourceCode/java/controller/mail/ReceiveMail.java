@@ -112,7 +112,6 @@ public class ReceiveMail {
                 public void handle(MouseEvent t) {
                     if (t.getClickCount() == 2 && mailTableView.getSelectionModel().getSelectedCells() != null) {
                         ReadMail.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
-                        InfoModal.show("Double Clicked"+ mailTableView.getSelectionModel().getSelectedItem());
                         SceneManager.getInstance().showInNewWindow(SceneType.READ_MAIL);
 
                     }

@@ -1,44 +1,42 @@
 package controller.mail;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMultipart;
-
-import java.io.IOException;
+import javax.mail.BodyPart;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.Multipart;
 
 public class ReadMail {
 
 
     private static Message mailMessage;
-    @FXML
     public TextArea mailContent;
-    public TextField dateTextField;
-    public TextField senderTextField;
-    public TextField subjectTextField;
+    public TextArea dateTextField;
+    public TextArea senderTextField;
+    public TextArea subjectTextField;
 
     public Message getMailMessage() {
         return mailMessage;
     }
 
+    //set message to set pass the message from receivemail
     public static void setMailMessage(Message message) {
         mailMessage = message;
     }
 
     public void initialize(){
+        //clear the text area
         mailContent.clear();
         if(mailMessage != null) {
             try {
+                // set all the elements in the form
                 dateTextField.appendText(mailMessage.getSentDate().toString());
                 senderTextField.appendText(String.valueOf(mailMessage.getFrom()[0]));
                 subjectTextField.appendText(mailMessage.getSubject());
-                mailContent.setText(mailMessage.getContent().toString());
                 Folder folder = mailMessage.getFolder();
-// Open folder in read-only mode
+                //read only
                 if (folder.isOpen()) {
                     if ((folder.getMode() & Folder.READ_WRITE) != 0) {
                         folder.close(false);
@@ -47,19 +45,23 @@ public class ReadMail {
                 } else {
                     folder.open(Folder.READ_ONLY);
                 }
-
+                // get the content
                 Object content = mailMessage.getContent();
                 String body = null;
+                // if string return the string
                 if (content instanceof String) {
                     body = (String) content;
+                    //if multipart convert to string
                 } else if (content instanceof Multipart) {
                     Multipart multipart = (Multipart) content;
                     BodyPart part = multipart.getBodyPart(0);
                     body = (String) part.getContent();
                 }
+                //close folder
                 if (folder.isOpen()) {
                     folder.close(false);
                 }
+                //set content into the textarea
                 mailContent.appendText(body);
 
             } catch (Exception e) {
@@ -72,21 +74,4 @@ public class ReadMail {
         initialize();
     }
 
-
-
-
-    public static String toString(Message message) throws MessagingException, IOException {
-        Object content = message.getContent();
-        if (content instanceof MimeMultipart) {
-            MimeMultipart multipart = (MimeMultipart) content;
-            if (multipart.getCount() > 0) {
-                BodyPart part = multipart.getBodyPart(0);
-                content = part.getContent();
-            }
-        }
-        if (content != null) {
-            return content.toString();
-        }
-        return null;
-    }
 }
