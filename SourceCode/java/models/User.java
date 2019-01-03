@@ -14,6 +14,12 @@ public class User {
     public static final String FIELD_SALT = "salt";
     public static final String FIELD_LAST_TAB = "last_tab";
     public static final String FIELD_LAST_ITEM = "last_item";
+    public static final String FIELD_MAIL_HOST = "mail_host";
+    public static final String FIELD_MAIL_USER = "mail_user";
+    public static final String FIELD_MAIL_PASSWORD = "mail_password";
+    public static final String FIELD_MAIL_PORT = "mail_port";
+    public static final String FIELD_MAIL_AUTH_ENABLED = "mail_auth";
+    public static final String FIELD_MAIL_TLS_ENABLED = "mail_tls";
 
 
     @DatabaseField(id = true, columnName = FIELD_USERNAME)
@@ -36,6 +42,26 @@ public class User {
 
     @DatabaseField(columnName=FIELD_LAST_ITEM)
     private String lastItem;
+
+    @DatabaseField(columnName = FIELD_MAIL_HOST)
+    private String mailHost;
+
+    @DatabaseField(columnName = FIELD_MAIL_USER)
+    private String mailUser;
+
+    @DatabaseField(columnName = FIELD_MAIL_PASSWORD)
+    private String mailPassword;
+
+    @DatabaseField(columnName = FIELD_MAIL_PORT)
+    private int mailPort;
+
+    @DatabaseField(columnName = FIELD_MAIL_AUTH_ENABLED)
+    private boolean mailAuthEnabled;
+
+    @DatabaseField(columnName = FIELD_MAIL_TLS_ENABLED)
+    private boolean mailTLSEnabled;
+
+
 
     public User() {}
 
@@ -93,6 +119,54 @@ public class User {
 
     public void setLastItem(String lastItem) {
         this.lastItem = lastItem;
+    }
+
+    public String getMailHost() {
+        return mailHost;
+    }
+
+    public void setMailHost(String mailHost) {
+        this.mailHost = mailHost;
+    }
+
+    public String getMailUser() {
+        return mailUser;
+    }
+
+    public void setMailUser(String mailUser) {
+        this.mailUser = mailUser;
+    }
+
+    public String getMailPassword() {
+        return mailPassword;
+    }
+
+    public void setMailPassword(String mailPassword) {
+        this.mailPassword = mailPassword;
+    }
+
+    public int getMailPort() {
+        return mailPort;
+    }
+
+    public void setMailPort(int mailPort) {
+        this.mailPort = mailPort;
+    }
+
+    public boolean isMailAuthEnabled() {
+        return mailAuthEnabled;
+    }
+
+    public void setMailAuthEnabled(boolean mailAuthEnabled) {
+        this.mailAuthEnabled = mailAuthEnabled;
+    }
+
+    public boolean isMailTLSEnabled() {
+        return mailTLSEnabled;
+    }
+
+    public void setMailTLSEnabled(boolean mailTLSEnabled) {
+        this.mailTLSEnabled = mailTLSEnabled;
     }
 
     @Override
