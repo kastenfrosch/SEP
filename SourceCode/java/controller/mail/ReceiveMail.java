@@ -81,21 +81,13 @@ public class ReceiveMail {
             //set readonly format
             inbox.open(Folder.READ_ONLY);
 
-            // TODO: 2018-12-27 clear the prints
 
             //inbox email count
             int messageCount = inbox.getMessageCount();
-            System.out.println("Total Messages in INBOX: " + messageCount);
-
+            //keine Ahnung aber ohne das geht es nicht :(
             for (int i = 0; i < messageCount; i++) {
-                System.out.println("Mail Subject:- " + inbox.getMessage(messageCount - i).getSubject());
-                System.out.println("-------------------------------------------------------------");
-                System.out.println("Mail From:- " + inbox.getMessage(messageCount - i).getFrom()[0]);
-                System.out.println("-------------------------------------------------------------");
-                System.out.println("Mail Content:- " + getTextFromMimeMultipart((MimeMultipart) inbox.getMessage(messageCount - i).getContent()));
-                System.out.println("------------------------------------------------------------");
-                System.out.println("Mail Content:- " + inbox.getMessage(messageCount - i).getSentDate().toString());
-                System.out.println("****************************************************************************");
+                inbox.getMessage(messageCount - i).getSubject();
+
             }
             //add all columns
             mailTableView.getColumns().addAll(date, subject, sender);
@@ -126,28 +118,6 @@ public class ReceiveMail {
     }
     public void onRefreshBTNClicked(ActionEvent actionEvent) {
         initialize();
-    }
-
-
-    // TODO: 2018-12-27  rework the mimemultipart
-
-    private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
-        String result = "";
-        int partCount = mimeMultipart.getCount();
-        for (int i = 0; i < partCount; i++) {
-            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
-            if (bodyPart.isMimeType("text/plain")) {
-                result = result + "\n" + bodyPart.getContent();
-                break; // without break same text appears twice in my tests
-            } else if (bodyPart.isMimeType("text/html")) {
-                String html = (String) bodyPart.getContent();
-                // result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
-                result = html;
-            } else if (bodyPart.getContent() instanceof MimeMultipart) {
-                result = result + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
-            }
-        }
-        return result;
     }
 
 }
