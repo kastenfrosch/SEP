@@ -33,7 +33,7 @@ public enum SceneType {
     RECEIVE_MAIL("/fxml/mail/ReceiveMail.fxml","Email empfangen"),
     READ_MAIL("/fxml/mail/ReadMail.fxml","Email lesen"),
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen"),
-    EXAM_STUDENT("/fxml/alt/ExamStudent.fxml", "Bewertungsformular");
+    EXAM_STUDENT("/fxml/ExamStudent.fxml", "Bewertungsformular");
 
 
 
