@@ -7,6 +7,8 @@ import com.j256.ormlite.table.TableUtils;
 import connection.DBManager;
 import connection.PGNotificationHandler.NotificationChannel;
 import models.*;
+import models.exam.Exam;
+import models.exam.ExamQuestion;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,6 +23,8 @@ import java.util.Map;
 public class DBUtils {
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, ExamQuestion.class, true);
+        TableUtils.dropTable(conn, Exam.class, true);
         TableUtils.dropTable(conn, NotepadHistory.class, true);
         TableUtils.dropTable(conn, CalendarExtraInfo.class, true);
         TableUtils.dropTable(conn, FavouriteSemester.class, true);
@@ -66,6 +70,8 @@ public class DBUtils {
         TableUtils.createTable(conn, FavouriteStudent.class);
         TableUtils.createTable(conn, CalendarExtraInfo.class);
         TableUtils.createTable(conn, NotepadHistory.class);
+        TableUtils.createTable(conn, Exam.class);
+        TableUtils.createTable(conn, ExamQuestion.class);
     }
 
     public static void createTriggers() throws SQLException{
