@@ -13,8 +13,6 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import javax.mail.*;
-import javax.mail.internet.MimeMultipart;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Properties;
