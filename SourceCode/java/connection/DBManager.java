@@ -4,6 +4,10 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import models.*;
 import com.j256.ormlite.dao.Dao;
+import models.exam.Exam;
+import models.exam.ExamQuestion;
+import utils.settings.Setting;
+import utils.settings.Settings;
 
 import java.sql.SQLException;
 
@@ -32,6 +36,9 @@ public class DBManager {
     private Dao<StudentNotepad, Integer> studentNotepadDao;
     private Dao<GroupageNotepad, Integer> groupageNotepadDao;
     private Dao<GroupNotepad, Integer> groupNotepadDao;
+    private Dao<NotepadHistory, Integer> notepadHistoryDao;
+    private Dao<Exam, Integer> examDao;
+    private Dao<ExamQuestion, Integer> examQuestionDao;
 
     private User loggedInUser = null;
 
@@ -43,10 +50,16 @@ public class DBManager {
     }
 
     private DBManager() throws SQLException {
-        String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep2";
+        String databaseUrl = "jdbc:postgresql://%s:%s/%s";
+        databaseUrl = String.format(
+                databaseUrl,
+                Settings.get(Setting.DB_HOST),
+                Settings.get(Setting.DB_PORT),
+                Settings.get(Setting.DB_DB)
+        );
         JdbcConnectionSource conn = new JdbcConnectionSource(databaseUrl);
-        conn.setUsername("sep");
-        conn.setPassword("ayy1mao");
+        conn.setUsername(Settings.get(Setting.DB_USER));
+        conn.setPassword(Settings.get(Setting.DB_PASSWORD));
 
 
         this.semesterDao = DaoManager.createDao(conn, Semester.class);
@@ -69,6 +82,9 @@ public class DBManager {
         this.studentNotepadDao = DaoManager.createDao(conn, StudentNotepad.class);
         this.groupageNotepadDao = DaoManager.createDao(conn, GroupageNotepad.class);
         this.groupNotepadDao = DaoManager.createDao(conn, GroupNotepad.class);
+        this.notepadHistoryDao = DaoManager.createDao(conn, NotepadHistory.class);
+        this.examDao = DaoManager.createDao(conn, Exam.class);
+        this.examQuestionDao = DaoManager.createDao(conn, ExamQuestion.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -149,6 +165,18 @@ public class DBManager {
 
     public Dao<GroupNotepad, Integer> getGroupNotepadDao() {
         return groupNotepadDao;
+    }
+
+    public Dao<NotepadHistory, Integer> getNotepadHistoryDao() {
+        return notepadHistoryDao;
+    }
+
+    public Dao<Exam, Integer> getExamDao() {
+        return examDao;
+    }
+
+    public Dao<ExamQuestion, Integer> getExamQuestionDao() {
+        return examQuestionDao;
     }
 
     public void setLoggedInUser(User user) {
