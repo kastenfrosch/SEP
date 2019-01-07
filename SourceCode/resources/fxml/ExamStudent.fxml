@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.1708542713567839" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="754.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExamStudentController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="114.0" prefWidth="598.0">
+         <children>
+            <Text layoutX="315.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bewertungsformular - Studierendenebene">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
+            <ComboBox id="studentComboBox" fx:id="studentComboBox" layoutX="83.0" layoutY="77.0" prefWidth="150.0" promptText="Student ausw." />
+            <Text layoutX="4.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+            <Text layoutX="375.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fortschritt: ">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+            <ProgressBar id="timeProgressBar" fx:id="timeProgressBar" layoutX="470.0" layoutY="84.0" prefWidth="200.0" progress="0.0" />
+            <Button id="evaluationBtn" fx:id="evaluationBtn" layoutX="839.0" layoutY="77.0" mnemonicParsing="false" onAction="#evaluationBtnClicked" text="Auswerten" />
+            <Button layoutX="1177.0" layoutY="34.0" mnemonicParsing="false" text="Speichern" />
+            <Button id="saveBtn" fx:id="saveBtn" layoutX="999.0" layoutY="78.0" mnemonicParsing="false" onAction="#saveBtnClicked" text="Speichern" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="950.0">
+         <children>
+            <TableView id="ratingTableView" fx:id="ratingTableView" layoutX="-1.0" layoutY="-1.0" prefHeight="620.0" prefWidth="815.0">
+              <columns>
+                <TableColumn prefWidth="722.0" text="Frage" />
+                  <TableColumn prefWidth="92.0" text="Bewertung" />
+              </columns>
+            </TableView>
+            <Text layoutX="850.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Durchschnitt:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+            <Text layoutX="850.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bestanden:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+            <Label id="averageLabel" fx:id="averageLabel" layoutX="993.0" layoutY="242.0" text="Durchschnitt" />
+            <Label id="passLabel" fx:id="passLabel" layoutX="993.0" layoutY="359.0" text="Bestanden" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

@@ -74,4 +74,12 @@ public class ReadMail {
         initialize();
     }
 
+    public void onReplyBTNClicked(ActionEvent actionEvent) {
+    }
+
+    public void onSaveBTNClicked(ActionEvent actionEvent) {
+    }
+
+    public void onBackBTNClicked(ActionEvent actionEvent) {
+    }
 }
