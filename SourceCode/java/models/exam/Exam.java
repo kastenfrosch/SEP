@@ -16,7 +16,7 @@ public class Exam {
     private int examId;
 
     @DatabaseField(columnName = FIELD_USER, foreign = true, foreignAutoRefresh = false,
-    columnDefinition = "varchar references \"user\"(username)")
+            columnDefinition = "varchar references \"user\"(username)")
     private User user;
 
     @DatabaseField(columnName = FIELD_DESCRIPTION)
@@ -40,5 +40,19 @@ public class Exam {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Exam)) {
+            return false;
+        }
+
+        return ((Exam)other).getExamId() == this.getExamId();
+    }
+
+    @Override
+    public String toString() {
+        return this.description;
     }
 }

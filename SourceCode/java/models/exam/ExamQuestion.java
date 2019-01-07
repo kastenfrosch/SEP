@@ -80,4 +80,18 @@ public class ExamQuestion {
     public void setScore(float score) {
         this.score = score;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof ExamQuestion)) {
+            return false;
+        }
+
+        return ((ExamQuestion)other).getQuestionId() == this.getQuestionId();
+    }
+
+    @Override
+    public String toString() {
+        return this.getQuestionString();
+    }
 }
