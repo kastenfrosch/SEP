@@ -3,6 +3,8 @@ package connection;
 import com.impossibl.postgres.api.jdbc.PGConnection;
 import com.impossibl.postgres.api.jdbc.PGNotificationListener;
 import com.impossibl.postgres.jdbc.PGDataSource;
+import utils.settings.Setting;
+import utils.settings.Settings;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,11 +28,11 @@ public class PGNotificationHandler implements PGNotificationListener {
 
     private PGNotificationHandler() {
         PGDataSource dataSource = new PGDataSource();
-        dataSource.setHost("hakurei.trashprojects.moe");
-        dataSource.setPort(5432);
-        dataSource.setDatabase("sep2");
-        dataSource.setUser("sep");
-        dataSource.setPassword("ayy1mao");
+        dataSource.setHost(Settings.get(Setting.DB_HOST));
+        dataSource.setPort(Integer.parseInt(Settings.get(Setting.DB_PORT)));
+        dataSource.setDatabase(Settings.get(Setting.DB_DB));
+        dataSource.setUser(Settings.get(Setting.DB_USER));
+        dataSource.setPassword(Settings.get(Setting.DB_PASSWORD));
 
         try {
             this.conn = (PGConnection) dataSource.getConnection();

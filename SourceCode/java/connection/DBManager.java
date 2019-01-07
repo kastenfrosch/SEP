@@ -6,6 +6,8 @@ import models.*;
 import com.j256.ormlite.dao.Dao;
 import models.exam.Exam;
 import models.exam.ExamQuestion;
+import utils.settings.Setting;
+import utils.settings.Settings;
 
 import java.sql.SQLException;
 
@@ -48,10 +50,16 @@ public class DBManager {
     }
 
     private DBManager() throws SQLException {
-        String databaseUrl = "jdbc:postgresql://hakurei.trashprojects.moe:5432/sep2";
+        String databaseUrl = "jdbc:postgresql://%s:%s/%s";
+        databaseUrl = String.format(
+                databaseUrl,
+                Settings.get(Setting.DB_HOST),
+                Settings.get(Setting.DB_PORT),
+                Settings.get(Setting.DB_DB)
+        );
         JdbcConnectionSource conn = new JdbcConnectionSource(databaseUrl);
-        conn.setUsername("sep");
-        conn.setPassword("ayy1mao");
+        conn.setUsername(Settings.get(Setting.DB_USER));
+        conn.setPassword(Settings.get(Setting.DB_PASSWORD));
 
 
         this.semesterDao = DaoManager.createDao(conn, Semester.class);
