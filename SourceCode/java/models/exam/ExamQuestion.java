@@ -11,6 +11,7 @@ public class ExamQuestion {
     public static final String FIELD_QUESTION_STRING = "question_string";
     public static final String FIELD_ANSWER = "answer";
     public static final String FIELD_NOTE = "note";
+    public static final String FIELD_SCORE = "score";
 
     @DatabaseField(columnName = FIELD_QUESTION_ID, generatedId = true)
     private int questionId;
@@ -27,6 +28,9 @@ public class ExamQuestion {
 
     @DatabaseField(columnName = FIELD_NOTE)
     private String note;
+
+    @DatabaseField(columnName = FIELD_SCORE)
+    private float score;
 
 
     public int getQuestionId() {
@@ -67,5 +71,13 @@ public class ExamQuestion {
 
     public void setQuestionString(String questionString) {
         this.questionString = questionString;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 }
