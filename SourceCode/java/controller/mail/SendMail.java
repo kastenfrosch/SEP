@@ -46,7 +46,7 @@ public class SendMail {
         String from = "MailForSEP@gmail.com";//change accordingly
         final String username = "MailForSEP@gmail.com";//change accordingly
         final String password = "changeme123!";//change accordingly
-
+        String port = "587";
         // Assuming you are sending email through relay.jangosmtp.net
         String host = "smtp.gmail.com";
         Properties props = new Properties();
@@ -54,7 +54,7 @@ public class SendMail {
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.user", from);
         props.put("mail.smtp.password", password);
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", port);
         props.put("mail.smtp.auth", "true");
 
         // Get the Session object.

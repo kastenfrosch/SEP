@@ -82,14 +82,18 @@ public class ReceiveMail {
 
             //inbox email count
             int messageCount = inbox.getMessageCount();
-            //keine Ahnung aber ohne das geht es nicht :(
+            //keine Ahnung aber ohne das geht es nicht :( jetzt doch ahnung aber ich lass das mal lieber so stehen, bevor alles nicht mehr geht
             for (int i = 0; i < messageCount; i++) {
                 inbox.getMessage(messageCount - i).getSubject();
 
             }
             //add all columns
-            mailTableView.getColumns().addAll(date, subject, sender);
+            
+            date.prefWidthProperty().bind(mailTableView.widthProperty().divide(3));
+            subject.prefWidthProperty().bind(mailTableView.widthProperty().divide(3));
+            sender.prefWidthProperty().bind(mailTableView.widthProperty().divide(3));
 
+            mailTableView.getColumns().addAll(date, subject, sender);
             mailTableView.setItems(FXCollections.observableArrayList(inbox.getMessages()));
 
             //close inbox and store
