@@ -2,8 +2,6 @@ package models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.j256.ormlite.field.DataType;
-import utils.scene.SceneType;
 
 @DatabaseTable(tableName=User.TABLE_USER)
 public class User {
@@ -14,10 +12,12 @@ public class User {
     public static final String FIELD_SALT = "salt";
     public static final String FIELD_LAST_TAB = "last_tab";
     public static final String FIELD_LAST_ITEM = "last_item";
-    public static final String FIELD_MAIL_HOST = "mail_host";
+    public static final String FIELD_MAIL_IMAP_HOST = "mail_imap_host";
+    public static final String FIELD_MAIL_SMTP_HOST = "mail_smtp_host";
     public static final String FIELD_MAIL_USER = "mail_user";
     public static final String FIELD_MAIL_PASSWORD = "mail_password";
-    public static final String FIELD_MAIL_PORT = "mail_port";
+    public static final String FIELD_MAIL_IMAP_PORT = "mail_imap_port";
+    public static final String FIELD_MAIL_SMTP_PORT = "mail_smtp_port";
     public static final String FIELD_MAIL_AUTH_ENABLED = "mail_auth";
     public static final String FIELD_MAIL_TLS_ENABLED = "mail_tls";
 
@@ -43,8 +43,11 @@ public class User {
     @DatabaseField(columnName=FIELD_LAST_ITEM)
     private String lastItem;
 
-    @DatabaseField(columnName = FIELD_MAIL_HOST)
-    private String mailHost;
+    @DatabaseField(columnName = FIELD_MAIL_IMAP_HOST)
+    private String mailImapHost;
+
+    @DatabaseField(columnName = FIELD_MAIL_SMTP_HOST)
+    private String mailSmtpHost;
 
     @DatabaseField(columnName = FIELD_MAIL_USER)
     private String mailUser;
@@ -52,8 +55,11 @@ public class User {
     @DatabaseField(columnName = FIELD_MAIL_PASSWORD)
     private String mailPassword;
 
-    @DatabaseField(columnName = FIELD_MAIL_PORT)
-    private int mailPort;
+    @DatabaseField(columnName = FIELD_MAIL_IMAP_PORT)
+    private int mailImapPort;
+
+    @DatabaseField(columnName = FIELD_MAIL_SMTP_PORT)
+    private int mailSmtpPort;
 
     @DatabaseField(columnName = FIELD_MAIL_AUTH_ENABLED)
     private boolean mailAuthEnabled;
@@ -121,12 +127,12 @@ public class User {
         this.lastItem = lastItem;
     }
 
-    public String getMailHost() {
-        return mailHost;
+    public String getMailImapHost() {
+        return mailImapHost;
     }
 
-    public void setMailHost(String mailHost) {
-        this.mailHost = mailHost;
+    public void setMailImapHost(String mailImapHost) {
+        this.mailImapHost = mailImapHost;
     }
 
     public String getMailUser() {
@@ -145,12 +151,12 @@ public class User {
         this.mailPassword = mailPassword;
     }
 
-    public int getMailPort() {
-        return mailPort;
+    public int getMailImapPort() {
+        return mailImapPort;
     }
 
-    public void setMailPort(int mailPort) {
-        this.mailPort = mailPort;
+    public void setMailImapPort(int mailImapPort) {
+        this.mailImapPort = mailImapPort;
     }
 
     public boolean isMailAuthEnabled() {
@@ -167,6 +173,22 @@ public class User {
 
     public void setMailTLSEnabled(boolean mailTLSEnabled) {
         this.mailTLSEnabled = mailTLSEnabled;
+    }
+
+    public int getMailSmtpPort() {
+        return mailSmtpPort;
+    }
+
+    public void setMailSmtpPort(int mailSmtpPort) {
+        this.mailSmtpPort = mailSmtpPort;
+    }
+
+    public String getMailSmtpHost() {
+        return mailSmtpHost;
+    }
+
+    public void setMailSmtpHost(String mailSmtpHost) {
+        this.mailSmtpHost = mailSmtpHost;
     }
 
     @Override
