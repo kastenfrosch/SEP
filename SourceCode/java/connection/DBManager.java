@@ -4,6 +4,8 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import models.*;
 import com.j256.ormlite.dao.Dao;
+import models.exam.Exam;
+import models.exam.ExamQuestion;
 
 import java.sql.SQLException;
 
@@ -32,6 +34,9 @@ public class DBManager {
     private Dao<StudentNotepad, Integer> studentNotepadDao;
     private Dao<GroupageNotepad, Integer> groupageNotepadDao;
     private Dao<GroupNotepad, Integer> groupNotepadDao;
+    private Dao<NotepadHistory, Integer> notepadHistoryDao;
+    private Dao<Exam, Integer> examDao;
+    private Dao<ExamQuestion, Integer> examQuestionDao;
 
     private User loggedInUser = null;
 
@@ -69,6 +74,9 @@ public class DBManager {
         this.studentNotepadDao = DaoManager.createDao(conn, StudentNotepad.class);
         this.groupageNotepadDao = DaoManager.createDao(conn, GroupageNotepad.class);
         this.groupNotepadDao = DaoManager.createDao(conn, GroupNotepad.class);
+        this.notepadHistoryDao = DaoManager.createDao(conn, NotepadHistory.class);
+        this.examDao = DaoManager.createDao(conn, Exam.class);
+        this.examQuestionDao = DaoManager.createDao(conn, ExamQuestion.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -149,6 +157,18 @@ public class DBManager {
 
     public Dao<GroupNotepad, Integer> getGroupNotepadDao() {
         return groupNotepadDao;
+    }
+
+    public Dao<NotepadHistory, Integer> getNotepadHistoryDao() {
+        return notepadHistoryDao;
+    }
+
+    public Dao<Exam, Integer> getExamDao() {
+        return examDao;
+    }
+
+    public Dao<ExamQuestion, Integer> getExamQuestionDao() {
+        return examQuestionDao;
     }
 
     public void setLoggedInUser(User user) {
