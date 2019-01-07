@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.5" orientation="VERTICAL" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.calendar.SemesterplanController">
+    <items>
+        <Pane prefHeight="96.0" prefWidth="1200.0">
+            <children>
+                <Button id="btnAdd" fx:id="addButton" layoutX="871.0" layoutY="33.0" mnemonicParsing="false" onAction="#onAddBtnClicked" text="Hinzufügen" />
+                <Button id="btnDelete" fx:id="deleteBtn" layoutX="781.0" layoutY="33.0" mnemonicParsing="false" onAction="#onDeleteBtnClicked" prefHeight="25.0" prefWidth="77.0" text="Löschen" />
+                <Text layoutX="344.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Semesterplan">
+                    <font>
+                        <Font size="47.0" />
+                    </font>
+                </Text>
+            <Button fx:id="tardyBtn" layoutX="144.0" layoutY="36.0" mnemonicParsing="false" onAction="#onTardyBtnClicked" prefHeight="25.0" prefWidth="85.0" text="Anwesenheit" />
+            <ComboBox fx:id="groupageComboBox" layoutX="14.0" layoutY="36.0" prefHeight="25.0" prefWidth="124.0" promptText="Klasse wählen" />
+            </children>
+        </Pane>
+        <TableView fx:id="semesterplan" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="968.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy></TableView>
+    </items>
+</SplitPane>
