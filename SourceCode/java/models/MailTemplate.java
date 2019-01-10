@@ -24,6 +24,10 @@ public class MailTemplate {
         this.content = content;
     }
 
+    public MailTemplate() {
+
+    }
+
     public int getTemplateId() {
         return templateId;
     }
