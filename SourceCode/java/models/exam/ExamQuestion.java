@@ -2,6 +2,7 @@ package models.exam;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import models.Student;
 
 @DatabaseTable(tableName = ExamQuestion.TABLE_EXAM_QUESTION)
 public class ExamQuestion {
@@ -12,6 +13,7 @@ public class ExamQuestion {
     public static final String FIELD_ANSWER = "answer";
     public static final String FIELD_NOTE = "note";
     public static final String FIELD_SCORE = "score";
+    public static final String FIELD_STUDENT = "student";
 
     @DatabaseField(columnName = FIELD_QUESTION_ID, generatedId = true)
     private int questionId;
@@ -31,6 +33,10 @@ public class ExamQuestion {
 
     @DatabaseField(columnName = FIELD_SCORE)
     private float score;
+
+    @DatabaseField(columnName = FIELD_STUDENT, foreign = true,
+            columnDefinition = "integer references student(student_id)")
+    private Student student;
 
 
     public int getQuestionId() {
@@ -79,6 +85,18 @@ public class ExamQuestion {
 
     public void setScore(float score) {
         this.score = score;
+    }
+
+    /**
+     *
+     * @return The student this question is attributed to or <code>null</code> if it's a question for the entire group
+     */
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override
