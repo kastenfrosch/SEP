@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.DangerousStuffController">
+   <children>
+      <Button fx:id="resetDatabaseBtn" layoutX="209.0" layoutY="86.0" mnemonicParsing="false" onAction="#onResetDatabaseBtnClicked" prefHeight="80.0" prefWidth="182.0" text="Datenbank zurücksetzen" />
+      <Text layoutX="186.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dangerous Stuff">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Text>
+      <CheckBox fx:id="withTestdataCheckbox" layoutX="415.0" layoutY="116.0" mnemonicParsing="false" text="Tastdaten einfügen" />
+      <Button fx:id="cancelBtn" layoutX="22.0" layoutY="346.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" prefHeight="34.0" prefWidth="89.0" text="Zurück" />
+   </children>
+</AnchorPane>
