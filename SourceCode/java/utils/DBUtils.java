@@ -23,6 +23,7 @@ import java.util.Map;
 public class DBUtils {
 
     public static void dropTables(ConnectionSource conn) throws SQLException {
+        TableUtils.dropTable(conn, MailTemplate.class, true);
         TableUtils.dropTable(conn, ExamQuestion.class, true);
         TableUtils.dropTable(conn, Exam.class, true);
         TableUtils.dropTable(conn, NotepadHistory.class, true);
@@ -72,6 +73,7 @@ public class DBUtils {
         TableUtils.createTable(conn, NotepadHistory.class);
         TableUtils.createTable(conn, Exam.class);
         TableUtils.createTable(conn, ExamQuestion.class);
+        TableUtils.createTable(conn, MailTemplate.class);
     }
 
     public static void createTriggers() throws SQLException{
