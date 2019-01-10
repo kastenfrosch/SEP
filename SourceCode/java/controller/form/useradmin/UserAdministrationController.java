@@ -112,6 +112,10 @@ public class UserAdministrationController {
 
 
     }
+
+    public void onDangerousStuffBtnClicked(ActionEvent actionEvent) {
+        SceneManager.getInstance().showInNewWindow(SceneType.DANGEROUS_STUFF);
+    }
 }
 
 
