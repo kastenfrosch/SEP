@@ -27,7 +27,7 @@ public class ExamGroupController {
     public ComboBox answerComboBox2;
     public ComboBox answerComboBox3;
     public ComboBox answerComboBox4;
-    public ComboBox succededComboBox;
+    public ComboBox succeededComboBox;
 
     private DBManager db;
 
@@ -70,13 +70,13 @@ public class ExamGroupController {
         answerComboBox2.setItems(yn);
         answerComboBox3.setItems(yn);
         answerComboBox4.setItems(yn);
-        succededComboBox.setItems(yn);
+        succeededComboBox.setItems(yn);
 
         answerComboBox1.getSelectionModel().select(0);
         answerComboBox2.getSelectionModel().select(0);
         answerComboBox3.getSelectionModel().select(0);
         answerComboBox4.getSelectionModel().select(0);
-        succededComboBox.getSelectionModel().select(0);
+        succeededComboBox.getSelectionModel().select(0);
     }
 
     public void saveBtnClicked(){

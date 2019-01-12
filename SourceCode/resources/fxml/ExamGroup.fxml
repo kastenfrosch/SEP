@@ -34,7 +34,7 @@
                   <Font size="21.0" />
                </font>
             </Text>
-            <ComboBox id="succededComboBox" fx:id="succededComboBox" layoutX="490.0" layoutY="447.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
+            <ComboBox id="succeededComboBox" fx:id="succeededComboBox" layoutX="490.0" layoutY="447.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
             <Label id="questionLbl1" fx:id="questionLbl1" layoutX="78.0" layoutY="106.0" text="Question1" />
             <Label id="questionLbl2" fx:id="questionLbl2" layoutX="78.0" layoutY="179.0" text="Question2" />
             <Label id="questionLbl4" fx:id="questionLbl4" layoutX="78.0" layoutY="323.0" text="Question4" />

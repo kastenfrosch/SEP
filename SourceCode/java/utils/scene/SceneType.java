@@ -35,7 +35,7 @@ public enum SceneType {
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen"),
     EXAM_STUDENT("/fxml/ExamStudent.fxml", "Bewertungsformular"),
     DANGEROUS_STUFF("/fxml/form/DangerousStuff.fxml", "Dangerous Stuff"),
-    EXAM_GROUP("/fxml/ExamStudent.fxml", "BewertungsformularGruppe");
+    EXAM_GROUP("/fxml/ExamGroup.fxml", "BewertungsformularGruppe");
 
 
 
