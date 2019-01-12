@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<fx:root dividerPositions="0.5" orientation="VERTICAL" prefHeight="653.0" prefWidth="1148.0" type="SplitPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExamGroupController">
+   <items>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="129.0" prefWidth="1147.0">
+         <children>
+            <Text layoutX="325.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bewertungsformular - Gruppenebene">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
+            <ComboBox id="groupComboBox" fx:id="groupComboBox" layoutX="87.0" layoutY="76.0" prefWidth="150.0" promptText="Gruppe ausw." />
+            <Text layoutX="14.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text layoutX="14.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gruppe:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+            <Button id="saveBtn" fx:id="saveBtn" layoutX="1045.0" layoutY="76.0" mnemonicParsing="false" onAction="#saveBtnClicked" text="Speichern" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="400.0" prefWidth="1091.0">
+         <children>
+            <Text layoutX="78.0" layoutY="471.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hat die Gruppe alle Anforderungen erfüllt?">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <ComboBox id="succededComboBox" fx:id="succededComboBox" layoutX="490.0" layoutY="447.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
+            <Label id="questionLbl1" fx:id="questionLbl1" layoutX="78.0" layoutY="106.0" text="Question1" />
+            <Label id="questionLbl2" fx:id="questionLbl2" layoutX="78.0" layoutY="179.0" text="Question2" />
+            <Label id="questionLbl4" fx:id="questionLbl4" layoutX="78.0" layoutY="323.0" text="Question4" />
+            <Label id="questionLbl4" fx:id="questionLbl3" layoutX="78.0" layoutY="250.0" text="Question3" />
+            <ComboBox id="answerComboBox1" fx:id="answerComboBox1" layoutX="809.0" layoutY="101.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
+            <ComboBox id="answerComboBox2" fx:id="answerComboBox2" layoutX="809.0" layoutY="174.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
+            <ComboBox id="answerComboBox3" fx:id="answerComboBox3" layoutX="809.0" layoutY="245.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
+            <ComboBox id="answerComboBox4" fx:id="answerComboBox4" layoutX="809.0" layoutY="318.0" prefHeight="31.0" prefWidth="110.0" promptText="Ja/Nein" />
+         </children>
+      </AnchorPane>
+   </items>
+</fx:root>

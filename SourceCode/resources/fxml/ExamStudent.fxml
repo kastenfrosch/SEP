@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.1708542713567839" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="754.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExamStudentController">
+<SplitPane dividerPositions="0.1708542713567839" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="754.0" prefWidth="1176.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExamStudentController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="114.0" prefWidth="598.0">
          <children>
@@ -20,19 +25,14 @@
                   <Font size="19.0" />
                </font>
             </Text>
-            <Text layoutX="375.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fortschritt: ">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Text>
-            <ProgressBar id="timeProgressBar" fx:id="timeProgressBar" layoutX="470.0" layoutY="84.0" prefWidth="200.0" progress="0.0" />
-            <Button id="evaluationBtn" fx:id="evaluationBtn" layoutX="839.0" layoutY="77.0" mnemonicParsing="false" onAction="#evaluationBtnClicked" text="Auswerten" />
+            <Button id="evaluationBtn" fx:id="evaluationBtn" layoutX="904.0" layoutY="77.0" mnemonicParsing="false" onAction="#evaluationBtnClicked" text="Auswerten" />
             <Button layoutX="1177.0" layoutY="34.0" mnemonicParsing="false" text="Speichern" />
-            <Button id="saveBtn" fx:id="saveBtn" layoutX="999.0" layoutY="78.0" mnemonicParsing="false" onAction="#saveBtnClicked" text="Speichern" />
+            <Button id="saveBtn" fx:id="saveBtn" layoutX="1044.0" layoutY="77.0" mnemonicParsing="false" onAction="#saveBtnClicked" text="Speichern" />
+            <Button id="addBtn" fx:id="addBtn" layoutX="762.0" layoutY="77.0" mnemonicParsing="false" onAction="#addBtnClicked" text="Hinzufügen" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="950.0">
          <children>
-            <TableView id="ratingTableView" fx:id="ratingTableView" layoutX="-1.0" layoutY="-1.0" prefHeight="620.0" prefWidth="815.0">
+            <TableView id="ratingTableView" fx:id="ratingTableView" editable="true" layoutX="-1.0" layoutY="-1.0" prefHeight="620.0" prefWidth="815.0">
               <columns>
                 <TableColumn prefWidth="722.0" text="Frage" />
                   <TableColumn prefWidth="92.0" text="Bewertung" />
