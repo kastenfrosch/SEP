@@ -60,6 +60,9 @@ public class HomeScreenController {
     private Tab semesterPlanTab;
 
     @FXML
+    private Tab gitlabTab;
+
+    @FXML
     void onDeleteButtonClicked(ActionEvent event) {
         if (treeView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie ein Element aus.");
@@ -188,13 +191,6 @@ public class HomeScreenController {
             return null;
         };
         PGNotificationHandler.getInstance().registerListener(PGNotificationHandler.NotificationChannel.DATA, c);
-
-//        Platform.runLater(() -> {
-//            Stage stage = (Stage)treeView.getScene().getWindow();
-//            stage.setWidth(915);
-//            stage.setHeight(640);
-//            stage.setResizable(false);
-//        });
     }
 
     void getData() {
@@ -262,6 +258,10 @@ public class HomeScreenController {
                         selectedTab.setContent(selectNotification);
                         return;
                     }
+                    break;
+                case "gitlabTab":
+
+
                     break;
                 default:
                     if (selectedNode.getValue() instanceof Semester) {
