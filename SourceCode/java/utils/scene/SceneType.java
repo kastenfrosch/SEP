@@ -35,7 +35,9 @@ public enum SceneType {
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen"),
     EXAM_STUDENT("/fxml/ExamStudent.fxml", "Bewertungsformular"),
     DANGEROUS_STUFF("/fxml/form/DangerousStuff.fxml", "Dangerous Stuff"),
-    EXAM_GROUP("/fxml/ExamStudent.fxml", "BewertungsformularGruppe");
+    EXAM_GROUP("/fxml/ExamStudent.fxml", "BewertungsformularGruppe"),
+    GITLAB_LOGIN("/fxml/form/gitlab/GitlabLoginForm.fxml", "Gitlab Login"),
+    GITLAB_CHART_VIEW("/fxml/form/gitlab/GitlabChartView.fxml", "Gitlab Statistics");
 
 
 
