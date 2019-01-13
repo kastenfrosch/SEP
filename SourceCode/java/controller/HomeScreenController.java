@@ -9,6 +9,8 @@ import controller.alt.WeekCalendarController;
 import controller.form.basic.*;
 import controller.form.calendar.SemesterplanController;
 import controller.form.notepad.NotesTabController;
+import controller.gitlab.GitlabChartController;
+import controller.gitlab.GitlabLoginController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,7 @@ import javafx.scene.text.Text;
 import modal.ConfirmationModal;
 import modal.InfoModal;
 import models.*;
+import org.gitlab4j.api.GitLabApi;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
@@ -260,7 +263,30 @@ public class HomeScreenController {
                     }
                     break;
                 case "gitlabTab":
-
+                    GitLabApi api = sm.getLoaderForScene(SceneType.GITLAB_LOGIN)
+                            .<GitlabLoginController>getController()
+                            .getApi();
+                    if(api == null) {
+                        sceneType = SceneType.GITLAB_LOGIN;
+                    }
+                    else
+                    {
+                        if(selectedNode.getValue() instanceof Group || selectedNode.getValue() instanceof Student) {
+                            sm.getLoaderForScene(SceneType.GITLAB_CHART_VIEW)
+                                    .<GitlabChartController>getController()
+                                    .setValues(selectedNode.getValue(), api);
+                            sceneType = SceneType.GITLAB_CHART_VIEW;
+                        }
+                        else
+                        {
+                            Text notification = new Text("Bitte wählen Sie ein anderes Element aus der Baumstruktur.");
+                            selectedTab.setContent(notification);
+                            return;
+                        }
+                        /*sm.getLoaderForScene(SceneType.GITLAB_CHART_VIEW)
+                                .<GitlabChartController>getController()
+                                .setApi(api);*/
+                    }
 
                     break;
                 default:
@@ -392,6 +418,10 @@ public class HomeScreenController {
 
     public void setSelectedNode(Object obj) {
         selectedNode = new Node(obj);
+    }
+
+    public void refresh() {
+        drawTreeView();
     }
 }
 
