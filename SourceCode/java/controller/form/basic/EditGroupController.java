@@ -25,6 +25,7 @@ import java.sql.SQLException;
 
 public class EditGroupController {
 
+    public TextField urlInput;
     private Group groupToEdit;
 
     private DBManager db;
@@ -96,6 +97,7 @@ public class EditGroupController {
             // passing variables to the group instance
             this.groupToEdit.setName(name);
             this.groupToEdit.setGroupage(groupage);
+            this.groupToEdit.setGitlabUrl(urlInput.getText());
 
             // save edited group into database
             Dao<Group, Integer> groupDao = db.getGroupDao();
@@ -135,6 +137,8 @@ public class EditGroupController {
 
         // initializing the pre-marked selections in the comboboxes according to the passed group object
         groupageComboBox.getSelectionModel().select(group.getGroupage());
+
+        urlInput.setText(group.getGitlabUrl());
 
     }
 

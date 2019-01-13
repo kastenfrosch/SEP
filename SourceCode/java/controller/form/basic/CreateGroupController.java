@@ -24,6 +24,7 @@ import java.sql.SQLException;
 
 public class CreateGroupController {
 
+    public TextField urlInput;
     private DBManager db;
 
     {
@@ -107,6 +108,7 @@ public class CreateGroupController {
             // passing variables to the new group instance
             newGroup.setName(name);
             newGroup.setGroupage(groupage);
+            newGroup.setGitlabUrl(urlInput.getText());
 
             // save new group into database
             Dao<Group, Integer> groupDao = db.getGroupDao();
