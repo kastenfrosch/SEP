@@ -307,5 +307,45 @@ public class DBUtils {
         tardyDao.create(t1);
         tardyDao.create(t2);
 
+
+        Groupage testGroupage = new Groupage();
+        testGroupage.setSemester(WS1819);
+        testGroupage.setDescription("Test");
+
+        groupageDao.create(testGroupage);
+
+        Group testGroup = new Group();
+        testGroup.setGroupage(testGroupage);
+        testGroup.setName("Gruppe E");
+        testGroup.setGitlabUrl("https://git.uni-due.de/sep/Wintersemester_2018-19/Gruppen_E_und_F/repo_gruppe_e.git");
+
+        groupDao.create(testGroup);
+
+        Person a = new Person();
+        a.setLastname("Haeusler");
+        a.setFirstname("Andreas");
+        a.setEmail("andreas.haeusler@stud.uni-due.de");
+
+        Student aa = new Student();
+        aa.setPerson(a);
+        aa.setMatrNo("2345678");
+        aa.setGroup(testGroup);
+
+        Person m = new Person();
+        m.setEmail("merlin.von-roessing@stud.uni-due.de");
+        m.setFirstname("Merlin");
+        m.setLastname("von Rössing");
+
+        Student mm = new Student();
+        mm.setMatrNo("3456789");
+        mm.setGroup(testGroup);
+        mm.setPerson(m);
+
+        personDao.create(a);
+        personDao.create(m);
+
+        studentDao.create(aa);
+        studentDao.create(mm);
+
     }
 }
