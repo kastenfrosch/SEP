@@ -332,7 +332,7 @@ public class DBUtils {
         aa.setGroup(testGroup);
 
         Person m = new Person();
-        m.setEmail("merlin.von-roessing@stud.uni-due.de");
+        m.setEmail("flawed@trashprojects.moe");
         m.setFirstname("Merlin");
         m.setLastname("von Rössing");
 
@@ -341,11 +341,36 @@ public class DBUtils {
         mm.setGroup(testGroup);
         mm.setPerson(m);
 
+        Person t = new Person();
+        t.setFirstname("Tobias");
+        t.setLastname("Sieber");
+        t.setEmail("tobias.sieber@stud.uni-due.de");
+
+        Student tt = new Student();
+        tt.setPerson(t);
+        tt.setMatrNo("3345678");
+        tt.setGroup(testGroup);
+
+        Person j = new Person();
+        j.setEmail("johannes.morzeck@gmail.com");
+        j.setFirstname("Johannes");
+        j.setLastname("Morzeck");
+
+        Student jj = new Student();
+        jj.setPerson(j);
+        jj.setMatrNo("4445687");
+        jj.setGroup(testGroup);
+
+
         personDao.create(a);
         personDao.create(m);
+        personDao.create(t);
+        personDao.create(j);
 
         studentDao.create(aa);
         studentDao.create(mm);
+        studentDao.create(tt);
+        studentDao.create(jj);
 
     }
 }
