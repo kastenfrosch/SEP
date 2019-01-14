@@ -14,6 +14,7 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -137,6 +138,22 @@ public class SendMailController {
         public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(user, password);
         }
+    }
+
+    public void setRecipients(List<String> emailList) {
+
+        String recipients = "";
+
+        for (int i = 0; i < emailList.size(); i++) {
+            if (i == 0) {
+            recipients += emailList.get(i);
+            } else {
+                recipients += ", ";
+                recipients += emailList.get(i);
+            }
+        }
+
+        this.targetAddressTextField.setText(recipients);
     }
 
     public void setPass(String pass) {

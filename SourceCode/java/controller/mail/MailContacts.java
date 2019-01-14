@@ -79,7 +79,11 @@ public class MailContacts {
 
     public void onSelectBTNClicked(ActionEvent actionEvent) {
         List<String> emailList = addEmails(contactsTreeView.getSelectionModel().getSelectedItem());
-        selectedEmail.complete(emailList.toString());
+        // TODO: merlins ansatz...?
+        //selectedEmail.complete(emailList.toString());
+        //
+        SendMailController sendMailController = SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).getController();
+        sendMailController.setRecipients(emailList);
 
         SceneManager.getInstance().closeWindow(SceneType.MAIL_CONTACTS);
     }
