@@ -33,12 +33,10 @@ public class MailTemplateController {
 
         try {
 
-            // initializing an ObservableList which is filled with all the existing groupage descriptions
             ObservableList<MailTemplate> tempList = FXCollections.observableArrayList();
             Dao<MailTemplate, Integer> mailtempDao = dbManager.getMailTemplateDao();
             tempList.addAll(mailtempDao.queryForAll());
 
-            // filling the combobox with the ObservableList
             templateList.setItems(tempList);
 
         } catch (java.sql.SQLException e) {

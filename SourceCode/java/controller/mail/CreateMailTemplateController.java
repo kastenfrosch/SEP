@@ -13,7 +13,7 @@ import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
-public class CreatMailTemplateControllert {
+public class CreateMailTemplateController {
     MailTemplate mailTemp = new MailTemplate();
 
     private DBManager dbManager;
