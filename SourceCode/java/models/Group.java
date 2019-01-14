@@ -15,6 +15,7 @@ public class Group implements INotepadEntity {
     public static final String FIELD_GROUP_ID = "group_id";
     public static final String FIELD_GROUP_NAME = "name";
     public static final String FIELD_GROUPAGE_ID = "groupage_id";
+    public static final String FIELD_GITLAB_URL = "gitlab_url";
 
     @DatabaseField(generatedId = true, columnName = FIELD_GROUP_ID)
     private int id;
@@ -26,6 +27,9 @@ public class Group implements INotepadEntity {
     @DatabaseField(foreign = true, columnName = FIELD_GROUPAGE_ID, foreignAutoRefresh = true,
     columnDefinition = "integer not null references groupage(groupage_id)")
     private Groupage groupage;
+
+    @DatabaseField(columnName = FIELD_GITLAB_URL)
+    private String gitlabUrl;
 
     @ForeignCollectionField
     private ForeignCollection<Student> students;
@@ -58,6 +62,14 @@ public class Group implements INotepadEntity {
 
     public int getId() {
         return id;
+    }
+
+    public String getGitlabUrl() {
+        return gitlabUrl;
+    }
+
+    public void setGitlabUrl(String gitlabUrl) {
+        this.gitlabUrl = gitlabUrl;
     }
 
     public ForeignCollection<Student> getStudents() {

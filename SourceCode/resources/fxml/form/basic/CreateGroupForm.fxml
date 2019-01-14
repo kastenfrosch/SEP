@@ -25,5 +25,7 @@
       <TextField id="groupnameField" fx:id="groupnameInput" layoutX="212.0" layoutY="136.0" prefWidth="150.0" promptText="Name eingeben" />
       <Label id="lblGroupage" fx:id="groupageLbl" layoutX="14.0" layoutY="192.0" text="Klasse:" />
       <ComboBox id="chooseGroupageComboBox" fx:id="groupageComboBox" layoutX="212.0" layoutY="188.0" prefWidth="150.0" promptText="Klasse auswählen:" />
+      <Label layoutX="11.0" layoutY="237.0" text="Gitlab URL:" />
+      <TextField fx:id="urlInput" layoutX="212.0" layoutY="233.0" prefWidth="150.0" promptText="URL Eingeben" />
    </children>
 </AnchorPane>

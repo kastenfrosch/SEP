@@ -307,5 +307,70 @@ public class DBUtils {
         tardyDao.create(t1);
         tardyDao.create(t2);
 
+
+        Groupage testGroupage = new Groupage();
+        testGroupage.setSemester(WS1819);
+        testGroupage.setDescription("Test");
+
+        groupageDao.create(testGroupage);
+
+        Group testGroup = new Group();
+        testGroup.setGroupage(testGroupage);
+        testGroup.setName("Gruppe E");
+        testGroup.setGitlabUrl("https://git.uni-due.de/sep/Wintersemester_2018-19/Gruppen_E_und_F/repo_gruppe_e.git");
+
+        groupDao.create(testGroup);
+
+        Person a = new Person();
+        a.setLastname("Haeusler");
+        a.setFirstname("Andreas");
+        a.setEmail("andreas.haeusler@stud.uni-due.de");
+
+        Student aa = new Student();
+        aa.setPerson(a);
+        aa.setMatrNo("2345678");
+        aa.setGroup(testGroup);
+
+        Person m = new Person();
+        m.setEmail("flawed@trashprojects.moe");
+        m.setFirstname("Merlin");
+        m.setLastname("von Rössing");
+
+        Student mm = new Student();
+        mm.setMatrNo("3456789");
+        mm.setGroup(testGroup);
+        mm.setPerson(m);
+
+        Person t = new Person();
+        t.setFirstname("Tobias");
+        t.setLastname("Sieber");
+        t.setEmail("tobias.sieber@stud.uni-due.de");
+
+        Student tt = new Student();
+        tt.setPerson(t);
+        tt.setMatrNo("3345678");
+        tt.setGroup(testGroup);
+
+        Person j = new Person();
+        j.setEmail("johannes.morzeck@gmail.com");
+        j.setFirstname("Johannes");
+        j.setLastname("Morzeck");
+
+        Student jj = new Student();
+        jj.setPerson(j);
+        jj.setMatrNo("4445687");
+        jj.setGroup(testGroup);
+
+
+        personDao.create(a);
+        personDao.create(m);
+        personDao.create(t);
+        personDao.create(j);
+
+        studentDao.create(aa);
+        studentDao.create(mm);
+        studentDao.create(tt);
+        studentDao.create(jj);
+
     }
 }

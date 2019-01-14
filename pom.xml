@@ -141,6 +141,10 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.gitlab4j</groupId>
+            <artifactId>gitlab4j-api</artifactId>
+            <version>4.9.12</version>
+        </dependency>
     </dependencies>
 </project>
