@@ -39,6 +39,7 @@ public class DBManager {
     private Dao<NotepadHistory, Integer> notepadHistoryDao;
     private Dao<Exam, Integer> examDao;
     private Dao<ExamQuestion, Integer> examQuestionDao;
+    private Dao<MailTemplate, Integer> mailTemplateDao;
 
     private User loggedInUser = null;
 
@@ -85,6 +86,7 @@ public class DBManager {
         this.notepadHistoryDao = DaoManager.createDao(conn, NotepadHistory.class);
         this.examDao = DaoManager.createDao(conn, Exam.class);
         this.examQuestionDao = DaoManager.createDao(conn, ExamQuestion.class);
+        this.mailTemplateDao = DaoManager.createDao(conn, MailTemplate.class);
     }
 
     public Dao<Semester, String> getSemesterDao() {
@@ -177,6 +179,10 @@ public class DBManager {
 
     public Dao<ExamQuestion, Integer> getExamQuestionDao() {
         return examQuestionDao;
+    }
+
+    public Dao<MailTemplate, Integer> getMailTemplateDao() {
+        return mailTemplateDao;
     }
 
     public void setLoggedInUser(User user) {
