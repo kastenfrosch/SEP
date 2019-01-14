@@ -80,6 +80,8 @@ public class MailContacts {
     public void onSelectBTNClicked(ActionEvent actionEvent) {
         List<String> emailList = addEmails(contactsTreeView.getSelectionModel().getSelectedItem());
         selectedEmail.complete(emailList.toString());
+
+        SceneManager.getInstance().closeWindow(SceneType.MAIL_CONTACTS);
     }
 
     private List<String> addEmails(TreeItem<ITreeItem> parent) {

@@ -3,6 +3,7 @@ package controller.mail;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modal.ErrorModal;
@@ -22,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 
 
 public class SendMailController {
+
     private User currentUser;
 
     private DBManager db;
@@ -37,14 +39,14 @@ public class SendMailController {
         }
     }
 
-    @FXML
-    private TextField targetAddressTextField;
-    @FXML
-    private TextField subjectTextField;
-    @FXML
-    private TextArea mailTextArea;
-
-
+    public TextField targetAddressTextField;
+    public TextField subjectTextField;
+    public TextArea mailTextArea;
+    public Button sendBTN;
+    public Button saveBTN;
+    public Button cancelBTN;
+    public Button templateBTN;
+    public Button contactsBTN;
 
     String pass;
 
@@ -104,6 +106,7 @@ public class SendMailController {
 
     @FXML
     private void onSaveBTNClicked(ActionEvent actionEvent) {
+        // TODO: save mail into templates?
     }
 
     @FXML
@@ -113,6 +116,11 @@ public class SendMailController {
 
     public void onTemplateBTNClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_TEMPLATES);
+    }
+
+    public void onContactsBTNClicked(ActionEvent actionEvent) {
+        // TODO: open contacts and paste mails into textfield
+        SceneManager.getInstance().showInNewWindow(SceneType.MAIL_CONTACTS);
     }
 
 

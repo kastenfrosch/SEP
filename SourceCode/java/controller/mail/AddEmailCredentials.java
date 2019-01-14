@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 public class AddEmailCredentials {
 
+
     private DBManager db;
     private User currentUser;
 
@@ -31,7 +32,8 @@ public class AddEmailCredentials {
     public Button cancelBTN;
     public Button saveBTN;
     public TextField usernameField;
-    public TextField passwordField;
+    public TextField mailPasswordField;
+    public TextField userPasswordField;
     public TextField IMAPServerField;
     public TextField IMAPPortField;
     public TextField SMTPServerField;
@@ -49,12 +51,12 @@ public class AddEmailCredentials {
         username = usernameField.getText();
 
         // setting password
-        String password;
-        if (passwordField.getText().isBlank()) {
+        String mailPassword;
+        if (mailPasswordField.getText().isBlank()) {
             InfoModal.show("ACHTUNG!", null, "Kein Passwort eingegeben!");
             return;
         }
-        password = passwordField.getText();
+        mailPassword = mailPasswordField.getText();
 
         // setting imap server
         String IMAPServer;
@@ -101,7 +103,7 @@ public class AddEmailCredentials {
         // passing variables to current user instance
         try {
             this.currentUser.setMailUser(username);
-            this.currentUser.setMailPassword(password);
+            this.currentUser.setMailPassword(mailPassword);
             this.currentUser.setMailImapHost(IMAPServer);
             this.currentUser.setMailImapPort(IMAPPort);
             this.currentUser.setMailSmtpHost(SMTPServer);
