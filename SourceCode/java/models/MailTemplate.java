@@ -47,4 +47,18 @@ public class MailTemplate {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof MailTemplate)) {
+            return false;
+        }
+
+        return ((MailTemplate) obj).getTemplateId() == getTemplateId();
+    }
+
+    @Override
+    public String toString() {
+        return getSubject();
+    }
 }
