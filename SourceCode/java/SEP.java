@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import utils.DBUtils;
+import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import utils.settings.Settings;
@@ -26,5 +27,7 @@ public class SEP extends Application {
         SceneManager.getInstance(stage);
         SceneManager.getInstance().switchTo(SceneType.EXAM_STUDENT);
         stage.show();
+
+
     }
 }
