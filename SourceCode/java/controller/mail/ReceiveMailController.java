@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class ReceiveMail {
+public class ReceiveMailController {
 
     private User currentUser;
 
@@ -139,7 +139,7 @@ public class ReceiveMail {
                 public void handle(MouseEvent t) {
                     if (t.getClickCount() == 2 && mailTableView.getSelectionModel().getSelectedCells() != null) {
                         //select mail for readmail
-                        ReadMail.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
+                        ReadMailController.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
                         SceneManager.getInstance().showInNewWindow(SceneType.READ_MAIL);
 
                     }
@@ -158,7 +158,7 @@ public class ReceiveMail {
 
 
     public void onSendMailClicked(ActionEvent event) {
-        SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).<SendMail>getController().setPass(pass);
+        SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).<SendMailController>getController().setPass(pass);
         SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
     }
 }

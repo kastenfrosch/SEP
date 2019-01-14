@@ -21,7 +21,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 
-public class SendMail {
+public class SendMailController {
     private User currentUser;
 
     private DBManager db;
@@ -111,6 +111,10 @@ public class SendMail {
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }
 
+    public void onTemplateBTNClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.MAIL_TEMPLATES);
+    }
+
 
     class GMailAuthenticator extends Authenticator {
         String user;
@@ -131,9 +135,9 @@ public class SendMail {
         this.pass = pass;
     }
 
-    public void setContent(String content){this.content = content;}
+    public void setContent(String content){this.mailTextArea.setText(content);}
 
     public void setSubject(String subject) {
-        this.subject = subject;
+        this.subjectTextField.setText(subject);
     }
 }
