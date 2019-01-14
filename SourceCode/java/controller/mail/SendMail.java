@@ -25,6 +25,8 @@ public class SendMail {
     private User currentUser;
 
     private DBManager db;
+    private String content;
+    private String subject;
 
     {
         try {
@@ -56,9 +58,8 @@ public class SendMail {
         // Sender's email ID needs to be mentioned
         String from = currentUser.getPerson().getEmail().toString();//change accordingly
 
-        // TODO: 2019-01-10  über popup password erneut eingeben.
 
-        final String password = HashUtils.decryptAES(encryptedPassword, key);
+       final String password = "";
         String port = "";
         // Assuming you are sending email through relay.jangosmtp.net
         String host = "";
@@ -66,12 +67,12 @@ public class SendMail {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.user", from);
-        props.put("mail.smtp.password", password);
+        //props.put("mail.smtp.password", password);
         props.put("mail.smtp.port", port);
         props.put("mail.smtp.auth", "true");
 
         // Get the Session object.
-        Session session = Session.getInstance(props, new GMailAuthenticator(currentUser.getMailUser(), password));
+       Session session = Session.getInstance(props, new GMailAuthenticator(currentUser.getMailUser(), password));
 
         try {
             // Create a default MimeMessage object.
@@ -110,6 +111,7 @@ public class SendMail {
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }
 
+
     class GMailAuthenticator extends Authenticator {
         String user;
         String password;
@@ -127,5 +129,11 @@ public class SendMail {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public void setContent(String content){this.content = content;}
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
