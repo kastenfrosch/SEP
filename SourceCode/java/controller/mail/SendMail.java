@@ -8,11 +8,13 @@ import javafx.scene.control.TextField;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.User;
+import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -20,35 +22,46 @@ import javax.mail.internet.MimeMessage;
 
 
 public class SendMail {
+    private User currentUser;
+
     private DBManager db;
 
     {
         try {
             db = DBManager.getInstance();
+            currentUser = db.getLoggedInUser();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private TextField targetAdressTextField;
+    private TextField targetAddressTextField;
     @FXML
     private TextField subjectTextField;
     @FXML
     private TextArea mailTextArea;
 
+
+
+    String pass;
+
+
     @FXML
     private void onSendBTNClicked(ActionEvent actionEvent) {
+
         // Recipient's email ID needs to be mentioned.
-        String to = targetAdressTextField.getText();//change accordingly
+        String to = targetAddressTextField.getText();//change accordingly
 
         // Sender's email ID needs to be mentioned
-        String from = "MailForSEP@gmail.com";//change accordingly
-        final String username = "MailForSEP@gmail.com";//change accordingly
-        final String password = "changeme123!";//change accordingly
-        String port = "587";
+        String from = currentUser.getPerson().getEmail().toString();//change accordingly
+
+        // TODO: 2019-01-10  über popup password erneut eingeben.
+
+        final String password = HashUtils.decryptAES(encryptedPassword, key);
+        String port = "";
         // Assuming you are sending email through relay.jangosmtp.net
-        String host = "smtp.gmail.com";
+        String host = "";
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
@@ -58,7 +71,7 @@ public class SendMail {
         props.put("mail.smtp.auth", "true");
 
         // Get the Session object.
-        Session session = Session.getInstance(props, new GMailAuthenticator(username, password));
+        Session session = Session.getInstance(props, new GMailAuthenticator(currentUser.getMailUser(), password));
 
         try {
             // Create a default MimeMessage object.
@@ -100,15 +113,19 @@ public class SendMail {
     class GMailAuthenticator extends Authenticator {
         String user;
         String password;
-        public GMailAuthenticator (String username, String password)
-        {
+
+        public GMailAuthenticator(String username, String password) {
             super();
             this.user = username;
             this.password = password;
         }
-        public PasswordAuthentication getPasswordAuthentication()
-        {
+
+        public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(user, password);
         }
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

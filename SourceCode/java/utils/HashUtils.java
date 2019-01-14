@@ -1,13 +1,20 @@
 package utils;
 
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
+import java.util.Base64;
 public class HashUtils {
 
     private static final char[] HEX_CHARS = "0123456789ABCDEF".toCharArray();
@@ -99,4 +106,89 @@ public class HashUtils {
 
         return data;
     }
+
+    public static SecretKeySpec generateKey(String keyString){
+
+        byte[] key = new byte[0];
+        try {
+            key = (keyString).getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        MessageDigest sha = null;
+        try {
+            sha = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        key = sha.digest(key);
+        key = Arrays.copyOf(key, 16);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        return secretKeySpec;
+    }
+
+    public static String encryptAES (String secret, String key){
+        String text = secret;
+SecretKeySpec secretKeySpec = generateKey(key);
+        Cipher cipher = null;
+        try {
+            cipher = Cipher.getInstance("AES");
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (cipher != null) {
+                cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            }
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        try {
+            byte[] encrypted = new byte[0];
+            if (cipher != null) {
+                encrypted = cipher.doFinal(text.getBytes());
+            }
+            return toHex(encrypted);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String decryptAES (String cipher, String key){
+
+
+        byte[] crypted = fromHex(cipher);
+
+        Cipher cipher2 = null;
+        try {
+            cipher2 = Cipher.getInstance("AES");
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
+        SecretKeySpec secretKeySpec= generateKey(key);
+        try {
+            if (cipher2 != null) {
+                cipher2.init(Cipher.DECRYPT_MODE, secretKeySpec);
+            }
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        byte[] cipherData2 = new byte[0];
+        try {
+            if (cipher2 != null) {
+                cipherData2 = cipher2.doFinal(crypted);
+            }
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
+        }
+
+        return new String(cipherData2);
+
+    }
+
+
+
+
+
 }
