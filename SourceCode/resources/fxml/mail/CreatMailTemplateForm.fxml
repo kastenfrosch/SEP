@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.CreatMailTemplateControllert">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.CreateMailTemplateController">
    <children>
       <TextField fx:id="subjectField" layoutX="56.0" layoutY="35.0" prefHeight="27.0" prefWidth="580.0" promptText="Betreff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0" />
       <TextArea fx:id="contentField" layoutX="65.0" layoutY="82.0" prefHeight="241.0" prefWidth="466.0" promptText="Text" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
