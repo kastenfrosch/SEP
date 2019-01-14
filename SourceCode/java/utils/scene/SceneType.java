@@ -34,6 +34,8 @@ public enum SceneType {
     READ_MAIL("/fxml/mail/ReadMail.fxml","Email lesen"),
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen"),
     EXAM_STUDENT("/fxml/ExamStudent.fxml", "Bewertungsformular"),
+    MAIL_CONTACTS("/fxml/mail/MailContacts.fxml", "Mail Kontakte"),
+    MAIL_CREDENTIALS("/fxml/mail/AddEmailCredentials.fxml", "Mail Login-Daten"),
     DANGEROUS_STUFF("/fxml/form/DangerousStuff.fxml", "Dangerous Stuff"),
     EXAM_GROUP("/fxml/ExamStudent.fxml", "BewertungsformularGruppe"),
     GITLAB_LOGIN("/fxml/form/gitlab/GitlabLoginForm.fxml", "Gitlab Login"),

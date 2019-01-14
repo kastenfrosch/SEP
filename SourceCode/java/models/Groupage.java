@@ -1,18 +1,18 @@
 package models;
 
 import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import controller.mail.ITreeItem;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(tableName=Groupage.TABLE_GROUPAGE)
-public class Groupage implements INotepadEntity {
+public class Groupage implements INotepadEntity, ITreeItem {
     public static final String FIELD_GROUPAGE_ID = "groupage_id";
     public static final String TABLE_GROUPAGE = "groupage";
     public static final String FIELD_GROUPAGE_DESCRIPTION = "description";
@@ -69,6 +69,16 @@ public class Groupage implements INotepadEntity {
 
     public List<INotepadBridge> getNotepads() {
         return new LinkedList<>(notepads);
+    }
+
+    @Override
+    public String getEmail() {
+        return "";
+    }
+
+    @Override
+    public List<ITreeItem> getChildren() {
+        return getGroups().stream().map(grp -> (ITreeItem) grp).collect(Collectors.toList());
     }
 
     @Override

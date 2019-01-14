@@ -4,12 +4,14 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import controller.mail.ITreeItem;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 @DatabaseTable(tableName=Student.TABLE_STUDENT)
-public class Student implements INotepadEntity {
+public class Student implements INotepadEntity, ITreeItem {
     public static final String TABLE_STUDENT = "student";
     public static final String FIELD_STUDENT_ID = "student_id";
     public static final String FIELD_MATR_NO = "mat_no";
@@ -80,6 +82,16 @@ public class Student implements INotepadEntity {
 
     public List<INotepadBridge> getNotepads() {
         return new LinkedList<>(notepads);
+    }
+
+    @Override
+    public String getEmail() {
+        return getPerson().getEmail();
+    }
+
+    @Override
+    public List<ITreeItem> getChildren() {
+        return new ArrayList<>();
     }
 
     @Override
