@@ -26,7 +26,6 @@ import java.util.concurrent.Future;
 public class MailContacts {
 
     private DBManager db;
-    private CompletableFuture<String> selectedEmail;
 
     {
         try {
@@ -45,18 +44,17 @@ public class MailContacts {
 
     public void initialize() {
 
-        selectedEmail = new CompletableFuture<>();
-
+        // creating root node for treeview
         TreeItem<ITreeItem> root = new TreeItem<>();
 
         try {
-
+            // creating a list to iterate over
             List<ITreeItem> contacts = new ArrayList<>();
-
+            // append all groupages to the list
             contacts.addAll(db.getGroupageDao().queryForAll());
-
+            // call method to append all children to root node and all other children respectively
             addChildren(root, contacts);
-
+            // set root as root node of the treeview
             contactsTreeView.setRoot(root);
 
         } catch (SQLException e) {
@@ -67,9 +65,12 @@ public class MailContacts {
     }
 
     private void addChildren(TreeItem<ITreeItem> parent, List<ITreeItem> objects) {
+        // node has no children, end of recursive function --> return
         if (objects.size() == 0) {
             return;
         }
+        // iterate over each item in objects and add it to its parent node
+        // call method again for each item as parent and all its children
         for (ITreeItem i : objects) {
             TreeItem<ITreeItem> me = new TreeItem<>(i);
             parent.getChildren().add(me);
@@ -78,17 +79,21 @@ public class MailContacts {
     }
 
     public void onSelectBTNClicked(ActionEvent actionEvent) {
+        // selected item of treeview is a list of strings
+        // (for students, that list has only one item)
         List<String> emailList = addEmails(contactsTreeView.getSelectionModel().getSelectedItem());
-        // TODO: merlins ansatz...?
-        //selectedEmail.complete(emailList.toString());
-        //
+        // get instance of send mail window and set recipients by calling the method
         SendMailController sendMailController = SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).getController();
         sendMailController.setRecipients(emailList);
-
+        // ... and close the contacts window
         SceneManager.getInstance().closeWindow(SceneType.MAIL_CONTACTS);
     }
 
     private List<String> addEmails(TreeItem<ITreeItem> parent) {
+        // this method takes the (in the treeview selected) treeitem and searches parent node and
+        // all children for a "valid" (read: not "") email address.
+        // if found, add it to the list, otherwise call method for all children, add emails to
+        // the list and return it once finished.
         List<String> mails = new LinkedList<>();
         if (!parent.getValue().getEmail().equals("")) {
             mails.add(parent.getValue().getEmail());
@@ -100,10 +105,8 @@ public class MailContacts {
     }
 
     public void onCancelBTNClicked(ActionEvent actionEvent) {
+        // close window
         SceneManager.getInstance().closeWindow(SceneType.MAIL_CONTACTS);
     }
 
-    public Future<String> getSelectedEmail() {
-        return selectedEmail;
-    }
 }
