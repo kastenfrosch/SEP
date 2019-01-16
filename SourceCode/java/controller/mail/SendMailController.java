@@ -125,7 +125,7 @@ public class SendMailController {
     }
 
 
-    class GMailAuthenticator extends Authenticator {
+    public static class GMailAuthenticator extends Authenticator {
         String user;
         String password;
 
