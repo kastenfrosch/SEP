@@ -283,9 +283,6 @@ public class HomeScreenController {
                             selectedTab.setContent(notification);
                             return;
                         }
-                        /*sm.getLoaderForScene(SceneType.GITLAB_CHART_VIEW)
-                                .<GitlabChartController>getController()
-                                .setApi(api);*/
                     }
 
                     break;
@@ -420,8 +417,8 @@ public class HomeScreenController {
         selectedNode = new Node(obj);
     }
 
-    public void refresh() {
-        drawTreeView();
+    public void refreshTabContent() {
+        showTabContent();
     }
 }
 

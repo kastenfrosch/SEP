@@ -38,7 +38,7 @@ public class GitlabLoginController {
         try {
            this.api = GitLabApi.oauth2Login("https://git.uni-due.de", usernameInput.getText(), passwordInput.getText());
 
-            SceneManager.getInstance().getLoaderForScene(SceneType.HOME).<HomeScreenController>getController().refresh();
+            SceneManager.getInstance().getLoaderForScene(SceneType.HOME).<HomeScreenController>getController().refreshTabContent();
         } catch (GitLabApiException e) {
             ErrorModal.show("Login failed", e.getMessage());
             return;
