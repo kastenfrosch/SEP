@@ -14,7 +14,7 @@ import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
-public class PasswordResetController {
+public class PasswordChangeController {
     User user = new User();
     private DBManager db;
 
@@ -36,7 +36,7 @@ public class PasswordResetController {
     private PasswordField formerPassword;
 
     public void onCancelBtnClicked(ActionEvent event) {
-        SceneManager.getInstance().closeWindow(SceneType.PASSWORD_RESET);
+        SceneManager.getInstance().closeWindow(SceneType.PASSWORD_CHANGE);
     }
 
     public void onSaveBtnClicked(ActionEvent event) {
@@ -65,7 +65,7 @@ public class PasswordResetController {
             try {
                 userDao.update(user);
                 InfoModal.show("Das Passwort wurde geändert ");
-                SceneManager.getInstance().closeWindow(SceneType.PASSWORD_RESET);
+                SceneManager.getInstance().closeWindow(SceneType.PASSWORD_CHANGE);
             } catch (SQLException ex) {
                 ErrorModal.show("Passwort konnte nicht neu gesetzt werden.");
             }
