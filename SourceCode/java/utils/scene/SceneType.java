@@ -24,7 +24,7 @@ public enum SceneType {
     CREATE_TIMETABLE("/fxml/form/calendar/CreateTimetable.fxml","Kalender"),
     TIMETABLE_WINDOW("/fxml/form/calendar/TimetableWindow.fxml","Stundenplan"),
     INVITE_CODE("/fxml/form/useradmin/InviteCode.fxml", "Einwahlcodes"),
-    PASSWORD_RESET("/fxml/form/useradmin/PasswordResetForm.fxml","Passwort ändern"),
+    PASSWORD_CHANGE("/fxml/form/useradmin/PasswordChangeForm.fxml","Passwort ändern"),
     CREATE_TERM_ORGANISATION("/fxml/form/calendar/CreateTermOrganisation.fxml","Semesterplan erstellen"),
     EDIT_AND_CREATE_SEMESTERPLAN("/fxml/form/calendar/Semesterplan.fxml","Semesterplan"),
     TARDY_VIEW("/fxml/form/calendar/TardyView.fxml","Anwesenheitsplan"),
@@ -42,8 +42,6 @@ public enum SceneType {
     GITLAB_CHART_VIEW("/fxml/form/gitlab/GitlabChartView.fxml", "Gitlab Statistics"),
     PASSWORD_FORM("/fxml/mail/PasswordForm.fxml", "Password"),
     CREATE_MAILTEMPLATES("/fxml/mail/CreateMailTemplateForm.fxml","Template erstellen"),
-    MAIL_TEMPLATES("/fxml/mail/MailTemplates.fxml","Mail Templates");
-    CREATE_MAILTEMPLATES("/fxml/mail/CreatMailTemplateForm.fxml","Template erstellen"),
     MAIL_TEMPLATES("/fxml/mail/MailTemplates.fxml","Mail Templates"),
     RESET_PASSWORD("/fxml/form/login/ResetPasswordForm.fxml", "Passwort zurücksetzen");
 

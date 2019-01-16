@@ -95,7 +95,7 @@ public class EditUserController {
     }
 
     @FXML
-    void onPasswordResetClicked(ActionEvent event) {
+    void onPasswordChangedClicked(ActionEvent event) {
         SceneManager.getInstance().getLoaderForScene(SceneType.PASSWORD_CHANGE)
                 .<PasswordChangeController>getController()
                 .setUser(this.user);
