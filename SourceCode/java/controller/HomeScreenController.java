@@ -268,20 +268,15 @@ public class HomeScreenController {
                             .getApi();
                     if(api == null) {
                         sceneType = SceneType.GITLAB_LOGIN;
-                    }
-                    else
-                    {
-                        if(selectedNode.getValue() instanceof Group || selectedNode.getValue() instanceof Student) {
+                    } else {
+                        if(selectedNode.getValue() instanceof Semester) {
+                            Text notification = new Text("Bitte wählen Sie ein anderes Element aus der Baumstruktur.");
+                            selectedTab.setContent(notification);
+                        } else {
                             sm.getLoaderForScene(SceneType.GITLAB_CHART_VIEW)
                                     .<GitlabChartController>getController()
                                     .setValues(selectedNode.getValue(), api);
                             sceneType = SceneType.GITLAB_CHART_VIEW;
-                        }
-                        else
-                        {
-                            Text notification = new Text("Bitte wählen Sie ein anderes Element aus der Baumstruktur.");
-                            selectedTab.setContent(notification);
-                            return;
                         }
                     }
 
