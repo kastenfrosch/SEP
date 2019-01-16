@@ -1,5 +1,6 @@
 package controller.gitlab;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -13,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 import modal.ErrorModal;
 import models.Group;
+import models.Groupage;
 import models.Student;
 import org.gitlab4j.api.CommitsApi;
 import org.gitlab4j.api.GitLabApi;
@@ -64,51 +66,63 @@ public class GitlabChartController {
     private void drawPieChart() throws GitLabApiException {
 
         pieChart.getData().clear();
-
-        if (selectedObject instanceof Group) {
+        if (selectedObject instanceof Groupage) {
+            drawGroupageChart((Groupage) selectedObject);
+        } else if (selectedObject instanceof Group) {
             drawGroupPieChart((Group) selectedObject);
-        }
-        else if(selectedObject instanceof Student) {
-            drawStudentPieChart((Student) selectedObject);
+        } else if(selectedObject instanceof Student) {
+            drawGroupPieChart(((Student) selectedObject).getGroup());
         }
 
         pieChart.setLegendVisible(true);
         pieChart.setLegendSide(Side.BOTTOM);
 
         pieChart.getData().forEach(data -> {
-            data.nameProperty().bind(
-                    Bindings.concat(
-                            data.getName() + ": " + (int) data.getPieValue()
-                    )
-            );
+            data.setName(data.getName() + ": " + (int) data.getPieValue());
         });
+    }
+
+    private void drawGroupageChart(Groupage g) throws GitLabApiException {
+        for (Group group : g.getGroups()) {
+            for (Project x : api.getProjectApi().getProjects()) {
+                if (x.getHttpUrlToRepo().equals(group.getGitlabUrl())) {
+                    project = x;
+                    break;
+                }
+            }
+            List<Commit> total = commitsApi.getCommits(project);
+            int count = 0;
+            for (Student s : group.getStudents()) {
+                for (Commit c : total) {
+                    if (s.getPerson().getEmail().equals(c.getAuthorEmail())) {
+                        count++;
+                    }
+                }
+            }
+            PieChart.Data d = new PieChart.Data(
+                    group.getName(),
+                    count
+            );
+            pieChart.getData().add(d);
+        }
     }
 
     private void drawGroupPieChart(Group g) throws GitLabApiException {
         List<Commit> total = commitsApi.getCommits(project);
 
         for (Student s : g.getStudents()) {
-            List<Commit> commits = new ArrayList<>();
+            int count = 0;
             for (Commit c : total) {
                 if (s.getPerson().getEmail().equals(c.getAuthorEmail())) {
-                    commits.add(c);
+                    count++;
                 }
             }
             PieChart.Data d = new PieChart.Data(
-                    String.format(
-                            "%s. %s",
-                            s.getPerson().getFirstname().substring(0, 1),
-                            s.getPerson().getLastname()
-                    ),
-                    commits.size()
+                    s.getPerson().getFirstname().substring(0, 1) + ". " + s.getPerson().getLastname(),
+                    count
             );
             pieChart.getData().add(d);
         }
-
-    }
-
-    private void drawStudentPieChart(Student s) throws GitLabApiException {
-        drawGroupPieChart(s.getGroup());
     }
 
     private void drawGraph() throws GitLabApiException {
@@ -222,30 +236,30 @@ public class GitlabChartController {
         this.selectedObject = g;
         this.api = api;
         this.commitsApi = api.getCommitsApi();
-
-        try {
-            for (Project x : api.getProjectApi().getProjects()) {
-                if (selectedObject instanceof Group) {
-                    if (x.getHttpUrlToRepo().equals(((Group) selectedObject).getGitlabUrl())) {
-                        project = x;
-                        break;
-                    }
-                } else if (selectedObject instanceof Student) {
-                    if(x.getHttpUrlToRepo().equals(((Student)selectedObject).getGroup().getGitlabUrl())) {
-                        project = x;
-                        break;
+        if (!(selectedObject instanceof Groupage)) {
+            try {
+                for (Project x : api.getProjectApi().getProjects()) {
+                    if (selectedObject instanceof Group) {
+                        if (x.getHttpUrlToRepo().equals(((Group) selectedObject).getGitlabUrl())) {
+                            project = x;
+                            break;
+                        }
+                    } else if (selectedObject instanceof Student) {
+                        if(x.getHttpUrlToRepo().equals(((Student)selectedObject).getGroup().getGitlabUrl())) {
+                            project = x;
+                            break;
+                        }
                     }
                 }
-            }
-            if (project == null) {
+                if (project == null) {
+                    ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
+                    return;
+                }
+            } catch (GitLabApiException ex) {
                 ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
                 return;
             }
-        } catch (GitLabApiException ex) {
-            ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
-            return;
         }
-
 
         try {
             drawCharts();

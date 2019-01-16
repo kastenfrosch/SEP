@@ -28,6 +28,7 @@ public class SendMailController {
     private User currentUser;
 
     private DBManager db;
+    // TODO: content and subject variables still needed?
     private String content;
     private String subject;
 
@@ -96,11 +97,11 @@ public class SendMailController {
 
             // Send message
             Transport.send(message);
-            InfoModal.show("Senden war erfolgreich!");
+            InfoModal.show("Email wurde erfolgreich gesendet!");
             SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
 
         } catch (MessagingException e) {
-            ErrorModal.show("DümDüm senden war nichts");
+            ErrorModal.show("Beim Senden der Email ist ein Fehler aufgetreten!");
             throw new RuntimeException(e);
         }
     }
@@ -112,19 +113,23 @@ public class SendMailController {
 
     @FXML
     private void onCancelBTNClicked(ActionEvent actionEvent) {
+        // close window
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }
 
-    public void onTemplateBTNClicked(ActionEvent event) {
+    @FXML
+    private void onTemplateBTNClicked(ActionEvent event) {
+        // open templates window to select/edit mail templates
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_TEMPLATES);
     }
 
-    public void onContactsBTNClicked(ActionEvent actionEvent) {
-        // TODO: open contacts and paste mails into textfield
+    @FXML
+    private void onContactsBTNClicked(ActionEvent actionEvent) {
+        // open contacts window to select recipients
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_CONTACTS);
     }
 
-
+    // TODO: documentation for this class?
     class GMailAuthenticator extends Authenticator {
         String user;
         String password;
@@ -142,6 +147,8 @@ public class SendMailController {
 
     public void setRecipients(List<String> emailList) {
 
+        // method called from contacts window which takes a list of email addresses
+        // and pastes it into the address textfield
         String recipients = "";
 
         for (int i = 0; i < emailList.size(); i++) {
@@ -160,7 +167,9 @@ public class SendMailController {
         this.pass = pass;
     }
 
-    public void setContent(String content){this.mailTextArea.setText(content);}
+    public void setContent(String content){
+        this.mailTextArea.setText(content);
+    }
 
     public void setSubject(String subject) {
         this.subjectTextField.setText(subject);
