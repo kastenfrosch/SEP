@@ -50,13 +50,22 @@ public class AddEmailCredentials {
         }
         username = usernameField.getText();
 
-        // setting password
+        // setting mail password
         String mailPassword;
         if (mailPasswordField.getText().isBlank()) {
-            InfoModal.show("ACHTUNG!", null, "Kein Passwort eingegeben!");
+            InfoModal.show("ACHTUNG!", null, "Kein Mail Passwort eingegeben!");
             return;
         }
         mailPassword = mailPasswordField.getText();
+
+        // TODO: do something else with it?
+        // setting/getting?? user password
+        String userPassword;
+        if (userPasswordField.getText().isBlank()) {
+            InfoModal.show("ACHTUNG!", null, "Kein User Passwort eingegeben!");
+            return;
+        }
+        userPassword = userPasswordField.getText();
 
         // setting imap server
         String IMAPServer;
@@ -104,6 +113,7 @@ public class AddEmailCredentials {
         try {
             this.currentUser.setMailUser(username);
             this.currentUser.setMailPassword(mailPassword);
+            // TODO: what to do with variable "userPassword"?
             this.currentUser.setMailImapHost(IMAPServer);
             this.currentUser.setMailImapPort(IMAPPort);
             this.currentUser.setMailSmtpHost(SMTPServer);
@@ -120,8 +130,8 @@ public class AddEmailCredentials {
 
     }
 
-
     public void onCancelBTNClicked(ActionEvent actionEvent) {
+        // close window
         SceneManager.getInstance().closeWindow(SceneType.MAIL_CREDENTIALS);
     }
 
