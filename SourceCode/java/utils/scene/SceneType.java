@@ -41,7 +41,7 @@ public enum SceneType {
     GITLAB_LOGIN("/fxml/form/gitlab/GitlabLoginForm.fxml", "Gitlab Login"),
     GITLAB_CHART_VIEW("/fxml/form/gitlab/GitlabChartView.fxml", "Gitlab Statistics"),
     PASSWORD_FORM("/fxml/mail/PasswordForm.fxml", "Password"),
-    CREATE_MAILTEMPLATES("/fxml/mail/CreatMailTemplateForm.fxml","Template erstellen"),
+    CREATE_MAILTEMPLATES("/fxml/mail/CreateMailTemplateForm.fxml","Template erstellen"),
     MAIL_TEMPLATES("/fxml/mail/MailTemplates.fxml","Mail Templates");
 
 
