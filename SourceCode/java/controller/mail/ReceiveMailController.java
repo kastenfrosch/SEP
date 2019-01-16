@@ -1,5 +1,6 @@
 package controller.mail;
 
+import connection.DBManager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -9,15 +10,34 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import models.User;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import javax.mail.*;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
-public class ReceiveMail {
+public class ReceiveMailController {
+
+    private User currentUser;
+
+    private DBManager db;
+
+    {
+        try {
+            db = DBManager.getInstance();
+            currentUser = db.getLoggedInUser();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     private static final String email_id = "MailForSEP@gmail.com";
     private static final String password = "changeme123!";
@@ -25,9 +45,23 @@ public class ReceiveMail {
     private TableView<Message> mailTableView;
     //set properties
 
+    private String pass;
 
     @FXML
     private void initialize() {
+            SceneManager.getInstance().showInNewWindow(SceneType.PASSWORD_FORM);
+
+            PasswordFormController passCon = SceneManager.getInstance()
+                    .getLoaderForScene(SceneType.PASSWORD_FORM).getController();
+
+            var future = passCon.getPassword();
+            try {
+                pass = future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        String encryptedPassword = currentUser.getMailPassword();
+        String key = pass;
 
         Properties properties = new Properties();
         //set imap address, imaps = imap + secure
@@ -105,7 +139,7 @@ public class ReceiveMail {
                 public void handle(MouseEvent t) {
                     if (t.getClickCount() == 2 && mailTableView.getSelectionModel().getSelectedCells() != null) {
                         //select mail for readmail
-                        ReadMail.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
+                        ReadMailController.setMailMessage(mailTableView.getSelectionModel().getSelectedItem());
                         SceneManager.getInstance().showInNewWindow(SceneType.READ_MAIL);
 
                     }
@@ -122,4 +156,9 @@ public class ReceiveMail {
         initialize();
     }
 
+
+    public void onSendMailClicked(ActionEvent event) {
+        SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).<SendMailController>getController().setPass(pass);
+        SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+    }
 }

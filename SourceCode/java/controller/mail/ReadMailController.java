@@ -8,7 +8,7 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Multipart;
 
-public class ReadMail {
+public class ReadMailController {
 
 
     private static Message mailMessage;

@@ -308,28 +308,35 @@ public class DBUtils {
         tardyDao.create(t2);
 
 
-        Groupage testGroupage = new Groupage();
-        testGroupage.setSemester(WS1819);
-        testGroupage.setDescription("Test");
+        Groupage groupageC = new Groupage();
+        groupageC.setSemester(WS1819);
+        groupageC.setDescription("Klasse C");
 
-        groupageDao.create(testGroupage);
+        groupageDao.create(groupageC);
 
-        Group testGroup = new Group();
-        testGroup.setGroupage(testGroupage);
-        testGroup.setName("Gruppe E");
-        testGroup.setGitlabUrl("https://git.uni-due.de/sep/Wintersemester_2018-19/Gruppen_E_und_F/repo_gruppe_e.git");
+        Group groupE = new Group();
+        groupE.setGroupage(groupageC);
+        groupE.setName("Gruppe E");
+        groupE.setGitlabUrl("https://git.uni-due.de/sep/Wintersemester_2018-19/Gruppen_E_und_F/repo_gruppe_e.git");
 
-        groupDao.create(testGroup);
+        groupDao.create(groupE);
+
+        Group groupF = new Group();
+        groupF.setGroupage(groupageC);
+        groupF.setName("Gruppe F");
+        groupF.setGitlabUrl("https://git.uni-due.de/sep/Wintersemester_2018-19/Gruppen_E_und_F/repo_gruppe_f.git");
+
+        groupDao.create(groupF);
 
         Person a = new Person();
-        a.setLastname("Haeusler");
-        a.setFirstname("Andreas");
         a.setEmail("andreas.haeusler@stud.uni-due.de");
+        a.setFirstname("Andreas");
+        a.setLastname("Haeusler");
 
         Student aa = new Student();
         aa.setPerson(a);
         aa.setMatrNo("2345678");
-        aa.setGroup(testGroup);
+        aa.setGroup(groupE);
 
         Person m = new Person();
         m.setEmail("flawed@trashprojects.moe");
@@ -338,7 +345,7 @@ public class DBUtils {
 
         Student mm = new Student();
         mm.setMatrNo("3456789");
-        mm.setGroup(testGroup);
+        mm.setGroup(groupE);
         mm.setPerson(m);
 
         Person t = new Person();
@@ -349,7 +356,7 @@ public class DBUtils {
         Student tt = new Student();
         tt.setPerson(t);
         tt.setMatrNo("3345678");
-        tt.setGroup(testGroup);
+        tt.setGroup(groupE);
 
         Person j = new Person();
         j.setEmail("johannes.morzeck@gmail.com");
@@ -359,18 +366,52 @@ public class DBUtils {
         Student jj = new Student();
         jj.setPerson(j);
         jj.setMatrNo("4445687");
-        jj.setGroup(testGroup);
+        jj.setGroup(groupE);
 
+        Person s = new Person();
+        s.setFirstname("Silas");
+        s.setEmail("Silas.Borowy@stud.uni-due.de");
+        s.setLastname("Borowy");
+
+        Student ss = new Student();
+        ss.setPerson(s);
+        ss.setMatrNo("23456789");
+        ss.setGroup(groupF);
+
+        Person l = new Person();
+        l.setEmail("leon.marold@stud.uni-due.de");
+        l.setFirstname("Leon");
+        l.setLastname("Marold");
+
+        Student ll = new Student();
+        ll.setMatrNo("123456789");
+        ll.setGroup(groupF);
+        ll.setPerson(l);
+
+        Person e = new Person();
+        e.setEmail("elias.seegy@stud.uni-due.de");
+        e.setFirstname("Elias");
+        e.setLastname("Seegy");
+
+        Student ee = new Student();
+        ee.setMatrNo("1234567890");
+        ee.setGroup(groupF);
+        ee.setPerson(e);
 
         personDao.create(a);
         personDao.create(m);
         personDao.create(t);
         personDao.create(j);
+        personDao.create(s);
+        personDao.create(l);
+        personDao.create(e);
 
         studentDao.create(aa);
         studentDao.create(mm);
         studentDao.create(tt);
         studentDao.create(jj);
-
+        studentDao.create(ss);
+        studentDao.create(ll);
+        studentDao.create(ee);
     }
 }

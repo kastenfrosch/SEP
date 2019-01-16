@@ -5,12 +5,15 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import controller.mail.ITreeItem;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(tableName = Group.TABLE_GROUP)
-public class Group implements INotepadEntity {
+public class Group implements INotepadEntity, ITreeItem {
     public static final String TABLE_GROUP = "group";
     public static final String FIELD_GROUP_ID = "group_id";
     public static final String FIELD_GROUP_NAME = "name";
@@ -78,6 +81,16 @@ public class Group implements INotepadEntity {
 
     public List<INotepadBridge> getNotepads() {
         return new LinkedList<>(notepads);
+    }
+
+    @Override
+    public String getEmail() {
+        return "";
+    }
+
+    @Override
+    public List<ITreeItem> getChildren() {
+        return getStudents().stream().map(stu -> (ITreeItem) stu).collect(Collectors.toList());
     }
 
     @Override
