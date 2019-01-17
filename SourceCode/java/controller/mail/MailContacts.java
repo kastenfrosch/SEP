@@ -3,10 +3,12 @@ package controller.mail;
 import com.sun.source.tree.Tree;
 import connection.DBManager;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 import modal.ErrorModal;
 import models.Group;
 import models.Groupage;
@@ -89,6 +91,8 @@ public class MailContacts {
         SceneManager.getInstance().closeWindow(SceneType.MAIL_CONTACTS);
     }
 
+
+
     private List<String> addEmails(TreeItem<ITreeItem> parent) {
         // this method takes the (in the treeview selected) treeitem and searches parent node and
         // all children for a "valid" (read: not "") email address.
@@ -102,6 +106,27 @@ public class MailContacts {
             mails.addAll(addEmails(item));
         }
         return mails;
+    }
+
+    public void onTreeviewClicked(MouseEvent mouseEvent) {
+        // this eventhandler detects a doubleclick on an item in the contacts treeview
+        contactsTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                // detect a double click
+                if (click.getClickCount() == 2) {
+                    // selecting an item on doubleclick
+                    // selected item of treeview is a list of strings
+                    // (for students, that list has only one item)
+                    List<String> emailList = addEmails(contactsTreeView.getSelectionModel().getSelectedItem());
+                    // get instance of send mail window and set recipients by calling the method
+                    SendMailController sendMailController = SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).getController();
+                    sendMailController.setRecipients(emailList);
+                    // ... and close the contacts window
+                    SceneManager.getInstance().closeWindow(SceneType.MAIL_CONTACTS);
+                }
+            }
+        });
     }
 
     public void onCancelBTNClicked(ActionEvent actionEvent) {
