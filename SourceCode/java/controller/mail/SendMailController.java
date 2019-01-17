@@ -129,8 +129,8 @@ public class SendMailController {
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_CONTACTS);
     }
 
-    // TODO: documentation for this class?
-    class GMailAuthenticator extends Authenticator {
+
+    public static class GMailAuthenticator extends Authenticator {
         String user;
         String password;
 

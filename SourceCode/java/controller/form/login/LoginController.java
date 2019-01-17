@@ -119,4 +119,9 @@ public class LoginController {
             keyEvent.consume();
         }
     }
+
+    public void onResetPasswordBTNClicked(ActionEvent actionEvent) {
+    SceneManager.getInstance().showInNewWindow(SceneType.RESET_PASSWORD);
+
+    }
 }

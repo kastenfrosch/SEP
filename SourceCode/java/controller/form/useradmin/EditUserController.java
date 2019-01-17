@@ -73,15 +73,15 @@ public class EditUserController {
         Dao<User, String> userDao = dbManager.getUserDao();
         Dao<Person, Integer> personDao = dbManager.getPersonDao();
         try {
-            //update the daos with the created person and student
-            personDao.update(user.getPerson());
-            userDao.update(user);
-            //notification of the successful change
-            if (!this.user.getUsername().equals(null)) {
-                InfoModal.show("Der User \"" + firstnameTextfield.getText() + " " + lastnameTextfield.getText() + "\" wurde bearbeitet!");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+                //update the daos with the created person and student
+                personDao.update(user.getPerson());
+                userDao.update(user);
+                //notification of the successful change
+                if (!this.user.getUsername().equals(null)) {
+                    InfoModal.show("Der User \"" + firstnameTextfield.getText() + " " + lastnameTextfield.getText() + "\" wurde bearbeitet!");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
         }
 
         SceneManager.getInstance().closeWindow(SceneType.EDIT_USER);
@@ -95,11 +95,11 @@ public class EditUserController {
     }
 
     @FXML
-    void onPasswordResetClicked(ActionEvent event) {
-        SceneManager.getInstance().getLoaderForScene(SceneType.PASSWORD_RESET)
-                .<PasswordResetController>getController()
+    void onPasswordChangedClicked(ActionEvent event) {
+        SceneManager.getInstance().getLoaderForScene(SceneType.PASSWORD_CHANGE)
+                .<PasswordChangeController>getController()
                 .setUser(this.user);
-        SceneManager.getInstance().showInNewWindow(SceneType.PASSWORD_RESET);
+        SceneManager.getInstance().showInNewWindow(SceneType.PASSWORD_CHANGE);
 
     }
 
