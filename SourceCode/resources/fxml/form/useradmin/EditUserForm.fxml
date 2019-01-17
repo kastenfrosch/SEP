@@ -20,7 +20,7 @@
       <Label layoutX="137.0" layoutY="238.0" text="Email:" />
       <Button fx:id="saveBtn" layoutX="469.0" layoutY="340.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
       <Button fx:id="cancelBtn" layoutX="28.0" layoutY="340.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" text="Zurück" />
-      <Button fx:id="passwordReset" layoutX="223.0" layoutY="340.0" mnemonicParsing="false" onAction="#onPasswordResetClicked" text="Passwort ändern" />
+      <Button fx:id="passwordReset" layoutX="223.0" layoutY="340.0" mnemonicParsing="false" onAction="#onPasswordChangedClicked" text="Passwort ändern" />
       <TextField fx:id="firstnameTextfield" layoutX="189.0" layoutY="77.0" />
       <TextField fx:id="lastnameTextfield" layoutX="188.0" layoutY="128.0" />
       <TextField fx:id="usernameTextfield" disable="true" layoutX="188.0" layoutY="181.0" />
