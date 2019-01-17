@@ -129,7 +129,7 @@ public class SendMailController {
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_CONTACTS);
     }
 
-    public void onAttatchementBTNClicked(ActionEvent event) {
+    public void onAttachementBTNClicked(ActionEvent event) {
     }
 
 
