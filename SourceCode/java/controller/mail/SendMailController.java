@@ -85,7 +85,7 @@ public class SendMailController {
 
 
         // Get the Session object.
-       Session session = Session.getInstance(props, new GMailAuthenticator(currentUser.getMailUser(), password));
+       Session session = Session.getInstance(props, new MailAuthenticator(currentUser.getMailUser(), password));
 
         try {
             // Create a default MimeMessage object.
@@ -176,11 +176,11 @@ public class SendMailController {
         } else return;
     }
 
-    public static class GMailAuthenticator extends Authenticator {
+    public static class MailAuthenticator extends Authenticator {
         String user;
         String password;
 
-        public GMailAuthenticator(String username, String password) {
+        public MailAuthenticator(String username, String password) {
             super();
             this.user = username;
             this.password = password;
