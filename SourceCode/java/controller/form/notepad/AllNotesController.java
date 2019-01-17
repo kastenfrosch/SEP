@@ -88,6 +88,9 @@ public class AllNotesController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
+    public void searchArea(ActionEvent actionEvent) {
+    }
+
     public void closeWindow(ActionEvent actionEvent) {
         SceneManager.getInstance().closeWindow(SceneType.ALL_NOTES_WINDOW);
     }
