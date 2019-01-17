@@ -12,14 +12,15 @@ import modal.InfoModal;
 import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
-
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class EditNotepadController {
 
     private Object objectType;
     private Notepad notepad;
     private DBManager db;
+    private Timestamp time;
 
     {
         try {
@@ -66,7 +67,7 @@ public class EditNotepadController {
         }
     }
 
-    public void editNotepadSave(ActionEvent actionEvent) { //Updating notepad changes
+    public void editNotepadSave(ActionEvent actionEvent) throws SQLException { //Updating notepad changes
         String noteName;
         if (editNotepadName == null || editNotepadName.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Bezeichnung eingeben!");
@@ -89,9 +90,18 @@ public class EditNotepadController {
         textContent = editNotepadTextarea.getText();
 
         Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
+        Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
+        NotepadHistory notepadHistory = new NotepadHistory();
 
-        //Saving the Notepad which is to be edited
+        //Saving the Notepad which is to be edited & Logging the original Note in the history
         Notepad ersatz = this.notepad;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        notepadHistory.setNotepad(ersatz);
+        notepadHistory.setTimestamp(timestamp);
+        notepadHistory.setUser(db.getLoggedInUser());
+        notepadHistoryDao.create(notepadHistory);
+
         //Saving the notepad after editing
         this.notepad.setNotepadName(noteName);
         this.notepad.setNotepadPriority(priority);

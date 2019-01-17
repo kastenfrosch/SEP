@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.notepad.NotesHistoryShowNoteController">
+   <children>
+      <TextArea fx:id="notepadText" editable="false" layoutX="70.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" promptText="Notiz" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0" />
+      <Label fx:id="noteNameLabel" layoutX="70.0" layoutY="75.0" text="Bezeichnung" />
+      <Label fx:id="priorityLabel" layoutX="400.0" layoutY="100.0" text="Priorität" />
+      <Label layoutX="70.0" layoutY="310.0" text="Gelöscht von:" />
+      <Label fx:id="userLabel" layoutX="190.0" layoutY="310.0" text="User" />
+      <Label layoutX="70.0" layoutY="340.0" text="Gelöscht am:" />
+      <Label fx:id="dateLabel" layoutX="190.0" layoutY="340.0" text="Datum" />
+      <Button fx:id="closeButton" layoutX="450.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeButton" text="Schließen" />
+   </children>
+</AnchorPane>

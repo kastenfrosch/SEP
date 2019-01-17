@@ -44,5 +44,6 @@ public class NoteWindowController {
         nameLabel.setText(notepad.getNotepadName());
         notepadTextarea.setText(notepad.getNotepadContent());
         priorityLabel.setText(notepad.getNotepadPriority());
+        initialize();
     }
 }

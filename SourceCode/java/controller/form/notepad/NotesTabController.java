@@ -13,11 +13,13 @@ import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class NotesTabController {
 
     private Object objectType;
     private DBManager db;
+    private Timestamp time;
 
     {
         try {
@@ -27,6 +29,8 @@ public class NotesTabController {
         }
     }
 
+    @FXML
+    public Button notesAll;
     @FXML
     public ListView<Notepad> notesListView;
     @FXML
@@ -39,20 +43,14 @@ public class NotesTabController {
     public Button showNoteButton;
     @FXML
     public Label notesPaneLabel;
+    @FXML
+    public Button historyButton;
     
     public void initialize() {
         notesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         try {
             if (this.objectType instanceof Student) {
-                // 2 ways on how to fill the ListView
-               /* ObservableList<Notepad> list = FXCollections.observableArrayList();
-                 for (StudentNotepad s : db.getStudentNotepadDao()) {
-                    if (((((Student) this.objectType).getId() == s.getStudent().getId()))) {
-                        list.add(s.getNotepad());
-                    }
-                }
-                notesListView.setItems(list); */
                 StudentNotepad suitingStudent = new StudentNotepad();
                 suitingStudent.setStudent((Student) this.objectType);
                 notesListView.getItems().clear();
@@ -60,13 +58,6 @@ public class NotesTabController {
                         .map(StudentNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
             } else if (this.objectType instanceof Groupage) {
-               /* ObservableList<Notepad> list = FXCollections.observableArrayList();
-                for (GroupageNotepad s : db.getGroupageNotepadDao()) {
-                    if ((((Groupage) this.objectType).getId() == s.getGroupage().getId())) {
-                        list.add(s.getNotepad());
-                    }
-                }
-                notesListView.setItems(list); */
                 GroupageNotepad suitingGroupage = new GroupageNotepad();
                 suitingGroupage.setGroupage((Groupage) this.objectType);
                 notesListView.getItems().clear();
@@ -74,13 +65,6 @@ public class NotesTabController {
                         .map(GroupageNotepad::getNotepad)
                         .forEach(notesListView.getItems()::add);
             } else if (this.objectType instanceof Group) {
-              /*  ObservableList<Notepad> list = FXCollections.observableArrayList();
-                for (GroupNotepad s : db.getGroupNotepadDao()) {
-                    if (((Group) this.objectType).getId() == s.getGroup().getId()) {
-                        list.add(s.getNotepad());
-                    }
-                }
-                notesListView.setItems(list); */
                 GroupNotepad suitingGroup = new GroupNotepad();
                 suitingGroup.setGroup((Group) this.objectType);
                 notesListView.getItems().clear();
@@ -140,7 +124,7 @@ public class NotesTabController {
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void deleteButton(ActionEvent actionEvent) {
+    public void deleteButton(ActionEvent actionEvent) throws SQLException {
 
         if (notesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie die zu löschende Notiz aus.");
@@ -150,6 +134,14 @@ public class NotesTabController {
         boolean delete = ConfirmationModal.show("Soll die Notiz gelöscht werden?");
         if (delete) {
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
+            Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+            NotepadHistory notepadHistory = new NotepadHistory();
+            notepadHistory.setNotepad(notesListView.getSelectionModel().getSelectedItem());
+            notepadHistory.setTimestamp(timestamp);
+            notepadHistory.setUser(db.getLoggedInUser());
+            notepadHistoryDao.create(notepadHistory);
 
             try {
                 notepadDao.delete(notesListView.getSelectionModel().getSelectedItem());
@@ -182,6 +174,19 @@ public class NotesTabController {
             sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
                     .setNotepad(notesListView.getSelectionModel().getSelectedItem());
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
+    }
+
+    public void showHistoryButton(ActionEvent actionEvent) throws SQLException {
+        SceneType sceneType;
+        SceneManager sm = SceneManager.getInstance();
+        sceneType = SceneType.NOTES_HISTORY_VIEW;
+        sm.getLoaderForScene(sceneType).<NotesHistoryController>getController()
+                .initialize();
+        SceneManager.getInstance().showInNewWindow(SceneType.NOTES_HISTORY_VIEW);
+    }
+
+    public void notesAll(ActionEvent actionEvent) {
+        SceneManager.getInstance().showInNewWindow(SceneType.ALL_NOTES_WINDOW);
     }
 
     public void setObject(Object object) {
