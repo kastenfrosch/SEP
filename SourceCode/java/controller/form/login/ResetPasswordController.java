@@ -79,6 +79,8 @@ public class ResetPasswordController {
 
     private void sendNewPassword(User user, String newPass){
 
+
+
         // Recipient's email ID needs to be mentioned.
         String to = user.getPerson().getEmail().toString();
 
@@ -99,7 +101,7 @@ public class ResetPasswordController {
         props.put("mail.smtp.auth", "true");
 
         // Get the Session object.
-        Session session = Session.getInstance(props, new SendMailController.GMailAuthenticator(from, password));
+        Session session = Session.getInstance(props, new SendMailController.MailAuthenticator(from, password));
 
         try {
             // Create a default MimeMessage object.
