@@ -25,7 +25,6 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMailController {
 
-    private User currentUser;
 
     private DBManager db;
     // TODO: content and subject variables still needed?
@@ -40,6 +39,7 @@ public class SendMailController {
             e.printStackTrace();
         }
     }
+    private User currentUser = db.getLoggedInUser();
 
     public TextField targetAddressTextField;
     public TextField subjectTextField;
@@ -64,16 +64,16 @@ public class SendMailController {
 
 
        final String password = "";
-        String port = "";
         // Assuming you are sending email through relay.jangosmtp.net
-        String host = "";
+
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.user", from);
+        props.put("mail.smtp.host", currentUser.getMailSmtpHost());
+        props.put("mail.smtp.user", currentUser.getPerson().getEmail());
         //props.put("mail.smtp.password", password);
-        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.port", currentUser.getMailSmtpPort());
         props.put("mail.smtp.auth", "true");
+
 
         // Get the Session object.
        Session session = Session.getInstance(props, new GMailAuthenticator(currentUser.getMailUser(), password));
@@ -127,6 +127,9 @@ public class SendMailController {
     private void onContactsBTNClicked(ActionEvent actionEvent) {
         // open contacts window to select recipients
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_CONTACTS);
+    }
+
+    public void onAttatchementBTNClicked(ActionEvent event) {
     }
 
 
