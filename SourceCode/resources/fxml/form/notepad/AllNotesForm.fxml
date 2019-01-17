@@ -12,6 +12,6 @@
       <Label layoutX="190.0" text="Alle existierenden Notizen" />
       <Button fx:id="showNote" layoutX="10.0" layoutY="350.0" mnemonicParsing="false" onAction="#showNote" text="Anzeigen" />
       <Button fx:id="closeWindow" layoutX="450.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeWindow" text="Schließen" />
-      <TextField fx:id="searchArea" layoutX="184.0" layoutY="40.0" promptText="Suchen" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="190.0" />
+      <TextField fx:id="searchArea" layoutX="184.0" layoutY="40.0" onAction="#searchArea" promptText="Suchen" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="190.0" />
    </children>
 </AnchorPane>
