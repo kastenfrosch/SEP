@@ -47,12 +47,14 @@ public class SendMailController {
             e.printStackTrace();
         }
     }
+
     private User currentUser = db.getLoggedInUser();
 
     public AnchorPane rootPane;
     public TextField targetAddressTextField;
     public TextField subjectTextField;
     public TextArea mailTextArea;
+    public Button attatchmentBTN;
     public Button sendBTN;
     public Button saveBTN;
     public Button cancelBTN;
@@ -85,7 +87,7 @@ public class SendMailController {
 
 
         // Get the Session object.
-       Session session = Session.getInstance(props, new GMailAuthenticator(currentUser.getMailUser(), password));
+       Session session = Session.getInstance(props, new MailAuthenticator(currentUser.getMailUser(), password));
 
         try {
             // Create a default MimeMessage object.
@@ -162,25 +164,17 @@ public class SendMailController {
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_CONTACTS);
     }
 
-    public void onAttachmentBTNClicked(ActionEvent actionEvent) {
-        // creating filechooser
-        FileChooser chooser = new FileChooser();
-        // open filechooser
-        Stage stage = (Stage) rootPane.getScene().getWindow();
-        File selectedPath = chooser.showOpenDialog(stage);;
-
-        if (selectedPath != null) {
-            // getting the path of the file
-            String attachmentPath = selectedPath.getAbsolutePath();
-            attachmentList.add(attachmentPath);
-        } else return;
+    @FXML
+    private void onAttachmentBTNClicked(ActionEvent actionEvent) {
+        // open attachments window to add or remove mail attachments
+        SceneManager.getInstance().showInNewWindow(SceneType.MAIL_ATTACHMENTS);
     }
 
-    public static class GMailAuthenticator extends Authenticator {
+    public static class MailAuthenticator extends Authenticator {
         String user;
         String password;
 
-        public GMailAuthenticator(String username, String password) {
+        public MailAuthenticator(String username, String password) {
             super();
             this.user = username;
             this.password = password;
@@ -192,7 +186,6 @@ public class SendMailController {
     }
 
     public void setRecipients(List<String> emailList) {
-
         // method called from contacts window which takes a list of email addresses
         // and pastes it into the address textfield
         String recipients = "";
@@ -207,6 +200,11 @@ public class SendMailController {
         }
 
         this.targetAddressTextField.setText(recipients);
+    }
+
+    public void setAttachmentList(List<String> attachmentList) {
+        // set attachments selected in and passed by MailAttchmentsController
+        this.attachmentList = attachmentList;
     }
 
     public void setPass(String pass) {
