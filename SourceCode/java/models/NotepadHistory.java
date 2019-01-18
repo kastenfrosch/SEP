@@ -14,7 +14,7 @@ public class NotepadHistory {
     public static final String FIELD_USERNAME = "username";
     public static final String FIELD_TIME = "time";
 
-    @DatabaseField(id = true, columnName = FIELD_HISTORY_ID)
+    @DatabaseField(generatedId = true, columnName = FIELD_HISTORY_ID)
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true,
