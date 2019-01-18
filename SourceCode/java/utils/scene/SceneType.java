@@ -36,6 +36,7 @@ public enum SceneType {
     EXAM_STUDENT("/fxml/ExamStudent.fxml", "Bewertungsformular"),
     MAIL_CONTACTS("/fxml/mail/MailContacts.fxml", "Mail Kontakte"),
     MAIL_CREDENTIALS("/fxml/mail/AddEmailCredentials.fxml", "Mail Login-Daten"),
+    MAIL_ATTACHMENTS("/fxml/mail/MailAttachments.fxml", "Mail Attchments"),
     DANGEROUS_STUFF("/fxml/form/DangerousStuff.fxml", "Dangerous Stuff"),
     EXAM_GROUP("/fxml/ExamStudent.fxml", "BewertungsformularGruppe"),
     GITLAB_LOGIN("/fxml/form/gitlab/GitlabLoginForm.fxml", "Gitlab Login"),

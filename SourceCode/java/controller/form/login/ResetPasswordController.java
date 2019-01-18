@@ -119,7 +119,7 @@ public class ResetPasswordController {
 
             // Now set the actual message
             message.setText("Lieber "+user.getUsername()+" dein Password wurde zurückgesetzt.\n"+
-                    "Dein neues Password lautet: " + newPass+"\n"+
+                    "Dein neues Password lautet: \n" + newPass+"\n"+
                     "Bitte denke daran dir ein neues Password im System zu setzten."
                     );
 
