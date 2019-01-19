@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import modal.ErrorModal;
 import modal.InfoModal;
 import models.User;
+import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
@@ -22,7 +23,6 @@ public class AddEmailCredentials {
     {
         try {
             db = DBManager.getInstance();
-            currentUser = db.getLoggedInUser();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,11 +33,16 @@ public class AddEmailCredentials {
     public Button saveBTN;
     public TextField usernameField;
     public TextField mailPasswordField;
-    public TextField userPasswordField;
     public TextField IMAPServerField;
     public TextField IMAPPortField;
     public TextField SMTPServerField;
     public TextField SMTPPortField;
+
+    private String userPassword;
+
+    public void init() {
+        this.currentUser = db.getLoggedInUser();
+    }
 
 
     public void onSaveBTNClicked(ActionEvent actionEvent) {
@@ -57,15 +62,6 @@ public class AddEmailCredentials {
             return;
         }
         mailPassword = mailPasswordField.getText();
-
-        // TODO: do something else with it?
-        // setting/getting?? user password
-        String userPassword;
-        if (userPasswordField.getText().isBlank()) {
-            InfoModal.show("ACHTUNG!", null, "Kein User Passwort eingegeben!");
-            return;
-        }
-        userPassword = userPasswordField.getText();
 
         // setting imap server
         String IMAPServer;
@@ -112,12 +108,15 @@ public class AddEmailCredentials {
         // passing variables to current user instance
         try {
             this.currentUser.setMailUser(username);
-            this.currentUser.setMailPassword(mailPassword);
-            // TODO: what to do with variable "userPassword"?
             this.currentUser.setMailImapHost(IMAPServer);
             this.currentUser.setMailImapPort(IMAPPort);
             this.currentUser.setMailSmtpHost(SMTPServer);
             this.currentUser.setMailSmtpPort(SMTPPort);
+
+            //encrypt password
+            //VALID is used to check if the password was properly decrypted later
+            String encPassword = HashUtils.encryptAES("VALID" + mailPassword, this.userPassword);
+            this.currentUser.setMailPassword(encPassword);
 
             Dao<User, String> userDao = db.getUserDao();
             userDao.update(this.currentUser);
@@ -128,11 +127,17 @@ public class AddEmailCredentials {
             e.printStackTrace();
         }
 
+        SceneManager.getInstance().closeWindow(SceneType.MAIL_CREDENTIALS);
+
     }
 
     public void onCancelBTNClicked(ActionEvent actionEvent) {
         // close window
         SceneManager.getInstance().closeWindow(SceneType.MAIL_CREDENTIALS);
+    }
+
+    public void setUserPassword(String pswd) {
+        this.userPassword = pswd;
     }
 
 }
