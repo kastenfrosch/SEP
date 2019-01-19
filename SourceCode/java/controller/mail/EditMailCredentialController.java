@@ -7,14 +7,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import modal.ErrorModal;
 import modal.InfoModal;
+import modal.PasswordModal;
 import models.User;
+import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class EditMailCredentialController {
-
 
 
     public TextField usernameField;
@@ -34,16 +36,17 @@ public class EditMailCredentialController {
     }
 
     User currentUser;
-    public void init(){
 
-          currentUser = db.getLoggedInUser();
+    public void init() {
 
-          usernameField.setText(currentUser.getUsername());
-          mailPasswordField.setText("");
-          IMAPServerField.setText(currentUser.getMailImapHost());
-          IMAPPortField.setText(String.valueOf(currentUser.getMailImapPort()));
-          SMTPServerField.setText(currentUser.getMailSmtpHost());
-          SMTPPortField.setText(String.valueOf(currentUser.getMailSmtpPort()));
+        currentUser = db.getLoggedInUser();
+
+        usernameField.setText(currentUser.getMailUser());
+        mailPasswordField.setText("");
+        IMAPServerField.setText(currentUser.getMailImapHost());
+        IMAPPortField.setText(String.valueOf(currentUser.getMailImapPort()));
+        SMTPServerField.setText(currentUser.getMailSmtpHost());
+        SMTPPortField.setText(String.valueOf(currentUser.getMailSmtpPort()));
 
 
     }
@@ -65,8 +68,6 @@ public class EditMailCredentialController {
             return;
         }
         mailPassword = mailPasswordField.getText();
-
-
 
 
         // setting imap server
@@ -111,6 +112,21 @@ public class EditMailCredentialController {
             e.printStackTrace();
         }
 
+        Optional<String> userAppPassword = PasswordModal.showAndWait();
+        if (userAppPassword.isEmpty() || userAppPassword.get().isBlank()) {
+            ErrorModal.show("Fehler", "Ungültiges Anwendungspasswort");
+            return;
+        }
+
+
+        try {
+            currentUser.setMailPassword(HashUtils.encryptAES(mailPassword, userAppPassword.get()));
+        } catch (Exception e) {
+            //this should not happen as the former password has been verified
+            ErrorModal.show("Error", "Ein unbekannter Fehler ist aufgetreten.");
+            return;
+        }
+
         // passing variables to current user instance
         try {
             this.currentUser.setMailUser(username);
@@ -124,6 +140,7 @@ public class EditMailCredentialController {
             userDao.update(this.currentUser);
 
             InfoModal.show("Mail-Einstellungen für  \"" + this.currentUser + "\" wurden übernommen!");
+            SceneManager.getInstance().closeWindow(SceneType.EDIT_MAILCREDENTIALS);
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
