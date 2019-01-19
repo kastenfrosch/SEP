@@ -92,7 +92,7 @@ public class SceneManager {
      * @param sceneType The scene to open
      * @param stageTitle The title of the new window
      */
-    public void showInNewWindow(SceneType sceneType, String stageTitle) {
+    public void showInNewWindow(SceneType sceneType, String stageTitle, boolean asModal) {
         WindowInfo info = scenes.get(sceneType);
         Stage stage = info.getStage();
         if (stage == null || stage == root) {
@@ -108,7 +108,7 @@ public class SceneManager {
 
         Method[] methods = info.getLoader().getController().getClass().getDeclaredMethods();
         for(Method m : methods) {
-            if(m.getName().equals("initialize")) {
+            if(m.getName().equals("initialize") || m.getName().equals("init")) {
                 try {
                     m.invoke(info.getLoader().getController());
                 } catch(IllegalAccessException | InvocationTargetException ex) {
@@ -117,11 +117,20 @@ public class SceneManager {
                 }
             }
         }
-        stage.show();
+        if(asModal) {
+            stage.showAndWait();
+        }
+        else {
+            stage.show();
+        }
     }
 
     public void showInNewWindow(SceneType sceneType) {
-        showInNewWindow(sceneType, sceneType.getTitle());
+        showInNewWindow(sceneType, sceneType.getTitle(), false);
+    }
+
+    public void showInNewWindow(SceneType sceneType, boolean asModal) {
+        showInNewWindow(sceneType, sceneType.getTitle(), asModal);
     }
 
     public WindowInfo getRawWindow(SceneType sceneType) {
