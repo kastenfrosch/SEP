@@ -47,7 +47,8 @@ public enum SceneType {
     RESET_PASSWORD("/fxml/form/login/ResetPasswordForm.fxml", "Passwort zurücksetzen"),
     ALL_NOTES_WINDOW("/fxml/form/notepad/AllNotesForm.fxml", "Liste aller Notizen"),
     NOTES_HISTORY_SHOW_NOTE("/fxml/form/notepad/NotesHistoryShowNote.fxml", "Anzeigen der Notiz in der Historie"),
-    NOTES_HISTORY_VIEW("/fxml/form/notepad/NotesHistoryForm.fxml", "Anzeigen der Notizhistorie");
+    NOTES_HISTORY_VIEW("/fxml/form/notepad/NotesHistoryForm.fxml", "Anzeigen der Notizhistorie"),
+    EDIT_MAILCREDENTIALS("/fxml/mail/EditMailCredentialForm.fxml","EMail Einstellung ändern");
 
 
 
