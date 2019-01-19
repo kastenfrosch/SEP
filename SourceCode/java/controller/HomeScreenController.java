@@ -216,7 +216,7 @@ public class HomeScreenController {
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
                 case "notesTab":
-                    if(System.getProperty("sep.alt") == null) {
+                    if(System.getProperty("sep.alt.notepad") != null) {
                         sceneType = SceneType.NOTEPAD_VIEW;
                         if (selectedNode.getValue() instanceof Semester) {
                             Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
@@ -237,7 +237,7 @@ public class HomeScreenController {
                     }
                     break;
                 case "weekPlanTab":
-                    if(System.getProperty("sep.alt") == null) {
+                    if(System.getProperty("sep.alt.weekcalendar") != null) {
                         if (selectedNode.getValue() instanceof Groupage) {
                             sceneType = SceneType.WEEK_CALENDAR;
                             sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
