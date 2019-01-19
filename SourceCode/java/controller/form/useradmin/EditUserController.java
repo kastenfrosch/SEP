@@ -121,4 +121,7 @@ public class EditUserController {
 
     }
 
+    public void onMailCredentialsClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.EDIT_MAILCREDENTIALS);
+    }
 }
