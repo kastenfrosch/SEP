@@ -5,25 +5,24 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane fx:id="chartAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gitlab.GitlabChartController">
+<AnchorPane fx:id="chartAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gitlab.GitlabChartController">
    <children>
-      <TabPane fx:id="chartTabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="chartTabPane" prefHeight="600.0" prefWidth="980.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="pieChartTab" text="Tortendiagramm">
+          <Tab fx:id="pieChartTab" text="Verteilung der Commits">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <PieChart fx:id="pieChart" layoutX="14.0" layoutY="14.0" prefHeight="313.0" prefWidth="446.0" />
+                        <PieChart fx:id="pieChart" layoutX="14.0" layoutY="14.0" prefHeight="500.0" prefWidth="712.0" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="lineChartTab" text="Graph">
+          <Tab fx:id="lineChartTab" text="Zeitl. Verlauf der Commits">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <LineChart fx:id="lineChart" layoutX="14.0" layoutY="14.0" prefHeight="342.0" prefWidth="488.0">
+                        <LineChart fx:id="lineChart" layoutX="14.0" layoutY="14.0" prefHeight="500.0" prefWidth="700.0">
                           <xAxis>
                             <NumberAxis side="BOTTOM" />
                           </xAxis>
