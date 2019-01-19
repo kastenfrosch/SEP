@@ -130,10 +130,10 @@ public class HomeScreenController {
             dbm.getUserDao().update(user);
 
             ConnectionSource conn = dbm.getFavouriteSemesterDao().getConnectionSource();
-            TableUtils.clearTable(conn, FavouriteSemester.class);
-            TableUtils.clearTable(conn, FavouriteGroupage.class);
-            TableUtils.clearTable(conn, FavouriteGroup.class);
-            TableUtils.clearTable(conn, FavouriteStudent.class);
+            dbm.getFavouriteGroupageDao().deleteBuilder().where().eq(FavouriteGroupage.FIELD_USER_ID, user.getUsername());
+            dbm.getFavouriteGroupDao().deleteBuilder().where().eq(FavouriteGroup.FIELD_USER_ID, user.getUsername());
+            dbm.getFavouriteSemesterDao().deleteBuilder().where().eq(FavouriteSemester.FIELD_USER_ID, user.getUsername());
+            dbm.getFavouriteStudentDao().deleteBuilder().where().eq(FavouriteStudent.FIELD_USER_ID, user.getUsername());
 
             ArrayList<Node> expandedNodes = getExpandedNodes();
             for (Node tmp : expandedNodes) {
@@ -216,7 +216,7 @@ public class HomeScreenController {
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
                 case "notesTab":
-                    if(System.getProperty("sep.alt") != null) {
+                    if(System.getProperty("sep.alt") == null) {
                         sceneType = SceneType.NOTEPAD_VIEW;
                         if (selectedNode.getValue() instanceof Semester) {
                             Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
@@ -237,7 +237,7 @@ public class HomeScreenController {
                     }
                     break;
                 case "weekPlanTab":
-                    if(System.getProperty("sep.alt") != null) {
+                    if(System.getProperty("sep.alt") == null) {
                         if (selectedNode.getValue() instanceof Groupage) {
                             sceneType = SceneType.WEEK_CALENDAR;
                             sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
