@@ -124,7 +124,7 @@ public class NotesTabController {
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void deleteButton(ActionEvent actionEvent) throws SQLException {
+    public void deleteButton(ActionEvent actionEvent) {
 
         if (notesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie die zu löschende Notiz aus.");
@@ -136,14 +136,14 @@ public class NotesTabController {
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
             Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
             NotepadHistory notepadHistory = new NotepadHistory();
-            notepadHistory.setNotepad(notesListView.getSelectionModel().getSelectedItem());
-            notepadHistory.setTimestamp(timestamp);
-            notepadHistory.setUser(db.getLoggedInUser());
-            notepadHistoryDao.create(notepadHistory);
 
             try {
+                notepadHistory.setNotepad(notesListView.getSelectionModel().getSelectedItem());
+                notepadHistory.setTimestamp(timestamp);
+                notepadHistory.setUser(db.getLoggedInUser());
+                notepadHistoryDao.create(notepadHistory);
+
                 notepadDao.delete(notesListView.getSelectionModel().getSelectedItem());
                 this.notesListView.getItems().remove(notesListView.getSelectionModel().getSelectedItem());
             } catch (SQLException e) {
