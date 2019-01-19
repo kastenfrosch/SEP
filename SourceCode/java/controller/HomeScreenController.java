@@ -415,6 +415,10 @@ public class HomeScreenController {
     public void refreshTabContent() {
         showTabContent();
     }
+
+    public void onMailBtnClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.RECEIVE_MAIL);
+    }
 }
 
 class Node extends TreeItem<Object> {
