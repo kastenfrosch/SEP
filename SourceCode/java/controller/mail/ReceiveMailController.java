@@ -1,6 +1,8 @@
 package controller.mail;
 
+import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -10,7 +12,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import modal.ErrorModal;
+import modal.PasswordModal;
 import models.User;
+import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
@@ -18,61 +23,79 @@ import javax.mail.*;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 public class ReceiveMailController {
 
     private User currentUser;
-
     private DBManager db;
+    private Dao<User, String> userDao;
 
     {
         try {
             db = DBManager.getInstance();
-            currentUser = db.getLoggedInUser();
+            userDao = db.getUserDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
-
-
-    private static final String email_id = "MailForSEP@gmail.com";
-    private static final String password = "changeme123!";
+    //private static final String email_id = "MailForSEP@gmail.com";
+    //private static final String password = "changeme123!";
     @FXML
     private TableView<Message> mailTableView;
     //set properties
+    private String mailPassword;
 
-    private String pass;
+    //this should NOT be called initialize because it is not supposed to be called by the FXMLLoader, only by the SceneManager
+    public void init() {
 
-    @FXML
-    private void initialize() {
-            SceneManager.getInstance().showInNewWindow(SceneType.PASSWORD_FORM);
+        currentUser = db.getLoggedInUser();
 
-            PasswordFormController passCon = SceneManager.getInstance()
-                    .getLoaderForScene(SceneType.PASSWORD_FORM).getController();
+        Optional<String> appPasswordOpt = PasswordModal.showAndWait();
 
-            var future = passCon.getPassword();
-            try {
-                pass = future.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+        String applicationPassword;
+
+        if (appPasswordOpt.isPresent()) {
+            applicationPassword = appPasswordOpt.get();
+        } else {
+            ErrorModal.show("Ungültiges Anwendungskennwort!");
+            Platform.runLater(() -> SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL));
+            return;
+        }
+
+        if (currentUser.getMailUser() == null || currentUser.getMailUser().isBlank()) {
+            //no mail settings have been set yet
+            SceneManager sm = SceneManager.getInstance();
+            sm.getLoaderForScene(SceneType.MAIL_CREDENTIALS).<AddEmailCredentials>getController()
+                    .setUserPassword(appPasswordOpt.get());
+            sm.showInNewWindow(SceneType.MAIL_CREDENTIALS, true);
+        }
+
+        //user needs to be refreshed to match the updated db entry
+        try {
+            userDao.refresh(currentUser);
+        } catch (SQLException ex) {
+            ErrorModal.show("Unknown Database Error", ex.getMessage());
+            SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL);
+        }
+
+        String mailPassword;
+
+        try {
+            mailPassword = HashUtils.decryptAES(currentUser.getMailPassword(), applicationPassword);
+            if(!mailPassword.startsWith("VALID")) {
+                throw new IllegalArgumentException("Invalid application password");
             }
-        String encryptedPassword = currentUser.getMailPassword();
-        String key = pass;
+        } catch(Exception e) {
+            ErrorModal.show("Ungültiges Anwendungskennwort!");
+            Platform.runLater(() -> SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL));
+            return;
+        }
 
-        Properties properties = new Properties();
-        //set imap address, imaps = imap + secure
-        properties.put("mail.store.protocol", "imaps");
-        //imap host of mail address
-        properties.put("mail.imaps.host", "imap.gmail.com");
-        //imap port of mail address
-        properties.put("mail.imaps.port", "993");
-        //set timeout
-        properties.put("mail.imaps.timeout", "10000");
-
+        this.mailPassword = mailPassword.substring(5);
 
         //initialization of the tableview
         TableColumn<Message, String> subject = new TableColumn<>("Betreff:");
@@ -83,28 +106,50 @@ public class ReceiveMailController {
         sender.setCellValueFactory(c -> {
             try {
                 return new SimpleObjectProperty<>(c.getValue().getFrom()[0]);
-            } catch(MessagingException | IndexOutOfBoundsException ex) {
+            } catch (MessagingException | IndexOutOfBoundsException ex) {
                 return null;
             }
         });
         date.setCellValueFactory(c -> {
             try {
                 return new SimpleObjectProperty<>(c.getValue().getSentDate());
-            } catch(MessagingException ex) {
+            } catch (MessagingException ex) {
                 return new SimpleObjectProperty<>(Date.from(Instant.EPOCH));
             }
         });
 
+        Properties properties = new Properties();
+
+        //enable ssl
+        //set timeout
+        properties.put("mail.debug", "true");
+        //set imap address
+        properties.put("mail.store.protocol", "imaps");
+        //imap host of mail address
+        properties.put("mail.imaps.host", currentUser.getMailImapHost());
+        //imap port of mail address
+        properties.put("mail.imaps.port", currentUser.getMailImapPort());
+        properties.put("mail.imaps.timeout", "10000");
+
         try {
 
             //create a session
-            Session session = Session.getDefaultInstance(properties, null);
+            Session session = Session.getInstance(properties, null);
             //SET the store for imaps
             Store store = session.getStore("imaps");
 
             System.out.println("Connection initiated......");
             //trying to connect iamp server
-            store.connect(email_id, password);
+            try {
+                store.connect(currentUser.getMailUser(), this.mailPassword);
+            } catch (AuthenticationFailedException ex) {
+                ErrorModal.show("Anmeldung Fehlgeschlagen", "Bitte stellen Sie sicher dass Benutzername und Passwort korrekt sind.");
+                Platform.runLater(() -> SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL));
+                System.out.println("Login failed with user " + currentUser.getMailUser() + " pw " + this.mailPassword);
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+                return;
+            }
             System.out.println("Connection is ready :)");
 
 
@@ -122,7 +167,7 @@ public class ReceiveMailController {
 
             }
             //add all columns
-            
+
             date.prefWidthProperty().bind(mailTableView.widthProperty().divide(3));
             subject.prefWidthProperty().bind(mailTableView.widthProperty().divide(3));
             sender.prefWidthProperty().bind(mailTableView.widthProperty().divide(3));
@@ -152,13 +197,14 @@ public class ReceiveMailController {
         }
 
     }
+
     public void onRefreshBTNClicked(ActionEvent actionEvent) {
-        initialize();
+        init();
     }
 
 
     public void onSendMailClicked(ActionEvent event) {
-        SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).<SendMailController>getController().setPass(pass);
+        SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).<SendMailController>getController().setPass(mailPassword);
         SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
     }
 }
