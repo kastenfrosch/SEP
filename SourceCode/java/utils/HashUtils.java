@@ -1,5 +1,7 @@
 package utils;
 
+import modal.ErrorModal;
+
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
@@ -15,6 +17,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
 import java.util.Base64;
+
 public class HashUtils {
 
     private static final char[] HEX_CHARS = "0123456789ABCDEF".toCharArray();
@@ -23,11 +26,10 @@ public class HashUtils {
     private static final SecureRandom rand = new SecureRandom();
 
     /**
-     *
      * @return Returns a random byte array with the same length as the hash
      */
     public static byte[] getRandomSalt() {
-        byte[] salt = new byte[HASH_LENGTH/8];
+        byte[] salt = new byte[HASH_LENGTH / 8];
         rand.nextBytes(salt);
         return salt;
     }
@@ -40,9 +42,8 @@ public class HashUtils {
     }
 
     /**
-     *
      * @param cleartext The text to gasg
-     * @param salt The salt to use when hashing
+     * @param salt      The salt to use when hashing
      * @return A byte array which is the result of hashing the cleartext and the key
      */
     public static byte[] hash(char[] cleartext, byte[] salt) {
@@ -58,16 +59,17 @@ public class HashUtils {
 
     /**
      * @see HashUtils#verify(char[], byte[], byte[])
-     * **/
+     **/
     public static boolean verify(String cleartext, String hash, String salt) {
         return verify(cleartext.toCharArray(), fromHex(hash), fromHex(salt));
     }
 
     /**
      * Calculates a hash for cleartext and salt and compares it to a given hash
+     *
      * @param cleartext The cleartext to use when calculating the hash
-     * @param hash The hash to compare to
-     * @param salt The salt to use when calculating the hash
+     * @param hash      The hash to compare to
+     * @param salt      The salt to use when calculating the hash
      * @return true if the hash of cleartext+salt equals the given hash
      */
     public static boolean verify(char[] cleartext, byte[] hash, byte[] salt) {
@@ -76,6 +78,7 @@ public class HashUtils {
 
     /**
      * Converts a byte array to a hex string
+     *
      * @param data The bytes to convert
      * @return A string with the hex value of the byte array
      */
@@ -93,21 +96,22 @@ public class HashUtils {
 
     /**
      * Converts a hex string to a byte array
+     *
      * @param hex The hex string to convert
      * @return A byte array with the value of the hex string
      */
     public static byte[] fromHex(String hex) {
         byte[] data = new byte[hex.length() / 2];
 
-        for (int i = 0; i < hex.length(); i+=2) {
-            data[i/2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)
-                    + Character.digit(hex.charAt(i+1), 16));
+        for (int i = 0; i < hex.length(); i += 2) {
+            data[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)
+                    + Character.digit(hex.charAt(i + 1), 16));
         }
 
         return data;
     }
 
-    public static SecretKeySpec generateKey(String keyString){
+    public static SecretKeySpec generateKey(String keyString) {
 
         byte[] key = new byte[0];
         try {
@@ -127,9 +131,9 @@ public class HashUtils {
         return secretKeySpec;
     }
 
-    public static String encryptAES (String secret, String key){
+    public static String encryptAES(String secret, String key) {
         String text = secret;
-SecretKeySpec secretKeySpec = generateKey(key);
+        SecretKeySpec secretKeySpec = generateKey(key);
         Cipher cipher = null;
         try {
             cipher = Cipher.getInstance("AES");
@@ -155,40 +159,32 @@ SecretKeySpec secretKeySpec = generateKey(key);
         return null;
     }
 
-    public static String decryptAES (String cipher, String key){
+    public static String decryptAES(String strCipher, String key) throws BadPaddingException, IllegalBlockSizeException, InvalidKeyException {
 
+        byte[] crypted = fromHex(strCipher);
 
-        byte[] crypted = fromHex(cipher);
-
-        Cipher cipher2 = null;
+        Cipher cipher = null;
         try {
-            cipher2 = Cipher.getInstance("AES");
+            cipher = Cipher.getInstance("AES");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            e.printStackTrace();
+            ErrorModal.show("Fatal Error", "Ihr PC erfüllt nicht die Mindestanforderungen. Bitte kontaktieren Sie ihren Systemadministrator.");
+            return "";
         }
-        SecretKeySpec secretKeySpec= generateKey(key);
-        try {
-            if (cipher2 != null) {
-                cipher2.init(Cipher.DECRYPT_MODE, secretKeySpec);
-            }
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
+        SecretKeySpec secretKeySpec = generateKey(key);
+
+        if (cipher != null) {
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
         }
+
         byte[] cipherData2 = new byte[0];
-        try {
-            if (cipher2 != null) {
-                cipherData2 = cipher2.doFinal(crypted);
-            }
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
-            e.printStackTrace();
+
+        if (cipher != null) {
+            cipherData2 = cipher.doFinal(crypted);
         }
 
         return new String(cipherData2);
 
     }
-
-
-
 
 
 }
