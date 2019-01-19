@@ -67,7 +67,7 @@ public class GitlabChartController {
 
         pieChart.getData().clear();
         if (selectedObject instanceof Groupage) {
-            drawGroupageChart((Groupage) selectedObject);
+            drawGroupagePieChart((Groupage) selectedObject);
         } else if (selectedObject instanceof Group) {
             drawGroupPieChart((Group) selectedObject);
         } else if(selectedObject instanceof Student) {
@@ -82,7 +82,7 @@ public class GitlabChartController {
         });
     }
 
-    private void drawGroupageChart(Groupage g) throws GitLabApiException {
+    private void drawGroupagePieChart(Groupage g) throws GitLabApiException {
         for (Group group : g.getGroups()) {
             for (Project x : api.getProjectApi().getProjects()) {
                 if (x.getHttpUrlToRepo().equals(group.getGitlabUrl())) {
@@ -128,9 +128,13 @@ public class GitlabChartController {
     private void drawGraph() throws GitLabApiException {
 
         lineChart.getData().clear();
-
-        if (selectedObject instanceof Group) {
-            drawGroupGraph((Group) selectedObject);
+        if (selectedObject instanceof Groupage) {
+            drawGroupageGraph((Groupage) selectedObject);
+        }
+        else if (selectedObject instanceof Group) {
+            for (Student s : ((Group) selectedObject).getStudents()) {
+                drawStudentGraph(s);
+            }
         }
         else if(selectedObject instanceof Student) {
             drawStudentGraph((Student) selectedObject);
@@ -158,6 +162,18 @@ public class GitlabChartController {
         });
     }
 
+    private void drawGroupageGraph(Groupage groupage) throws GitLabApiException {
+        for (Group group : groupage.getGroups()) {
+            for (Project x : api.getProjectApi().getProjects()) {
+                if (x.getHttpUrlToRepo().equals(group.getGitlabUrl())) {
+                    project = x;
+                    break;
+                }
+            }
+            drawGroupGraph(group);
+        }
+    }
+
     private void drawGroupGraph(Group g) throws GitLabApiException {
         List<Commit> total = commitsApi.getCommits(project);
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
@@ -172,7 +188,7 @@ public class GitlabChartController {
 
 
         XYChart.Series series = new XYChart.Series();
-        series.setName("Commits over time");
+        series.setName(g.getName());
 
         for (Map.Entry<LocalDate, List<Commit>> entry : commitMap.entrySet()) {
             series.getData().add(new XYChart.Data(entry.getKey().toEpochDay(), entry.getValue().size()));
@@ -194,7 +210,7 @@ public class GitlabChartController {
         xAxis.setUpperBound(boundaries[1].toEpochDay());
 
         XYChart.Series series = new XYChart.Series();
-        series.setName("Commits over time");
+        series.setName(s.getPerson().getFirstname().substring(0, 1) + ". " + s.getPerson().getLastname());
 
         for (Map.Entry<LocalDate, List<Commit>> entry : commitMap.entrySet()) {
             series.getData().add(new XYChart.Data(entry.getKey().toEpochDay(), entry.getValue().size()));
