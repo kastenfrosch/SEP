@@ -1,7 +1,5 @@
 package controller.gitlab;
 
-import com.j256.ormlite.dao.ForeignCollection;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
@@ -19,10 +17,7 @@ import models.Student;
 import org.gitlab4j.api.CommitsApi;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.RepositoryApi;
-import org.gitlab4j.api.models.AbstractUser;
 import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.Project;
 import utils.TimeUtils;
 
@@ -31,7 +26,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GitlabChartController {
 
