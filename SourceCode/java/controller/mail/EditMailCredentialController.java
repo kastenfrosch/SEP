@@ -120,7 +120,7 @@ public class EditMailCredentialController {
 
 
         try {
-            currentUser.setMailPassword(HashUtils.encryptAES(mailPassword, userAppPassword.get()));
+            currentUser.setMailPassword(HashUtils.encryptAES("VALID"+mailPassword, userAppPassword.get()));
         } catch (Exception e) {
             //this should not happen as the former password has been verified
             ErrorModal.show("Error", "Ein unbekannter Fehler ist aufgetreten.");
@@ -130,7 +130,6 @@ public class EditMailCredentialController {
         // passing variables to current user instance
         try {
             this.currentUser.setMailUser(username);
-            this.currentUser.setMailPassword(mailPassword);
             this.currentUser.setMailImapHost(IMAPServer);
             this.currentUser.setMailImapPort(IMAPPort);
             this.currentUser.setMailSmtpHost(SMTPServer);
