@@ -53,6 +53,13 @@ public class ReceiveMailController {
     public void init() {
 
         currentUser = db.getLoggedInUser();
+        //user data may have changed since the last call
+        try {
+            userDao.refresh(currentUser);
+        } catch(SQLException ex) {
+            ErrorModal.show("Fehler", "Ein unbekannter Fehler ist aufgetreten", ex.getMessage());
+            return;
+        }
 
         Optional<String> appPasswordOpt = PasswordModal.showAndWait();
 
