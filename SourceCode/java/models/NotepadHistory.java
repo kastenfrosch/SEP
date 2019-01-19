@@ -18,11 +18,11 @@ public class NotepadHistory {
     private int id;
 
     @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true,
-            columnDefinition = "integer not null references notepad(notepad_id)")
+            columnDefinition = "integer not null references notepad(notepad_id) on delete cascade")
     private Notepad notepad;
 
     @DatabaseField(columnName = FIELD_USERNAME, foreign=true,
-            columnDefinition = "varchar not null references \"user\"(username)")
+            columnDefinition = "varchar not null references \"user\"(username) on delete set null")
     private User user;
 
     @DatabaseField(columnName = FIELD_TIME, dataType = DataType.TIME_STAMP)
