@@ -20,6 +20,10 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeUtility;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
@@ -31,6 +35,7 @@ public class ReceiveMailController {
     private User currentUser;
     private DBManager db;
     private Dao<User, String> userDao;
+    private Folder inbox;
 
     {
         try {
@@ -56,7 +61,7 @@ public class ReceiveMailController {
         //user data may have changed since the last call
         try {
             userDao.refresh(currentUser);
-        } catch(SQLException ex) {
+        } catch (SQLException ex) {
             ErrorModal.show("Fehler", "Ein unbekannter Fehler ist aufgetreten", ex.getMessage());
             return;
         }
@@ -93,10 +98,10 @@ public class ReceiveMailController {
 
         try {
             mailPassword = HashUtils.decryptAES(currentUser.getMailPassword(), applicationPassword);
-            if(!mailPassword.startsWith("VALID")) {
+            if (!mailPassword.startsWith("VALID")) {
                 throw new IllegalArgumentException("Invalid application password");
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             ErrorModal.show("Ungültiges Anwendungskennwort!");
             Platform.runLater(() -> SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL));
             return;
@@ -161,10 +166,28 @@ public class ReceiveMailController {
 
 
             //get inbox folder
-            Folder inbox = store.getFolder("inbox");
+            switch (currentUser.getMailImapHost()) {
+                case "imap.gmail.com":
+                    inbox = store.getFolder("inbox");
+                    break;
+                case "imap.gmx.de":
+                case "mailbox.uni-duisburg-essen.de":
+                    inbox = store.getFolder("INBOX");
+
+                    break;
+                case "imap.mail.yahoo.com":
+                case "imap.mail.yahoo.de":
+                    inbox = store.getFolder("Inbox");
+                    break;
+
+                default:
+                    inbox = store.getFolder("inbox");
+                    break;
+            }
+
+
             //set readonly format
             inbox.open(Folder.READ_ONLY);
-
 
             //inbox email count
             int messageCount = inbox.getMessageCount();
@@ -213,5 +236,73 @@ public class ReceiveMailController {
     public void onSendMailClicked(ActionEvent event) {
         SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).<SendMailController>getController().setPass(mailPassword);
         SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+    }
+
+    public void onCancelBTNClicked(ActionEvent event) {
+        SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL);
+    }
+
+    public void onReplyBTNClicked(ActionEvent event) {
+        try {
+            inbox.open(Folder.READ_ONLY);
+            for (int i = 0; i < inbox.getMessageCount(); i++) {
+                inbox.getMessage(inbox.getMessageCount() - i).getSubject();
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        SendMailController sendMail = SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).getController();
+        try {
+            if (mailTableView.getSelectionModel().getSelectedItem().getReplyTo() == null) {
+                ErrorModal.show("Bitte eine Mail auswählen.");
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+        Message message = mailTableView.getSelectionModel().getSelectedItem();
+        String from = "";
+        Address[] froms = new Address[0];
+        try {
+            froms = message.getFrom();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+
+        InternetAddress address = (InternetAddress) froms[0];
+        String person = address.getPersonal();
+
+        if (person != null) {
+            try {
+                person = MimeUtility.decodeText(person) + " ";
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            person = "";
+        }
+
+        from = person + "<" + address.getAddress() + ">";
+
+
+        try {
+            sendMail.setTo(from);
+            sendMail.setSubject("Awd: "+message.getSubject());
+            sendMail.setContent("\n"+"\n"+"\n" +
+                    "-------------------------------------------------------------------------------------------"+"\n"
+            + message.getContent().toString());
+        } catch (IOException | MessagingException e) {
+            e.printStackTrace();
+        }
+        try {
+            inbox.close(true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onEditCredentialsBTN(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.EDIT_MAILCREDENTIALS);
     }
 }
