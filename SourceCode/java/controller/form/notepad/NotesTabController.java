@@ -177,7 +177,10 @@ public class NotesTabController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTES_HISTORY_VIEW);
     }
 
-    public void notesAll(ActionEvent actionEvent) {
+    public void notesAll(ActionEvent actionEvent) throws SQLException {
+        SceneType sceneType = SceneType.ALL_NOTES_WINDOW;
+        SceneManager sm = SceneManager.getInstance();
+        sm.getLoaderForScene(sceneType).<AllNotesController>getController().initialize();
         SceneManager.getInstance().showInNewWindow(SceneType.ALL_NOTES_WINDOW);
     }
 
