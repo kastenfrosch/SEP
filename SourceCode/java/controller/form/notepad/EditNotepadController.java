@@ -93,7 +93,7 @@ public class EditNotepadController {
         Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
         NotepadHistory notepadHistory = new NotepadHistory();
 
-        //Saving the Notepad which is to be edited to delete it from the listView
+        //Saving the Notepad which is to be edited to delete it from the listView in the main window
         Notepad ersatz = this.notepad;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
