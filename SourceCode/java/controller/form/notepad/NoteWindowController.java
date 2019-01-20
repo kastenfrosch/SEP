@@ -30,9 +30,9 @@ public class NoteWindowController {
         } else if (priorityLabel.getText().equals("Schlecht")) {
             notepadTextarea.setStyle("-fx-background-color: red");
             priorityLabel.setText("Spezifikation: Schlecht");
-        } else if (priorityLabel.getText().equals("Ohne Zuordnung")) {
+        } else if (priorityLabel.getText().equals("Keine Zuordnung")) {
             notepadTextarea.setStyle("-fx-background-color: grey");
-            priorityLabel.setText("Spezifikation: Ohne Zuordnung");
+            priorityLabel.setText("Spezifikation: Keine Zuordnung");
         }
     }
 
@@ -43,7 +43,7 @@ public class NoteWindowController {
     public void setNotepad(Notepad notepad) { //Getting infos of opened Notepad
         nameLabel.setText(notepad.getNotepadName());
         notepadTextarea.setText(notepad.getNotepadContent());
-        priorityLabel.setText(notepad.getNotepadPriority());
+        priorityLabel.setText(notepad.getClassification().toString());
         initialize();
     }
 }

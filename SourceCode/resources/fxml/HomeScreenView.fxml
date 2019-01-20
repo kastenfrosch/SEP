@@ -52,5 +52,6 @@
       </TabPane>
       <Button layoutX="1087.0" layoutY="761.0" mnemonicParsing="false" onAction="#onUserAdministrationButtonClicked" text="Benutzerverwaltung" AnchorPane.bottomAnchor="14.0" />
       <Button layoutX="995.0" layoutY="761.0" mnemonicParsing="false" onAction="#onMailBtnClicked" text="Mail" />
+      <Button fx:id="examBtn" layoutX="943.0" layoutY="761.0" mnemonicParsing="false" onAction="#onExamBtnClicked" text="Exam" />
    </children>
 </AnchorPane>

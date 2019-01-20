@@ -81,17 +81,17 @@ public class NotesTabController {
                             if (!empty && item != null) {
                                 setText(item.getNotepadName());
 
-                                switch (item.getNotepadPriority()) {
-                                    case "Gut":
+                                switch (item.getClassification()) {
+                                    case GOOD:
                                         style = "-fx-background-color: green";
                                         break;
-                                    case "Mittel":
+                                    case MEDIUM:
                                         style = "-fx-background-color: yellow";
                                         break;
-                                    case "Schlecht":
+                                    case BAD:
                                         style = "-fx-background-color: red";
                                         break;
-                                    case "Ohne Zuordnung":
+                                    case NEUTRAL:
                                         style = "-fx-background-color: grey";
                                         break;
                                 }
@@ -169,7 +169,7 @@ public class NotesTabController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
-    public void showHistoryButton(ActionEvent actionEvent) throws SQLException {
+    public void showHistoryButton(ActionEvent actionEvent) {
         SceneType sceneType;
         SceneManager sm = SceneManager.getInstance();
         sceneType = SceneType.NOTES_HISTORY_VIEW;
@@ -177,7 +177,10 @@ public class NotesTabController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTES_HISTORY_VIEW);
     }
 
-    public void notesAll(ActionEvent actionEvent) {
+    public void notesAll(ActionEvent actionEvent) throws SQLException {
+        SceneType sceneType = SceneType.ALL_NOTES_WINDOW;
+        SceneManager sm = SceneManager.getInstance();
+        sm.getLoaderForScene(sceneType).<AllNotesController>getController().initialize();
         SceneManager.getInstance().showInNewWindow(SceneType.ALL_NOTES_WINDOW);
     }
 

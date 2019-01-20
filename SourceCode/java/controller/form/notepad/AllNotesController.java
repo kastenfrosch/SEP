@@ -7,9 +7,11 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import modal.InfoModal;
 import models.Notepad;
+import models.NotepadHistory;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AllNotesController {
 
@@ -24,7 +26,7 @@ public class AllNotesController {
     }
 
     @FXML
-    public ListView allNotesListView;
+    public ListView<Notepad> allNotesListView;
     @FXML
     public Button showNote;
     @FXML
@@ -51,17 +53,17 @@ public class AllNotesController {
                         if (!empty && item != null) {
                             setText(item.getNotepadName());
 
-                            switch (item.getNotepadPriority()) {
-                                case "Gut":
+                            switch (item.getClassification()) {
+                                case GOOD:
                                     style = "-fx-background-color: green";
                                     break;
-                                case "Mittel":
+                                case MEDIUM:
                                     style = "-fx-background-color: yellow";
                                     break;
-                                case "Schlecht":
+                                case BAD:
                                     style = "-fx-background-color: red";
                                     break;
-                                case "Ohne Zuordnung":
+                                case NEUTRAL:
                                     style = "-fx-background-color: grey";
                                     break;
                             }
@@ -88,7 +90,26 @@ public class AllNotesController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
-    public void searchArea(ActionEvent actionEvent) {
+    public void searchArea(ActionEvent actionEvent) throws SQLException {
+        if(searchArea.getText() != null && !searchArea.getText().isBlank()) {
+            ArrayList<Notepad> hilfsListe = new ArrayList<>();
+            hilfsListe.addAll(allNotesListView.getItems());
+            ListView<Notepad> hilfsListView = new ListView<>();
+
+            for (int i = 0; i < hilfsListe.size(); i++) {
+                if (hilfsListe.get(i).getNotepadName().contains(searchArea.getText())) {
+                    hilfsListView.getItems().add(hilfsListe.get(i));
+                }
+                if(hilfsListe.get(i).getNotepadContent().contains(searchArea.getText())) {
+                    hilfsListView.getItems().add(hilfsListe.get(i));
+                }
+            }
+            allNotesListView.setItems(hilfsListView.getItems());
+        }
+        else {
+            allNotesListView.getItems().clear();
+            initialize();
+        }
     }
 
     public void closeWindow(ActionEvent actionEvent) {
