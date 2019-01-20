@@ -47,8 +47,7 @@ public class ReceiveMailController {
     }
 
 
-    //private static final String email_id = "MailForSEP@gmail.com";
-    //private static final String password = "changeme123!";
+
     @FXML
     private TableView<Message> mailTableView;
     //set properties
@@ -303,7 +302,10 @@ public class ReceiveMailController {
         }
     }
 
+
+
     public void onEditCredentialsBTN(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_MAILCREDENTIALS);
     }
+
 }
