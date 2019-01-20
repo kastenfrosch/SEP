@@ -287,6 +287,7 @@ public class ReceiveMailController {
 
 
         try {
+            sendMail.setPass(mailPassword);
             sendMail.setTo(from);
             sendMail.setSubject("Awd: "+message.getSubject());
             sendMail.setContent("\n"+"\n"+"\n" +
