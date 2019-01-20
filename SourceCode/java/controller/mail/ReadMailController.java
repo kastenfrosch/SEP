@@ -2,6 +2,8 @@ package controller.mail;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
+import utils.scene.SceneManager;
+import utils.scene.SceneType;
 
 import javax.mail.BodyPart;
 import javax.mail.Folder;
@@ -17,6 +19,7 @@ public class ReadMailController {
     public TextArea senderTextField;
     public TextArea subjectTextField;
 
+
     public Message getMailMessage() {
         return mailMessage;
     }
@@ -26,10 +29,18 @@ public class ReadMailController {
         mailMessage = message;
     }
 
-    public void initialize(){
+    public void init() {
         //clear the text area
         mailContent.clear();
-        if(mailMessage != null) {
+        dateTextField.clear();
+        senderTextField.clear();
+        subjectTextField.clear();
+
+        mailContent.setEditable(false);
+        dateTextField.setEditable(false);
+        senderTextField.setEditable(false);
+        subjectTextField.setEditable(false);
+        if (mailMessage != null) {
             try {
                 // set all the elements in the form
                 dateTextField.appendText(mailMessage.getSentDate().toString());
@@ -62,7 +73,8 @@ public class ReadMailController {
                     folder.close(false);
                 }
                 //set content into the textarea
-                mailContent.appendText(body);
+                mailContent.setText(body);
+                //mailContent.appendText(body);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -70,16 +82,15 @@ public class ReadMailController {
         }
     }
 
-    public void onRefreshBTNClicked(ActionEvent actionEvent) {
-        initialize();
-    }
 
     public void onReplyBTNClicked(ActionEvent actionEvent) {
+
+
     }
 
-    public void onSaveBTNClicked(ActionEvent actionEvent) {
-    }
 
     public void onBackBTNClicked(ActionEvent actionEvent) {
+        SceneManager.getInstance().closeWindow(SceneType.READ_MAIL);
+
     }
 }
