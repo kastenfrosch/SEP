@@ -2,11 +2,15 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Duration;
 import javafx.util.converter.FloatStringConverter;
 import modal.ErrorModal;
 import modal.InfoModal;
@@ -26,6 +30,12 @@ public class ExamStudentController {
     public TableView<ExamQuestion> ratingTableView;
     public Label averageLabel;
     public Label passLabel;
+    public Button startBtn;
+    public Button pauseBtn;
+    public Button resetBtn;
+    public Label timerLbl;
+    public Button deleteBtn;
+    public Button addBtn;
 
     private Group group;
     private Exam exam;
@@ -35,6 +45,11 @@ public class ExamStudentController {
     private Dao<Exam, Integer> examDao;
     private Dao<ExamQuestion, Integer> examQuestionDao;
     private Dao<Student, Integer> studentDao;
+
+    private int min;
+    private int startTimeSec, startTimeMin;
+    private boolean isRunning;
+    private Timeline timeline = new Timeline();
 
     //TODO: 2. Timer
     //TODO: 4. Code auskommentieren
@@ -96,8 +111,11 @@ public class ExamStudentController {
         ratingTableView.getColumns().clear();
         ratingTableView.getColumns().addAll(questionCol, ratingCol);
 
-        //TODO: 1. Wenn der Student in der ComboBox gelöscht wird muss der Inhalt der Tabelle auch gelöscht werden, aber die Einträge für den jeweiligen Studenten müssen drin bleiben
-        studentComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> ratingTableView.getItems().clear());
+        //TODO: 1. Hierbei taucht ein Fehler auf!
+        studentComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            ratingTableView.getItems().clear();
+            loadQuestions();
+        });
     }
 
     //populating tableview with questions and scores
@@ -129,7 +147,7 @@ public class ExamStudentController {
     //calculation of the average score
     public void evaluationBtnClicked(ActionEvent event) {
         //TODO: 3. Eine Auswertung macht keinen Sinn wenn die Tabelle leer ist
-        if(ratingTableView.getItems() == null){
+        if(ratingTableView.getSelectionModel().getSelectedItem() == null){
             InfoModal.show("Sie müssen Einträge tätigen bevor eine Auswertung möglich ist!");
         }
 
@@ -182,4 +200,70 @@ public class ExamStudentController {
             ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
         }
     }
+
+    public void loadQuestions(){
+
+        try {
+            ObservableList<ExamQuestion> examq = FXCollections.observableArrayList(examQuestionDao
+                    .queryForEq(ExamQuestion.FIELD_STUDENT, studentComboBox.getSelectionModel().getSelectedItem()));
+
+            ratingTableView.setItems(examq);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //TODO: anpassen!
+    public void startTime(ActionEvent event) {
+        if (isRunning == false) {
+            if (!(startTimeMin < 0)) {
+                KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event1 -> {
+
+                    startTimeSec--;
+                    boolean isSecondsZero = startTimeSec == 0;
+                    boolean timeToChangeBackground = startTimeSec == 0 && startTimeMin == 0;
+
+                    if (isSecondsZero) {
+                        startTimeMin--;
+                        startTimeSec = 60;
+                    }
+                    if (timeToChangeBackground) {
+                        timeline.stop();
+                        startTimeMin = 0;
+                        startTimeSec = 0;
+                    }
+
+                    timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
+
+                });
+
+                startTimeSec = 30;
+                startTimeMin = 1-min;
+                timeline.setCycleCount(Timeline.INDEFINITE);
+                timeline.getKeyFrames().add(keyframe);
+                timeline.playFromStart();
+                isRunning = true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have not entered a time!");
+                alert.showAndWait();
+            }
+        }else {
+            timeline.play();
+        }
+
+    }
+
+    public void pauseTime(ActionEvent event) {
+        timeline.pause();
+    }
+
+    public void resetTime(ActionEvent event) {
+        timeline.stop();
+        startTimeSec = 30;
+        startTimeMin = 1-min;
+        timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
+    }
+
+
 }
