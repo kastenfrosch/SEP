@@ -1,6 +1,8 @@
 package controller.mail;
 
+import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modal.ErrorModal;
 import modal.InfoModal;
+import models.MailTemplate;
 import models.User;
 import utils.HashUtils;
 import utils.scene.SceneManager;
@@ -35,20 +38,17 @@ public class SendMailController {
 
     private DBManager db;
     private List<String> attachmentList = new ArrayList<>();
-    // TODO: content and subject variables still needed?
-    private String content;
-    private String subject;
+
 
     {
         try {
             db = DBManager.getInstance();
-            currentUser = db.getLoggedInUser();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private User currentUser = db.getLoggedInUser();
+    private User currentUser;
 
     public AnchorPane rootPane;
     public TextField targetAddressTextField;
@@ -56,12 +56,18 @@ public class SendMailController {
     public TextArea mailTextArea;
     public Button attatchmentBTN;
     public Button sendBTN;
-    public Button saveBTN;
     public Button cancelBTN;
     public Button templateBTN;
     public Button contactsBTN;
 
-    String pass;
+    String password;
+
+    public void init(){
+        currentUser=db.getLoggedInUser();
+        subjectTextField.clear();
+        mailTextArea.clear();
+        targetAddressTextField.clear();
+    }
 
 
     @FXML
@@ -71,80 +77,82 @@ public class SendMailController {
         String to = targetAddressTextField.getText();//change accordingly
 
         // Sender's email ID needs to be mentioned
-        String from = currentUser.getPerson().getEmail().toString();//change accordingly
 
-
-       final String password = "";
         // Assuming you are sending email through relay.jangosmtp.net
 
-        Properties props = new Properties();
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", currentUser.getMailSmtpHost());
-        props.put("mail.smtp.user", currentUser.getPerson().getEmail());
-        //props.put("mail.smtp.password", password);
-        props.put("mail.smtp.port", currentUser.getMailSmtpPort());
-        props.put("mail.smtp.auth", "true");
 
+        Properties properties = new Properties();
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", currentUser.getMailSmtpHost());
+        properties.put("mail.smtp.user", currentUser.getMailUser());
+        properties.put("mail.smtp.password", password);
+        properties.put("mail.smtp.port", String.valueOf(currentUser.getMailSmtpPort()));
+        properties.put("mail.smtp.auth", "true");
+
+        sendMail(properties, currentUser.getMailUser(), password, to);
+
+    }
 
         // Get the Session object.
-       Session session = Session.getInstance(props, new MailAuthenticator(currentUser.getMailUser(), password));
 
-        try {
-            // Create a default MimeMessage object.
-            Message message = new MimeMessage(session);
 
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
+    public void sendMail(Properties properties, String mailUsername, String password, String to){
+            Session session = Session.getInstance(properties, new MailAuthenticator(currentUser.getMailUser(), password));
 
-            // Set To: header field of the header.
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
+            try {
+                // Create a default MimeMessage object.
+                Message message = new MimeMessage(session);
 
-            // Set Subject: header field
-            message.setSubject(subjectTextField.getText());
+                // Set From: header field of the header.
+                message.setFrom(new InternetAddress(currentUser.getMailUser()));
 
-            if (this.attachmentList.size() > 0) {
+                // Set To: header field of the header.
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 
-                // using multiple body parts, one for text, rest for attachments
-                MimeBodyPart mbpText = new MimeBodyPart();
-                // setting text
-                mbpText.setText(mailTextArea.getText());
+                // Set Subject: header field
+                message.setSubject(subjectTextField.getText());
 
-                // creating multipart, adding text on top
-                Multipart mp = new MimeMultipart();
-                mp.addBodyPart(mbpText);
+                if (this.attachmentList.size() > 0) {
 
-                // every path in the attachmentList is added to multipart
-                for (String s : this.attachmentList) {
-                    MimeBodyPart mbp = new MimeBodyPart();
-                    FileDataSource fds = new FileDataSource(s);
-                    mbp.setDataHandler(new DataHandler(fds));
-                    mbp.setFileName(fds.getName());
-                    mp.addBodyPart(mbp);
+                    // using multiple body parts, one for text, rest for attachments
+                    MimeBodyPart mbpText = new MimeBodyPart();
+                    // setting text
+                    mbpText.setText(mailTextArea.getText());
+
+                    // creating multipart, adding text on top
+                    Multipart mp = new MimeMultipart();
+                    mp.addBodyPart(mbpText);
+
+                    // every path in the attachmentList is added to multipart
+                    for (String s : this.attachmentList) {
+                        MimeBodyPart mbp = new MimeBodyPart();
+                        FileDataSource fds = new FileDataSource(s);
+                        mbp.setDataHandler(new DataHandler(fds));
+                        mbp.setFileName(fds.getName());
+                        mp.addBodyPart(mbp);
+                    }
+
+                    // set combined multipart as content
+                    message.setContent(mp);
+
+                } else {
+                    message.setText(mailTextArea.getText());
                 }
 
-                // set combined multipart as content
-                message.setContent(mp);
+                // Send message
+                Transport.send(message);
+                InfoModal.show("Email wurde erfolgreich gesendet!");
+                SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
 
-            } else {
-                message.setText(mailTextArea.getText());
+            } catch (MessagingException e) {
+                ErrorModal.show("Beim Senden der Email ist ein Fehler aufgetreten!");
+                throw new RuntimeException(e);
             }
-
-            // Send message
-            Transport.send(message);
-            InfoModal.show("Email wurde erfolgreich gesendet!");
-            SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
-
-        } catch (MessagingException e) {
-            ErrorModal.show("Beim Senden der Email ist ein Fehler aufgetreten!");
-            throw new RuntimeException(e);
         }
-    }
 
-    @FXML
-    private void onSaveBTNClicked(ActionEvent actionEvent) {
-        // TODO: save mail into templates?
-    }
+
+
+
 
     @FXML
     private void onCancelBTNClicked(ActionEvent actionEvent) {
@@ -170,6 +178,15 @@ public class SendMailController {
         SceneManager.getInstance().showInNewWindow(SceneType.MAIL_ATTACHMENTS);
     }
 
+    public void onDraftBTNClicked(ActionEvent event) {
+        CreateMailTemplateController createMailTemplateController = SceneManager.getInstance()
+                .getLoaderForScene(SceneType.CREATE_MAILTEMPLATES).getController();
+
+        createMailTemplateController.createDraft(subjectTextField.getText(), mailTextArea.getText());
+        SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
+        }
+
+
     public static class MailAuthenticator extends Authenticator {
         String user;
         String password;
@@ -186,6 +203,7 @@ public class SendMailController {
     }
 
     public void setRecipients(List<String> emailList) {
+
         // method called from contacts window which takes a list of email addresses
         // and pastes it into the address textfield
         String recipients = "";
@@ -207,8 +225,8 @@ public class SendMailController {
         this.attachmentList = attachmentList;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPass(String password) {
+        this.password = password;
     }
 
     public void setContent(String content){
@@ -218,4 +236,6 @@ public class SendMailController {
     public void setSubject(String subject) {
         this.subjectTextField.setText(subject);
     }
+
+    public void setTo(String to){this.targetAddressTextField.setText(to);}
 }
