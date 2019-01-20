@@ -14,6 +14,7 @@ import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import org.apache.commons.lang.RandomStringUtils;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -45,14 +46,21 @@ public class ResetPasswordController {
         Dao<User, String> userDao = dbManager.getUserDao();
         try {
             user = userDao.queryForId(usernameTextField.getText());
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            return;
+        }
+        if (user == null) {
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
+            return;
         }
 
 
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        String newPass =    RandomStringUtils.randomAscii(32);
+        String newPass = RandomStringUtils.randomAscii(32);
 
         byte[] newSalt = HashUtils.getRandomSalt();
 
@@ -67,11 +75,11 @@ public class ResetPasswordController {
 
         try {
             userDao.update(user);
-            InfoModal.show("Das Passwort wurde zurückgesetzt. ");
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
             sendNewPassword(user, newPass);
             SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
         } catch (SQLException ex) {
-            ErrorModal.show("Passwort konnte nicht zurückgesetzt werden.");
+            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
         }
 
     }
@@ -80,8 +88,7 @@ public class ResetPasswordController {
         SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
     }
 
-    private void sendNewPassword(User user, String newPass){
-
+    private void sendNewPassword(User user, String newPass) {
 
 
         // Recipient's email ID needs to be mentioned.
@@ -121,14 +128,14 @@ public class ResetPasswordController {
             message.setSubject("Dein Passwort wurde zurückgesetzt");
 
             // Now set the actual message
-            message.setText("Lieber "+user.getUsername()+" dein Password wurde zurückgesetzt.\n"+
-                    "Dein neues Password lautet: \n" + newPass+"\n"+
+            message.setText("Lieber " + user.getUsername() + " dein Password wurde zurückgesetzt.\n" +
+                    "Dein neues Password lautet: \n" + newPass + "\n" +
                     "Bitte denke daran dir ein neues Password im System zu setzten."
-                    );
+            );
 
             // Send message
             Transport.send(message);
-            InfoModal.show("Senden war erfolgreich!");
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
 
         } catch (MessagingException e) {
             ErrorModal.show("DümDüm senden war nichts");
@@ -137,8 +144,7 @@ public class ResetPasswordController {
     }
 
 
-
-    }
+}
 
 
 
