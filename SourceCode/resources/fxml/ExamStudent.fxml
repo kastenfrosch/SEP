@@ -14,11 +14,6 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="114.0" prefWidth="598.0">
          <children>
-            <Text layoutX="315.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bewertungsformular - Studierendenebene">
-               <font>
-                  <Font size="29.0" />
-               </font>
-            </Text>
             <ComboBox id="studentComboBox" fx:id="studentComboBox" layoutX="83.0" layoutY="77.0" prefWidth="150.0" promptText="Student ausw." />
             <Text layoutX="4.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student:">
                <font>
@@ -27,8 +22,13 @@
             </Text>
             <Button id="evaluationBtn" fx:id="evaluationBtn" layoutX="904.0" layoutY="77.0" mnemonicParsing="false" onAction="#evaluationBtnClicked" text="Auswerten" />
             <Button layoutX="1177.0" layoutY="34.0" mnemonicParsing="false" text="Speichern" />
-            <Button id="saveBtn" fx:id="saveBtn" layoutX="1044.0" layoutY="77.0" mnemonicParsing="false" onAction="#saveBtnClicked" text="Speichern" />
+            <Button id="deleteBtn" fx:id="deleteBtn" layoutX="1044.0" layoutY="77.0" mnemonicParsing="false" onAction="#deleteBtnClicked" text="Löschen" />
             <Button id="addBtn" fx:id="addBtn" layoutX="762.0" layoutY="77.0" mnemonicParsing="false" onAction="#addBtnClicked" text="Hinzufügen" />
+            <Text layoutX="573.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bewertungsformular - Studierendenebene">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="950.0">
          <children>

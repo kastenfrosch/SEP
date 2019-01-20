@@ -2,56 +2,43 @@ package controller;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.StringConverter;
 import javafx.util.converter.FloatStringConverter;
-import javafx.util.converter.IntegerStringConverter;
 import modal.ErrorModal;
+import modal.InfoModal;
 import models.Group;
-import models.Groupage;
 import models.Student;
-import models.User;
 import models.exam.Exam;
 import models.exam.ExamQuestion;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExamStudentController {
 
 
     public ComboBox<Student> studentComboBox;
-    public ProgressBar timeProgressBar;
     public Button evaluationBtn;
-    public Button saveBtn;
     public TableView<ExamQuestion> ratingTableView;
     public Label averageLabel;
     public Label passLabel;
 
     private Group group;
-    private Student student;
-    private Groupage groupage;
+    private Exam exam;
 
     private DBManager db;
 
     private Dao<Exam, Integer> examDao;
     private Dao<ExamQuestion, Integer> examQuestionDao;
     private Dao<Student, Integer> studentDao;
-    private Dao<Group, Integer> groupDao;
-    private Dao<Groupage, Integer> groupageDao;
 
-
-
-
-    //TODO: Timer
-    //TODO: AddButton hinzufügen; exam.setGroup eine richtige Gruppe setzen - bisher ist die Group_ID nicht existent
-    //TODO: SaveButton separat; fehlt komplett
-    //TODO: StudentenComboBox befüllen
+    //TODO: 2. Timer
+    //TODO: 4. Code auskommentieren
+    //TODO: 5. Namen des Stundenten in der Überschrift einblenden
     public void initialize(){
 
         try {
@@ -59,24 +46,25 @@ public class ExamStudentController {
             examDao = db.getExamDao();
             examQuestionDao = db.getExamQuestionDao();
             studentDao = db.getStudentDao();
-            groupDao = db.getGroupDao();
-            groupageDao = db.getGroupageDao();
-
 
         } catch (SQLException e) {
             ErrorModal.show("Das Bewertungsformular konnte nicht geladen werden!");
             return;
         }
 
+        //create  table columns
         TableColumn<ExamQuestion, String> questionCol = new TableColumn<>("Fragen");
         TableColumn<ExamQuestion, Float> ratingCol = new TableColumn<>("Bewertung");
 
+        //set cellValueFactory
         questionCol.setCellValueFactory(new PropertyValueFactory<>("questionString"));
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("score"));
 
+        //enable temporary textfields to edit cells
         questionCol.setCellFactory(TextFieldTableCell.forTableColumn());
         ratingCol.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
 
+        //saving new value after editing cell
         questionCol.setOnEditCommit(event -> {
             try {
                 ExamQuestion table = ratingTableView.getSelectionModel().getSelectedItem();
@@ -100,28 +88,34 @@ public class ExamStudentController {
             }
         });
 
+        //enable editing for table cells
         questionCol.setEditable(true);
         ratingCol.setEditable(true);
 
+        //add columns to tableview
         ratingTableView.getColumns().clear();
         ratingTableView.getColumns().addAll(questionCol, ratingCol);
+
+        //TODO: 1. Wenn der Student in der ComboBox gelöscht wird muss der Inhalt der Tabelle auch gelöscht werden, aber die Einträge für den jeweiligen Studenten müssen drin bleiben
+        studentComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> ratingTableView.getItems().clear());
     }
 
+    //populating tableview with questions and scores
     public void addBtnClicked(ActionEvent event) {
-          Exam exam = new Exam();
-//      Todo: Sollte User nicht eigentlich Student sein? Jedem Studenten sollte quasi ein Exam zugeordnet werden
-        exam.setGroup(this.group);
-        exam.setDescription("");
+
+        this.exam.setGroup(this.group);
+        this.exam.setDescription("");
 
         ExamQuestion question = new ExamQuestion();
-        question.setExam(exam);
+        question.setExam(this.exam);
         question.setAnswer("");
         question.setNote("");
         question.setQuestionString("");
         question.setScore(0.0f);
+        question.setStudent(studentComboBox.getSelectionModel().getSelectedItem());
 
         try {
-            examDao.create(exam);
+            examDao.create(this.exam);
             examQuestionDao.create(question);
             ratingTableView.getItems().add(question);
             ratingTableView.getSelectionModel().select(question);
@@ -132,51 +126,60 @@ public class ExamStudentController {
         }
     }
 
-    private void setGroupage(Groupage groupage){
-        this.groupage = groupage;
-    }
+    //calculation of the average score
+    public void evaluationBtnClicked(ActionEvent event) {
+        //TODO: 3. Eine Auswertung macht keinen Sinn wenn die Tabelle leer ist
+        if(ratingTableView.getItems() == null){
+            InfoModal.show("Sie müssen Einträge tätigen bevor eine Auswertung möglich ist!");
+        }
 
-    private void loadGroupsAndStudents(){
-        try {
-            ObservableList<Group> groups = FXCollections.observableArrayList();
-            groups.addAll(groupDao.queryForAll());
+        List<Float> scoresList = new ArrayList<>();
 
-            if (groups.size() == 0) {
-                Group g = new Group();
-                g.setGroupage(groupage);
-                g.setName("");
-                groupDao.create(g);
-                groupDao.refresh(g);
-                this.group = g;
-                return;
-            }
+        for(ExamQuestion s: ratingTableView.getItems()){
+            scoresList.add(s.getScore());
+        }
 
-            List<Student> studentsInGroup = studentDao.query(studentDao.queryBuilder()
-            .where().eq(Group.FIELD_GROUP_ID, Student.FIELD_GROUP_ID).prepare());
-//            studentComboBox.setItems(studentsInGroup);
+        float scores = 0.0f;
 
-//            ObservableList<Student> studentenInGruppe = FXCollections.observableArrayList();
-//
-//            studentenInGruppe.addAll((Student) groupDao.queryForEq(Group.FIELD_GROUP_ID, student.getGroup().getId()));
-//
-//            this.studentComboBox.setItems(studentenInGruppe);
+        for(float f: scoresList){
+            scores += f;
+        }
 
-        } catch (SQLException ex) {
-            ErrorModal.show("Das Bewertungsformular konnte nicht geladen werden!");
+        float durchschnitt = Math.round((scores / scoresList.size())*100.0f);
+        durchschnitt /= 100.0f;
+        String avg = Float.toString(durchschnitt);
+        averageLabel.setText(avg);
+
+        //you need to reach at least an average of 2.5 points to pass an exam successfully
+        if(durchschnitt >= 2.5f){
+            passLabel.setText("Bestanden");
+        }
+        else{
+            passLabel.setText("Durchgefallen");
         }
     }
 
-    public void evaluationBtnClicked(ActionEvent event) {
+    //create exam for student of a certain group
+    public void setArgs(Exam exam, Group group) {
+        this.exam = exam;
+        this.group = group;
 
-        int anzahlScores = ratingTableView.getItems().size();
+        try {
+            var x = FXCollections.observableArrayList(studentDao.queryForEq(Student.FIELD_GROUP_ID, group.getId()));
+            studentComboBox.setItems(x);
 
-        float durchschnitt = ratingTableView.getSelectionModel().getSelectedItem().getScore() / anzahlScores;
-        String avg =Float.toString(durchschnitt);
-        averageLabel.setText(avg);
+        } catch (Exception e) {}
     }
 
-    public void saveBtnClicked(ActionEvent event) {
+    //delete rows
+    public void deleteBtnClicked(ActionEvent event) {
+
+        ExamQuestion eq = ratingTableView.getSelectionModel().getSelectedItem();
+        try {
+            examQuestionDao.delete(eq);
+            ratingTableView.getItems().remove(eq);
+        } catch (SQLException e) {
+            ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
+        }
     }
-
-
 }
