@@ -93,14 +93,9 @@ public class EditNotepadController {
         Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
         NotepadHistory notepadHistory = new NotepadHistory();
 
-        //Saving the Notepad which is to be edited & Logging the original Note in the history
+        //Saving the Notepad which is to be edited
         Notepad ersatz = this.notepad;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        notepadHistory.setNotepad(ersatz);
-        notepadHistory.setTimestamp(timestamp);
-        notepadHistory.setUser(db.getLoggedInUser());
-        notepadHistoryDao.create(notepadHistory);
 
         //Saving the notepad after editing
         this.notepad.setNotepadName(noteName);
@@ -109,6 +104,11 @@ public class EditNotepadController {
 
         try {
             notepadDao.update(this.notepad);
+
+            notepadHistory.setNotepad(this.notepad);
+            notepadHistory.setTimestamp(timestamp);
+            notepadHistory.setUser(db.getLoggedInUser());
+            notepadHistoryDao.create(notepadHistory);
 
             if(this.objectType instanceof Student) {
                 StudentNotepad studentNotepad = new StudentNotepad();

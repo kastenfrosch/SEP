@@ -3,10 +3,7 @@ package controller.form.notepad;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import modal.InfoModal;
 import models.Notepad;
@@ -36,6 +33,9 @@ public class AllNotesController {
     public TextField searchArea;
 
     public void initialize() throws SQLException {
+
+        allNotesListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        allNotesListView.getItems().clear();
 
         db.getNotepadDao().queryForAll().stream()
                 .forEach(allNotesListView.getItems()::add);
