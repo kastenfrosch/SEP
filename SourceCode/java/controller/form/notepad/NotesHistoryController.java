@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import modal.InfoModal;
 import models.*;
-import org.apache.commons.lang.ObjectUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
