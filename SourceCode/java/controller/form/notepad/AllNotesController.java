@@ -91,7 +91,7 @@ public class AllNotesController {
     }
 
     public void searchArea(ActionEvent actionEvent) throws SQLException {
-        if(searchArea.getText() != null) {
+        if(searchArea.getText() != null && !searchArea.getText().isBlank()) {
             ArrayList<Notepad> hilfsListe = new ArrayList<>();
             hilfsListe.addAll(allNotesListView.getItems());
             ListView<Notepad> hilfsListView = new ListView<>();
@@ -107,6 +107,7 @@ public class AllNotesController {
             allNotesListView.setItems(hilfsListView.getItems());
         }
         else {
+            allNotesListView.getItems().clear();
             initialize();
         }
     }
