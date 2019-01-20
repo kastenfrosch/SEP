@@ -35,7 +35,7 @@ public enum SceneType {
     NOTEPAD_VIEW("/fxml/alt/NoteView.fxml", "Notizen"),
     EXAM_STUDENT("/fxml/ExamStudent.fxml", "Bewertungsformular"),
     MAIL_CONTACTS("/fxml/mail/MailContacts.fxml", "Mail Kontakte"),
-    MAIL_CREDENTIALS("/fxml/mail/AddEmailCredentials.fxml", "Mail Login-Daten"),
+    MAIL_CREDENTIALS("/fxml/mail/CreateMailCredentialController.fxml", "Mail Login-Daten"),
     MAIL_ATTACHMENTS("/fxml/mail/MailAttachments.fxml", "Mail Anhänge"),
     DANGEROUS_STUFF("/fxml/form/DangerousStuff.fxml", "Dangerous Stuff"),
     EXAM_GROUP("/fxml/ExamStudent.fxml", "BewertungsformularGruppe"),

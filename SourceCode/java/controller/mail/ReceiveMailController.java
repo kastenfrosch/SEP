@@ -81,7 +81,7 @@ public class ReceiveMailController {
         if (currentUser.getMailUser() == null || currentUser.getMailUser().isBlank()) {
             //no mail settings have been set yet
             SceneManager sm = SceneManager.getInstance();
-            sm.getLoaderForScene(SceneType.MAIL_CREDENTIALS).<AddEmailCredentials>getController()
+            sm.getLoaderForScene(SceneType.MAIL_CREDENTIALS).<CreateMailCredentialController>getController()
                     .setUserPassword(appPasswordOpt.get());
             sm.showInNewWindow(SceneType.MAIL_CREDENTIALS, true);
         }

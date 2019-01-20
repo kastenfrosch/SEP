@@ -14,7 +14,7 @@ import utils.scene.SceneType;
 
 import java.sql.SQLException;
 
-public class AddEmailCredentials {
+public class CreateMailCredentialController {
 
 
     private DBManager db;
