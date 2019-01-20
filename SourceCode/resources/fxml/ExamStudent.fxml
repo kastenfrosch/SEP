@@ -24,7 +24,7 @@
             <Button layoutX="1177.0" layoutY="34.0" mnemonicParsing="false" text="Speichern" />
             <Button id="deleteBtn" fx:id="deleteBtn" layoutX="1044.0" layoutY="77.0" mnemonicParsing="false" onAction="#deleteBtnClicked" text="Löschen" />
             <Button id="addBtn" fx:id="addBtn" layoutX="762.0" layoutY="77.0" mnemonicParsing="false" onAction="#addBtnClicked" text="Hinzufügen" />
-            <Text layoutX="573.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bewertungsformular - Studierendenebene">
+            <Text layoutX="318.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bewertungsformular - Studierendenebene">
                <font>
                   <Font size="29.0" />
                </font>
@@ -38,18 +38,26 @@
                   <TableColumn prefWidth="92.0" text="Bewertung" />
               </columns>
             </TableView>
-            <Text layoutX="850.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Durchschnitt:">
+            <Text layoutX="850.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ø:">
                <font>
                   <Font size="19.0" />
                </font>
             </Text>
-            <Text layoutX="850.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bestanden:">
+            <Text layoutX="850.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:">
                <font>
                   <Font size="19.0" />
                </font>
             </Text>
-            <Label id="averageLabel" fx:id="averageLabel" layoutX="993.0" layoutY="242.0" text="Durchschnitt" />
-            <Label id="passLabel" fx:id="passLabel" layoutX="993.0" layoutY="359.0" text="Bestanden" />
+            <Label id="averageLabel" fx:id="averageLabel" layoutX="927.0" layoutY="241.0" text="/" />
+            <Label id="passLabel" fx:id="passLabel" layoutX="927.0" layoutY="358.0" text="/" />
+            <Label id="timerLbl" fx:id="timerLbl" layoutX="932.0" layoutY="75.0" text="00:00">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Button id="startBtn" fx:id="startBtn" layoutX="836.0" layoutY="23.0" mnemonicParsing="false" onAction="#startTime" text="Start" />
+            <Button id="pauseBtn" fx:id="pauseBtn" layoutX="968.0" layoutY="23.0" mnemonicParsing="false" onAction="#pauseTime" text="Pause" />
+            <Button id="resetBtn" fx:id="resetBtn" layoutX="1091.0" layoutY="23.0" mnemonicParsing="false" onAction="#resetTime" text="Reset" />
          </children></AnchorPane>
   </items>
 </SplitPane>

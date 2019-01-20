@@ -76,7 +76,9 @@ public class ExamGroupController {
             groups.addAll(groupDao.queryForAll());
 
             groupComboBox.setItems(groups);
-
+            groupComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, group, t1) -> {
+                loadExam();
+            });
 
         } catch (SQLException e) {
             ErrorModal.show("Das Bewertungsformular konnte nicht geladen werden!");
@@ -97,6 +99,7 @@ public class ExamGroupController {
         answerComboBox3.setItems(yn);
         answerComboBox4.setItems(yn);
 
+        groupComboBox.getSelectionModel().select(0);
         answerComboBox1.getSelectionModel().select(0);
         answerComboBox2.getSelectionModel().select(0);
         answerComboBox3.getSelectionModel().select(0);
@@ -116,7 +119,6 @@ public class ExamGroupController {
 
         this.exam.setGroup(groupComboBox.getSelectionModel().getSelectedItem());
         this.exam.setDescription("");
-
         ExamQuestion examQuestion1 = new ExamQuestion();
         examQuestion1.setScore(0.0f);
         examQuestion1.setQuestionString(questionLbl1.getText());
@@ -189,6 +191,7 @@ public class ExamGroupController {
                 this.exam = e;
                 return;
             }
+            this.exam = exams.get(0);
         } catch (SQLException ex) {
             ErrorModal.show("Das Bewertungsformular konnte nicht geladen werden!");
         }
@@ -203,55 +206,12 @@ public class ExamGroupController {
         commentListView.getItems().remove(commentListView.getSelectionModel().getSelectedItem());
     }
 
-    public void startTime() {
-        if (isRunning == false) {
-            if (!(startTimeMin < 0)) {
-                KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event1 -> {
-
-                    startTimeSec--;
-                    boolean isSecondsZero = startTimeSec == 0;
-                    boolean timeToChangeBackground = startTimeSec == 0 && startTimeMin == 0;
-
-                    if (isSecondsZero) {
-                        startTimeMin--;
-                        startTimeSec = 60;
-                    }
-                    if (timeToChangeBackground) {
-                        timeline.stop();
-                        startTimeMin = 0;
-                        startTimeSec = 0;
-
-
-                    }
-
-                    timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
-
-                });
-
-                startTimeSec = 60;
-                startTimeMin = 14-min;
-                timeline.setCycleCount(Timeline.INDEFINITE);
-                timeline.getKeyFrames().add(keyframe);
-                timeline.playFromStart();
-                isRunning = true;
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have not entered a time!");
-                alert.showAndWait();
-            }
-        }else {
-            timeline.play();
-        }
-
+    public void startTime(ActionEvent event) {
     }
 
     public void resetTime(ActionEvent event) {
-        timeline.stop();
-        startTimeSec = 60;
-        startTimeMin = 14-min;
-        timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
     }
 
     public void stopTimer(ActionEvent event) {
-        timeline.pause();
     }
 }
