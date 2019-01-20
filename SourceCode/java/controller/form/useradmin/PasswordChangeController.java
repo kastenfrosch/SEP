@@ -40,8 +40,8 @@ public class PasswordChangeController {
     }
 
     public void onSaveBtnClicked(ActionEvent event) {
-      //check if password fields a equal and not blank
-        if ((!(newPassword.getText().equals(newPasswordTwo.getText())))||newPassword.getText().isBlank()) {
+        //check if password fields a equal and not blank
+        if ((!(newPassword.getText().equals(newPasswordTwo.getText()))) || newPassword.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Passwörter sind nicht gleich!");
             return;
         }
@@ -49,7 +49,6 @@ public class PasswordChangeController {
         String pass = formerPassword.getText();
 
         String hexSalt = user.getSalt();
-        String hexPass = user.getPasswordHash();
 
         byte[] hashedPass = HashUtils.hash(pass, HashUtils.fromHex(hexSalt));
 
@@ -61,6 +60,21 @@ public class PasswordChangeController {
 
             user.setSalt(HashUtils.toHex(newSalt));
             user.setPasswordHash(HashUtils.toHex(hexNewPass));
+
+
+            //the email password needs to be updates aswell because it is encrypted with the user password
+            if (user.getMailPassword() != null && !user.getMailPassword().isBlank()) {
+                try {
+
+                    String decMailPassword = HashUtils.decryptAES(user.getMailPassword(), pass);
+                    user.setMailPassword(HashUtils.encryptAES(decMailPassword, newPass));
+
+                } catch(Exception e) {
+                    //this should not happen as the former password has been verified
+                    ErrorModal.show("Error", "Ein unbekannter Fehler ist aufgetreten.");
+                    return;
+                }
+            }
 
             try {
                 userDao.update(user);

@@ -14,7 +14,9 @@ import javafx.stage.Stage;
 import modal.InfoModal;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
+
 import java.io.File;
+
 
 public class MailAttachmentsController {
 
@@ -37,7 +39,7 @@ public class MailAttachmentsController {
         if (selectedPath != null) {
             // getting the path of the file
             String attachmentPath = selectedPath.getAbsolutePath();
-            // add it to list
+            // add it to list 
             this.attachmentList.add(attachmentPath);
             // listView only has to show the file's name
             this.attachmentListView.getItems().add(selectedPath.getName());
@@ -50,16 +52,14 @@ public class MailAttachmentsController {
             InfoModal.show("ACHTUNG!", null, "Kein Anhang ausgewählt!");
         } else {
             // remove selected attachment from attachmentList
-            for (String s : this.attachmentList) {
-                if (s.endsWith(attachmentListView.getSelectionModel().getSelectedItem().toString())) {
-                    this.attachmentList.remove(s);
-                }
-            }
-            // ... and from attachmentListView
-            this.attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
-            this.attachmentListView.refresh();
-        }
+            attachmentList.removeIf(attachment -> attachment.equals(attachmentListView
+                    .getSelectionModel().getSelectedItem()));
+        // ... and from attachmentListView
+        this.attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
+        this.attachmentListView.refresh();
     }
+
+}
 
     public void onCancelBTNClicked(ActionEvent actionEvent) {
         // add attachments to mail and close window

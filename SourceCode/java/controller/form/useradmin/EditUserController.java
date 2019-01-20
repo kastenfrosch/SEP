@@ -73,15 +73,13 @@ public class EditUserController {
         Dao<User, String> userDao = dbManager.getUserDao();
         Dao<Person, Integer> personDao = dbManager.getPersonDao();
         try {
-                //update the daos with the created person and student
-                personDao.update(user.getPerson());
-                userDao.update(user);
-                //notification of the successful change
-                if (!this.user.getUsername().equals(null)) {
-                    InfoModal.show("Der User \"" + firstnameTextfield.getText() + " " + lastnameTextfield.getText() + "\" wurde bearbeitet!");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            //update the daos with the created person and student
+            personDao.update(user.getPerson());
+            userDao.update(user);
+            //notification of the successful change
+            InfoModal.show("Der User \"" + firstnameTextfield.getText() + " " + lastnameTextfield.getText() + "\" wurde bearbeitet!");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         SceneManager.getInstance().closeWindow(SceneType.EDIT_USER);
@@ -111,7 +109,8 @@ public class EditUserController {
             return true;
         } catch (AddressException e) {
             return false;
-        }}
+        }
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -122,4 +121,7 @@ public class EditUserController {
 
     }
 
+    public void onMailCredentialsClicked(ActionEvent event) {
+        SceneManager.getInstance().showInNewWindow(SceneType.EDIT_MAILCREDENTIALS);
+    }
 }

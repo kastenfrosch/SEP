@@ -95,8 +95,8 @@ public class NotesHistoryController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTES_HISTORY_SHOW_NOTE);
     }
 
-    public void recoverButton(ActionEvent actionEvent) throws SQLException{
-        if(notesHistoryListView.getSelectionModel().isEmpty()) {
+   public void recoverButton(ActionEvent actionEvent) throws SQLException{
+     /*   if(notesHistoryListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
         }
@@ -149,7 +149,7 @@ public class NotesHistoryController {
             //Refreshing NotesTab & adding created Notepad
             SceneManager.getInstance().getLoaderForScene(SceneType.NOTESTAB_WINDOW).
                     <NotesTabController>getController().notesListView.getItems().add(groupNotepad.getNotepad());
-        }
+        } */
     }
 
     public void closeButton(ActionEvent actionEvent) {

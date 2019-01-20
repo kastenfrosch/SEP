@@ -41,7 +41,7 @@ public class ResetPasswordController {
         if (usernameTextField.getText().isBlank()) {
             ErrorModal.show("Bitte geben Sie den Username ein.");
         }
-        String username = usernameTextField.getText();
+
         Dao<User, String> userDao = dbManager.getUserDao();
         try {
             user = userDao.queryForId(usernameTextField.getText());
@@ -61,6 +61,9 @@ public class ResetPasswordController {
 
         user.setSalt(HashUtils.toHex(newSalt));
         user.setPasswordHash(HashUtils.toHex(hexNewPass));
+
+        //mail password is cleared, it is encrypted with the user password which is now lost
+        user.setMailPassword(null);
 
         try {
             userDao.update(user);

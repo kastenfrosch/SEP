@@ -215,9 +215,6 @@ public class TimetableWindowController {
         f.add(f4);
         f.add(f5);
         f.add(f6);
-        System.out.print("--------------------------------------------------");
-        System.out.println("GRÖ?E  "+mon.size()+di.size()+mi.size()+don.size()+f.size());
-        System.out.print("--------------------------------------------------");
     }
 
     //ReloadCombobox

@@ -28,17 +28,16 @@ public class WeekCalendarController {
     private Dao<CalendarEntry, Integer> calendarEntryDao;
 
     private models.Calendar calendar;
-
-    @FXML
-    public void initialize() {
-
+    {
         try {
             this.calendarDao = DBManager.getInstance().getCalendarDao();
             this.calendarEntryDao = DBManager.getInstance().getCalendarEntryDao();
         } catch (SQLException ex) {
             ErrorModal.show("Wochenplan konnte nicht geladen werden.");
-            return;
         }
+    }
+
+    public void initialize() {
 
         this.calendarView = new CalendarView();
         Calendar calendar = new Calendar("Wochenplan");
@@ -51,6 +50,11 @@ public class WeekCalendarController {
         calendar.addEventHandler(e -> {
 
             Entry<?> entry = e.getEntry();
+
+            //bruh
+            if(entry == null) {
+                return;
+            }
 
             //getting all entries in a calendar like this looks dirty but there is no getEntries method or anything
             if(!calendar.findEntries("").contains(entry)) {
@@ -66,7 +70,7 @@ public class WeekCalendarController {
             }
 
             /* TODO: This is called every single time even a single letter of the title is changed
-             * which may cause a lot of latency with all of the database calls
+             * which may cause a lot of lag with all of the database calls
              */
             if (entry.getUserObject() == null || entry.getUserObject() instanceof CalendarEntry) {
                 //entry was changed in some way
@@ -138,6 +142,7 @@ public class WeekCalendarController {
                     calendar.getCalendarId()
             );
 
+            this.calendarView.getCalendars().get(0).clear();
             for (var i : entries) {
                 Entry<CalendarEntry> e = new Entry<>(i.getDescription());
                 e.setUserObject(i);

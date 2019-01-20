@@ -3,22 +3,29 @@ package controller.mail;
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import modal.ErrorModal;
 import modal.InfoModal;
+import modal.PasswordModal;
 import models.User;
 import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
-public class AddEmailCredentials {
+public class EditMailCredentialController {
 
 
+    public TextField usernameField;
+    public PasswordField mailPasswordField;
+    public TextField IMAPServerField;
+    public TextField IMAPPortField;
+    public TextField SMTPServerField;
+    public TextField SMTPPortField;
     private DBManager db;
-    private User currentUser;
 
     {
         try {
@@ -28,22 +35,21 @@ public class AddEmailCredentials {
         }
     }
 
-
-    public Button cancelBTN;
-    public Button saveBTN;
-    public TextField usernameField;
-    public TextField mailPasswordField;
-    public TextField IMAPServerField;
-    public TextField IMAPPortField;
-    public TextField SMTPServerField;
-    public TextField SMTPPortField;
-
-    private String userPassword;
+    User currentUser;
 
     public void init() {
-        this.currentUser = db.getLoggedInUser();
-    }
 
+        currentUser = db.getLoggedInUser();
+
+        usernameField.setText(currentUser.getMailUser());
+        mailPasswordField.setText("");
+        IMAPServerField.setText(currentUser.getMailImapHost());
+        IMAPPortField.setText(String.valueOf(currentUser.getMailImapPort()));
+        SMTPServerField.setText(currentUser.getMailSmtpHost());
+        SMTPPortField.setText(String.valueOf(currentUser.getMailSmtpPort()));
+
+
+    }
 
     public void onSaveBTNClicked(ActionEvent actionEvent) {
 
@@ -62,6 +68,7 @@ public class AddEmailCredentials {
             return;
         }
         mailPassword = mailPasswordField.getText();
+
 
         // setting imap server
         String IMAPServer;
@@ -105,6 +112,21 @@ public class AddEmailCredentials {
             e.printStackTrace();
         }
 
+        Optional<String> userAppPassword = PasswordModal.showAndWait();
+        if (userAppPassword.isEmpty() || userAppPassword.get().isBlank()) {
+            ErrorModal.show("Fehler", "Ungültiges Anwendungspasswort");
+            return;
+        }
+
+
+        try {
+            currentUser.setMailPassword(HashUtils.encryptAES("VALID"+mailPassword, userAppPassword.get()));
+        } catch (Exception e) {
+            //this should not happen as the former password has been verified
+            ErrorModal.show("Error", "Ein unbekannter Fehler ist aufgetreten.");
+            return;
+        }
+
         // passing variables to current user instance
         try {
             this.currentUser.setMailUser(username);
@@ -113,31 +135,21 @@ public class AddEmailCredentials {
             this.currentUser.setMailSmtpHost(SMTPServer);
             this.currentUser.setMailSmtpPort(SMTPPort);
 
-            //encrypt password
-            //VALID is used to check if the password was properly decrypted later
-            String encPassword = HashUtils.encryptAES("VALID" + mailPassword, this.userPassword);
-            this.currentUser.setMailPassword(encPassword);
-
             Dao<User, String> userDao = db.getUserDao();
             userDao.update(this.currentUser);
 
             InfoModal.show("Mail-Einstellungen für  \"" + this.currentUser + "\" wurden übernommen!");
+            SceneManager.getInstance().closeWindow(SceneType.EDIT_MAILCREDENTIALS);
         } catch (SQLException e) {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
 
-        SceneManager.getInstance().closeWindow(SceneType.MAIL_CREDENTIALS);
-
     }
 
     public void onCancelBTNClicked(ActionEvent actionEvent) {
         // close window
-        SceneManager.getInstance().closeWindow(SceneType.MAIL_CREDENTIALS);
-    }
-
-    public void setUserPassword(String pswd) {
-        this.userPassword = pswd;
+        SceneManager.getInstance().closeWindow(SceneType.EDIT_MAILCREDENTIALS);
     }
 
 }

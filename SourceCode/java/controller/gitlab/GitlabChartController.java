@@ -1,7 +1,5 @@
 package controller.gitlab;
 
-import com.j256.ormlite.dao.ForeignCollection;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
@@ -19,10 +17,7 @@ import models.Student;
 import org.gitlab4j.api.CommitsApi;
 import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.RepositoryApi;
-import org.gitlab4j.api.models.AbstractUser;
 import org.gitlab4j.api.models.Commit;
-import org.gitlab4j.api.models.Contributor;
 import org.gitlab4j.api.models.Project;
 import utils.TimeUtils;
 
@@ -31,7 +26,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GitlabChartController {
 
@@ -70,7 +64,7 @@ public class GitlabChartController {
             drawGroupagePieChart((Groupage) selectedObject);
         } else if (selectedObject instanceof Group) {
             drawGroupPieChart((Group) selectedObject);
-        } else if(selectedObject instanceof Student) {
+        } else if (selectedObject instanceof Student) {
             drawGroupPieChart(((Student) selectedObject).getGroup());
         }
 
@@ -84,26 +78,30 @@ public class GitlabChartController {
 
     private void drawGroupagePieChart(Groupage g) throws GitLabApiException {
         for (Group group : g.getGroups()) {
+            project = null;
             for (Project x : api.getProjectApi().getProjects()) {
                 if (x.getHttpUrlToRepo().equals(group.getGitlabUrl())) {
                     project = x;
                     break;
                 }
             }
-            List<Commit> total = commitsApi.getCommits(project);
-            int count = 0;
-            for (Student s : group.getStudents()) {
-                for (Commit c : total) {
-                    if (s.getPerson().getEmail().equals(c.getAuthorEmail())) {
-                        count++;
+
+            if (project != null) {
+                List<Commit> total = commitsApi.getCommits(project);
+                int count = 0;
+                for (Student s : group.getStudents()) {
+                    for (Commit c : total) {
+                        if (s.getPerson().getEmail().equals(c.getAuthorEmail())) {
+                            count++;
+                        }
                     }
                 }
+                PieChart.Data d = new PieChart.Data(
+                        group.getName(),
+                        count
+                );
+                pieChart.getData().add(d);
             }
-            PieChart.Data d = new PieChart.Data(
-                    group.getName(),
-                    count
-            );
-            pieChart.getData().add(d);
         }
     }
 
@@ -130,17 +128,35 @@ public class GitlabChartController {
         lineChart.getData().clear();
         if (selectedObject instanceof Groupage) {
             drawGroupageGraph((Groupage) selectedObject);
-        }
-        else if (selectedObject instanceof Group) {
+        } else if (selectedObject instanceof Group) {
             for (Student s : ((Group) selectedObject).getStudents()) {
                 drawStudentGraph(s);
             }
-        }
-        else if(selectedObject instanceof Student) {
+        } else if (selectedObject instanceof Student) {
             drawStudentGraph((Student) selectedObject);
         }
 
-        ((NumberAxis)lineChart.getXAxis()).setTickLabelFormatter(new StringConverter<>() {
+        long minTime = LocalDate.now().toEpochDay();
+        long maxTime = LocalDate.of(1970, 1, 1).toEpochDay();
+
+        for (var series : lineChart.getData()) {
+            for (var data : series.getData()) {
+                if (((long) data.getXValue()) < minTime) {
+                    minTime = (long) data.getXValue();
+                }
+                if (((long) data.getXValue()) > maxTime) {
+                    maxTime = (long) data.getXValue();
+                }
+            }
+        }
+
+        NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
+
+        xAxis.setAutoRanging(false);
+        xAxis.setUpperBound(maxTime);
+        xAxis.setLowerBound(minTime);
+
+        xAxis.setTickLabelFormatter(new StringConverter<>() {
             @Override
             public String toString(Number number) {
                 if (!(number instanceof Long) && !(number instanceof Double)) {
@@ -164,13 +180,16 @@ public class GitlabChartController {
 
     private void drawGroupageGraph(Groupage groupage) throws GitLabApiException {
         for (Group group : groupage.getGroups()) {
+            project = null;
             for (Project x : api.getProjectApi().getProjects()) {
                 if (x.getHttpUrlToRepo().equals(group.getGitlabUrl())) {
                     project = x;
                     break;
                 }
             }
-            drawGroupGraph(group);
+            if (project != null) {
+                drawGroupGraph(group);
+            }
         }
     }
 
@@ -179,13 +198,6 @@ public class GitlabChartController {
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
 
         Map<LocalDate, List<Commit>> commitMap = mapCommitsByDate(total);
-
-        LocalDate[] boundaries = getBoundaries(commitMap.keySet());
-
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(boundaries[0].toEpochDay());
-        xAxis.setUpperBound(boundaries[1].toEpochDay());
-
 
         XYChart.Series series = new XYChart.Series();
         series.setName(g.getName());
@@ -203,11 +215,6 @@ public class GitlabChartController {
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
 
         Map<LocalDate, List<Commit>> commitMap = mapCommitsByDate(total);
-        LocalDate[] boundaries = getBoundaries(commitMap.keySet());
-
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(boundaries[0].toEpochDay());
-        xAxis.setUpperBound(boundaries[1].toEpochDay());
 
         XYChart.Series series = new XYChart.Series();
         series.setName(s.getPerson().getFirstname().substring(0, 1) + ". " + s.getPerson().getLastname());
@@ -232,22 +239,6 @@ public class GitlabChartController {
         return commitMap;
     }
 
-    //returns smallest first, largest second
-    private LocalDate[] getBoundaries(Set<LocalDate> keys) {
-        LocalDate start = LocalDate.now();
-        LocalDate end = LocalDate.of(1970, 1, 1);
-
-        for(LocalDate d : keys) {
-            if(d.isAfter(end)) {
-                end = d;
-            }
-            if(d.isBefore(start)) {
-                start = d;
-            }
-        }
-        return new LocalDate[] {start, end};
-    }
-
     public void setValues(Object g, GitLabApi api) {
         this.selectedObject = g;
         this.api = api;
@@ -261,7 +252,7 @@ public class GitlabChartController {
                             break;
                         }
                     } else if (selectedObject instanceof Student) {
-                        if(x.getHttpUrlToRepo().equals(((Student)selectedObject).getGroup().getGitlabUrl())) {
+                        if (x.getHttpUrlToRepo().equals(((Student) selectedObject).getGroup().getGitlabUrl())) {
                             project = x;
                             break;
                         }
