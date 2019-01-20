@@ -4,6 +4,7 @@ import models.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utils.settings.Settings;
 
 import java.sql.SQLException;
 
@@ -42,6 +43,7 @@ public class DBTest {
     @Before
     public void setup() {
         try {
+            Settings.load();
             this.db = DBManager.getInstance();
         } catch(SQLException ex) {
             throw new IllegalStateException("Unable to connect to database");

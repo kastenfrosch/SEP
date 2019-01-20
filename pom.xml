@@ -10,12 +10,14 @@
     <properties>
         <src.dir>SourceCode/java</src.dir>
         <res.dir>SourceCode/resources</res.dir>
+        <test.dir>SourceCode/test/java</test.dir>
         <mainClass>Launcher</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <name>SEP</name>
     <build>
         <sourceDirectory>${src.dir}</sourceDirectory>
+        <testSourceDirectory>${test.dir}</testSourceDirectory>
         <resources>
             <resource>
                 <directory>${res.dir}</directory>
