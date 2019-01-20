@@ -5,10 +5,9 @@ import javafx.scene.control.TextArea;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
-import javax.mail.BodyPart;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.Multipart;
+import javax.mail.*;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class ReadMailController {
 
@@ -83,10 +82,6 @@ public class ReadMailController {
     }
 
 
-    public void onReplyBTNClicked(ActionEvent actionEvent) {
-
-
-    }
 
 
     public void onBackBTNClicked(ActionEvent actionEvent) {
