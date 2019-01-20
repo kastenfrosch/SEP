@@ -10,9 +10,9 @@
       <TextArea fx:id="notepadText" editable="false" layoutX="70.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" promptText="Notiz" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0" />
       <Label fx:id="noteNameLabel" layoutX="70.0" layoutY="75.0" text="Bezeichnung" />
       <Label fx:id="priorityLabel" layoutX="400.0" layoutY="100.0" text="Priorität" />
-      <Label layoutX="70.0" layoutY="310.0" text="Gelöscht von:" />
+      <Label layoutX="70.0" layoutY="310.0" text="Geändert von:" />
       <Label fx:id="userLabel" layoutX="190.0" layoutY="310.0" text="User" />
-      <Label layoutX="70.0" layoutY="340.0" text="Gelöscht am:" />
+      <Label layoutX="70.0" layoutY="340.0" text="Geändert am:" />
       <Label fx:id="dateLabel" layoutX="190.0" layoutY="340.0" text="Datum" />
       <Button fx:id="closeButton" layoutX="450.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeButton" text="Schließen" />
    </children>

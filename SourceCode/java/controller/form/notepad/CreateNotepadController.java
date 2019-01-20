@@ -35,7 +35,7 @@ public class CreateNotepadController {
     @FXML
     public Button saveButton;
     @FXML
-    public ComboBox<String> priorityComboBox;
+    public ComboBox<Notepad.Classification> priorityComboBox;
     @FXML
     public TextArea notepadTextarea;
     @FXML
@@ -44,24 +44,24 @@ public class CreateNotepadController {
     @FXML
     public void initialize() {
         //initializing ComboBox
-        ObservableList<String> prioritaet = FXCollections.observableArrayList("Gut", "Mittel",
-                "Schlecht", "Ohne Zuordnung");
+        ObservableList<Notepad.Classification> prioritaet = FXCollections.observableArrayList(Notepad.Classification.GOOD, Notepad.Classification.MEDIUM,
+                Notepad.Classification.BAD, Notepad.Classification.NEUTRAL);
         priorityComboBox.setItems(prioritaet);
         priorityComboBox.getSelectionModel().select(0);
-        notepadTextarea.setStyle("-fx-background-color: green"); //Since first item of ComboBox is "Gut"
+        notepadTextarea.setStyle("-fx-background-color: green"); //Since first item of ComboBox is "GOOD"
         notepadTextarea.setText(null);
     }
 
     public void setPriority(ActionEvent actionEvent) {
         //Setting Colors in relation to the chosen priority
         try {
-            if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
+            if (priorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.GOOD)) {
                 notepadTextarea.setStyle("-fx-background-color: green");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.MEDIUM)) {
                 notepadTextarea.setStyle("-fx-background-color: yellow");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.BAD)) {
                 notepadTextarea.setStyle("-fx-background-color: red");
-            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
+            } else if (priorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.NEUTRAL)) {
                 notepadTextarea.setStyle("-fx-background-color: grey");
             } else {
                 return;
@@ -80,7 +80,7 @@ public class CreateNotepadController {
         }
         noteName = bezeichnungTextField.getText();
 
-        String priority;
+        Notepad.Classification priority;
         if (priorityComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Bitte Priorität bestimmen!");
             return;
@@ -98,7 +98,7 @@ public class CreateNotepadController {
             Notepad notepad = new Notepad();
 
             notepad.setNotepadContent(textContent);
-            notepad.setNotepadPriority(priority);
+            notepad.setClassification(priority);
             notepad.setNotepadName(noteName);
 
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();

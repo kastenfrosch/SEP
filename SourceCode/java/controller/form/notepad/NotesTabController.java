@@ -13,13 +13,11 @@ import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class NotesTabController {
 
     private Object objectType;
     private DBManager db;
-    private Timestamp time;
 
     {
         try {
@@ -83,17 +81,17 @@ public class NotesTabController {
                             if (!empty && item != null) {
                                 setText(item.getNotepadName());
 
-                                switch (item.getNotepadPriority()) {
-                                    case "Gut":
+                                switch (item.getClassification()) {
+                                    case GOOD:
                                         style = "-fx-background-color: green";
                                         break;
-                                    case "Mittel":
+                                    case MEDIUM:
                                         style = "-fx-background-color: yellow";
                                         break;
-                                    case "Schlecht":
+                                    case BAD:
                                         style = "-fx-background-color: red";
                                         break;
-                                    case "Ohne Zuordnung":
+                                    case NEUTRAL:
                                         style = "-fx-background-color: grey";
                                         break;
                                 }
@@ -135,15 +133,10 @@ public class NotesTabController {
         if (delete) {
             Dao<Notepad, Integer> notepadDao = db.getNotepadDao();
             Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             NotepadHistory notepadHistory = new NotepadHistory();
-
+            notepadHistory.setNotepad(notesListView.getSelectionModel().getSelectedItem());
             try {
-                notepadHistory.setNotepad(notesListView.getSelectionModel().getSelectedItem());
-                notepadHistory.setTimestamp(timestamp);
-                notepadHistory.setUser(db.getLoggedInUser());
-                notepadHistoryDao.create(notepadHistory);
-
+                notepadHistoryDao.delete(db.getNotepadHistoryDao().queryForMatching(notepadHistory));
                 notepadDao.delete(notesListView.getSelectionModel().getSelectedItem());
                 this.notesListView.getItems().remove(notesListView.getSelectionModel().getSelectedItem());
             } catch (SQLException e) {
@@ -176,12 +169,11 @@ public class NotesTabController {
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
-    public void showHistoryButton(ActionEvent actionEvent) throws SQLException {
+    public void showHistoryButton(ActionEvent actionEvent) {
         SceneType sceneType;
         SceneManager sm = SceneManager.getInstance();
         sceneType = SceneType.NOTES_HISTORY_VIEW;
-        sm.getLoaderForScene(sceneType).<NotesHistoryController>getController()
-                .initialize();
+        sm.getLoaderForScene(sceneType).<NotesHistoryController>getController();
         SceneManager.getInstance().showInNewWindow(SceneType.NOTES_HISTORY_VIEW);
     }
 

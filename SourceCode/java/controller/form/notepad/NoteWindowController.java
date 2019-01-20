@@ -43,7 +43,7 @@ public class NoteWindowController {
     public void setNotepad(Notepad notepad) { //Getting infos of opened Notepad
         nameLabel.setText(notepad.getNotepadName());
         notepadTextarea.setText(notepad.getNotepadContent());
-        priorityLabel.setText(notepad.getNotepadPriority());
+        priorityLabel.setText(notepad.getClassification().toString());
         initialize();
     }
 }

@@ -10,7 +10,6 @@
       <ListView fx:id="notesHistoryListView" layoutX="180.0" layoutY="80.0" prefHeight="230.0" prefWidth="230.0" />
       <Label fx:id="notesHistoryLabel" layoutX="250.0" layoutY="20.0" text="Notiz Historie" />
       <Button fx:id="showNoteButton" layoutX="35.0" layoutY="350.0" mnemonicParsing="false" onAction="#showNoteButton" text="Anzeigen" />
-      <Button fx:id="recoverButton" layoutX="150.0" layoutY="350.0" mnemonicParsing="false" onAction="#recoverButton" text="Wiederherstellen" />
-      <Button fx:id="closeButton" layoutX="325.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeButton" text="Schließen" />
+      <Button fx:id="closeButton" layoutX="480.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeButton" text="Schließen" />
    </children>
 </AnchorPane>
