@@ -1,6 +1,8 @@
 package models.exam;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import models.Group;
 import models.User;
@@ -23,6 +25,9 @@ public class Exam {
     @DatabaseField(columnName = FIELD_DESCRIPTION)
     private String description;
 
+    @ForeignCollectionField
+    private ForeignCollection<ExamQuestion> questions;
+
     public int getExamId() {
         return examId;
     }
@@ -41,6 +46,10 @@ public class Exam {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public ForeignCollection<ExamQuestion> getQuestions() {
+        return questions;
     }
 
     @Override

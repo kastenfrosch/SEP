@@ -419,6 +419,10 @@ public class HomeScreenController {
     public void onMailBtnClicked(ActionEvent event) {
         SceneManager.getInstance().showInNewWindow(SceneType.RECEIVE_MAIL);
     }
+
+    public void onExamBtnClicked(ActionEvent actionEvent) {
+        SceneManager.getInstance().showInNewWindow(SceneType.EXAM_GROUP);
+    }
 }
 
 class Node extends TreeItem<Object> {
