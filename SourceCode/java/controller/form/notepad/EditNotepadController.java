@@ -37,7 +37,7 @@ public class EditNotepadController {
     @FXML
     public TextField editNotepadName;
     @FXML
-    public ComboBox<String> editNotepadPriorityComboBox;
+    public ComboBox<Notepad.Classification> editNotepadPriorityComboBox;
     @FXML
     public Button editNotepadSaveButton;
     @FXML
@@ -45,21 +45,21 @@ public class EditNotepadController {
 
     public void initialize() {
         //Initializing ComboBox
-        ObservableList<String> prioritaet = FXCollections.observableArrayList("Gut", "Mittel",
-                "Schlecht", "Ohne Zuordnung");
+        ObservableList<Notepad.Classification> prioritaet = FXCollections.observableArrayList(Notepad.Classification.GOOD, Notepad.Classification.MEDIUM,
+                Notepad.Classification.BAD, Notepad.Classification.NEUTRAL);
         editNotepadPriorityComboBox.setItems(prioritaet);
     }
 
     public void setPriority(ActionEvent actionEvent) {
         //Setting Colors in relation to the chosen priority
         try {
-            if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
+            if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.GOOD)) {
                 editNotepadTextarea.setStyle("-fx-background-color: green");
-            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
+            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.MEDIUM)) {
                 editNotepadTextarea.setStyle("-fx-background-color: yellow");
-            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
+            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.BAD)) {
                 editNotepadTextarea.setStyle("-fx-background-color: red");
-            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
+            } else if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.NEUTRAL)) {
                 editNotepadTextarea.setStyle("-fx-background-color: grey");
             }
         } catch(NullPointerException e) {
@@ -67,7 +67,7 @@ public class EditNotepadController {
         }
     }
 
-    public void editNotepadSave(ActionEvent actionEvent) throws SQLException { //Updating notepad changes
+    public void editNotepadSave(ActionEvent actionEvent) { //Updating notepad changes
         String noteName;
         if (editNotepadName == null || editNotepadName.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Bezeichnung eingeben!");
@@ -75,7 +75,7 @@ public class EditNotepadController {
         }
         noteName = editNotepadName.getText();
 
-        String priority;
+        Notepad.Classification priority;
         if (editNotepadPriorityComboBox.getSelectionModel().getSelectedItem() == null) {
             InfoModal.show("FEHLER!", null, "Bitte Priorität bestimmen!");
             return;
@@ -93,22 +93,22 @@ public class EditNotepadController {
         Dao<NotepadHistory, Integer> notepadHistoryDao = db.getNotepadHistoryDao();
         NotepadHistory notepadHistory = new NotepadHistory();
 
-        //Saving the Notepad which is to be edited
+        //Saving the Notepad which is to be edited to delete it from the listView
         Notepad ersatz = this.notepad;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        //Saving the notepad after editing
+        //Saving the notepad after edits
         this.notepad.setNotepadName(noteName);
-        this.notepad.setNotepadPriority(priority);
+        this.notepad.setClassification(priority);
         this.notepad.setNotepadContent(textContent);
 
         try {
-            notepadDao.update(this.notepad);
-
             notepadHistory.setNotepad(this.notepad);
             notepadHistory.setTimestamp(timestamp);
             notepadHistory.setUser(db.getLoggedInUser());
             notepadHistoryDao.create(notepadHistory);
+
+            notepadDao.update(this.notepad);
 
             if(this.objectType instanceof Student) {
                 StudentNotepad studentNotepad = new StudentNotepad();
@@ -159,19 +159,19 @@ public class EditNotepadController {
 
         //preconfig of items depending on given Notepad
         editNotepadName.setText(notepad.getNotepadName());
-        editNotepadPriorityComboBox.getSelectionModel().select(notepad.getNotepadPriority());
+        editNotepadPriorityComboBox.getSelectionModel().select(notepad.getClassification());
         editNotepadTextarea.setText(notepad.getNotepadContent());
         //Setting Colors
-        if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Gut")) {
+        if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.GOOD)) {
             editNotepadTextarea.setStyle("-fx-background-color: green");
         }
-        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Mittel")) {
+        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.MEDIUM)) {
             editNotepadTextarea.setStyle("-fx-background-color: yellow");
         }
-        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Schlecht")) {
+        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.BAD)) {
             editNotepadTextarea.setStyle("-fx-background-color: red");
         }
-        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals("Ohne Zuordnung")) {
+        else if(editNotepadPriorityComboBox.getSelectionModel().getSelectedItem().equals(Notepad.Classification.NEUTRAL)) {
             editNotepadTextarea.setStyle("-fx-background-color: grey");
         }
     }
