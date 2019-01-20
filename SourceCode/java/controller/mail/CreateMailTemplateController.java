@@ -39,24 +39,31 @@ public class CreateMailTemplateController {
     }
 
     public void onSaveBTNClicked(ActionEvent event) {
+
+        createDraft(subjectField.getText(), contentField.getText());
+
+        MailTemplateController temp = SceneManager.getInstance().getLoaderForScene(SceneType.MAIL_TEMPLATES).getController();
+        temp.initialize();
+        SceneManager.getInstance().closeWindow(SceneType.CREATE_MAILTEMPLATES);
+    }
+
+    public void createDraft(String subject, String content){
+
         if(contentField.getText().isBlank()||subjectField.getText().isBlank()){
             InfoModal.show("Bitte füllen Sie alle Felder aus!");
             return;
         }
         Dao<MailTemplate, Integer> mailTemplateDao = dbManager.getMailTemplateDao();
-        mailTemp.setContent(contentField.getText());
-        mailTemp.setSubject(subjectField.getText());
+        mailTemp.setContent(content);
+        mailTemp.setSubject(subject);
 
         try {
             mailTemplateDao.create(mailTemp);
             InfoModal.show("Template wurde erfolgreich gespeichert.");
-            MailTemplateController temp = SceneManager.getInstance().getLoaderForScene(SceneType.MAIL_TEMPLATES).getController();
-            temp.initialize();
-            SceneManager.getInstance().closeWindow(SceneType.CREATE_MAILTEMPLATES);
+
         } catch (SQLException e) {
             e.printStackTrace();
             ErrorModal.show("Template konnte leider nicht erstellt werden.");
         }
-
     }
 }
