@@ -14,6 +14,8 @@ import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import org.apache.commons.lang.RandomStringUtils;
+import utils.settings.Setting;
+import utils.settings.Settings;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -48,11 +50,11 @@ public class ResetPasswordController {
             user = userDao.queryForId(usernameTextField.getText());
 
         } catch (SQLException e) {
-            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             return;
         }
         if (user == null) {
-            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
             return;
         }
@@ -75,11 +77,11 @@ public class ResetPasswordController {
 
         try {
             userDao.update(user);
-            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             sendNewPassword(user, newPass);
             SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
         } catch (SQLException ex) {
-            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
         }
 
     }
@@ -95,13 +97,11 @@ public class ResetPasswordController {
         String to = user.getPerson().getEmail().toString();
 
         // Sender's email ID needs to be mentioned
-        String from = "MailForSEP@gmail.com";
-
-
-        final String password = "changeme123!";
-        String port = "587";
+        String from = Settings.get(Setting.SYS_MAIL_USER);
+        final String password = Settings.get(Setting.SYS_MAIL_PASSWORD);
+        String port = Settings.get(Setting.SYS_MAIL_SMTP_PORT);
         // Assuming you are sending email through relay.jangosmtp.net
-        String host = "smtp.gmail.com";
+        String host = Settings.get(Setting.SYS_MAIL_HOST);
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);

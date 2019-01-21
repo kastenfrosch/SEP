@@ -3,6 +3,7 @@ package controller.mail;
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -142,6 +143,13 @@ public class SendMailController {
                 // Send message
                 Transport.send(message);
                 InfoModal.show("Email wurde erfolgreich gesendet!");
+
+                // delete attachments from MailAttachmentsController
+                MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
+                        .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
+                mailAttachmentsController.setAttachmentList(FXCollections.observableArrayList());
+
+                // close the window
                 SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
 
             } catch (MessagingException e) {
