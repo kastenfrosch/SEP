@@ -57,9 +57,9 @@ public class MailAttachmentsController {
         // ... and from attachmentListView
         this.attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());
         this.attachmentListView.refresh();
-    }
+        }
 
-}
+    }
 
     public void onCancelBTNClicked(ActionEvent actionEvent) {
         // add attachments to mail and close window
@@ -68,5 +68,13 @@ public class MailAttachmentsController {
         // close window
         SceneManager.getInstance().closeWindow(SceneType.MAIL_ATTACHMENTS);
     }
+
+    public void setAttachmentList(ObservableList<String> attachmentList) {
+        this.attachmentList = attachmentList;
+    }
+
+    // TODO: über welchen button muss ich gehen damit die anhänge eingetragen werden?
+    // TODO: anhänge müssen gelöscht werden nach dem senden. über den sendemail controller?! (MAYBE FIXED?)
+    // TODO:
 
 }

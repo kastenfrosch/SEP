@@ -50,11 +50,11 @@ public class ResetPasswordController {
             user = userDao.queryForId(usernameTextField.getText());
 
         } catch (SQLException e) {
-            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             return;
         }
         if (user == null) {
-            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
             return;
         }
@@ -77,11 +77,11 @@ public class ResetPasswordController {
 
         try {
             userDao.update(user);
-            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             sendNewPassword(user, newPass);
             SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
         } catch (SQLException ex) {
-            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
         }
 
     }
