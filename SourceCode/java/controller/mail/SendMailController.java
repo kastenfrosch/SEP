@@ -158,6 +158,7 @@ public class SendMailController {
                 ErrorModal.show("Beim Senden der Email ist ein Fehler aufgetreten!");
                 throw new RuntimeException(e);
             }
+            SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
         }
 
     @FXML
