@@ -35,10 +35,6 @@ public class ReadMailController {
         senderTextField.clear();
         subjectTextField.clear();
 
-        mailContent.setEditable(false);
-        dateTextField.setEditable(false);
-        senderTextField.setEditable(false);
-        subjectTextField.setEditable(false);
         if (mailMessage != null) {
             try {
                 // set all the elements in the form

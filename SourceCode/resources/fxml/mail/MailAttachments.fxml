@@ -10,7 +10,7 @@
 <AnchorPane fx:id="rootPane" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.MailAttachmentsController">
    <children>
       <Button fx:id="addBTN" layoutX="512.0" layoutY="352.0" mnemonicParsing="false" onAction="#onAddBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Hinzufügen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Button fx:id="cancelBTN" layoutX="28.0" layoutY="361.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Abbrechen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Button fx:id="cancelBTN" layoutX="28.0" layoutY="361.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Schließen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <Button fx:id="removeBTN" layoutX="383.0" layoutY="341.0" mnemonicParsing="false" onAction="#onRemoveBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Entfernen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
       <Label alignment="CENTER" layoutX="152.0" layoutY="21.0" text="Anhänge" textAlignment="CENTER">
          <font>
