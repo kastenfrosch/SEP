@@ -61,7 +61,7 @@ public class ReadMailController {
                 } else if (content instanceof Multipart) {
                     Multipart multipart = (Multipart) content;
                     BodyPart part = multipart.getBodyPart(0);
-                    body = (String) part.getContent();
+                    body =  part.getContent().toString();
                 }
                 //close folder
                 if (folder.isOpen()) {
