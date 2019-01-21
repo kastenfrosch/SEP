@@ -64,10 +64,11 @@ public class SendMailController {
     String password;
 
     public void init(){
-        currentUser=db.getLoggedInUser();
-        subjectTextField.clear();
-        mailTextArea.clear();
-        targetAddressTextField.clear();
+        this.currentUser = db.getLoggedInUser();
+        this.subjectTextField.clear();
+        this.mailTextArea.clear();
+        this.targetAddressTextField.clear();
+        this.attachmentList.clear();
     }
 
 
@@ -158,10 +159,6 @@ public class SendMailController {
             }
         }
 
-
-
-
-
     @FXML
     private void onCancelBTNClicked(ActionEvent actionEvent) {
         // delete attachments from MailAttachmentsController
@@ -228,12 +225,11 @@ public class SendMailController {
                 recipients += emailList.get(i);
             }
         }
-
         this.targetAddressTextField.setText(recipients);
     }
 
     public void setAttachmentList(List<String> attachmentList) {
-        // set attachments selected in and passed by MailAttchmentsController
+        // set attachments selected in and passed by MailAttachmentsController
         this.attachmentList = attachmentList;
     }
 
