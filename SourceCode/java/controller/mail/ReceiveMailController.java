@@ -50,6 +50,11 @@ public class ReceiveMailController {
 
     @FXML
     private TableView<Message> mailTableView;
+
+    public String getMailPassword() {
+        return mailPassword;
+    }
+
     //set properties
     private String mailPassword;
 
