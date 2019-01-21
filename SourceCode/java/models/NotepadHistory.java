@@ -17,7 +17,7 @@ public class NotepadHistory {
     @DatabaseField(generatedId = true, columnName = FIELD_HISTORY_ID)
     private int id;
 
-    @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true,
+    @DatabaseField(columnName = FIELD_NOTEPAD_ID, foreign = true, foreignAutoRefresh = true,
             columnDefinition = "integer not null references notepad(notepad_id) on delete cascade")
     private Notepad notepad;
 
