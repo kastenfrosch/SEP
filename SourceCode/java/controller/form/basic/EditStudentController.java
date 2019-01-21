@@ -88,7 +88,7 @@ public class EditStudentController {
             return;
         }
         // making sure that email is not empty & valid.
-        if (validateMailAddress(emailInput.toString())==false) {
+        if (validateMailAddress(emailInput.getText())==false) {
             InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
             return;
         }
