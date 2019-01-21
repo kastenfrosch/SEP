@@ -149,6 +149,7 @@ public class SendMailController {
                 MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
                         .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
                 mailAttachmentsController.getAttachmentList().clear();
+                mailAttachmentsController.getAttachmentListView().getItems().clear();
 
                 // close the window
                 SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
@@ -165,6 +166,7 @@ public class SendMailController {
         MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
         mailAttachmentsController.getAttachmentList().clear();
+        mailAttachmentsController.getAttachmentListView().getItems().clear();
         // close window
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }

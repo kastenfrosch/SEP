@@ -69,12 +69,12 @@ public class MailAttachmentsController {
         SceneManager.getInstance().closeWindow(SceneType.MAIL_ATTACHMENTS);
     }
 
-    public void setAttachmentList(ObservableList<String> attachmentList) {
-        this.attachmentList = attachmentList;
-    }
-
     public ObservableList<String> getAttachmentList() {
         return this.attachmentList;
+    }
+
+    public ListView<String> getAttachmentListView() {
+        return this.attachmentListView;
     }
 
     // TODO: über welchen button muss ich gehen damit die anhänge eingetragen werden?
