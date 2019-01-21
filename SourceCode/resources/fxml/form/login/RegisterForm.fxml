@@ -7,27 +7,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.login.RegisterController">
+<AnchorPane prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.login.RegisterController">
    <children>
-      <Label layoutX="229.0" layoutY="23.0" text="Registrierung">
+      <Label layoutX="229.0" layoutY="14.0" text="Registrierung">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="116.0" layoutY="68.0" text="Vorname:" AnchorPane.rightAnchor="407.0" />
-      <Label layoutX="103.0" layoutY="109.0" text="Nachname:" AnchorPane.rightAnchor="407.0" />
-      <Label layoutX="100.0" layoutY="149.0" text="User Name:" AnchorPane.rightAnchor="407.0" />
-      <Label layoutX="118.0" layoutY="192.0" text="Passwort:" AnchorPane.rightAnchor="407.0" />
-      <Label layoutX="12.0" layoutY="238.0" text="Passwort Wiederholen:" AnchorPane.rightAnchor="407.0" />
-      <Label layoutX="79.0" layoutY="284.0" text="Email Adresse:" AnchorPane.rightAnchor="407.0" />
-      <TextField fx:id="firstnameInput" layoutX="206.0" layoutY="62.0" />
-      <TextField fx:id="lastnameInput" layoutX="206.0" layoutY="103.0" />
-      <TextField fx:id="usernameInput" layoutX="206.0" layoutY="143.0" />
-      <PasswordField fx:id="passwordField" layoutX="206.0" layoutY="186.0" />
-      <PasswordField fx:id="passwordFieldTwo" layoutX="206.0" layoutY="232.0" />
-      <TextField fx:id="emailInput" layoutX="206.0" layoutY="278.0" />
-      <TextField fx:id="codeInputField" layoutX="206.0" layoutY="328.0" promptText="Einwahlcode " />
-      <Button layoutX="493.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" text="Speichern" />
-      <Button layoutX="16.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" text="Abbrechen" />
+      <Label layoutX="190.0" layoutY="69.0" text="Vorname:" AnchorPane.rightAnchor="360.0" />
+      <Label layoutX="185.0" layoutY="104.0" text="Nachname:" AnchorPane.rightAnchor="360.0" />
+      <Label layoutX="184.0" layoutY="139.0" text="User Name:" AnchorPane.rightAnchor="360.0" />
+      <Label layoutX="190.0" layoutY="174.0" text="Passwort:" AnchorPane.rightAnchor="360.0" />
+      <Label layoutX="124.0" layoutY="209.0" text="Passwort Wiederholen:" AnchorPane.rightAnchor="360.0" />
+      <Label layoutX="164.0" layoutY="244.0" text="Email Adresse:" AnchorPane.rightAnchor="360.0" />
+      <TextField fx:id="firstnameInput" layoutX="257.0" layoutY="64.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="65.0" />
+      <TextField fx:id="lastnameInput" layoutX="206.0" layoutY="103.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0" />
+      <TextField fx:id="usernameInput" layoutX="206.0" layoutY="143.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="135.0" />
+      <PasswordField fx:id="passwordField" layoutX="206.0" layoutY="186.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="170.0" />
+      <PasswordField fx:id="passwordFieldTwo" layoutX="206.0" layoutY="232.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="205.0" />
+      <TextField fx:id="emailInput" layoutX="206.0" layoutY="278.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="240.0" />
+      <TextField fx:id="codeInputField" layoutX="206.0" layoutY="328.0" promptText="Einwahlcode " AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="275.0" />
+      <Button layoutX="493.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSaveBtnClicked" prefHeight="25.0" prefWidth="75.0" text="Speichern" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button layoutX="16.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" prefHeight="25.0" prefWidth="75.0" text="Abbrechen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
    </children>
 </AnchorPane>

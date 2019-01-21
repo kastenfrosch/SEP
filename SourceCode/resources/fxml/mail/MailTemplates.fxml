@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -8,11 +9,14 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.MailTemplateController">
    <children>
-      <ListView fx:id="templateList" layoutX="177.0" layoutY="62.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
-      <Button fx:id="useBTN" layoutX="527.0" layoutY="359.0" mnemonicParsing="false" onAction="#onUseBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Benutzen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Button fx:id="createBTN" layoutX="333.0" layoutY="357.0" mnemonicParsing="false" onAction="#onCreatBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Erstellen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
-      <Button fx:id="cancelBTN" layoutX="14.0" layoutY="359.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Abbruch" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
-      <Label layoutX="260.0" layoutY="14.0" prefHeight="27.0" prefWidth="185.0" text="Templates" textAlignment="CENTER" />
-      <Button fx:id="deleteBTN" layoutX="200.0" layoutY="350.0" mnemonicParsing="false" onAction="#onDeleteBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Löschen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="270.0" />
+      <ListView fx:id="templateList" layoutX="177.0" layoutY="62.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+      <Button fx:id="useBTN" layoutX="527.0" layoutY="359.0" mnemonicParsing="false" onAction="#onUseBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Benutzen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button fx:id="createBTN" layoutX="333.0" layoutY="357.0" mnemonicParsing="false" onAction="#onCreatBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Erstellen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
+      <Button fx:id="cancelBTN" layoutX="14.0" layoutY="359.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Abbruch" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Label layoutX="260.0" layoutY="14.0" prefHeight="27.0" prefWidth="185.0" text="Templates" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Button fx:id="deleteBTN" layoutX="200.0" layoutY="350.0" mnemonicParsing="false" onAction="#onDeleteBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Löschen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="270.0" />
    </children>
 </AnchorPane>

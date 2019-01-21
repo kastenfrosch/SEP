@@ -25,13 +25,13 @@ public class ReadMailController {
         return mailMessage;
     }
 
-    //set message to set pass the message from receivemail
+    // set message to set pass the message from receivemail
     public static void setMailMessage(Message message) {
         mailMessage = message;
     }
 
     public void init() {
-        //clear the text area
+        // clear the text area
         mailContent.clear();
         dateTextField.clear();
         senderTextField.clear();
@@ -59,19 +59,19 @@ public class ReadMailController {
                 // if string return the string
                 if (content instanceof String) {
                     body = (String) content;
-                    //if multipart convert to string
+                    // if multipart convert to string
                 } else if (content instanceof Multipart) {
                     Multipart multipart = (Multipart) content;
                     BodyPart part = multipart.getBodyPart(0);
                     body = part.getContent().toString();
                 }
-                //close folder
+                // close folder
                 if (folder.isOpen()) {
                     folder.close(false);
                 }
-                //set content into the textarea
+                // set content into the textarea
                 mailContent.setText(body);
-                //mailContent.appendText(body);
+                // mailContent.appendText(body);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -90,9 +90,12 @@ public class ReadMailController {
         SendMailController sendMail = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.SEND_MAIL).getController();
         SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+
+        // getting the password from the inbox controller and setting it to new SendMailController
         ReceiveMailController receiveMailController = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.RECEIVE_MAIL).getController();
         sendMail.setPass(receiveMailController.getMailPassword());
+
         // with this mailContent set as reply
         String replyString = "\n" + "\n" + "\n" +
                 "-------------------------------------------------------------------------------------------" + "\n";
@@ -100,11 +103,13 @@ public class ReadMailController {
 
         // and subjectTextfield
         sendMail.setSubject("Awd: " + this.subjectTextField.getText());
+
         // set previous sender as recipient
         List<String> recipients = new ArrayList<>();
         recipients.add(this.senderTextField.getText());
         sendMail.setRecipients(recipients);
 
-        // TODO: maybe close the current instance of ReadMailController?
+        // close the window
+        SceneManager.getInstance().closeWindow(SceneType.READ_MAIL);
     }
 }

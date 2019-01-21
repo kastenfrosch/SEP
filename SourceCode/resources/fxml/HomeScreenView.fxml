@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -8,20 +9,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeScreenController">
    <children>
-      <TreeView fx:id="treeView" layoutX="8.0" layoutY="119.0" prefHeight="630.0" prefWidth="270.0" />
-      <Button layoutX="1040.0" layoutY="761.0" mnemonicParsing="false" onAction="#onChatButtonClicked" text="Chat" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1040.0" />
+      <TreeView fx:id="treeView" layoutX="8.0" layoutY="119.0" prefHeight="630.0" prefWidth="270.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" />
+      <Button layoutX="1040.0" layoutY="761.0" mnemonicParsing="false" onAction="#onChatButtonClicked" text="Chat" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="206.0" />
       <Text layoutX="403.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SemestervErwaltungsPlan">
          <font>
             <Font size="35.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="561.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Löschen" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-      <Button fx:id="logoutButton" layoutX="535.0" layoutY="361.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" text="logout" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="82.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddSemesterButtonClicked" text="Neues Semester" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="192.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupageButtonClicked" text="Neue Klasse" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="285.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupButtonClicked" text="Neue Gruppe" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="389.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddStudentButtonClicked" text="Neuer Student" AnchorPane.bottomAnchor="14.0" />
-      <TabPane fx:id="tabPane" layoutX="285.0" layoutY="120.0" prefHeight="630.0" prefWidth="980.0" tabClosingPolicy="UNAVAILABLE">
+      <Button layoutX="14.0" layoutY="561.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" text="Löschen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Button fx:id="logoutButton" layoutX="535.0" layoutY="361.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" text="Logout" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button layoutX="82.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddSemesterButtonClicked" text="Neues Semester" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="80.0" />
+      <Button layoutX="192.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupageButtonClicked" text="Neue Klasse" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="192.0" />
+      <Button layoutX="285.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddGroupButtonClicked" text="Neue Gruppe" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="283.0" />
+      <Button layoutX="389.0" layoutY="561.0" mnemonicParsing="false" onAction="#onAddStudentButtonClicked" text="Neuer Student" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="381.0" />
+      <TabPane fx:id="tabPane" layoutX="285.0" layoutY="120.0" prefHeight="630.0" prefWidth="980.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="10.0">
         <tabs>
           <Tab fx:id="detailsTab" closable="false" text="Details">
             <content>
@@ -50,8 +51,8 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="1087.0" layoutY="761.0" mnemonicParsing="false" onAction="#onUserAdministrationButtonClicked" text="Benutzerverwaltung" AnchorPane.bottomAnchor="14.0" />
-      <Button layoutX="995.0" layoutY="761.0" mnemonicParsing="false" onAction="#onMailBtnClicked" text="Mail" />
-      <Button fx:id="examBtn" layoutX="943.0" layoutY="761.0" mnemonicParsing="false" onAction="#onExamBtnClicked" text="Exam" />
+      <Button layoutX="1087.0" layoutY="761.0" mnemonicParsing="false" onAction="#onUserAdministrationButtonClicked" text="Benutzerverwaltung" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="74.0" />
+      <Button layoutX="995.0" layoutY="761.0" mnemonicParsing="false" onAction="#onMailBtnClicked" text="Mail" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="257.0" />
+      <Button fx:id="examBtn" layoutX="943.0" layoutY="761.0" mnemonicParsing="false" onAction="#onExamBtnClicked" text="Bewerten" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="306.0" />
    </children>
 </AnchorPane>

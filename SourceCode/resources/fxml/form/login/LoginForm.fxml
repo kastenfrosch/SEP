@@ -9,19 +9,19 @@
 
 <AnchorPane fx:id="rootPane" onKeyPressed="#onKeyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.form.login.LoginController">
    <children>
-      <Label id="llUsername" fx:id="usernameLbl" layoutX="118.0" layoutY="166.0" text="Username:">
+      <Label id="llUsername" fx:id="usernameLbl" layoutX="141.0" layoutY="169.0" text="Username:" AnchorPane.rightAnchor="380.0">
          <font>
-            <Font size="24.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="passwordLbl" layoutX="124.0" layoutY="210.0" text="Password:">
+      <Label fx:id="passwordLbl" layoutX="139.0" layoutY="204.0" text="Password:" AnchorPane.rightAnchor="380.0">
          <font>
-            <Font size="24.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <TextField id="usernameField" fx:id="usernameInput" layoutX="239.0" layoutY="168.0" />
-      <PasswordField id="passwordField" fx:id="passwordInput" layoutX="239.0" layoutY="212.0" />
-      <Button id="loginBtn" fx:id="loginBtn" layoutX="469.0" layoutY="327.0" mnemonicParsing="false" onAction="#onLoginBtnClicked" prefHeight="59.0" prefWidth="118.0" text="Login" />
+      <TextField id="usernameField" fx:id="usernameInput" layoutX="225.0" layoutY="171.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="170.0" />
+      <PasswordField id="passwordField" fx:id="passwordInput" layoutX="224.0" layoutY="210.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="205.0" />
+      <Button id="loginBtn" fx:id="loginBtn" layoutX="469.0" layoutY="327.0" mnemonicParsing="false" onAction="#onLoginBtnClicked" prefHeight="25.0" prefWidth="120.0" text="Login" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Text fx:id="titleText" layoutX="103.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SemestervErwaltungsPlan">
          <font>
             <Font size="35.0" />
@@ -33,7 +33,7 @@
          </font>
       </Text>
       <Text fx:id="statusText" fill="RED" layoutX="239.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <Button fx:id="registerBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" onAction="#onRegisterBtnClicked" prefHeight="59.0" prefWidth="137.0" text="Registrieren" />
-      <Button fx:id="resetPasswordBTN" layoutX="237.0" layoutY="245.0" mnemonicParsing="false" onAction="#onResetPasswordBTNClicked" prefHeight="25.0" prefWidth="155.0" text="Passwort zurücksetzen" />
+      <Button fx:id="registerBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" onAction="#onRegisterBtnClicked" prefHeight="25.0" prefWidth="120.0" text="Registrieren" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <Button fx:id="resetPasswordBTN" layoutX="225.0" layoutY="263.0" mnemonicParsing="false" onAction="#onResetPasswordBTNClicked" prefHeight="25.0" prefWidth="150.0" text="Passwort zurücksetzen" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="240.0" />
    </children>
 </AnchorPane>
