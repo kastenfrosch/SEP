@@ -63,7 +63,7 @@ public class ReadMailController {
                 } else if (content instanceof Multipart) {
                     Multipart multipart = (Multipart) content;
                     BodyPart part = multipart.getBodyPart(0);
-                    body =  part.getContent().toString();
+                    body = part.getContent().toString();
                 }
                 //close folder
                 if (folder.isOpen()) {
@@ -90,7 +90,9 @@ public class ReadMailController {
         SendMailController sendMail = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.SEND_MAIL).getController();
         SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
-
+        ReceiveMailController receiveMailController = SceneManager.getInstance()
+                .getLoaderForScene(SceneType.RECEIVE_MAIL).getController();
+        sendMail.setPass(receiveMailController.getMailPassword());
         // with this mailContent set as reply
         String replyString = "\n" + "\n" + "\n" +
                 "-------------------------------------------------------------------------------------------" + "\n";
