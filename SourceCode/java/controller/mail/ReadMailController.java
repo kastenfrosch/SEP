@@ -7,7 +7,9 @@ import utils.scene.SceneType;
 
 import javax.mail.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ReadMailController {
 
@@ -77,11 +79,30 @@ public class ReadMailController {
         }
     }
 
-
-
-
     public void onBackBTNClicked(ActionEvent actionEvent) {
+        // close the window
         SceneManager.getInstance().closeWindow(SceneType.READ_MAIL);
+    }
 
+    public void onReplyBTNClicked(ActionEvent actionEvent) {
+        // TODO: has to be tested
+        // open new SendMailController
+        SendMailController sendMail = SceneManager.getInstance()
+                .getLoaderForScene(SceneType.SEND_MAIL).getController();
+        SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+
+        // with this mailContent set as reply
+        String replyString = "\n" + "\n" + "\n" +
+                "-------------------------------------------------------------------------------------------" + "\n";
+        sendMail.setContent(replyString + this.mailContent.getText());
+
+        // and subjectTextfield
+        sendMail.setSubject("Awd: " + this.subjectTextField.getText());
+        // set previous sender as recipient
+        List<String> recipients = new ArrayList<>();
+        recipients.add(this.senderTextField.getText());
+        sendMail.setRecipients(recipients);
+
+        // TODO: maybe close the current instance of ReadMailController?
     }
 }

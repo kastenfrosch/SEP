@@ -77,8 +77,4 @@ public class MailAttachmentsController {
         return this.attachmentListView;
     }
 
-    // TODO: über welchen button muss ich gehen damit die anhänge eingetragen werden?
-    // TODO: anhänge müssen gelöscht werden nach dem senden. über den sendemail controller?! (MAYBE FIXED?)
-    // TODO:
-
 }

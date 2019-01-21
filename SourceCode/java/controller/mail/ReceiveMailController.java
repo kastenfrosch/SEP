@@ -258,62 +258,60 @@ public class ReceiveMailController {
 
         SendMailController sendMail = SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).getController();
 
-
-            SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
-            Message message = mailTableView.getSelectionModel().getSelectedItem();
-            String from = "";
-            Address[] froms = new Address[0];
-            try {
-                froms = message.getFrom();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-
-
-            InternetAddress address = (InternetAddress) froms[0];
-            String person = address.getPersonal();
-
-            if (person != null) {
-                try {
-                    person = MimeUtility.decodeText(person) + " ";
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                person = "";
-            }
-
-            from = person + "<" + address.getAddress() + ">";
-
-
-            try {
-                Object content = message.getContent();
-                String body = "";
-
-                if (message.getContent() instanceof String) {
-                    body = (String) content;
-                    //if multipart convert to string
-                } else if (message.getContent() instanceof Multipart) {
-                    Multipart multipart = (Multipart) content;
-                    BodyPart part = multipart.getBodyPart(0);
-                    body = part.getContent().toString();
-                }
-
-                sendMail.setPass(mailPassword);
-                sendMail.setTo(from);
-                sendMail.setSubject("Awd: " + message.getSubject());
-                sendMail.setContent("\n" + "\n" + "\n" +
-                        "-------------------------------------------------------------------------------------------" + "\n"
-                        + body);
-            } catch (IOException | MessagingException e) {
-                e.printStackTrace();
-            }
-            try {
-                inbox.close(true);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
+        SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+        Message message = mailTableView.getSelectionModel().getSelectedItem();
+        String from = "";
+        Address[] froms = new Address[0];
+        try {
+            froms = message.getFrom();
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
+
+        InternetAddress address = (InternetAddress) froms[0];
+        String person = address.getPersonal();
+
+        if (person != null) {
+            try {
+                person = MimeUtility.decodeText(person) + " ";
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            person = "";
+        }
+
+        from = person + "<" + address.getAddress() + ">";
+
+
+        try {
+            Object content = message.getContent();
+            String body = "";
+
+            if (message.getContent() instanceof String) {
+                body = (String) content;
+                //if multipart convert to string
+            } else if (message.getContent() instanceof Multipart) {
+                Multipart multipart = (Multipart) content;
+                BodyPart part = multipart.getBodyPart(0);
+                body = part.getContent().toString();
+            }
+
+            sendMail.setPass(mailPassword);
+            sendMail.setTo(from);
+            sendMail.setSubject("Awd: " + message.getSubject());
+            sendMail.setContent("\n" + "\n" + "\n" +
+                    "-------------------------------------------------------------------------------------------" + "\n"
+                    + body);
+        } catch (IOException | MessagingException e) {
+            e.printStackTrace();
+        }
+        try {
+            inbox.close(true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
