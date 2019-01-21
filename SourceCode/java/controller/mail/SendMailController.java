@@ -148,7 +148,7 @@ public class SendMailController {
                 // delete attachments from MailAttachmentsController
                 MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
                         .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
-                mailAttachmentsController.setAttachmentList(FXCollections.observableArrayList());
+                mailAttachmentsController.setAttachmentList(null);
 
                 // close the window
                 SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
@@ -164,7 +164,7 @@ public class SendMailController {
         // delete attachments from MailAttachmentsController
         MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
-        mailAttachmentsController.setAttachmentList(FXCollections.observableArrayList());
+        mailAttachmentsController.setAttachmentList(null);
         // close window
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }
