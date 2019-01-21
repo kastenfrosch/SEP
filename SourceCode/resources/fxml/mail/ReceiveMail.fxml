@@ -10,7 +10,7 @@
    <children>
       <TableView fx:id="mailTableView" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <Button fx:id="refreshBTN" layoutX="539.0" layoutY="350.0" mnemonicParsing="false" onAction="#onRefreshBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Refresh" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
-      <Button fx:id="sendMail" layoutX="731.0" layoutY="350.0" mnemonicParsing="false" onAction="#onSendMailClicked" prefHeight="40.0" prefWidth="120.0" text="Email senden" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button fx:id="sendMail" layoutX="731.0" layoutY="350.0" mnemonicParsing="false" onAction="#onSendMailClicked" prefHeight="40.0" prefWidth="120.0" text="Email verfassen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Button fx:id="cancelBTN" layoutX="14.0" layoutY="357.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Schließen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <Button fx:id="replyBTN" layoutX="412.0" layoutY="350.0" mnemonicParsing="false" onAction="#onReplyBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Antworten" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="270.0" />
       <Button fx:id="editCredentialsBTN" layoutX="152.0" layoutY="357.0" mnemonicParsing="false" onAction="#onEditCredentialsBTN" prefHeight="40.0" prefWidth="120.0" text="Einstellungen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="140.0" />

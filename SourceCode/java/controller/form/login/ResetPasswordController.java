@@ -77,11 +77,12 @@ public class ResetPasswordController {
 
         try {
             userDao.update(user);
-            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
+            InfoModal.show("Wenn dieser User existiert, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
             sendNewPassword(user, newPass);
             SceneManager.getInstance().closeWindow(SceneType.RESET_PASSWORD);
-        } catch (SQLException ex) {
-            ErrorModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
+        } catch (SQLException e) {
+            ErrorModal.show("Wenn dieser User existiert, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
+            e.printStackTrace();
         }
 
     }
@@ -128,17 +129,18 @@ public class ResetPasswordController {
             message.setSubject("Dein Passwort wurde zurückgesetzt");
 
             // Now set the actual message
-            message.setText("Lieber " + user.getUsername() + " dein Password wurde zurückgesetzt.\n" +
+            message.setText("Lieber " + user.getUsername() + ", dein Password wurde zurückgesetzt.\n" +
                     "Dein neues Password lautet: \n" + newPass + "\n" +
-                    "Bitte denke daran dir ein neues Password im System zu setzten."
+                    "Bitte denke daran, dir ein neues Password im System zu setzen."
             );
 
             // Send message
             Transport.send(message);
-            InfoModal.show("Wenn ein der User, wurde das Passwort zurückgesetzt und per Mail an ihn versand.");
+            InfoModal.show("Wenn dieser User existiert, wurde das Passwort zurückgesetzt und per Mail an ihn versandt.");
 
         } catch (MessagingException e) {
-            ErrorModal.show("DümDüm senden war nichts");
+            ErrorModal.show("Beim Senden ist Fehler aufgetreten!");
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

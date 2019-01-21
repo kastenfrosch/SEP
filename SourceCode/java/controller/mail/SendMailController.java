@@ -64,10 +64,11 @@ public class SendMailController {
     String password;
 
     public void init(){
-        currentUser=db.getLoggedInUser();
-        subjectTextField.clear();
-        mailTextArea.clear();
-        targetAddressTextField.clear();
+        this.currentUser = db.getLoggedInUser();
+        this.subjectTextField.clear();
+        this.mailTextArea.clear();
+        this.targetAddressTextField.clear();
+        this.attachmentList.clear();
     }
 
 
@@ -147,7 +148,7 @@ public class SendMailController {
                 // delete attachments from MailAttachmentsController
                 MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
                         .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
-                mailAttachmentsController.setAttachmentList(FXCollections.observableArrayList());
+                mailAttachmentsController.setAttachmentList(null);
 
                 // close the window
                 SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
@@ -158,16 +159,12 @@ public class SendMailController {
             }
         }
 
-
-
-
-
     @FXML
     private void onCancelBTNClicked(ActionEvent actionEvent) {
         // delete attachments from MailAttachmentsController
         MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
-        mailAttachmentsController.setAttachmentList(FXCollections.observableArrayList());
+        mailAttachmentsController.setAttachmentList(null);
         // close window
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }
@@ -228,12 +225,11 @@ public class SendMailController {
                 recipients += emailList.get(i);
             }
         }
-
         this.targetAddressTextField.setText(recipients);
     }
 
     public void setAttachmentList(List<String> attachmentList) {
-        // set attachments selected in and passed by MailAttchmentsController
+        // set attachments selected in and passed by MailAttachmentsController
         this.attachmentList = attachmentList;
     }
 

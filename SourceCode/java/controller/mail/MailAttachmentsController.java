@@ -52,7 +52,7 @@ public class MailAttachmentsController {
             InfoModal.show("ACHTUNG!", null, "Kein Anhang ausgewählt!");
         } else {
             // remove selected attachment from attachmentList
-            attachmentList.removeIf(attachment -> attachment.equals(attachmentListView
+            attachmentList.removeIf(attachment -> attachment.endsWith("\\" + attachmentListView
                     .getSelectionModel().getSelectedItem()));
         // ... and from attachmentListView
         this.attachmentListView.getItems().remove(attachmentListView.getSelectionModel().getSelectedItem());

@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.SendMailController">
    <children>
-      <Button fx:id="sendBTN" layoutX="508.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSendBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Verfassen" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Button fx:id="sendBTN" layoutX="508.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSendBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Senden" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Button fx:id="draftBTN" layoutX="404.0" layoutY="347.0" mnemonicParsing="false" onAction="#onDraftBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Entwurf" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
       <Button fx:id="cancelBTN" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="40.0" prefWidth="120.0" text="Abbrechen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <TextField fx:id="targetAddressTextField" layoutX="11.0" layoutY="14.0" prefHeight="39.0" promptText="Adresse" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0" />
