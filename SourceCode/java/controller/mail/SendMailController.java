@@ -164,6 +164,10 @@ public class SendMailController {
 
     @FXML
     private void onCancelBTNClicked(ActionEvent actionEvent) {
+        // delete attachments from MailAttachmentsController
+        MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
+                .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
+        mailAttachmentsController.setAttachmentList(FXCollections.observableArrayList());
         // close window
         SceneManager.getInstance().closeWindow(SceneType.SEND_MAIL);
     }
