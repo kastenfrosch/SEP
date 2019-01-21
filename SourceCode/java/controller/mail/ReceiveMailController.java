@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import modal.ErrorModal;
+import modal.InfoModal;
 import modal.PasswordModal;
 import models.User;
 import utils.HashUtils;
@@ -45,7 +46,6 @@ public class ReceiveMailController {
             e.printStackTrace();
         }
     }
-
 
 
     @FXML
@@ -242,65 +242,78 @@ public class ReceiveMailController {
     }
 
     public void onReplyBTNClicked(ActionEvent event) {
+        if (mailTableView.getSelectionModel().getSelectedItem() == null) {
+            InfoModal.show("Bitte eine Mail auswählen.");
+            return;
+        }
         try {
             inbox.open(Folder.READ_ONLY);
             for (int i = 0; i < inbox.getMessageCount(); i++) {
                 inbox.getMessage(inbox.getMessageCount() - i).getSubject();
             }
-        } catch (MessagingException e) {
+        } catch (
+                MessagingException e) {
             e.printStackTrace();
         }
+
         SendMailController sendMail = SceneManager.getInstance().getLoaderForScene(SceneType.SEND_MAIL).getController();
-        try {
-            if (mailTableView.getSelectionModel().getSelectedItem().getReplyTo() == null) {
-                ErrorModal.show("Bitte eine Mail auswählen.");
-            }
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-        SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
-        Message message = mailTableView.getSelectionModel().getSelectedItem();
-        String from = "";
-        Address[] froms = new Address[0];
-        try {
-            froms = message.getFrom();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
 
 
-        InternetAddress address = (InternetAddress) froms[0];
-        String person = address.getPersonal();
-
-        if (person != null) {
+            SceneManager.getInstance().showInNewWindow(SceneType.SEND_MAIL);
+            Message message = mailTableView.getSelectionModel().getSelectedItem();
+            String from = "";
+            Address[] froms = new Address[0];
             try {
-                person = MimeUtility.decodeText(person) + " ";
-            } catch (UnsupportedEncodingException e) {
+                froms = message.getFrom();
+            } catch (MessagingException e) {
                 e.printStackTrace();
             }
-        } else {
-            person = "";
-        }
-
-        from = person + "<" + address.getAddress() + ">";
 
 
-        try {
-            sendMail.setPass(mailPassword);
-            sendMail.setTo(from);
-            sendMail.setSubject("Awd: "+message.getSubject());
-            sendMail.setContent("\n"+"\n"+"\n" +
-                    "-------------------------------------------------------------------------------------------"+"\n"
-            + message.getContent().toString());
-        } catch (IOException | MessagingException e) {
-            e.printStackTrace();
+            InternetAddress address = (InternetAddress) froms[0];
+            String person = address.getPersonal();
+
+            if (person != null) {
+                try {
+                    person = MimeUtility.decodeText(person) + " ";
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                person = "";
+            }
+
+            from = person + "<" + address.getAddress() + ">";
+
+
+            try {
+                Object content = message.getContent();
+                String body = "";
+
+                if (message.getContent() instanceof String) {
+                    body = (String) content;
+                    //if multipart convert to string
+                } else if (message.getContent() instanceof Multipart) {
+                    Multipart multipart = (Multipart) content;
+                    BodyPart part = multipart.getBodyPart(0);
+                    body = part.getContent().toString();
+                }
+
+                sendMail.setPass(mailPassword);
+                sendMail.setTo(from);
+                sendMail.setSubject("Awd: " + message.getSubject());
+                sendMail.setContent("\n" + "\n" + "\n" +
+                        "-------------------------------------------------------------------------------------------" + "\n"
+                        + body);
+            } catch (IOException | MessagingException e) {
+                e.printStackTrace();
+            }
+            try {
+                inbox.close(true);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            inbox.close(true);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 
