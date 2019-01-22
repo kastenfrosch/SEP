@@ -1,7 +1,6 @@
 package controller.gitlab;
 
 import com.sun.javafx.charts.Legend;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
@@ -14,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 import modal.ErrorModal;
@@ -31,8 +28,6 @@ import utils.TimeUtils;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -61,6 +56,43 @@ public class GitlabChartController {
     private CommitsApi commitsApi;
     private Project project;
 
+    public void setValues(Object g, GitLabApi api) {
+        this.selectedObject = g;
+        this.api = api;
+        this.commitsApi = api.getCommitsApi();
+        if (!(selectedObject instanceof Groupage)) {
+            try {
+                for (Project x : api.getProjectApi().getProjects()) {
+                    if (selectedObject instanceof Group) {
+                        if (x.getHttpUrlToRepo().equals(((Group) selectedObject).getGitlabUrl())) {
+                            project = x;
+                            break;
+                        }
+                    } else if (selectedObject instanceof Student) {
+                        if (x.getHttpUrlToRepo().equals(((Student) selectedObject).getGroup().getGitlabUrl())) {
+                            project = x;
+                            break;
+                        }
+                    }
+                }
+                if (project == null) {
+                    ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
+                    return;
+                }
+            } catch (GitLabApiException ex) {
+                ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
+                return;
+            }
+        }
+
+        try {
+            drawCharts();
+        } catch (GitLabApiException ex) {
+            ErrorModal.show("Error", "Es ist ein unbekannter Fehler aufgetreten: " + ex.getMessage());
+            return;
+        }
+    }
+
     private void drawCharts() throws GitLabApiException {
         drawPieChart();
         drawGraph();
@@ -69,6 +101,7 @@ public class GitlabChartController {
     private void drawPieChart() throws GitLabApiException {
 
         pieChart.getData().clear();
+
         if (selectedObject instanceof Groupage) {
             drawGroupagePieChart((Groupage) selectedObject);
         } else if (selectedObject instanceof Group) {
@@ -150,7 +183,9 @@ public class GitlabChartController {
     }
 
     private void drawGraph() throws GitLabApiException {
+
         lineChart.getData().clear();
+
         if (selectedObject instanceof Groupage) {
             drawGroupageGraph((Groupage) selectedObject);
         } else if (selectedObject instanceof Group) {
@@ -184,16 +219,13 @@ public class GitlabChartController {
         xAxis.setTickLabelFormatter(new StringConverter<>() {
             @Override
             public String toString(Number number) {
-                if (!(number instanceof Long) && !(number instanceof Double)) {
-                    throw new IllegalArgumentException("Number on chart x-axis should be of type Long");
-                }
                 if (number instanceof Double) {
                     number = Math.round((Double) number);
                 }
 
                 LocalDate date = LocalDate.ofEpochDay((long) number);
 
-                return TimeUtils.toSimpleDateString(LocalDateTime.of(date, LocalTime.now()));
+                return date.getDayOfMonth() + "." + date.getMonthValue();
             }
 
             @Override
@@ -284,42 +316,5 @@ public class GitlabChartController {
             }
         }
         return commitMap;
-    }
-
-    public void setValues(Object g, GitLabApi api) {
-        this.selectedObject = g;
-        this.api = api;
-        this.commitsApi = api.getCommitsApi();
-        if (!(selectedObject instanceof Groupage)) {
-            try {
-                for (Project x : api.getProjectApi().getProjects()) {
-                    if (selectedObject instanceof Group) {
-                        if (x.getHttpUrlToRepo().equals(((Group) selectedObject).getGitlabUrl())) {
-                            project = x;
-                            break;
-                        }
-                    } else if (selectedObject instanceof Student) {
-                        if (x.getHttpUrlToRepo().equals(((Student) selectedObject).getGroup().getGitlabUrl())) {
-                            project = x;
-                            break;
-                        }
-                    }
-                }
-                if (project == null) {
-                    ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
-                    return;
-                }
-            } catch (GitLabApiException ex) {
-                ErrorModal.show("Das Gruppenrepository wurde nicht gefunden.");
-                return;
-            }
-        }
-
-        try {
-            drawCharts();
-        } catch (GitLabApiException ex) {
-            ErrorModal.show("Error", "Es ist ein unbekannter Fehler aufgetreten: " + ex.getMessage());
-            return;
-        }
     }
 }
