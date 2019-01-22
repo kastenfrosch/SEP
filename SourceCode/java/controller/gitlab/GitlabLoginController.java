@@ -3,7 +3,6 @@ package controller.gitlab;
 import controller.HomeScreenController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -34,7 +33,6 @@ public class GitlabLoginController {
 
     @FXML
     public void onLoginBtnClicked(ActionEvent event) {
-        GitLabApi gitLabApi;
         try {
            this.api = GitLabApi.oauth2Login("https://git.uni-due.de", usernameInput.getText(), passwordInput.getText());
 
