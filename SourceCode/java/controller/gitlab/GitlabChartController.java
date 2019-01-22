@@ -1,8 +1,11 @@
 package controller.gitlab;
 
+import com.sun.javafx.charts.Legend;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
@@ -11,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
@@ -88,19 +92,13 @@ public class GitlabChartController {
         tooltip.setGraphic(percentage);
 
         for (PieChart.Data data : pieChart.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
-                    new EventHandler<MouseEvent>() {
-                        @Override public void handle(MouseEvent e) {
+            data.getNode().setOnMousePressed(me -> {
                             percentage.setText(String.valueOf(new DecimalFormat("#.##").format((data.getPieValue() / finalTotalCommits) * 100)) + "%");
-                            tooltip.show(chartAnchorPane.getScene().getRoot(), e.getScreenX() - 20, e.getScreenY() - 20);
-                        }
+                            tooltip.show(chartAnchorPane.getScene().getRoot(), me.getScreenX() - 20, me.getScreenY() - 20);
                     });
-            data.getNode().addEventHandler(MouseEvent.MOUSE_RELEASED,
-                    new EventHandler<MouseEvent>() {
-                        @Override public void handle(MouseEvent e) {
+            data.getNode().setOnMouseReleased(me -> {
                             tooltip.hide();
-                        }
-                    });
+            });
         }
     }
 
@@ -152,7 +150,6 @@ public class GitlabChartController {
     }
 
     private void drawGraph() throws GitLabApiException {
-
         lineChart.getData().clear();
         if (selectedObject instanceof Groupage) {
             drawGroupageGraph((Groupage) selectedObject);
@@ -204,6 +201,28 @@ public class GitlabChartController {
                 return TimeUtils.localDateFromString(s).toEpochDay();
             }
         });
+
+        for (Node n : lineChart.getChildrenUnmodifiable()) {
+            if (n instanceof Legend) {
+                Legend l = (Legend) n;
+                for (Legend.LegendItem li : l.getItems()) {
+                    for (XYChart.Series<Number, Integer> s : lineChart.getData()) {
+                        if (s.getName().equals(li.getText())) {
+                            li.getSymbol().setCursor(Cursor.HAND);
+                            li.getSymbol().setOnMouseClicked(me -> {
+                                    s.getNode().setVisible(!s.getNode().isVisible());
+                                    for (XYChart.Data<Number, Integer> d : s.getData()) {
+                                        if (d.getNode() != null) {
+                                            d.getNode().setVisible(s.getNode().isVisible());
+                                        }
+                                    }
+                            });
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void drawGroupageGraph(Groupage groupage) throws GitLabApiException {
