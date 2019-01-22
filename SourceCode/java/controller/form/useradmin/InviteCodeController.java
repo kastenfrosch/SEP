@@ -72,7 +72,6 @@ public class InviteCodeController {
         try {
             codeDao.create(newCode);
             codeListView.getItems().add(newCode);
-            usedbyListView.getItems().add(newCode.getUsedBy());
 
 
         } catch (SQLException e) {
