@@ -237,7 +237,7 @@ public class HomeScreenController {
                     }
                     break;
                 case "weekPlanTab":
-                    if(System.getProperty("sep.alt.weekcalendar") != null) {
+                    if(System.getProperty("sep.alt.weekcalendar") == null) {
                         if (selectedNode.getValue() instanceof Groupage) {
                             sceneType = SceneType.WEEK_CALENDAR;
                             sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
