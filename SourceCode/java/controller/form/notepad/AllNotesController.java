@@ -1,13 +1,13 @@
 package controller.form.notepad;
 
+import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import modal.InfoModal;
-import models.Notepad;
-import models.NotepadHistory;
+import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import java.sql.SQLException;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class AllNotesController {
 
     private DBManager db;
+    private Object object;
 
     {
         try {
@@ -29,6 +30,8 @@ public class AllNotesController {
     public ListView<Notepad> allNotesListView;
     @FXML
     public Button showNote;
+    @FXML
+    public Button editNote;
     @FXML
     public Button closeWindow;
     @FXML
@@ -112,7 +115,44 @@ public class AllNotesController {
         }
     }
 
-    public void closeWindow(ActionEvent actionEvent) {
+    public void editNote(ActionEvent actionEvent) throws SQLException {
+        if (allNotesListView.getSelectionModel().isEmpty()) {
+            InfoModal.show("Bitte wählen Sie eine Notiz aus.");
+            return;
+        }
+        SceneType sceneType = SceneType.EDIT_NOTEPAD_WINDOW;
+        SceneManager sm = SceneManager.getInstance();
+
+        Dao<StudentNotepad, Integer> studentNotepadDao = db.getStudentNotepadDao();
+        Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
+        Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
+
+        for(StudentNotepad s : studentNotepadDao) {
+            if(allNotesListView.getSelectionModel().getSelectedItem().equals(s.getNotepad())) {
+                this.object = s.getStudent();
+            }
+        }
+        for(GroupageNotepad s : groupageNotepadDao) {
+            if(allNotesListView.getSelectionModel().getSelectedItem().equals(s.getNotepad())) {
+                this.object = s.getGroupage();
+            }
+        }
+        for(GroupNotepad s : groupNotepadDao) {
+            if(allNotesListView.getSelectionModel().getSelectedItem().equals(s.getNotepad())) {
+                this.object = s.getGroup();
+            }
+        }
+
+        //Setting given Object & Notepad for EditNotepadWindow
+        sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
+                .setObject(this.object, allNotesListView.getSelectionModel().getSelectedItem());
+        SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
+    }
+
+    public void closeWindow(ActionEvent actionEvent) throws SQLException {
+        SceneManager sm = SceneManager.getInstance();
+        sm.getLoaderForScene(SceneType.NOTESTAB_WINDOW).<NotesTabController>getController()
+                .initialize();
         SceneManager.getInstance().closeWindow(SceneType.ALL_NOTES_WINDOW);
     }
 }

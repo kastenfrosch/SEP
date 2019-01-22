@@ -20,7 +20,6 @@ public class EditNotepadController {
     private Object objectType;
     private Notepad notepad;
     private DBManager db;
-    private Timestamp time;
 
     {
         try {
@@ -67,7 +66,7 @@ public class EditNotepadController {
         }
     }
 
-    public void editNotepadSave(ActionEvent actionEvent) { //Updating notepad changes
+    public void editNotepadSave(ActionEvent actionEvent) throws SQLException { //Updating notepad changes
         String noteName;
         if (editNotepadName == null || editNotepadName.getText().isBlank()) {
             InfoModal.show("FEHLER!", null, "Bitte Bezeichnung eingeben!");
@@ -146,6 +145,10 @@ public class EditNotepadController {
             ErrorModal.show(e.getMessage());
             e.printStackTrace();
         }
+        SceneManager sc = SceneManager.getInstance();
+        SceneType sct = SceneType.ALL_NOTES_WINDOW;
+        sc.getLoaderForScene(sct).<AllNotesController>getController()
+                .initialize();
         SceneManager.getInstance().closeWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
