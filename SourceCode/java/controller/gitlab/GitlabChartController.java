@@ -1,13 +1,17 @@
 package controller.gitlab;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 import modal.ErrorModal;
@@ -21,6 +25,7 @@ import org.gitlab4j.api.models.Commit;
 import org.gitlab4j.api.models.Project;
 import utils.TimeUtils;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -71,9 +76,32 @@ public class GitlabChartController {
         pieChart.setLegendVisible(true);
         pieChart.setLegendSide(Side.BOTTOM);
 
-        pieChart.getData().forEach(data -> {
+        int totalCommits = 0;
+        for(PieChart.Data data: pieChart.getData()) {
+            totalCommits += (int)data.getPieValue();
             data.setName(data.getName() + ": " + (int) data.getPieValue());
-        });
+        }
+        final int finalTotalCommits = totalCommits;
+
+        Label percentage = new Label("");
+        Tooltip tooltip = new Tooltip();
+        tooltip.setGraphic(percentage);
+
+        for (PieChart.Data data : pieChart.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    new EventHandler<MouseEvent>() {
+                        @Override public void handle(MouseEvent e) {
+                            percentage.setText(String.valueOf(new DecimalFormat("#.##").format((data.getPieValue() / finalTotalCommits) * 100)) + "%");
+                            tooltip.show(chartAnchorPane.getScene().getRoot(), e.getScreenX() - 20, e.getScreenY() - 20);
+                        }
+                    });
+            data.getNode().addEventHandler(MouseEvent.MOUSE_RELEASED,
+                    new EventHandler<MouseEvent>() {
+                        @Override public void handle(MouseEvent e) {
+                            tooltip.hide();
+                        }
+                    });
+        }
     }
 
     private void drawGroupagePieChart(Groupage g) throws GitLabApiException {
