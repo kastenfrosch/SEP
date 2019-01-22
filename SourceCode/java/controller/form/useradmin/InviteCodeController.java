@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
 import javafx.scene.input.ClipboardContent;
@@ -23,8 +24,8 @@ import java.sql.SQLException;
 public class InviteCodeController {
 
 
-    public ListView codeListView;
-    public ListView usedbyListView;
+    public ListView<InviteCode> codeListView;
+    public ListView<User> usedbyListView;
     @FXML
     private DBManager db;
 
@@ -43,6 +44,19 @@ public class InviteCodeController {
             Dao<InviteCode, String> codeDao = db.getInviteCodeDao();
             codeList.addAll(codeDao.queryForAll());
             codeListView.setItems(codeList);
+
+            usedbyListView.setCellFactory(userListView -> new ListCell<>() {
+                @Override
+                protected void updateItem(User user, boolean b) {
+                    if(user == null) {
+                        setText("");
+                    }
+                    else
+                    {
+                        setText(user.getUsername());
+                    }
+                }
+            });
 
             ObservableList<User> usedByList = FXCollections.observableArrayList();
             // fill list with the users using the invite code
