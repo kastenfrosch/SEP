@@ -328,10 +328,40 @@ public class DBUtils {
 
         groupDao.create(groupF);
 
+        Person k = new Person();
+        k.setEmail("kaan.erdogan@stud.uni-due.de");
+        k.setFirstname("Kaan");
+        k.setLastname("Erdogan");
+
+        Student kk = new Student();
+        kk.setMatrNo("18754465");
+        kk.setGroup(groupE);
+        kk.setPerson(k);
+
+        Person g = new Person();
+        g.setEmail("alisan.guendogan@stud.uni-due.de");
+        g.setFirstname("Alisan");
+        g.setLastname("Gündogan");
+
+        Student gg = new Student();
+        gg.setMatrNo("275678");
+        gg.setGroup(groupE);
+        gg.setPerson(g);
+
+        Person d = new Person();
+        d.setEmail("davemakila@gmx.de");
+        d.setFirstname("Dave");
+        d.setLastname("Makila");
+
+        Student dd = new Student();
+        dd.setMatrNo("3275678");
+        dd.setGroup(groupE);
+        dd.setPerson(d);
+
         Person a = new Person();
         a.setEmail("andreas.haeusler@stud.uni-due.de");
         a.setFirstname("Andreas");
-        a.setLastname("Haeusler");
+        a.setLastname("Häusler");
 
         Student aa = new Student();
         aa.setPerson(a);
@@ -398,6 +428,9 @@ public class DBUtils {
         ee.setGroup(groupF);
         ee.setPerson(e);
 
+        personDao.create(k);
+        personDao.create(g);
+        personDao.create(d);
         personDao.create(a);
         personDao.create(m);
         personDao.create(t);
@@ -406,6 +439,9 @@ public class DBUtils {
         personDao.create(l);
         personDao.create(e);
 
+        studentDao.create(kk);
+        studentDao.create(gg);
+        studentDao.create(dd);
         studentDao.create(aa);
         studentDao.create(mm);
         studentDao.create(tt);
@@ -413,5 +449,6 @@ public class DBUtils {
         studentDao.create(ss);
         studentDao.create(ll);
         studentDao.create(ee);
+
     }
 }
