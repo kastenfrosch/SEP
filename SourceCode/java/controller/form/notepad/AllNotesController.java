@@ -2,6 +2,8 @@ package controller.form.notepad;
 
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -27,7 +29,19 @@ public class AllNotesController {
     }
 
     @FXML
+    public Label chooseObjectLabel;
+    @FXML
+    public Label choosePriorityLabel;
+    @FXML
     public ListView<Notepad> allNotesListView;
+    @FXML
+    public Button refreshButton;
+    @FXML
+    public ListView<Object> filterObjectListView;
+    @FXML
+    public Button filterButton;
+    @FXML
+    public ListView<Notepad.Classification> filterPrioListView;
     @FXML
     public Button showNote;
     @FXML
@@ -78,6 +92,27 @@ public class AllNotesController {
                 };
             }
         });
+
+        filterPrioListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        filterPrioListView.getItems().clear();
+        filterPrioListView.setItems(FXCollections.observableArrayList(Notepad.Classification.GOOD, Notepad.Classification.MEDIUM,
+                Notepad.Classification.BAD, Notepad.Classification.NEUTRAL));
+
+
+        filterObjectListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        filterObjectListView.getItems().clear();
+
+        db.getStudentNotepadDao().queryForAll().stream()
+                .map(StudentNotepad::getStudent)
+                .forEach(filterObjectListView.getItems()::add);
+
+        db.getGroupNotepadDao().queryForAll().stream()
+                .map(GroupNotepad::getGroup)
+                .forEach(filterObjectListView.getItems()::add);
+
+        db.getGroupageNotepadDao().queryForAll().stream()
+                .map(GroupageNotepad::getGroupage)
+                .forEach(filterObjectListView.getItems()::add);
     }
 
     public void showNote(ActionEvent actionEvent) {
@@ -147,6 +182,13 @@ public class AllNotesController {
         sm.getLoaderForScene(sceneType).<EditNotepadController>getController()
                 .setObject(this.object, allNotesListView.getSelectionModel().getSelectedItem());
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
+    }
+
+    public void refreshButton(ActionEvent actionEvent) throws SQLException{
+        initialize();
+    }
+
+    public void filterButton(ActionEvent actionEvent) {
     }
 
     public void closeWindow(ActionEvent actionEvent) throws SQLException {
