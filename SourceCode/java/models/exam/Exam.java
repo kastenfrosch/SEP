@@ -18,8 +18,8 @@ public class Exam {
     @DatabaseField(columnName = FIELD_EXAM_ID, generatedId = true)
     private int examId;
 
-    @DatabaseField(columnName = FIELD_GROUP, foreign = true, foreignAutoRefresh = false,
-            columnDefinition = "integer references \"group\"(group_id)")
+    @DatabaseField(columnName = FIELD_GROUP, foreign = true, foreignAutoRefresh = true,
+            columnDefinition = "integer references \"group\"(group_id) on delete cascade")
     private Group group;
 
     @DatabaseField(columnName = FIELD_DESCRIPTION)

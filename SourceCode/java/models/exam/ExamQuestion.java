@@ -19,7 +19,7 @@ public class ExamQuestion {
     private int questionId;
 
     @DatabaseField(columnName = FIELD_EXAM_ID, foreign = true,
-            columnDefinition = "integer references exam(exam_id)")
+            columnDefinition = "integer references exam(exam_id) on delete cascade")
     private Exam exam;
 
     @DatabaseField(columnName = FIELD_QUESTION_STRING)
