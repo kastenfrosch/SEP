@@ -93,10 +93,12 @@ public class SendMailController {
         properties.put("mail.smtp.port", String.valueOf(currentUser.getMailSmtpPort()));
         properties.put("mail.smtp.auth", "true");
 
-        //validate the target addresses,
+        //validate the target addresses
+        int counter =0;
         for(String s: to.split(",")){
+            counter++;
         if (!validateMailAddress(s)) {
-            InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
+            InfoModal.show("FEHLER!", null, "Die "+counter+". E-Mail ist nicht korrekt!");
             return;
         }
         }
