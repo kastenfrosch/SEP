@@ -196,7 +196,7 @@ public class ReceiveMailController {
             int messageCount = inbox.getMessageCount();
             //keine Ahnung aber ohne das geht es nicht :( jetzt doch ahnung aber ich lass das mal lieber so stehen, bevor alles nicht mehr geht
             for (int i = 0; i < messageCount; i++) {
-                inbox.getMessage(messageCount - i).getSubject();
+                inbox.getMessage(messageCount-i).getSentDate();
 
             }
             //add all columns
