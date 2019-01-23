@@ -29,10 +29,7 @@ import java.util.concurrent.ExecutionException;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
 
 
 public class SendMailController {
@@ -63,26 +60,31 @@ public class SendMailController {
 
     String password;
 
+
     public void init(){
         this.currentUser = db.getLoggedInUser();
         this.subjectTextField.clear();
         this.mailTextArea.clear();
         this.targetAddressTextField.clear();
         this.attachmentList.clear();
+
+        //delete attachments every time the controller get started
+        MailAttachmentsController mailAttachmentsController = SceneManager.getInstance()
+                .getLoaderForScene(SceneType.MAIL_ATTACHMENTS).getController();
+        mailAttachmentsController.getAttachmentList().clear();
+        mailAttachmentsController.getAttachmentListView().getItems().clear();
     }
+
+
 
 
     @FXML
     private void onSendBTNClicked(ActionEvent actionEvent) {
 
-        // Recipient's email ID needs to be mentioned.
-        String to = targetAddressTextField.getText();//change accordingly
+        //target email adress set
+        String to = targetAddressTextField.getText();
 
-        // Sender's email ID needs to be mentioned
-
-        // Assuming you are sending email through relay.jangosmtp.net
-
-
+        //set properties for smtp server
         Properties properties = new Properties();
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", currentUser.getMailSmtpHost());
@@ -91,6 +93,14 @@ public class SendMailController {
         properties.put("mail.smtp.port", String.valueOf(currentUser.getMailSmtpPort()));
         properties.put("mail.smtp.auth", "true");
 
+        //validate the target addresses,
+        for(String s: to.split(",")){
+        if (!validateMailAddress(s)) {
+            InfoModal.show("FEHLER!", null, "E-Mail ist nicht korrekt!");
+            return;
+        }
+        }
+        //open sendmail with properties
         sendMail(properties, currentUser.getMailUser(), password, to);
 
     }
@@ -99,20 +109,20 @@ public class SendMailController {
 
 
     public void sendMail(Properties properties, String mailUsername, String password, String to){
+
+        // create session with given properties using mail authenticator
             Session session = Session.getInstance(properties, new MailAuthenticator(currentUser.getMailUser(), password));
 
             try {
-                // Create a default MimeMessage object.
+                // create mimemessage object.
                 Message message = new MimeMessage(session);
 
-                // Set From: header field of the header.
+                //set from, to and the subject
                 message.setFrom(new InternetAddress(currentUser.getMailUser()));
-
-                // Set To: header field of the header.
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-
-                // Set Subject: header field
                 message.setSubject(subjectTextField.getText());
+
+                //parse the given string and create an InternetAddress.
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 
                 if (this.attachmentList.size() > 0) {
 
@@ -138,6 +148,7 @@ public class SendMailController {
                     message.setContent(mp);
 
                 } else {
+                    //if no attachment needed
                     message.setText(mailTextArea.getText());
                 }
 
@@ -191,6 +202,7 @@ public class SendMailController {
     }
 
     public void onDraftBTNClicked(ActionEvent event) {
+        //open createMailTemplate and set subject, mailtext
         CreateMailTemplateController createMailTemplateController = SceneManager.getInstance()
                 .getLoaderForScene(SceneType.CREATE_MAILTEMPLATES).getController();
 
@@ -249,4 +261,13 @@ public class SendMailController {
     }
 
     public void setTo(String to){this.targetAddressTextField.setText(to);}
+
+    private boolean validateMailAddress(String adr) {
+        try {
+            InternetAddress address = new InternetAddress(adr);
+            address.validate();
+            return true;
+        } catch (AddressException e) {
+            return false;
+        }}
 }
