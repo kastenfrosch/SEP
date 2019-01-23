@@ -77,7 +77,6 @@ public class ReceiveMailController {
         if (appPasswordOpt.isPresent()) {
             applicationPassword = appPasswordOpt.get();
         } else {
-            ErrorModal.show("Ungültiges Anwendungskennwort!");
             Platform.runLater(() -> SceneManager.getInstance().closeWindow(SceneType.RECEIVE_MAIL));
             return;
         }
