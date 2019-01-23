@@ -109,9 +109,10 @@ public class TardyController {
     public void setArgs(CalendarEntry entry, Groupage groupage) {
         this.calendarEntry = entry;
         this.groupage = groupage;
+        String titleBase = "Anwesenheit %s";
         this.titleText.setText(
                 String.format(
-                        this.titleText.getText(),
+                        titleBase,
                         groupage.getDescription()
                 )
         );
