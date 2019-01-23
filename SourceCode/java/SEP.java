@@ -2,8 +2,6 @@ import connection.DBManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import modal.ErrorModal;
-import modal.InfoModal;
 import utils.DBUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
