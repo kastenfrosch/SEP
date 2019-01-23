@@ -3,17 +3,22 @@ import connection.DBManager;
 import models.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import utils.HashUtils;
+import utils.TimeUtils;
 import utils.settings.Settings;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
 
 import static org.junit.Assert.*;
 
 public class DBTest {
 
 
-    private DBManager db;
+    private static DBManager db;
 
 
     private Person makePerson() {
@@ -40,11 +45,27 @@ public class DBTest {
         return g;
     }
 
-    @Before
-    public void setup() {
+    private Student makeStudent(Person p, Group g) {
+        Student st = new Student();
+        st.setGroup(g);
+        st.setPerson(p);
+        st.setMatrNo("1010101");
+        return st;
+    }
+
+    private Group makeGroup(Groupage g) {
+        Group gp = new Group();
+        gp.setGroupage(g);
+        gp.setGitlabUrl(null);
+        gp.setName("Testgruppe");
+        return gp;
+    }
+
+    @BeforeClass
+    public static void setup() {
         try {
             Settings.load();
-            this.db = DBManager.getInstance();
+            db = DBManager.getInstance();
         } catch(SQLException ex) {
             throw new IllegalStateException("Unable to connect to database");
         }
@@ -133,8 +154,67 @@ public class DBTest {
 
             db.getSemesterDao().delete(s);
         } catch(SQLException ex) {
-
+            throw new IllegalStateException(ex);
         }
 
+    }
+
+    @Test
+    public void testStudentStorage() {
+        Semester s = makeSemester();
+        Person p = makePerson();
+        Groupage g = makeGroupage(s);
+        Group gp = makeGroup(g);
+        Student st = makeStudent(p, gp);
+        try {
+            db.getSemesterDao().create(s);
+            db.getPersonDao().create(p);
+            db.getGroupageDao().create(g);
+            db.getGroupDao().create(gp);
+            db.getStudentDao().create(st);
+
+            Student r = db.getStudentDao().queryForId(st.getId());
+
+            assertEquals(r.getId(), st.getId());
+            assertEquals(r.getPerson().getId(), p.getId());
+            assertEquals(r.getGroup().getId(), gp.getId());
+            assertEquals(r.getMatrNo(), st.getMatrNo());
+
+            db.getStudentDao().delete(st);
+
+            r = db.getStudentDao().queryForId(st.getId());
+
+            assertNull(r);
+
+            db.getPersonDao().delete(p);
+            db.getGroupDao().delete(gp);
+            db.getGroupageDao().delete(g);
+            db.getSemesterDao().delete(s);
+
+        } catch(SQLException ex) {
+            throw new IllegalStateException(ex);
+        }
+
+    }
+
+    @Test
+    public void testDateFormatter() {
+        String str = "2018-01-01";
+        LocalDate ld  = TimeUtils.localDateFromString(str);
+        assertEquals(ld.getYear(), 2018);
+        assertEquals(ld.getMonth(), Month.JANUARY);
+        assertEquals(ld.getDayOfMonth(), 1);
+    }
+
+    @Test
+    public void testAES() {
+        String clear = "foo", key = "bar";
+        String encrypted = HashUtils.encryptAES(clear, key);
+        try {
+            String decrypted = HashUtils.decryptAES(encrypted, key);
+            assertEquals(decrypted, clear);
+        } catch(Exception ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 }
