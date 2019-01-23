@@ -216,7 +216,7 @@ public class HomeScreenController {
             SceneType sceneType = null;
             switch (selectedTab.getId()) {
                 case "notesTab":
-                    if(System.getProperty("sep.alt.notepad") != null) {
+                    if (System.getProperty("sep.alt.notepad") != null) {
                         sceneType = SceneType.NOTEPAD_VIEW;
                         if (selectedNode.getValue() instanceof Semester) {
                             Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
@@ -227,7 +227,7 @@ public class HomeScreenController {
                                 .setEntity((INotepadEntity) selectedNode.getValue());
                     } else {
                         sceneType = SceneType.NOTESTAB_WINDOW;
-                        if(selectedNode.getValue() instanceof Semester) {
+                        if (selectedNode.getValue() instanceof Semester) {
                             Text selectNotification = new Text("Bitte wählen Sie ein anderes Element links aus der Baumstruktur.");
                             selectedTab.setContent(selectNotification);
                             return;
@@ -237,7 +237,7 @@ public class HomeScreenController {
                     }
                     break;
                 case "weekPlanTab":
-                    if(System.getProperty("sep.alt.weekcalendar") == null) {
+                    if (System.getProperty("sep.alt.weekcalendar") == null) {
                         if (selectedNode.getValue() instanceof Groupage) {
                             sceneType = SceneType.WEEK_CALENDAR;
                             sm.getLoaderForScene(sceneType).<WeekCalendarController>getController()
@@ -266,10 +266,10 @@ public class HomeScreenController {
                     GitLabApi api = sm.getLoaderForScene(SceneType.GITLAB_LOGIN)
                             .<GitlabLoginController>getController()
                             .getApi();
-                    if(api == null) {
+                    if (api == null) {
                         sceneType = SceneType.GITLAB_LOGIN;
                     } else {
-                        if(selectedNode.getValue() instanceof Semester) {
+                        if (selectedNode.getValue() instanceof Semester) {
                             Text notification = new Text("Bitte wählen Sie ein anderes Element aus der Baumstruktur.");
                             selectedTab.setContent(notification);
                         } else {
@@ -286,18 +286,44 @@ public class HomeScreenController {
                         sceneType = SceneType.EDIT_SEMESTER;
                         sm.getLoaderForScene(sceneType).<EditSemesterController>getController()
                                 .setSemester((Semester) selectedNode.getValue());
+
                     } else if (selectedNode.getValue() instanceof Groupage) {
                         sceneType = SceneType.EDIT_GROUPAGE;
                         sm.getLoaderForScene(sceneType).<EditGroupageController>getController()
                                 .setGroupage((Groupage) selectedNode.getValue());
+
+                        CreateGroupageController createGroupageController = SceneManager.getInstance()
+                                .getLoaderForScene(SceneType.CREATE_GROUPAGE).getController();
+                        createGroupageController.initialize();
+
+                        EditGroupageController editGroupageController = SceneManager.getInstance()
+                                .getLoaderForScene(SceneType.EDIT_GROUPAGE).getController();
+                        editGroupageController.initialize();
+
                     } else if (selectedNode.getValue() instanceof Group) {
                         sceneType = SceneType.EDIT_GROUP;
                         sm.getLoaderForScene(sceneType).<EditGroupController>getController()
                                 .setGroup((Group) selectedNode.getValue());
+
+                        CreateGroupController createGroupController = SceneManager.getInstance()
+                                .getLoaderForScene(SceneType.CREATE_GROUP).getController();
+                        createGroupController.initialize();
+
+                        EditGroupController editGroupController = SceneManager.getInstance()
+                                .getLoaderForScene(SceneType.EDIT_GROUP).getController();
+                        editGroupController.initialize();
                     } else {
                         sceneType = SceneType.EDIT_STUDENT;
                         sm.getLoaderForScene(sceneType).<EditStudentController>getController()
                                 .setStudent((Student) selectedNode.getValue());
+
+                        CreateStudentController createStudentController = SceneManager.getInstance()
+                                .getLoaderForScene(SceneType.CREATE_STUDENT).getController();
+                        createStudentController.initialize();
+
+                        EditStudentController editStudentController = SceneManager.getInstance()
+                                .getLoaderForScene(SceneType.EDIT_STUDENT).getController();
+                        editStudentController.initialize();
                     }
                     break;
             }
