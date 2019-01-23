@@ -25,7 +25,7 @@ public class SEP extends Application {
 
         //set primary stage for SceneManager
         SceneManager.getInstance(stage);
-        SceneManager.getInstance().switchTo(SceneType.LOGIN);
+        SceneManager.getInstance().switchTo(SceneType.NEW_EXAM_GROUP);
         stage.show();
 
 

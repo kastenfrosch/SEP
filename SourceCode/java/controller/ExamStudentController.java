@@ -1,15 +1,21 @@
 package controller;
 
 import com.j256.ormlite.dao.Dao;
+import com.sun.tools.javac.Main;
 import connection.DBManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.converter.FloatStringConverter;
 import modal.ErrorModal;
@@ -23,6 +29,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExamStudentController {
+    // sehr wichtig
+    //TODO: Fragen aus der Datenbank laden (Gruppenebene)
+    //TODO: Timer auf meine eigene Art umschreiben + setTimer wenn noch Zeit übrig bleibt
+    //TODO: SQL-Exceptions zum funktionieren bringen
+    //TODO: Eine Auswertung macht keinen Sinn wenn die Tabelle leer ist
+    // wenn noch Zeit übrig bleibt
+    //TODO: Liste von guten und schlechten Studenten
+    //TODO: auskommentieren
+    //TODO: Code säubern (evtl. umschreiben)
+    //TODO: Namen des Stundenten in der Überschrift einblenden
 
 
     public ComboBox<Student> studentComboBox;
@@ -54,6 +70,9 @@ public class ExamStudentController {
     //TODO: 2. Timer
     //TODO: 4. Code auskommentieren
     //TODO: 5. Namen des Stundenten in der Überschrift einblenden
+    //TODO: Modale an den entsprechenden Stellen einbauen
+    //TODO: Filter von guten und schlechten Studenten
+    //TODO: Wieso funktionieren Dinge, die nicht funktionieren sollten? SQL-Exception funktioniert nicht
     public void initialize(){
 
         try {
@@ -70,14 +89,18 @@ public class ExamStudentController {
         //create  table columns
         TableColumn<ExamQuestion, String> questionCol = new TableColumn<>("Fragen");
         TableColumn<ExamQuestion, Float> ratingCol = new TableColumn<>("Bewertung");
+        TableColumn<ExamQuestion, String> commentCol = new TableColumn<>("Kommentare");
 
         //set cellValueFactory
         questionCol.setCellValueFactory(new PropertyValueFactory<>("questionString"));
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("score"));
+        commentCol.setCellValueFactory(new PropertyValueFactory<>("note"));
+
 
         //enable temporary textfields to edit cells
         questionCol.setCellFactory(TextFieldTableCell.forTableColumn());
         ratingCol.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+        commentCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         //saving new value after editing cell
         questionCol.setOnEditCommit(event -> {
@@ -103,13 +126,33 @@ public class ExamStudentController {
             }
         });
 
+        commentCol.setOnEditCommit(event -> {
+            try {
+                ExamQuestion table = ratingTableView.getSelectionModel().getSelectedItem();
+                table.setNote(event.getNewValue());
+
+                examQuestionDao.update(table);
+            } catch (SQLException e) {
+                event.consume();
+                ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
+            }
+        });
+
+        questionCol.setMinWidth(400);
+        questionCol.setMaxWidth(400);
+        ratingCol.setMinWidth(80);
+        ratingCol.setMaxWidth(80);
+        commentCol.setMinWidth(400);
+        commentCol.setMaxWidth(400);
+
         //enable editing for table cells
         questionCol.setEditable(true);
         ratingCol.setEditable(true);
+        commentCol.setEditable(true);
 
         //add columns to tableview
         ratingTableView.getColumns().clear();
-        ratingTableView.getColumns().addAll(questionCol, ratingCol);
+        ratingTableView.getColumns().addAll(questionCol, ratingCol, commentCol);
 
         //TODO: 1. Hierbei taucht ein Fehler auf!
         studentComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -118,8 +161,13 @@ public class ExamStudentController {
         });
     }
 
+    //TODO: Wieso kann ich eine Frage hinzufügen, wenn kein Student ausgefwählt wurde
     //populating tableview with questions and scores
     public void addBtnClicked(ActionEvent event) {
+
+        if(this.studentComboBox.getSelectionModel().getSelectedItem() == null){
+            ErrorModal.show("Bitte wählen Sie zuerst einen Studenten aus.");
+        }
 
         this.exam.setGroup(this.group);
         this.exam.setDescription("");
@@ -130,7 +178,7 @@ public class ExamStudentController {
         question.setNote("");
         question.setQuestionString("");
         question.setScore(0.0f);
-        question.setStudent(studentComboBox.getSelectionModel().getSelectedItem());
+        question.setStudent(this.studentComboBox.getSelectionModel().getSelectedItem());
 
         try {
             examDao.create(this.exam);
@@ -147,8 +195,8 @@ public class ExamStudentController {
     //calculation of the average score
     public void evaluationBtnClicked(ActionEvent event) {
         //TODO: 3. Eine Auswertung macht keinen Sinn wenn die Tabelle leer ist
-        if(ratingTableView.getSelectionModel().getSelectedItem() == null){
-            InfoModal.show("Sie müssen Einträge tätigen bevor eine Auswertung möglich ist!");
+        if(ratingTableView.getItems() == null){
+            ErrorModal.show("Sie müssen Einträge tätigen bevor eine Auswertung möglich ist!");
         }
 
         List<Float> scoresList = new ArrayList<>();
@@ -205,7 +253,7 @@ public class ExamStudentController {
 
         try {
             ObservableList<ExamQuestion> examq = FXCollections.observableArrayList(examQuestionDao
-                    .queryForEq(ExamQuestion.FIELD_STUDENT, studentComboBox.getSelectionModel().getSelectedItem()));
+                    .queryForEq(ExamQuestion.FIELD_STUDENT, studentComboBox.getSelectionModel().getSelectedItem().getId()));
 
             ratingTableView.setItems(examq);
 
@@ -216,41 +264,41 @@ public class ExamStudentController {
     }
     //TODO: anpassen!
     public void startTime(ActionEvent event) {
-        if (isRunning == false) {
-            if (!(startTimeMin < 0)) {
-                KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event1 -> {
-
-                    startTimeSec--;
-                    boolean isSecondsZero = startTimeSec == 0;
-                    boolean timeToChangeBackground = startTimeSec == 0 && startTimeMin == 0;
-
-                    if (isSecondsZero) {
-                        startTimeMin--;
-                        startTimeSec = 60;
-                    }
-                    if (timeToChangeBackground) {
-                        timeline.stop();
-                        startTimeMin = 0;
-                        startTimeSec = 0;
-                    }
-
-                    timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
-
-                });
-
-                startTimeSec = 30;
-                startTimeMin = 1-min;
-                timeline.setCycleCount(Timeline.INDEFINITE);
-                timeline.getKeyFrames().add(keyframe);
-                timeline.playFromStart();
-                isRunning = true;
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have not entered a time!");
-                alert.showAndWait();
-            }
-        }else {
-            timeline.play();
-        }
+//        if (isRunning == false) {
+//            if (!(startTimeMin < 0)) {
+//                KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event1 -> {
+//
+//                    startTimeSec--;
+//                    boolean isSecondsZero = startTimeSec == 0;
+//                    boolean timeToChangeBackground = startTimeSec == 0 && startTimeMin == 0;
+//
+//                    if (isSecondsZero) {
+//                        startTimeMin--;
+//                        startTimeSec = 60;
+//                    }
+//                    if (timeToChangeBackground) {
+//                        timeline.stop();
+//                        startTimeMin = 0;
+//                        startTimeSec = 0;
+//                    }
+//
+//                    timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
+//
+//                });
+//
+//                startTimeSec = 30;
+//                startTimeMin = 1-min;
+//                timeline.setCycleCount(Timeline.INDEFINITE);
+//                timeline.getKeyFrames().add(keyframe);
+//                timeline.playFromStart();
+//                isRunning = true;
+//            } else {
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have not entered a time!");
+//                alert.showAndWait();
+//            }
+//        }else {
+//            timeline.play();
+//        }
 
     }
 
@@ -264,6 +312,5 @@ public class ExamStudentController {
         startTimeMin = 1-min;
         timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
     }
-
 
 }

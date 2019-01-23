@@ -48,8 +48,8 @@
                   <Font size="19.0" />
                </font>
             </Text>
-            <Label id="averageLabel" fx:id="averageLabel" layoutX="927.0" layoutY="241.0" text="/" />
-            <Label id="passLabel" fx:id="passLabel" layoutX="927.0" layoutY="358.0" text="/" />
+            <Label id="averageLabel" fx:id="averageLabel" layoutX="929.0" layoutY="241.0" text="/" />
+            <Label id="passLabel" fx:id="passLabel" layoutX="929.0" layoutY="358.0" text="/" />
             <Label id="timerLbl" fx:id="timerLbl" layoutX="932.0" layoutY="75.0" text="00:00">
                <font>
                   <Font size="30.0" />

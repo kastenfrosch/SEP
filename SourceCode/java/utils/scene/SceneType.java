@@ -47,7 +47,8 @@ public enum SceneType {
     ALL_NOTES_WINDOW("/fxml/form/notepad/AllNotesForm.fxml", "Liste aller Notizen"),
     NOTES_HISTORY_SHOW_NOTE("/fxml/form/notepad/NotesHistoryShowNote.fxml", "Anzeigen der Notiz in der Historie"),
     NOTES_HISTORY_VIEW("/fxml/form/notepad/NotesHistoryForm.fxml", "Anzeigen der Notizhistorie"),
-    EDIT_MAILCREDENTIALS("/fxml/mail/EditMailCredentialForm.fxml","EMail Einstellung ändern");
+    EDIT_MAILCREDENTIALS("/fxml/mail/EditMailCredentialForm.fxml","EMail Einstellung ändern"),
+    NEW_EXAM_GROUP("/fxml/NewExamGroup.fxml", "NeuBewertungsformularGruppe");
 
 
 
