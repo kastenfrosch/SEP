@@ -2,11 +2,14 @@ import connection.DBManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import modal.ErrorModal;
+import modal.InfoModal;
 import utils.DBUtils;
-import utils.HashUtils;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
 import utils.settings.Settings;
+
+import java.sql.SQLException;
 
 
 public class SEP extends Application {
@@ -21,13 +24,29 @@ public class SEP extends Application {
     public void start(Stage stage) throws Exception {
         Settings.load();
 
-        //DBUtils.resetDB(DBManager.getInstance().getSemesterDao().getConnectionSource(), true);
+        try {
+            DBManager.getInstance();
+        } catch (SQLException ex) {
+            System.out.println("ERROR: Die Verbindung zur Datenbank konnte nicht hergestellt werden.\n" +  ex.getMessage());
+            Platform.exit();
+            return;
+        }
 
+        if(System.getProperty("setup") != null) {
+            try {
+                DBUtils.resetDB(DBManager.getInstance().getSemesterDao().getConnectionSource(), true);
+            } catch(SQLException ex) {
+                System.out.println("ERROR: Die Datenbank konnte nicht installiert werden");
+            }
+            Platform.exit();
+            return;
+        }
+
+//        DBUtils.resetDB(DBManage.getInstance().getSemesterDao().getConnectionSource(), true);
         //set primary stage for SceneManager
         SceneManager.getInstance(stage);
         SceneManager.getInstance().switchTo(SceneType.NEW_EXAM_GROUP);
         stage.show();
-
-
     }
+
 }
