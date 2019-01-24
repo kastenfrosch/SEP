@@ -219,11 +219,8 @@ public class GitlabChartController {
         xAxis.setTickLabelFormatter(new StringConverter<>() {
             @Override
             public String toString(Number number) {
-                if (number instanceof Double) {
-                    number = Math.round((Double) number);
-                }
 
-                LocalDate date = LocalDate.ofEpochDay((long) number);
+                LocalDate date = LocalDate.ofEpochDay(Math.round((Double) number));
 
                 return date.getDayOfMonth() + "." + date.getMonthValue();
             }
