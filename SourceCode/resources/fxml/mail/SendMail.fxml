@@ -9,12 +9,12 @@
 <AnchorPane fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.mail.SendMailController">
    <children>
       <Button fx:id="sendBTN" layoutX="508.0" layoutY="347.0" mnemonicParsing="false" onAction="#onSendBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Senden" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <Button fx:id="draftBTN" layoutX="404.0" layoutY="347.0" mnemonicParsing="false" onAction="#onDraftBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Entwurf" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
+      <Button fx:id="draftBTN" layoutX="404.0" layoutY="347.0" mnemonicParsing="false" onAction="#onDraftBTNClicked" prefHeight="27.0" prefWidth="161.0" text="Als Entwurf speichern" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="140.0" />
       <Button fx:id="cancelBTN" layoutX="14.0" layoutY="347.0" mnemonicParsing="false" onAction="#onCancelBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Abbrechen" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <TextField fx:id="targetAddressTextField" layoutX="11.0" layoutY="14.0" prefHeight="25.0" promptText="Adresse" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="10.0" />
       <TextField fx:id="subjectTextField" layoutX="11.0" layoutY="62.0" prefHeight="25.0" promptText="Betreff" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="45.0" />
       <TextArea fx:id="mailTextArea" layoutX="14.0" layoutY="112.0" prefHeight="200.0" prefWidth="578.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
-      <Button fx:id="templateBTN" layoutX="303.0" layoutY="347.0" mnemonicParsing="false" onAction="#onTemplateBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Templates" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="270.0" />
+      <Button fx:id="templateBTN" layoutX="142.0" layoutY="363.0" mnemonicParsing="false" onAction="#onTemplateBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Templates" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="140.0" />
       <Button fx:id="contactsBTN" layoutX="482.0" layoutY="14.0" mnemonicParsing="false" onAction="#onContactsBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Kontakte" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <Button fx:id="attatchmentBTN" layoutX="489.0" layoutY="73.0" mnemonicParsing="false" onAction="#onAttachmentBTNClicked" prefHeight="25.0" prefWidth="120.0" text="Anhang" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
    </children>
