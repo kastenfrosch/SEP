@@ -447,7 +447,7 @@ public class HomeScreenController {
     }
 
     public void onExamBtnClicked(ActionEvent actionEvent) {
-        SceneManager.getInstance().showInNewWindow(SceneType.EXAM_GROUP);
+        SceneManager.getInstance().showInNewWindow(SceneType.NEW_EXAM_GROUP);
     }
 }
 
