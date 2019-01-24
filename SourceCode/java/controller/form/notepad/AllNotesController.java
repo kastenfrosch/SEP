@@ -12,6 +12,8 @@ import modal.InfoModal;
 import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
+
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -30,6 +32,8 @@ public class AllNotesController {
 
     @FXML
     public Label chooseObjectLabel;
+    @FXML
+    public TextField searchObject;
     @FXML
     public Label choosePriorityLabel;
     @FXML
@@ -93,25 +97,21 @@ public class AllNotesController {
             }
         });
 
-        filterPrioListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        filterPrioListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         filterPrioListView.getItems().clear();
         filterPrioListView.setItems(FXCollections.observableArrayList(Notepad.Classification.GOOD, Notepad.Classification.MEDIUM,
                 Notepad.Classification.BAD, Notepad.Classification.NEUTRAL));
 
-
-        filterObjectListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        filterObjectListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         filterObjectListView.getItems().clear();
 
-        db.getStudentNotepadDao().queryForAll().stream()
-                .map(StudentNotepad::getStudent)
+        db.getStudentDao().queryForAll().stream()
                 .forEach(filterObjectListView.getItems()::add);
 
-        db.getGroupNotepadDao().queryForAll().stream()
-                .map(GroupNotepad::getGroup)
+        db.getGroupDao().queryForAll().stream()
                 .forEach(filterObjectListView.getItems()::add);
 
-        db.getGroupageNotepadDao().queryForAll().stream()
-                .map(GroupageNotepad::getGroupage)
+        db.getGroupageDao().queryForAll().stream()
                 .forEach(filterObjectListView.getItems()::add);
     }
 
@@ -124,30 +124,8 @@ public class AllNotesController {
         SceneManager sm = SceneManager.getInstance();
         sceneType = SceneType.NOTE_WINDOW;
         sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                .setNotepad((Notepad)allNotesListView.getSelectionModel().getSelectedItem());
+                .setNotepad((Notepad) allNotesListView.getSelectionModel().getSelectedItem());
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
-    }
-
-    public void searchArea(ActionEvent actionEvent) throws SQLException {
-        if(searchArea.getText() != null && !searchArea.getText().isBlank()) {
-            ArrayList<Notepad> hilfsListe = new ArrayList<>();
-            hilfsListe.addAll(allNotesListView.getItems());
-            ListView<Notepad> hilfsListView = new ListView<>();
-
-            for (int i = 0; i < hilfsListe.size(); i++) {
-                if (hilfsListe.get(i).getNotepadName().contains(searchArea.getText())) {
-                    hilfsListView.getItems().add(hilfsListe.get(i));
-                }
-                if(hilfsListe.get(i).getNotepadContent().contains(searchArea.getText())) {
-                    hilfsListView.getItems().add(hilfsListe.get(i));
-                }
-            }
-            allNotesListView.setItems(hilfsListView.getItems());
-        }
-        else {
-            allNotesListView.getItems().clear();
-            initialize();
-        }
     }
 
     public void editNote(ActionEvent actionEvent) throws SQLException {
@@ -162,18 +140,18 @@ public class AllNotesController {
         Dao<GroupNotepad, Integer> groupNotepadDao = db.getGroupNotepadDao();
         Dao<GroupageNotepad, Integer> groupageNotepadDao = db.getGroupageNotepadDao();
 
-        for(StudentNotepad s : studentNotepadDao) {
-            if(allNotesListView.getSelectionModel().getSelectedItem().equals(s.getNotepad())) {
+        for (StudentNotepad s : studentNotepadDao) {
+            if (allNotesListView.getSelectionModel().getSelectedItem() == s.getNotepad()) {
                 this.object = s.getStudent();
             }
         }
-        for(GroupageNotepad s : groupageNotepadDao) {
-            if(allNotesListView.getSelectionModel().getSelectedItem().equals(s.getNotepad())) {
+        for (GroupageNotepad s : groupageNotepadDao) {
+            if (allNotesListView.getSelectionModel().getSelectedItem() == s.getNotepad()) {
                 this.object = s.getGroupage();
             }
         }
-        for(GroupNotepad s : groupNotepadDao) {
-            if(allNotesListView.getSelectionModel().getSelectedItem().equals(s.getNotepad())) {
+        for (GroupNotepad s : groupNotepadDao) {
+            if (allNotesListView.getSelectionModel().getSelectedItem() == s.getNotepad()) {
                 this.object = s.getGroup();
             }
         }
@@ -184,14 +162,227 @@ public class AllNotesController {
         SceneManager.getInstance().showInNewWindow(SceneType.EDIT_NOTEPAD_WINDOW);
     }
 
-    public void refreshButton(ActionEvent actionEvent) throws SQLException{
+    public void refreshButton(ActionEvent actionEvent) throws SQLException {
         initialize();
     }
 
-    public void filterButton(ActionEvent actionEvent) {
+    public void filterButton(ActionEvent actionEvent) throws SQLException {
+        ArrayList<Notepad> hilfsListe = new ArrayList<>();
+        ListView<Notepad> hilfsListView = new ListView<>();
+
+        /*
+                    Wahrheitstabelle:       a b c
+                                            0 0 0
+                                            0 0 1
+                                            0 1 0
+                                            0 1 1
+                                            1 0 0
+                                            1 0 1
+                                            1 1 0
+                                            1 1 1
+
+         */
+
+        //Wenn nur Object ausgewählt
+        if ((searchArea.getText() == null || searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() == null
+                && filterObjectListView.getSelectionModel().getSelectedItem() != null) {
+
+            if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Student) {
+                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                    if (s.getStudent().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Group) {
+                for (GroupNotepad s : db.getGroupNotepadDao()) {
+                    if (s.getGroup().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Groupage) {
+                for (GroupageNotepad s : db.getGroupageNotepadDao()) {
+                    if (s.getGroupage().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            }
+            allNotesListView.setItems(hilfsListView.getItems());
+
+        } //Wenn nur Prio ausgewählt
+        else if ((searchArea.getText() == null || searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() != null
+                && filterObjectListView.getSelectionModel().getSelectedItem() == null) {
+
+            for (Notepad s : db.getNotepadDao()) {
+                if (s.getClassification() == filterPrioListView.getSelectionModel().getSelectedItem()) {
+                    hilfsListView.getItems().add(s);
+                }
+            }
+            allNotesListView.setItems(hilfsListView.getItems());
+        }
+        //Wenn nur Object und Prio ausgewählt
+        else if ((searchArea.getText() == null || searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() != null
+                && filterObjectListView.getSelectionModel().getSelectedItem() != null) {
+
+            if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Student) {
+                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                    if (s.getStudent().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Group) {
+                for (GroupNotepad s : db.getGroupNotepadDao()) {
+                    if (s.getGroup().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Groupage) {
+                for (GroupageNotepad s : db.getGroupageNotepadDao()) {
+                    if (s.getGroupage().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            }
+
+            hilfsListe.addAll(hilfsListView.getItems());
+            hilfsListView.getItems().clear();
+            for (int i = 0; i < hilfsListe.size(); i++) {
+                if(hilfsListe.get(i).getClassification() == filterPrioListView.getSelectionModel().getSelectedItem()) {
+                    hilfsListView.getItems().add(hilfsListe.get(i));
+                }
+            }
+        allNotesListView.setItems(hilfsListView.getItems());
     }
 
-    public void closeWindow(ActionEvent actionEvent) throws SQLException {
+        //Wenn nur Suchwort eingegeben
+        else if ((searchArea.getText() != null && !searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() == null
+                && filterObjectListView.getSelectionModel().getSelectedItem() == null) {
+
+            hilfsListe.addAll(allNotesListView.getItems());
+            for (int i = 0; i < hilfsListe.size(); i++) {
+                if (hilfsListe.get(i).getNotepadName().contains(searchArea.getText()) || hilfsListe.get(i).getNotepadContent().contains(searchArea.getText())) {
+                    hilfsListView.getItems().add(hilfsListe.get(i));
+                }
+            }
+            allNotesListView.setItems(hilfsListView.getItems());
+        }
+        //Wenn nur Suchwort & Objekt ausgewählt
+        else if ((searchArea.getText() != null && !searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() == null
+                && filterObjectListView.getSelectionModel().getSelectedItem() != null) {
+
+            if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Student) {
+                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                    if (s.getStudent().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Group) {
+                for (GroupNotepad s : db.getGroupNotepadDao()) {
+                    if (s.getGroup().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Groupage) {
+                for (GroupageNotepad s : db.getGroupageNotepadDao()) {
+                    if (s.getGroupage().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            }
+                hilfsListe.addAll(hilfsListView.getItems());
+                hilfsListView.getItems().clear();
+                for (int i = 0; i < hilfsListe.size(); i++) {
+                    if (hilfsListe.get(i).getNotepadName().contains(searchArea.getText()) || hilfsListe.get(i).getNotepadContent().contains(searchArea.getText())) {
+                        hilfsListView.getItems().add(hilfsListe.get(i));
+                    }
+                }
+            allNotesListView.setItems(hilfsListView.getItems());
+        }
+        //Wenn nur Suchwort & Prio ausgewählt
+        else if ((searchArea.getText() != null && !searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() != null
+                && filterObjectListView.getSelectionModel().getSelectedItem() == null) {
+
+            for (Notepad s : db.getNotepadDao()) {
+                if (s.getClassification() == filterPrioListView.getSelectionModel().getSelectedItem()) {
+                    hilfsListView.getItems().add(s);
+                }
+            }
+
+            hilfsListe.addAll(hilfsListView.getItems());
+            hilfsListView.getItems().clear();
+
+            for (int i = 0; i < hilfsListe.size(); i++) {
+                if (hilfsListe.get(i).getNotepadName().contains(searchArea.getText()) || hilfsListe.get(i).getNotepadContent().contains(searchArea.getText())) {
+                    hilfsListView.getItems().add(hilfsListe.get(i));
+                }
+            }
+            allNotesListView.setItems(hilfsListView.getItems());
+        }
+        //Wenn alle Filtermöglichkeiten ausgewählt
+        else if ((searchArea.getText() != null && !searchArea.getText().isBlank()) && filterPrioListView.getSelectionModel().getSelectedItem() != null
+                && filterObjectListView.getSelectionModel().getSelectedItem() != null) {
+
+            if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Student) {
+                for (StudentNotepad s : db.getStudentNotepadDao()) {
+                    if (s.getStudent().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Group) {
+                for (GroupNotepad s : db.getGroupNotepadDao()) {
+                    if (s.getGroup().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            } else if (filterObjectListView.getSelectionModel().getSelectedItem() instanceof Groupage) {
+                for (GroupageNotepad s : db.getGroupageNotepadDao()) {
+                    if (s.getGroupage().equals(filterObjectListView.getSelectionModel().getSelectedItem())) {
+                        hilfsListView.getItems().add(s.getNotepad());
+                    }
+                }
+            }
+
+            hilfsListe.addAll(hilfsListView.getItems());
+            hilfsListView.getItems().clear();
+            for (int i = 0; i < hilfsListe.size(); i++) {
+                if(hilfsListe.get(i).getClassification() == filterPrioListView.getSelectionModel().getSelectedItem()) {
+                    hilfsListView.getItems().add(hilfsListe.get(i)); //Alle mit Objekt+Prio
+                }
+            }
+
+            ListView<Notepad> hilfsListView2 = new ListView<>(); //Alle mit Suchwort (leer)
+            ArrayList<Notepad> hilfsListe2 = new ArrayList<>(allNotesListView.getItems()); //Alle aus der Liste
+
+            for (int i = 0; i < hilfsListe2.size(); i++) {
+                if (hilfsListe2.get(i).getNotepadName().contains(searchArea.getText()) || hilfsListe2.get(i).getNotepadContent().contains(searchArea.getText())) {
+                    hilfsListView2.getItems().add(hilfsListe2.get(i)); //Alle mit Suchwort
+                }
+            }
+            hilfsListView.getItems().retainAll(hilfsListView2.getItems());
+            allNotesListView.setItems(hilfsListView.getItems());
+        }
+        else { //Wenn nichts ausgewählt
+            allNotesListView.getItems().clear();
+            initialize();
+        }
+    }
+
+    public void searchObject(ActionEvent actionEvent) throws SQLException {
+        ArrayList<Object> hilfsListe = new ArrayList<>(filterObjectListView.getItems());
+        if (searchObject.getText() != null && !searchObject.getText().isBlank()) {
+
+            filterObjectListView.getItems().clear();
+            for (int i = 0; i < hilfsListe.size(); i++) {
+                if (hilfsListe.get(i).toString().contains(searchObject.getText())) {
+                    filterObjectListView.getItems().add(hilfsListe.get(i));
+                }
+            }
+        } else {
+            allNotesListView.getItems().clear();
+            initialize();
+        }
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
         SceneManager sm = SceneManager.getInstance();
         sm.getLoaderForScene(SceneType.NOTESTAB_WINDOW).<NotesTabController>getController()
                 .initialize();

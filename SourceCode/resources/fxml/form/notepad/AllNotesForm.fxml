@@ -12,13 +12,14 @@
       <Label layoutX="190.0" text="Alle existierenden Notizen" />
       <Button fx:id="showNote" layoutX="10.0" layoutY="350.0" mnemonicParsing="false" onAction="#showNote" text="Anzeigen" />
       <Button fx:id="closeWindow" layoutX="500.0" layoutY="350.0" mnemonicParsing="false" onAction="#closeWindow" text="Schließen" />
-      <TextField fx:id="searchArea" layoutX="184.0" layoutY="40.0" onAction="#searchArea" promptText="Suchen" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="190.0" />
+      <TextField fx:id="searchArea" layoutX="184.0" layoutY="40.0" promptText="Suchen" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="190.0" />
       <Button fx:id="editNote" layoutX="280.0" layoutY="350.0" mnemonicParsing="false" onAction="#editNote" text="Editieren" />
       <Button fx:id="refreshButton" layoutX="135.0" layoutY="350.0" mnemonicParsing="false" onAction="#refreshButton" text="Aktualisieren" />
       <Button fx:id="filterButton" layoutX="410.0" layoutY="350.0" mnemonicParsing="false" onAction="#filterButton" text="Filtern" />
-      <ListView fx:id="filterObjectListView" layoutX="410.0" layoutY="80.0" prefHeight="60.0" prefWidth="120.0" />
-      <ListView fx:id="filterPrioListView" layoutX="410.0" layoutY="180.0" prefHeight="60.0" prefWidth="120.0" />
-      <Label fx:id="chooseObjectLabel" layoutX="420.0" layoutY="65.0" text="Objekt auswählen:" />
-      <Label fx:id="choosePriorityLabel" layoutX="420.0" layoutY="162.0" text="Priorität auswählen:" />
+      <ListView fx:id="filterObjectListView" layoutX="460.0" layoutY="80.0" prefHeight="60.0" prefWidth="120.0" />
+      <ListView fx:id="filterPrioListView" layoutX="460.0" layoutY="180.0" prefHeight="60.0" prefWidth="120.0" />
+      <Label fx:id="chooseObjectLabel" layoutX="470.0" layoutY="30.0" text="Objekt auswählen:" />
+      <Label fx:id="choosePriorityLabel" layoutX="470.0" layoutY="162.0" text="Priorität auswählen:" />
+      <TextField fx:id="searchObject" layoutX="460.0" layoutY="55.0" onAction="#searchObject" prefHeight="25.0" prefWidth="120.0" promptText="Objekt suchen" />
    </children>
 </AnchorPane>
