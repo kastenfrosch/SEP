@@ -23,6 +23,7 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,17 +51,9 @@ public class NewExamGroupController {
     private Dao<ExamQuestion, Integer> examQuestionDao;
     private Dao<models.Group, Integer> groupDao;
 
-//    private int seconds;
-//    private int minuten;
-
-    private static final Integer STARTTIME = 15;
-    private Timeline timeline;
-    private Label timerLabel = new Label();
-    private Integer timeSeconds = STARTTIME;
-    private boolean timerStats;
-    private int timersec;
-    private int timermin;
-
+    private Timeline timeline = new Timeline();
+    int seconds;
+    int minuten;
 
     public void initialize(){
         try {
@@ -149,8 +142,10 @@ public class NewExamGroupController {
         groupTableView.getColumns().clear();
         groupTableView.getColumns().addAll(groupQuestionCol, answerCol, groupCommentCol);
 
+
         groupComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             groupTableView.getItems().clear();
+            loadExam();
             loadQuestions();
         });
     }
@@ -173,8 +168,8 @@ public class NewExamGroupController {
         question.setStudent(null);
 
         try {
-            examDao.create(this.exam);
-            examQuestionDao.create(question);
+            examDao.update(this.exam);
+            examQuestionDao.createOrUpdate(question);
             groupTableView.getItems().add(question);
             groupTableView.getSelectionModel().select(question);
             groupTableView.edit(groupTableView.getSelectionModel().getSelectedIndex(), groupTableView.getColumns().get(0));
@@ -199,23 +194,23 @@ public class NewExamGroupController {
             InfoModal.show("Befüllen Sie bitte zuerst die Tabelle.");
             return;
         }
-
-        loadExam();
-
             SceneManager.getInstance().getLoaderForScene(SceneType.EXAM_STUDENT)
                     .<ExamStudentController>getController()
                     .setArgs(this.exam, groupComboBox.getSelectionModel().getSelectedItem());
             SceneManager.getInstance().showInNewWindow(SceneType.EXAM_STUDENT);
-
     }
-
-
 
     private void loadExam() {
 
         try {
             List<Exam> exams = examDao.query(examDao.queryBuilder()
-                    .where().eq(Exam.FIELD_GROUP, this.groupComboBox.getSelectionModel().getSelectedItem().getId()).prepare());
+                    .where().eq(Exam.FIELD_GROUP, this.groupComboBox.getSelectionModel().getSelectedItem().getId())
+                    .prepare());
+//            List<ExamQuestion> eq = new ArrayList<>();
+//
+//            for(Exam ex: exams){
+//                eq.addAll(ex.getQuestions());
+//            }
 
             if (exams.size() == 0) {
                 Exam e = new Exam();
@@ -233,7 +228,6 @@ public class NewExamGroupController {
     }
 
     public void loadQuestions(){
-
         try {
             ObservableList<Exam> e = FXCollections.observableArrayList();
             e.addAll(examDao
@@ -255,19 +249,25 @@ public class NewExamGroupController {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    timerLabel.setText("" + startTime);
+                    int sek = (int) ((startTime / 1000) % 60);
+                    int min = (int) ((startTime / 1000) % 60);
+                    sek++;
+                    min++;
+                        timerLbl.setText("Minuten: " + min + "Sekunden: " + sek);
+//                        timerLbl.setTextFill(Color.RED);
+
                 });
             }
         }, 0, 1000);
 
-
     }
 
     public void pauseTime(ActionEvent event) {
-
+        timeline.pause();
     }
 
     public void resetTime(ActionEvent event) {
+
     }
 
     public void setTimer(ActionEvent event) {

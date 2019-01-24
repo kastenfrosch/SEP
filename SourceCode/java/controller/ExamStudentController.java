@@ -34,6 +34,7 @@ public class ExamStudentController {
     //TODO: Timer auf meine eigene Art umschreiben + setTimer wenn noch Zeit übrig bleibt
     //TODO: SQL-Exceptions zum funktionieren bringen
     //TODO: Eine Auswertung macht keinen Sinn wenn die Tabelle leer ist
+    //TODO: Gruppen eines einzigen Semesters sollen angezegt werden
     // wenn noch Zeit übrig bleibt
     //TODO: Liste von guten und schlechten Studenten
     //TODO: auskommentieren
@@ -234,7 +235,9 @@ public class ExamStudentController {
             var x = FXCollections.observableArrayList(studentDao.queryForEq(Student.FIELD_GROUP_ID, group.getId()));
             studentComboBox.setItems(x);
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
+        }
     }
 
     //delete rows
@@ -264,42 +267,41 @@ public class ExamStudentController {
     }
     //TODO: anpassen!
     public void startTime(ActionEvent event) {
-//        if (isRunning == false) {
-//            if (!(startTimeMin < 0)) {
-//                KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event1 -> {
-//
-//                    startTimeSec--;
-//                    boolean isSecondsZero = startTimeSec == 0;
-//                    boolean timeToChangeBackground = startTimeSec == 0 && startTimeMin == 0;
-//
-//                    if (isSecondsZero) {
-//                        startTimeMin--;
-//                        startTimeSec = 60;
-//                    }
-//                    if (timeToChangeBackground) {
-//                        timeline.stop();
-//                        startTimeMin = 0;
-//                        startTimeSec = 0;
-//                    }
-//
-//                    timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
-//
-//                });
-//
-//                startTimeSec = 30;
-//                startTimeMin = 1-min;
-//                timeline.setCycleCount(Timeline.INDEFINITE);
-//                timeline.getKeyFrames().add(keyframe);
-//                timeline.playFromStart();
-//                isRunning = true;
-//            } else {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have not entered a time!");
-//                alert.showAndWait();
-//            }
-//        }else {
-//            timeline.play();
-//        }
+        if (isRunning == false) {
+            if (!(startTimeMin < 0)) {
+                KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event1 -> {
 
+                    startTimeSec--;
+                    boolean isSecondsZero = startTimeSec == 0;
+                    boolean timeToChangeBackground = startTimeSec == 0 && startTimeMin == 0;
+
+                    if (isSecondsZero) {
+                        startTimeMin--;
+                        startTimeSec = 60;
+                    }
+                    if (timeToChangeBackground) {
+                        timeline.stop();
+                        startTimeMin = 0;
+                        startTimeSec = 0;
+                    }
+
+                    timerLbl.setText(String.format("%d min, %02d sec", startTimeMin, startTimeSec));
+
+                });
+
+                startTimeSec = 30;
+                startTimeMin = 1-min;
+                timeline.setCycleCount(Timeline.INDEFINITE);
+                timeline.getKeyFrames().add(keyframe);
+                timeline.playFromStart();
+                isRunning = true;
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have not entered a time!");
+                alert.showAndWait();
+            }
+        }else {
+            timeline.play();
+        }
     }
 
     public void pauseTime(ActionEvent event) {
