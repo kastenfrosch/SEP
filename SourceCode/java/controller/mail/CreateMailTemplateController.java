@@ -49,7 +49,7 @@ public class CreateMailTemplateController {
 
     public void createDraft(String subject, String content){
 
-        if(contentField.getText().isBlank()||subjectField.getText().isBlank()){
+        if(content.isBlank()||subject.isBlank()){
             InfoModal.show("Bitte füllen Sie alle Felder aus!");
             return;
         }
