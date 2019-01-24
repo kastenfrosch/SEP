@@ -72,6 +72,20 @@ public class Notepad {
         this.classification = classification;
     }
 
+    @Override
+    public String toString() {
+        return this.getNotepadName();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(!(other instanceof Notepad)) {
+            return false;
+        }
+
+        return ((Notepad)other).getNotepadId() == this.getNotepadId();
+    }
+
     public enum Classification {
         BAD("Schlecht"), MEDIUM("Mittel"), GOOD("Gut"), NEUTRAL("Keine Zuordnung");
 
