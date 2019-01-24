@@ -71,7 +71,6 @@ public class ReadMailController {
                 }
                 // set content into the textarea
                 mailContent.setText(body);
-                // mailContent.appendText(body);
 
             } catch (Exception e) {
                 e.printStackTrace();
