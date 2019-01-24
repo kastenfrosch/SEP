@@ -94,10 +94,11 @@ public class DBUtils {
         dataChannelClasses.add(Semester.class);
         dataChannelClasses.add(Student.class);
         dataChannelClasses.add(User.class);
-        dataChannelClasses.add(FavouriteSemester.class);
-        dataChannelClasses.add(FavouriteGroup.class);
-        dataChannelClasses.add(FavouriteGroupage.class);
-        dataChannelClasses.add(FavouriteStudent.class);
+        //removed favourites because of logout issues
+        //dataChannelClasses.add(FavouriteSemester.class);
+        //dataChannelClasses.add(FavouriteGroup.class);
+        //dataChannelClasses.add(FavouriteGroupage.class);
+        //dataChannelClasses.add(FavouriteStudent.class);
 
         List<Class> chatChannelClasses = classMap.get(NotificationChannel.CHAT);
         chatChannelClasses.add(ChatMessage.class);
