@@ -1,0 +1,9 @@
+title Datenbank zurücksetzen
+Benutzer->Anwendung: Datenbank zurücksetzen
+note left of Benutzer: Mit oder ohne Beispieldaten
+Anwendung->Datenbank: Drop tables
+Anwendung->Datenbank: Create tables
+opt
+Anwendung->Datenbank: Beispieldaten einfügen
+end
+Anwendung->Benutzer: Anwendung beenden
