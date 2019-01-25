@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.util.converter.FloatStringConverter;
 import modal.ErrorModal;
+import modal.InfoModal;
 import models.Group;
 import models.Student;
 import models.exam.Exam;
@@ -314,12 +315,6 @@ public class ExamStudentController {
         timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
     }
     public void setTimer() {
-        if(setsec.getText().isEmpty() == false ){
-            if (Integer.parseInt(setsec.getText()) < 0 || Integer.parseInt(setsec.getText()) > 60) {
-                ErrorModal.show("Tragen Sie eine Zahl zwischen 0 und 60 ein.");
-                setsec.setText("");
-            }
-        }
         try {
             pauseTime();
             resetTime();
@@ -330,7 +325,22 @@ public class ExamStudentController {
             pauseBtn.setDisable(false);
         }catch(NumberFormatException n){
             ErrorModal.show("Tragen Sie zuerst die gewünschten Minuten und Sekunden ein");
+            timerLbl.setTextFill(Color.BLACK);
 
+        }
+        if(setsec.getText().isEmpty() == false ){
+            if (Integer.parseInt(setsec.getText()) > 60) {
+                ErrorModal.show("Tragen Sie im Sekundentextfeld eine Zahl ein, die nicht größer als 60 ist.");
+                startBtn.setDisable(true);
+                pauseBtn.setDisable(true);
+
+            }
+            if(Integer.parseInt(setsec.getText()) == 0){
+                InfoModal.show("Tragen sie anstatt 0 Sekunden, 60 Sekunden ein. In diesem Fall muss außerdem eine Minute weniger eingetragen werden.");
+                startBtn.setDisable(true);
+                pauseBtn.setDisable(true);
+
+            }
         }
         resetTime();
 
