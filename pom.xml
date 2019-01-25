@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.uni-due.git</groupId>
     <artifactId>SEP_Gruppe_E</artifactId>
-    <version>Iteration-3.0-beta</version>
+    <version>Iteration-3.0</version>
     <packaging>jar</packaging>
     <properties>
         <src.dir>SourceCode/java</src.dir>
