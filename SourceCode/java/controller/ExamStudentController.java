@@ -135,6 +135,7 @@ public class ExamStudentController {
         studentComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             ratingTableView.getItems().clear();
             loadQuestions();
+            basicReset();
         });
 
         startBtn.setDisable(true);
@@ -302,6 +303,14 @@ public class ExamStudentController {
         timeline.stop();
         startSec = timerSec;
         startMin = timerMin - min;
+        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+    }
+
+    private void basicReset(){
+        timeline.stop();
+        startSec = 0;
+        startMin = 0;
+        timerLbl.setTextFill(Color.BLACK);
         timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
     }
     public void setTimer() {
