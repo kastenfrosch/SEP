@@ -4,7 +4,6 @@ import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,9 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import javafx.util.converter.FloatStringConverter;
 import modal.ErrorModal;
-import modal.InfoModal;
 import models.Group;
 import models.exam.Exam;
 import models.exam.ExamQuestion;
@@ -23,39 +20,40 @@ import utils.scene.SceneManager;
 import utils.scene.SceneType;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class NewExamGroupController {
 
 
     public ComboBox<Group> groupComboBox;
     public Button studentQuestionsBtn;
-    public Button saveBtn;
     public TableView<ExamQuestion> groupTableView;
     public Label timerLbl;
-    public TextField questionTxtField;
-    public TextField answerTxtField;
-    public TextField commentTxtField;
     public Button addBtn;
     public Button pauseBtn;
     public Button startTimeBtn;
-    public Button resetBtn;
     public Button setBtn;
+    public TextField setmin;
+    public TextField setsec;
     private Exam exam;
     private DBManager db;
 
     private Dao<Exam, Integer> examDao;
     private Dao<ExamQuestion, Integer> examQuestionDao;
-    private Dao<models.Group, Integer> groupDao;
+    private Dao<Group, Integer> groupDao;
 
+    private int timerMin;
+    private int timerSec;
+    private int min;
+    private int startSec;
+    private int startMin;
+    private boolean timeIsRunning;
+    private boolean zeroSeconds;
+    private boolean timeIsUp;
     private Timeline timeline = new Timeline();
-    int seconds;
-    int minuten;
 
-    public void initialize(){
+    //settings from the start
+    public void initialize() {
         try {
             db = DBManager.getInstance();
             examDao = db.getExamDao();
@@ -75,29 +73,24 @@ public class NewExamGroupController {
             return;
         }
 
-        //create table columns
         TableColumn<ExamQuestion, String> groupQuestionCol = new TableColumn<>("Fragen");
         TableColumn<ExamQuestion, String> answerCol = new TableColumn<>("Ja/Nein");
         TableColumn<ExamQuestion, String> groupCommentCol = new TableColumn<>("Kommentare");
 
-
-        //set cellValueFactory
         groupQuestionCol.setCellValueFactory(new PropertyValueFactory<>("questionString"));
         answerCol.setCellValueFactory(new PropertyValueFactory<>("answer"));
         groupCommentCol.setCellValueFactory(new PropertyValueFactory<>("note"));
 
-        //enable temporary textfields to edit cells
         groupQuestionCol.setCellFactory(TextFieldTableCell.forTableColumn());
         answerCol.setCellFactory(TextFieldTableCell.forTableColumn());
         groupCommentCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        //saving new value after editing cell
         groupQuestionCol.setOnEditCommit(event -> {
             try {
-                ExamQuestion table = groupTableView.getSelectionModel().getSelectedItem();
-                table.setQuestionString(event.getNewValue());
+                ExamQuestion item = groupTableView.getSelectionModel().getSelectedItem();
+                item.setQuestionString(event.getNewValue());
 
-                examQuestionDao.update(table);
+                examQuestionDao.update(item);
             } catch (SQLException e) {
                 event.consume();
                 ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
@@ -105,10 +98,10 @@ public class NewExamGroupController {
         });
         answerCol.setOnEditCommit(event -> {
             try {
-                ExamQuestion table = groupTableView.getSelectionModel().getSelectedItem();
-                table.setAnswer(event.getNewValue());
+                ExamQuestion item = groupTableView.getSelectionModel().getSelectedItem();
+                item.setAnswer(event.getNewValue());
 
-                examQuestionDao.update(table);
+                examQuestionDao.update(item);
             } catch (SQLException e) {
                 event.consume();
                 ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
@@ -116,42 +109,44 @@ public class NewExamGroupController {
         });
         groupCommentCol.setOnEditCommit(event -> {
             try {
-                ExamQuestion table = groupTableView.getSelectionModel().getSelectedItem();
-                table.setNote(event.getNewValue());
+                ExamQuestion item = groupTableView.getSelectionModel().getSelectedItem();
+                item.setNote(event.getNewValue());
 
-                examQuestionDao.update(table);
+                examQuestionDao.update(item);
             } catch (SQLException e) {
                 event.consume();
                 ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
             }
         });
 
-        groupQuestionCol.setMinWidth(500);
-        groupQuestionCol.setMaxWidth(500);
+        groupQuestionCol.setMinWidth(600);
+        groupQuestionCol.setMaxWidth(600);
         answerCol.setMinWidth(50);
         answerCol.setMaxWidth(50);
-        groupCommentCol.setMinWidth(500);
-        groupCommentCol.setMaxWidth(500);
+        groupCommentCol.setMinWidth(600);
+        groupCommentCol.setMaxWidth(600);
 
-        //enable editing for table cells
         groupQuestionCol.setEditable(true);
         answerCol.setEditable(true);
         groupCommentCol.setEditable(true);
 
-        //add columns to tableview
         groupTableView.getColumns().clear();
         groupTableView.getColumns().addAll(groupQuestionCol, answerCol, groupCommentCol);
-
 
         groupComboBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             groupTableView.getItems().clear();
             loadExam();
             loadQuestions();
         });
-    }
 
+
+        startTimeBtn.setDisable(true);
+        pauseBtn.setDisable(true);
+
+    }
+    //populate tableview
     public void populateAndSaveData(ActionEvent event) {
-        if(this.groupComboBox.getSelectionModel().getSelectedItem() == null) {
+        if (this.groupComboBox.getSelectionModel().getSelectedItem() == null) {
             ErrorModal.show("Bitte wählen Sie zuerst eine Gruppe aus.");
             return;
         }
@@ -161,14 +156,14 @@ public class NewExamGroupController {
 
         ExamQuestion question = new ExamQuestion();
         question.setExam(this.exam);
-        question.setAnswer("Nein");
-        question.setNote("Die Software funktioniert nicht einwandfrei");
-        question.setQuestionString("Ist die Software vollkommen funktionstüchtig?");
+        question.setAnswer("");
+        question.setNote("");
+        question.setQuestionString("");
         question.setScore(0.0f);
         question.setStudent(null);
 
         try {
-            examDao.update(this.exam);
+            examDao.createIfNotExists(this.exam);
             examQuestionDao.createOrUpdate(question);
             groupTableView.getItems().add(question);
             groupTableView.getSelectionModel().select(question);
@@ -178,7 +173,7 @@ public class NewExamGroupController {
             ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
         }
     }
-
+    //delete tableview row
     public void deleteRow(ActionEvent event) {
         ExamQuestion eq = groupTableView.getSelectionModel().getSelectedItem();
         try {
@@ -188,29 +183,24 @@ public class NewExamGroupController {
             ErrorModal.show("Ihre Änderungen konnten nicht gespeichert werden!");
         }
     }
-
+    //open ExamStudentController
     public void openStudentQuestions(ActionEvent event) {
-        if(groupTableView.getSelectionModel().getSelectedItem() == null) {
-            InfoModal.show("Befüllen Sie bitte zuerst die Tabelle.");
+        if (groupComboBox.getSelectionModel().getSelectedItem() == null) {
+            ErrorModal.show("Bitte wählen Sie zuerst eine Gruppe aus.");
             return;
         }
-            SceneManager.getInstance().getLoaderForScene(SceneType.EXAM_STUDENT)
-                    .<ExamStudentController>getController()
-                    .setArgs(this.exam, groupComboBox.getSelectionModel().getSelectedItem());
-            SceneManager.getInstance().showInNewWindow(SceneType.EXAM_STUDENT);
+        SceneManager.getInstance().getLoaderForScene(SceneType.EXAM_STUDENT)
+                .<ExamStudentController>getController()
+                .setArgs(this.exam, groupComboBox.getSelectionModel().getSelectedItem());
+        SceneManager.getInstance().showInNewWindow(SceneType.EXAM_STUDENT);
     }
-
+    //load exams of a group
     private void loadExam() {
 
         try {
             List<Exam> exams = examDao.query(examDao.queryBuilder()
                     .where().eq(Exam.FIELD_GROUP, this.groupComboBox.getSelectionModel().getSelectedItem().getId())
                     .prepare());
-//            List<ExamQuestion> eq = new ArrayList<>();
-//
-//            for(Exam ex: exams){
-//                eq.addAll(ex.getQuestions());
-//            }
 
             if (exams.size() == 0) {
                 Exam e = new Exam();
@@ -226,14 +216,13 @@ public class NewExamGroupController {
             ErrorModal.show("Das Bewertungsformular konnte nicht geladen werden!");
         }
     }
-
-    public void loadQuestions(){
+    //load questions of a group
+    private void loadQuestions() {
         try {
             ObservableList<Exam> e = FXCollections.observableArrayList();
             e.addAll(examDao
                     .queryForEq(Exam.FIELD_GROUP, this.groupComboBox.getSelectionModel().getSelectedItem().getId()));
 
-            //neue observable List aus der anderen
             groupTableView.setItems(FXCollections.observableArrayList(e.get(0).getQuestions()));
 
         } catch (SQLException e) {
@@ -241,35 +230,84 @@ public class NewExamGroupController {
         }
     }
 
-    public void startTime(ActionEvent event) {
-        long startTime = System.currentTimeMillis();
-
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    int sek = (int) ((startTime / 1000) % 60);
-                    int min = (int) ((startTime / 1000) % 60);
-                    sek++;
-                    min++;
-                        timerLbl.setText("Minuten: " + min + "Sekunden: " + sek);
-//                        timerLbl.setTextFill(Color.RED);
-
-                });
+    public void startTime() {
+        if (timeIsRunning) {
+            timeline.play();
+        } else {
+            if (startMin < 0) {
+                return;
             }
-        }, 0, 1000);
+            KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
+                startSec--;
+                if (startSec == 0){
+                    zeroSeconds = true;
+                }
+                else{
+                    zeroSeconds = false;
+                }
+                if (startSec == 0 && startMin == 0){
+                    timeIsUp = true;
+                }
+                else{
+                    timeIsUp = false;
+                }
 
+                if (zeroSeconds) {
+                    startMin--;
+                    startSec = 60;
+                }
+                if (timeIsUp) {
+                    timeline.stop();
+                    startMin = 0;
+                    startSec = 0;
+                    timerLbl.setTextFill(Color.RED);
+                    timerLbl.setText("Die Zeit ist abgelaufen!");
+                }
+
+                timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+
+            });
+            startSec = timerSec;
+            startMin = timerMin - min;
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.getKeyFrames().add(keyframe);
+            timeline.playFromStart();
+            timeIsRunning = true;
+        }
     }
 
-    public void pauseTime(ActionEvent event) {
+    public void pauseTime() {
         timeline.pause();
     }
 
-    public void resetTime(ActionEvent event) {
-
+    private void resetTime() {
+        timeline.stop();
+        startSec = timerSec;
+        startMin = timerMin - min;
+        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
     }
 
     public void setTimer(ActionEvent event) {
+        if(setsec.getText().isEmpty() == false ){
+            if (Integer.parseInt(setsec.getText()) < 0 || Integer.parseInt(setsec.getText()) > 60) {
+                ErrorModal.show("Tragen Sie eine Zahl zwischen 0 und 60 ein.");
+                setsec.setText("");
+            }
+        }
+        try {
+            pauseTime();
+            resetTime();
+            timerMin = Integer.parseInt(setmin.getText());
+            timerSec = Integer.parseInt(setsec.getText());
+            timerLbl.setTextFill(Color.BLACK);
+            startTimeBtn.setDisable(false);
+            pauseBtn.setDisable(false);
+        }catch(NumberFormatException n){
+            ErrorModal.show("Tragen Sie zuerst die gewünschten Minuten und Sekunden ein");
+            timerLbl.setTextFill(Color.BLACK);
+
+        }
+        resetTime();
+
     }
 }

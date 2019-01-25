@@ -6,6 +6,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -42,7 +43,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Label id="timerLbl" fx:id="timerLbl" layoutX="518.0" layoutY="51.0" text="00:00">
+                  <Label id="timerLbl" fx:id="timerLbl" layoutX="518.0" layoutY="51.0" text="Countdown">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -50,9 +51,10 @@
                   <Button id="addBtn" fx:id="addBtn" layoutX="916.0" layoutY="467.0" mnemonicParsing="false" onAction="#populateAndSaveData" text="Hinzufügen" />
                   <Button id="pauseBtn" fx:id="pauseBtn" layoutX="136.0" layoutY="58.0" mnemonicParsing="false" onAction="#pauseTime" text="Pause" />
                   <Button id="startTimeBtn" fx:id="startTimeBtn" layoutX="22.0" layoutY="58.0" mnemonicParsing="false" onAction="#startTime" text="Start" />
-                  <Button id="resetBtn" fx:id="resetBtn" layoutX="257.0" layoutY="58.0" mnemonicParsing="false" onAction="#resetTime" text="Reset" />
                   <Button id="deleteBtn" fx:id="deleteBtn" layoutX="1058.0" layoutY="467.0" mnemonicParsing="false" onAction="#deleteRow" text="Löschen" />
-                  <Button id="setBtn" fx:id="setBtn" layoutX="133.0" layoutY="113.0" mnemonicParsing="false" onAction="#setTimer" text="Set" />
+                  <Button id="setBtn" fx:id="setBtn" layoutX="22.0" layoutY="110.0" mnemonicParsing="false" onAction="#setTimer" text="Set" />
+                  <TextField id="setsec" fx:id="setsec" layoutX="238.0" layoutY="110.0" prefHeight="31.0" prefWidth="88.0" promptText="Sekunden" />
+                  <TextField id="setmin" fx:id="setmin" layoutX="107.0" layoutY="110.0" prefHeight="31.0" prefWidth="88.0" promptText="Minuten" />
                </children>
             </AnchorPane>
         </items>
