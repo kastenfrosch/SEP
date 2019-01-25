@@ -265,7 +265,7 @@ public class NewExamGroupController {
                     timerLbl.setText("Die Zeit ist abgelaufen!");
                 }
 
-                timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+                timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
 
             });
             startSec = timerSec;
@@ -275,6 +275,7 @@ public class NewExamGroupController {
             timeline.playFromStart();
             timeIsRunning = true;
         }
+
     }
 
     public void pauseTime() {
@@ -285,14 +286,14 @@ public class NewExamGroupController {
         timeline.stop();
         startSec = timerSec;
         startMin = timerMin - min;
-        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+        timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
     }
     private void basicReset(){
         timeline.stop();
         startSec = 0;
         startMin = 0;
         timerLbl.setTextFill(Color.BLACK);
-        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+        timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
     }
 
     public void setTimer(ActionEvent event) {
