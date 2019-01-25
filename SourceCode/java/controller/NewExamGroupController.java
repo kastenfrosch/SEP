@@ -137,6 +137,7 @@ public class NewExamGroupController {
             groupTableView.getItems().clear();
             loadExam();
             loadQuestions();
+            basicReset();
         });
 
 
@@ -284,6 +285,13 @@ public class NewExamGroupController {
         timeline.stop();
         startSec = timerSec;
         startMin = timerMin - min;
+        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+    }
+    private void basicReset(){
+        timeline.stop();
+        startSec = 0;
+        startMin = 0;
+        timerLbl.setTextFill(Color.BLACK);
         timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
     }
 
