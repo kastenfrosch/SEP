@@ -3,7 +3,6 @@ package controller.form.notepad;
 import com.j256.ormlite.dao.Dao;
 import connection.DBManager;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,8 +11,6 @@ import modal.InfoModal;
 import models.*;
 import utils.scene.SceneManager;
 import utils.scene.SceneType;
-
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -113,6 +110,31 @@ public class AllNotesController {
 
         db.getGroupageDao().queryForAll().stream()
                 .forEach(filterObjectListView.getItems()::add);
+
+        filterObjectListView.setCellFactory(new Callback<ListView<Object>, ListCell<Object>>() {
+            public ListCell<Object> call(ListView<Object> param) {
+                return new ListCell<Object>() {
+                    @Override
+                    protected void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (!empty && item != null) {
+                            if(item instanceof Student) {
+                                setText(((Student) item).getGroup().getGroupage().getSemester().toString()+" "+((Student) item).getGroup().getGroupage().toString()
+                                        +" "+((Student) item).getGroup().toString()+" "+item.toString());
+                            } else if(item instanceof Group) {
+                                setText(((Group) item).getGroupage().getSemester().toString()+" "+((Group) item).getGroupage().toString()
+                                        +" "+item.toString());
+                            } else if(item instanceof Groupage) {
+                                setText(((Groupage) item).getSemester().toString()+" "+item.toString());
+                            }
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+            }
+        });
     }
 
     public void showNote(ActionEvent actionEvent) {
@@ -124,11 +146,11 @@ public class AllNotesController {
         SceneManager sm = SceneManager.getInstance();
         sceneType = SceneType.NOTE_WINDOW;
         sm.getLoaderForScene(sceneType).<NoteWindowController>getController()
-                .setNotepad((Notepad) allNotesListView.getSelectionModel().getSelectedItem());
+                .setNotepad(allNotesListView.getSelectionModel().getSelectedItem());
         SceneManager.getInstance().showInNewWindow(SceneType.NOTE_WINDOW);
     }
 
-    public void editNote(ActionEvent actionEvent) throws SQLException {
+    public void editNote(ActionEvent actionEvent) {
         if (allNotesListView.getSelectionModel().isEmpty()) {
             InfoModal.show("Bitte wählen Sie eine Notiz aus.");
             return;
