@@ -282,7 +282,7 @@ public class ExamStudentController {
                     timerLbl.setText("Die Zeit ist abgelaufen!");
                 }
 
-                timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+                timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
 
             });
             startSec = timerSec;
@@ -303,7 +303,7 @@ public class ExamStudentController {
         timeline.stop();
         startSec = timerSec;
         startMin = timerMin - min;
-        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+        timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
     }
 
     private void basicReset(){
@@ -311,7 +311,7 @@ public class ExamStudentController {
         startSec = 0;
         startMin = 0;
         timerLbl.setTextFill(Color.BLACK);
-        timerLbl.setText(String.format("Minuten: " + startMin + " " + "Sekunden: " + startSec));
+        timerLbl.setText("Minuten: " + startMin + " " + "Sekunden: " + startSec);
     }
     public void setTimer() {
         if(setsec.getText().isEmpty() == false ){
